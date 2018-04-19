@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+
+    <ion-title>
+      {{ translate.getKey('PAGE_NAME_HOME') }}
+    </ion-title>
+
+    <button ion-button menuToggle right>
+      MENU <ion-icon name="menu"></ion-icon>
+    </button>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="theme" [ngClass]="config.globalGlobalCss()">
+
+  <p class="helloWorld">
+    {{ translate.getKey('HELLO_WORLD') }}
+  </p>
+
+</ion-content>

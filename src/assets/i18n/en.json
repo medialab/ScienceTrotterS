@@ -1,0 +1,20 @@
+{
+  "APP_NAME": "Science Trotters",
+
+  "HELLO_WORLD": "Hello world !",
+
+  "RIGHT_MENU_CLOSE": "Close",
+  "RIGHT_MENU_SETTINGS": "Settings",
+  "RIGHT_MENU_PHOTO": "Photo",
+  "RIGHT_MENU_GPS": "Send Position",
+  "RIGHT_MENU_CREDITS": "Credits",
+
+  "PAGE_NAME_HOME": "Home",
+  "PAGE_NAME_SETTINGS": "Settings",
+
+  "P_SETTING_LANGUAGE": "Language",
+  "P_SETTING_FR": "Français",
+  "P_SETTING_EN": "English",
+  "P_SETTING_FONT_SIZE": "Font size",
+  "P_SETTING_THEME": "Screen mode"
+}

@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar>
+
+    <ion-title left>
+      {{ translate.getKey('PAGE_NAME_SETTINGS') }}
+    </ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="theme" [ngClass]="config.globalGlobalCss()">
+
+  <div class="settingsList">
+
+    <!-- SETTING LANGUAGE -->
+    <div class="settingItem languageBlock">
+      <div class="title">
+        {{ translate.getKey('P_SETTING_LANGUAGE') }}
+      </div>
+      <div class="content contentCol">
+        <label>{{ translate.getKey('P_SETTING_FR') }}</label>
+        <ion-toggle
+          (ionChange)="updateLanguage()"
+          checked="{{ config.listenerLanguage() }}"></ion-toggle>
+        <label>{{ translate.getKey('P_SETTING_EN') }}</label>
+      </div>
+    </div>
+
+    <!-- SETTING FONT SIZE -->
+    <div class="settingItem fontSizeBlock">
+      <div class="title">
+        {{ translate.getKey('P_SETTING_FONT_SIZE') }}
+      </div>
+      <div class="content contentCol">
+        <label class="letterOne">A</label>
+        <ion-item class="rangeFontSize">
+          <ion-range
+            (ionChange)="updateFontSize()"
+            [(ngModel)]="config.parameters.fontSize"
+            min="0"
+            max="8"
+            step="1"
+            snaps="true"
+            color="secondary"></ion-range>
+            class>
+        </ion-item>
+        <label class="letterTwo">A</label>
+      </div>
+    </div>
+
+    <!-- SETTING THEME -->
+    <div class="settingItem themeBlock">
+      <div class="title">
+        {{ translate.getKey('P_SETTING_THEME') }}
+      </div>
+      <div class="content contentCol">
+        <label>
+          <ion-icon name="sunny" class="labelIcon"></ion-icon>
+        </label>
+        <ion-toggle
+          (ionChange)="updateTheme()"
+          checked="{{ config.listenerTheme() }}"></ion-toggle>
+        <label>
+          <ion-icon name="moon" class="labelIcon"></ion-icon>
+        </label>
+      </div>
+    </div>
+
+    <!-- BRAND -->
+    <div class="settingItem brandBlcok">
+      <div class="brandName">
+        {{ translate.getKey('APP_NAME') }}
+      </div>
+    </div>
+
+
+  </div>
+</ion-content>
