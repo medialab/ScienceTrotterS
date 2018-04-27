@@ -3,10 +3,11 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+import { Camera } from '@ionic-native/camera';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { AppAvailability } from '@ionic-native/app-availability';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,6 +15,7 @@ import { TranslateProvider } from '../providers/translate';
 import { ConfigProvider } from "../providers/config";
 import {SettingsPage} from "../pages/settings/settings";
 import {SettingsPageModule} from "../pages/settings/settings.module";
+import { ApiProvider } from '../providers/api';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -56,7 +58,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     TranslateProvider,
-    ConfigProvider
+    ConfigProvider,
+    Camera,
+    ApiProvider,
+    AppAvailability
   ]
 })
 export class AppModule {}

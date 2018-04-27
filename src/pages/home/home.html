@@ -2,7 +2,9 @@
   <ion-navbar>
 
     <ion-title>
-      {{ translate.getKey('PAGE_NAME_HOME') }}
+      <div class="headerTitle">
+        {{ translate.getKey('PAGE_NAME_HOME') }}
+      </div>
     </ion-title>
 
     <button ion-button menuToggle right>
@@ -14,8 +16,30 @@
 
 <ion-content class="theme" [ngClass]="config.globalGlobalCss()">
 
-  <p class="helloWorld">
-    {{ translate.getKey('HELLO_WORLD') }}
-  </p>
+  <div class="currentLg">
+    <label [ngClass]="(setActiveLanguageClass('fr'))">FR</label>
+    <label [ngClass]="(setActiveLanguageClass('en'))">EN</label>
+  </div>
+
+  <div class="listOfCities">
+
+    <!-- ITEM => LANGUAGE SWITCH -->
+    <div class="item itemSelectLg">
+      <div class="switch">
+        <ion-toggle
+          (ionChange)="updateLanguage($event)"
+          checked="{{ config.listenerLanguage() }}"></ion-toggle>
+      </div>
+      <div class="homePageTitle">
+        {{ translate.getKey('PAGE_NAME_HOME') }}
+      </div>
+    </div>
+    <!-- \. -->
+
+    <div class="item" *ngFor="let city of listCities" [style.backgroundImage]="'url(' + city.image + ')'">
+      <label class="itemTitle">{{ city.label }}</label>
+    </div>
+
+  </div>
 
 </ion-content>

@@ -2,6 +2,8 @@ import {Component, ViewChild} from '@angular/core';
 import {MenuController, Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { AppAvailability } from '@ionic-native/app-availability';
 
 import { HomePage } from '../pages/home/home';
 import {TranslateProvider} from "../providers/translate";
@@ -28,7 +30,9 @@ export class MyApp {
               splashScreen: SplashScreen,
               public menuCtrl: MenuController,
               public config: ConfigProvider,
-              public translate: TranslateProvider) {
+              public translate: TranslateProvider,
+              private camera: Camera,
+              private appAvailability: AppAvailability) {
 
     /**
      * Initialisation de l'application.
@@ -36,9 +40,7 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.styleDefault();
       config.initialize();
-      setTimeout(() => {
-        splashScreen.hide();
-      }, 10000);
+      splashScreen.hide();
     });
   }
 
@@ -54,5 +56,18 @@ export class MyApp {
     if (nextPage !== '') {
       this.nav.push(nextPage);
     }
+  }
+
+  openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      saveToPhotoAlbum: true,
+      cameraDirection: this.camera.Direction.BACK
+    };
+    this.camera.getPicture(options);
   }
 }

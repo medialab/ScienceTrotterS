@@ -7,7 +7,9 @@
   <ion-header menuToggle>
     <ion-toolbar>
       <button ion-button menuToggle right>
-        {{ translate.getKey('RIGHT_MENU_CLOSE') }}
+        <div class="headerTitle">
+          {{ translate.getKey('RIGHT_MENU_CLOSE') }}
+        </div>
         <ion-icon name="close"></ion-icon>
       </button>
     </ion-toolbar>
@@ -26,7 +28,7 @@
       </div>
       <!-- PHOTO -->
       <div class="item">
-        <div class="icon-block" (click)="onItemClick()">
+        <div class="icon-block" (click)="openCamera()">
           <div class="icon icon-photo"></div>
         </div>
         <div class="title">
