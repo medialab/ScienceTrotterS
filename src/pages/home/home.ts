@@ -11,6 +11,7 @@ import {City} from "../../models/City";
 })
 
 export class HomePage {
+
   activeLg: string = "activeLg";
   listCities: Array<City> = new Array();
 

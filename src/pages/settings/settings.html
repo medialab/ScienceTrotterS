@@ -21,9 +21,7 @@
       </div>
       <div class="content contentCol">
         <label>{{ translate.getKey('P_SETTING_FR') }}</label>
-        <ion-toggle
-          (ionChange)="updateLanguage()"
-          checked="{{ config.listenerLanguage() }}"></ion-toggle>
+        <ion-toggle [(ngModel)]="config.language"></ion-toggle>
         <label>{{ translate.getKey('P_SETTING_EN') }}</label>
       </div>
     </div>

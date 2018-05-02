@@ -28,6 +28,18 @@ export class ConfigProvider {
     theme: 'day'
   };
 
+  get language(): boolean {
+    return this.listenerLanguage();
+  }
+
+  set language(nextLg: boolean) {
+    if (nextLg) {
+      this.updateLanguage('en');
+    } else {
+      this.updateLanguage('fr');
+    }
+  }
+
   /**
    * Définition de la liste des langues disponible.
    *

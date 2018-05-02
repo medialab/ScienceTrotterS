@@ -3,7 +3,6 @@ import {MenuController, Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { AppAvailability } from '@ionic-native/app-availability';
 
 import { HomePage } from '../pages/home/home';
 import {TranslateProvider} from "../providers/translate";
@@ -31,8 +30,7 @@ export class MyApp {
               public menuCtrl: MenuController,
               public config: ConfigProvider,
               public translate: TranslateProvider,
-              private camera: Camera,
-              private appAvailability: AppAvailability) {
+              private camera: Camera) {
 
     /**
      * Initialisation de l'application.

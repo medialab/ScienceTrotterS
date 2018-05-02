@@ -26,9 +26,7 @@
     <!-- ITEM => LANGUAGE SWITCH -->
     <div class="item itemSelectLg">
       <div class="switch">
-        <ion-toggle
-          (ionChange)="updateLanguage($event)"
-          checked="{{ config.listenerLanguage() }}"></ion-toggle>
+        <ion-toggle [(ngModel)]="config.language"></ion-toggle>
       </div>
       <div class="homePageTitle">
         {{ translate.getKey('PAGE_NAME_HOME') }}

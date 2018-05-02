@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Science Trotters",
+  "short_name": "sts",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
@@ -9,5 +9,8 @@
     "type": "image/png"
   }],
   "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+  "theme_color": "#4e8ef7",
+  "version": "0.0.1",
+  "target": "android",
+  "endpoint": "http://api-sts.actu.com"
 }
