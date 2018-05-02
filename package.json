@@ -1,8 +1,9 @@
 {
-  "name": "app",
+  "name": "Science Trotters",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "The Net Group",
+  "homepage": "http://science-trotters.actu.com/",
+  "license": "GPLv2",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
