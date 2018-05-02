@@ -9,8 +9,8 @@ export class ApiProvider {
     this._init();
   }
   _init() {
-    this.http.get('/manifest.json').subscribe(res => {
-      this.endpoint = res.endpoint;
+    this.http.get('/manifest.json').subscribe((resp: any) => {
+      this.endpoint = resp.endpoint;
     }, err => {
       // Handle manifest file not found.
     });

@@ -23,7 +23,21 @@ Install all the dependencies the project needs.
 npm install
 ```
 
-3) Running a live browser server
+3) Configuration
+This application use the following API as data gateway.
+https://github.com/medialab/ScienceTrotterS_API
+
+* Change API url endpoint.
+```
+# src/manifest.json
+{
+  ...
+  'endpoint': '[your_custom_url]'
+  ...
+}
+```
+
+4) Running a live browser server
 
 ```
 # With default port : 8100
@@ -32,13 +46,15 @@ ionic serve
 ionic serve --port 8091
 ```
 
-4) Build Android Application
+5) Build Android Application
 ```
 ionic cordova build android
 ```
-5) Build Ios Application
+6) Build Ios Application
 ```
 ionic cordova build ios
 ```
 ## License
 This project is licensed under the GPLv2 License - see the [GPLv2-LICENSE.md](https://github.com/medialab/ScienceTrotterS_mobile/GPLv2-LICENSE.md) file for details
+
+
