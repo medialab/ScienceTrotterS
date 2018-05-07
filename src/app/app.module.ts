@@ -45,7 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     IonicModule.forRoot(MyApp, {}, {
       links: [
         {
-          component: HomePage, name: 'Home', segment: ''
+          component: HomePage, name: 'Home', segment: 'cities'
         },
         {
           component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomePage]

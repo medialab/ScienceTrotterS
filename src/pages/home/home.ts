@@ -43,7 +43,11 @@ export class HomePage {
         this.listCities = resp.data.map(city => new City(city));
       }
     }, (error: any) => {
-      console.log('error : ', error);
+      setTimeout(() => {
+        console.log('err');
+        console.log('err');
+        this._initCities();
+      }, 500);
     });
   }
 

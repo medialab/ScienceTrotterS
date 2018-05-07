@@ -7,6 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { HomePage } from '../pages/home/home';
 import {TranslateProvider} from "../providers/translate";
 import {ConfigProvider} from "../providers/config";
+import {ApiProvider} from "../providers/api";
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +19,7 @@ export class MyApp {
    *
    * @type {HomePage} - Page.
    */
-  rootPage:any = HomePage;
+  rootPage:any;
   /**
    * Context de navigation.
    */
@@ -30,15 +31,27 @@ export class MyApp {
               public menuCtrl: MenuController,
               public config: ConfigProvider,
               public translate: TranslateProvider,
+              public api: ApiProvider,
               private camera: Camera) {
 
     /**
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
-      statusBar.styleDefault();
       config.initialize();
-      splashScreen.hide();
+
+      api.loadApiUrl().then(res => {
+        statusBar.styleDefault();
+        splashScreen.hide();
+        this.rootPage = HomePage;
+        this.nav.setRoot(HomePage);
+      }).catch(err => {
+        statusBar.styleDefault();
+        splashScreen.hide();
+        this.rootPage = HomePage;
+        this.nav.setRoot(HomePage);
+      })
+
     });
   }
 

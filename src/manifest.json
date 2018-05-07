@@ -12,5 +12,5 @@
   "theme_color": "#4e8ef7",
   "version": "0.0.1",
   "target": "android",
-  "endpoint": "http://api-sts.actu.com"
+  "endpoint": "https://api-sts.actu.com"
 }

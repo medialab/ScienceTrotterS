@@ -10,6 +10,13 @@
   font-style: normal;
 }
 
+html, body {
+  background: white  url('../assets/imgs/splashscreen/splash.png') no-repeat center center / auto 100%;
+}
+.app-root {
+  background: white  url('../assets/imgs/splashscreen/splash.png') no-repeat center center / auto 100%;
+}
+
 ion-app {
   font-family: 'montserratregular', sans-serif !important;
 }
@@ -37,6 +44,7 @@ ion-app {
 .fontSize6 {  font-size: 16px; }
 .fontSize7{  font-size: 17px; }
 .fontSize8 {  font-size: 18px; }
+
 
 
 ion-header {
