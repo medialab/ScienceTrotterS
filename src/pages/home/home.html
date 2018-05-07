@@ -1,20 +1,8 @@
-<ion-header>
-  <ion-navbar>
+<main-header [withMenu]="true">
+  {{ translate.getKey('PAGE_NAME_HOME') }}
+</main-header>
 
-    <ion-title>
-      <div class="headerTitle">
-        {{ translate.getKey('PAGE_NAME_HOME') }}
-      </div>
-    </ion-title>
-
-    <button ion-button menuToggle right>
-      MENU <ion-icon name="menu"></ion-icon>
-    </button>
-
-  </ion-navbar>
-</ion-header>
-
-<ion-content class="theme" [ngClass]="config.globalGlobalCss()">
+<main-content>
 
   <div class="currentLg">
     <label [ngClass]="(setActiveLanguageClass('fr'))">FR</label>
@@ -25,11 +13,10 @@
 
     <!-- ITEM => LANGUAGE SWITCH -->
     <div class="item itemSelectLg">
-      <div class="switch">
-        <ion-toggle [(ngModel)]="config.language"></ion-toggle>
-      </div>
+      <ion-toggle [(ngModel)]="config.language" class="switch"></ion-toggle>
       <div class="homePageTitle">
-        {{ translate.getKey('PAGE_NAME_HOME') }}
+        <span class="bigTitle">{{ translate.getKey('P_HOME_TITLE_PART1') }}</span>
+        <span class="smallTitle">{{ translate.getKey('P_HOME_TITLE_PART2') }}</span>
       </div>
     </div>
     <!-- \. -->
@@ -40,4 +27,4 @@
 
   </div>
 
-</ion-content>
+</main-content>

@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+
+    <div class="navBarContent">
+      <button left class="menuBtnLeft backBtnLeft" (click)="goBack()" *ngIf="withBackButton">
+        <ion-icon name="arrow-back" class="backIcon"></ion-icon>
+        <label class="backLabel">Retour</label>
+      </button>
+
+      <ion-title left>
+        <div class="headerTitle">
+          <ng-content></ng-content>
+        </div>
+      </ion-title>
+
+      <button ion-button menuToggle right class="menuBtnRight" *ngIf="withMenu">
+        <ion-icon name="menu"></ion-icon>
+        <label>MENU</label>
+      </button>
+    </div>
+
+  </ion-navbar>
+</ion-header>

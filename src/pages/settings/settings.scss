@@ -64,6 +64,16 @@ page-settings {
     .labelIcon {
       font-size: 3em;
     }
+    .orderIconTextCol {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      span {
+        font-size: 1em;
+        padding: 7px 0 5px 0;
+      }
+    }
   }
 
   .settingItem.brandBlcok {

@@ -3,11 +3,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
 
-@IonicPage()
 @Component({
   selector: 'page-settings',
-  templateUrl: 'settings.html',
+  templateUrl: 'settings.html'
 })
+
 export class SettingsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -35,5 +35,9 @@ export class SettingsPage {
    */
   updateTheme() {
     this.config.updateTheme();
+  }
+
+  goBack() {
+    this.navCtrl.pop();
   }
 }

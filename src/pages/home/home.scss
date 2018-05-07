@@ -21,6 +21,7 @@ page-home {
     flex-wrap: wrap;
     margin: 0px 5px 25px 5px;
     align-items: flex-end;
+    padding: 0 0 25px 0;
 
     .item {
       width: calc(50% - 10px);
@@ -56,8 +57,18 @@ page-home {
       .homePageTitle {
         text-transform: uppercase;
         font-weight: bold;
-        font-size: 22px;
         flex-grow: 1;
+        padding: 5px 0;
+        display: flex;
+        flex-direction: column;
+
+        .bigTitle {
+          font-size: 16px;
+        }
+
+        .smallTitle {
+          font-size: 1.3em;
+        }
       }
     }
   }

@@ -1,16 +1,8 @@
-<ion-header>
-  <ion-navbar>
+<main-header [withBackButton]="true">
+  {{ translate.getKey('PAGE_NAME_SETTINGS') }}
+</main-header>
 
-    <ion-title class="withBackBtn" left>
-      <div class="headerTitle">
-      {{ translate.getKey('PAGE_NAME_SETTINGS') }}
-      </div>
-    </ion-title>
-
-  </ion-navbar>
-</ion-header>
-
-<ion-content class="theme" [ngClass]="config.globalGlobalCss()">
+<main-content>
 
   <div class="settingsList">
 
@@ -54,14 +46,16 @@
         {{ translate.getKey('P_SETTING_THEME') }}
       </div>
       <div class="content contentCol">
-        <label>
+        <label class="orderIconTextCol">
           <ion-icon name="sunny" class="labelIcon"></ion-icon>
+          <span>{{ translate.getKey('P_SETTING_THEME_DAY') }}</span>
         </label>
         <ion-toggle
           (ionChange)="updateTheme()"
           checked="{{ config.listenerTheme() }}"></ion-toggle>
-        <label>
+        <label class="orderIconTextCol">
           <ion-icon name="moon" class="labelIcon"></ion-icon>
+          <span>{{ translate.getKey('P_SETTING_THEME_NIGHT') }}</span>
         </label>
       </div>
     </div>
@@ -73,6 +67,6 @@
       </div>
     </div>
 
-
   </div>
-</ion-content>
+
+</main-content>

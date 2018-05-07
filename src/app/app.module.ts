@@ -10,12 +10,15 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { File } from '@ionic-native/file';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { TranslateProvider } from '../providers/translate';
 import { ConfigProvider } from "../providers/config";
-import {SettingsPage} from "../pages/settings/settings";
-import {SettingsPageModule} from "../pages/settings/settings.module";
 import { ApiProvider } from '../providers/api';
+import { MainHeaderComponent } from "../components/main-header/main-header";
+
+
+import { HomePage } from '../pages/home/home';
+import { SettingsPage } from "../pages/settings/settings";
+import {MainContentComponent} from "../components/main-content/main-content";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,7 +27,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    SettingsPage,
+    MainHeaderComponent,
+    MainContentComponent
   ],
   imports: [
     BrowserModule,
@@ -45,13 +51,13 @@ export function HttpLoaderFactory(http: HttpClient) {
           component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomePage]
         }
       ]
-    }),
-    SettingsPageModule,
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    SettingsPage
   ],
   providers: [
     StatusBar,

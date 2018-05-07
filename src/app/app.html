@@ -6,11 +6,12 @@
 
   <ion-header menuToggle>
     <ion-toolbar>
-      <button ion-button menuToggle right>
-        <div class="headerTitle">
-          {{ translate.getKey('RIGHT_MENU_CLOSE') }}
-        </div>
+
+      <button ion-button menuToggle right class="menuBtnRight">
         <ion-icon name="close"></ion-icon>
+        <label class="headerTitle">
+          {{ translate.getKey('RIGHT_MENU_CLOSE') }}
+        </label>
       </button>
     </ion-toolbar>
   </ion-header>

@@ -12,9 +12,14 @@
   "PAGE_NAME_HOME": "Select your city",
   "PAGE_NAME_SETTINGS": "Application settings",
 
+  "P_HOME_TITLE_PART1": "Select",
+  "P_HOME_TITLE_PART2": "your city",
+
   "P_SETTING_LANGUAGE": "Language",
   "P_SETTING_FR": "Français",
   "P_SETTING_EN": "English",
   "P_SETTING_FONT_SIZE": "Font size",
-  "P_SETTING_THEME": "Screen mode"
+  "P_SETTING_THEME": "Screen mode",
+  "P_SETTING_THEME_DAY": "Day",
+  "P_SETTING_THEME_NIGHT": "Night"
 }

@@ -12,9 +12,14 @@
   "PAGE_NAME_HOME": "Sélectionnez votre ville",
   "PAGE_NAME_SETTINGS": "Paramètres de l'application",
 
+  "P_HOME_TITLE_PART1": "Sélectionnez",
+  "P_HOME_TITLE_PART2": "votre ville",
+
   "P_SETTING_LANGUAGE": "Langue",
   "P_SETTING_FR": "Français",
   "P_SETTING_EN": "English",
   "P_SETTING_FONT_SIZE": "Taille du texte",
-  "P_SETTING_THEME": "Mode d'affichage"
+  "P_SETTING_THEME": "Mode d'affichage",
+  "P_SETTING_THEME_DAY": "Jour",
+  "P_SETTING_THEME_NIGHT": "Nuit"
 }
