@@ -1,0 +1,65 @@
+<main-header [withBackButton]="true">
+  {{ translate.getKey('PAGE_NAME_PARCOURS_LIST') }}
+</main-header>
+
+<main-content>
+
+  <div class='parcoursListContent'>
+    <div class='map'>
+      f
+    </div>
+
+    <div [ngClass]="contentListClass">
+
+      <!-- DARK SELECT BOX -->
+      <div class='darkSelectBox'>
+        <label class='selectedTarget isSelected'>Parcours</label>
+        <div class='switchGroup'>
+          <label class="switchName">
+            <ion-icon class='openMenuItems' [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
+          </label>
+          <ion-toggle></ion-toggle>
+        </div>
+        <label class='selectedTarget'>Points d'intérêts</label>
+      </div>
+      <!-- ./ DARK SELECT BOX -->
+
+      <!-- OPTIONS ITEMS SORT -->
+      <div class='optionsItemsSort'>
+        <div class='arrowIcon'>
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </div>
+        <label class='optionName'>Tri par proximité</label>
+        <div class='arrowIcon'>
+          <ion-icon name="ios-arrow-forward"></ion-icon>
+        </div>
+      </div>
+      <!-- ./ OPTIONS ITEMS SORT -->
+
+      <!-- ITEMS LIST -->
+      <div class='list'>
+        <div class='item'>
+          <div class='leftIconColor blue'>
+            <div class='icon'></div>
+          </div>
+          <div class='content'>
+            <div class='contentPreview'>
+              <div class='info'>
+                <h1>Le ciel vu de Paris</h1>
+                <label>5 (!) . entre 1h30 et 2h . à 1,9 km (24mins)</label>
+              </div>
+              <button class='btnDownload'>
+                <div class='icon'></div>
+                <label>télécharger les données</label>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ./ ITEMS LIST -->
+
+    </div>
+
+  </div>
+
+</main-content>

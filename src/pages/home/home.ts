@@ -55,4 +55,13 @@ export class HomePage {
     this.config.updateLanguage();
   }
 
+  openParcoursList(target: string) {
+    console.log('target', target);
+    this.navCtrl.push('ParcoursList');
+  }
+
+  openItemsList() {
+
+  }
+
 }

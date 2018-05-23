@@ -19,6 +19,9 @@ import { MainHeaderComponent } from "../components/main-header/main-header";
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from "../pages/settings/settings";
 import {MainContentComponent} from "../components/main-content/main-content";
+import {CreditsPage} from "../pages/credits/credits";
+import {HomeSplitPage} from "../pages/home-split/home-split";
+import {ParcoursListPage} from "../pages/parcours-list/parcours-list";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -29,6 +32,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MyApp,
     HomePage,
     SettingsPage,
+    CreditsPage,
+    HomeSplitPage,
+    ParcoursListPage,
     MainHeaderComponent,
     MainContentComponent
   ],
@@ -45,10 +51,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     IonicModule.forRoot(MyApp, {}, {
       links: [
         {
-          component: HomePage, name: 'Home', segment: 'cities'
+          component: HomePage, name: 'Cities', segment: 'cities'
         },
         {
-          component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomePage]
+          component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomeSplitPage]
+        },
+        {
+          component: CreditsPage, name: 'Credits', segment: 'credits', defaultHistory: [HomeSplitPage]
+        },
+        {
+          component: ParcoursListPage, name: 'ParcoursList', segment: 'parcours_list', defaultHistory: [HomeSplitPage]
         }
       ]
     })
@@ -57,7 +69,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   entryComponents: [
     MyApp,
     HomePage,
-    SettingsPage
+    SettingsPage,
+    CreditsPage,
+    HomeSplitPage,
+    ParcoursListPage
   ],
   providers: [
     StatusBar,

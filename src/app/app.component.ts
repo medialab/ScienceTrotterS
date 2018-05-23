@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import {TranslateProvider} from "../providers/translate";
 import {ConfigProvider} from "../providers/config";
 import {ApiProvider} from "../providers/api";
+import {HomeSplitPage} from "../pages/home-split/home-split";
 
 @Component({
   templateUrl: 'app.html'

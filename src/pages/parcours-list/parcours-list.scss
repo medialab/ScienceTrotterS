@@ -1,0 +1,213 @@
+page-parcours-list {
+
+  .parcoursListContent {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: hidden;
+
+    .map {
+      width: 100%;
+      height: 100%;
+      flex-grow: 1;
+      background-color: red;
+    }
+
+    .list {
+      width: 100%;
+      height:210px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      .item:nth-child(odd) {
+        background-color: #E2DFDF;
+      }
+
+      .item:nth-child(even) {
+        background-color: #F6F3F4;
+      }
+
+      .item {
+        min-height: 70px;
+        height: 70px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+
+
+
+        .leftIconColor {
+          width: 45px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          .icon {
+            background-color: black;
+            width: 25px;
+            height: 25px;
+          }
+        }
+
+        .leftIconColor.blue {
+          background-color: blue;
+        }
+        .leftIconColor.red {
+          background-color: red;
+        }
+        .leftIconColor.yellow {
+          background-color: yellow;
+        }
+
+
+        .content {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          flex-grow: 1;
+
+          .contentPreview {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            height: 70px;
+            min-height: 70px;
+
+            .info {
+              flex: 1;
+              padding: 10px;
+
+              h1 {
+                margin: 0;
+                font-size: 18px;
+              }
+
+              label {
+                font-size: 11px;
+              }
+            }
+
+            .btnDownload {
+              width: 86px;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              flex-wrap: nowrap;
+              justify-content: center;
+              align-items: center;
+              background-color: transparent;
+
+              .icon {
+                background-image: url('../../assets/imgs/icon_svg/download.svg');
+                width: 25px;
+                height: 25px;
+                margin: 3px 0;
+              }
+
+              label {
+                font-size: 11px;
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  .contentList.isOpen {
+    bottom: 0 !important;
+  }
+
+  .contentList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: absolute;
+    width: 100%;
+    height: calc( 100vh - 46px - 50px);
+    bottom: calc(0px - calc( 100vh - 46px - 50px) + 56px);
+    background-color: blue;
+    transition: 0.4s ease-out;
+
+    .darkSelectBox {
+      background-color: black;
+      height: 56px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+
+      .selectedTarget {
+        color: #707070;
+        text-transform: uppercase;
+        width: 100%;
+        max-width: 120px;
+        text-align: center;
+      }
+
+      .selectedTarget.isSelected {
+        color: white;
+      }
+
+      .switchGroup {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+
+        .switchName {
+          color: white;
+          text-transform: uppercase;
+          text-align: center;
+          height: 18px;
+
+          .openMenuItems {
+            width: 100px;
+            height: 18px;
+            font-weight: bold;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    .optionsItemsSort {
+      background-color: #A0A0AC;
+      height: 35px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+
+      .optionName {
+        flex-grow: 1;
+        color: white;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+      }
+
+      .arrowIcon {
+        color: white;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.platform-android .openMenuItems {
+  padding: 3px 0 0 0;
+}

@@ -21,7 +21,7 @@
     </div>
     <!-- \. -->
 
-    <div class="item" *ngFor="let city of listCities" [style.backgroundImage]="'url(' + city.image + ')'">
+    <div class="item" *ngFor="let city of listCities" [style.backgroundImage]="'url(' + city.image + ')'" (click)="openParcoursList(city.id)">
       <label class="itemTitle">{{ city.label }}</label>
     </div>
 

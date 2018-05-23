@@ -9,8 +9,11 @@
   "RIGHT_MENU_GPS": "Envoi Position",
   "RIGHT_MENU_CREDITS": "Crédits",
 
+  "PAGE_NAME_HOME_SPLIT": "Paris",
   "PAGE_NAME_HOME": "Sélectionnez votre ville",
   "PAGE_NAME_SETTINGS": "Paramètres de l'application",
+  "PAGE_NAME_CREDITS": "Crédits",
+  "PAGE_NAME_PARCOURS_LIST": "Parcours thématique",
 
   "P_HOME_TITLE_PART1": "Sélectionnez",
   "P_HOME_TITLE_PART2": "votre ville",
