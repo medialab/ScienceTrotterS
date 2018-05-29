@@ -1,7 +1,10 @@
 <ion-menu
+  id="menuGlobal"
   [content]="content"
   side="right"
   persistent="true"
+  (ionOpen)="menuHandler($event, 'open')"
+  (ionClose)="menuHandler($event, 'close')"
   class="rightNavBar">
 
   <ion-header menuToggle>

@@ -10,3 +10,13 @@ main-content {
 
 }
 
+ion-app.ios main-content {
+  left: 0;
+  top: 0;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: calc(100% - 46px - 20px) !important;
+  contain: layout size style;
+  margin: $mainHeaderHeight 0 0 0;
+}

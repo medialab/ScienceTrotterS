@@ -4,6 +4,7 @@ import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
 import {City} from "../../models/City";
+import {DataProvider} from "../../providers/data";
 
 @Component({
   selector: 'page-home',
@@ -16,7 +17,8 @@ export class HomePage {
   listCities: Array<City> = new Array();
   platformValues: string = '';
 
-  constructor(public navCtrl: NavController,
+  constructor(public dataProvider: DataProvider,
+              public navCtrl: NavController,
               public config: ConfigProvider,
               public translate: TranslateProvider,
               public platform: Platform,

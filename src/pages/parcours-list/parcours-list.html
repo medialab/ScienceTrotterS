@@ -2,35 +2,43 @@
   {{ translate.getKey('PAGE_NAME_PARCOURS_LIST') }}
 </main-header>
 
-<main-content>
+<main-content id='mainContentScroll' #mainContentScroll>
 
   <div class='parcoursListContent'>
-    <div class='map'>
-      f
-    </div>
+    <div id='map' #map class='map'></div>
 
     <div [ngClass]="contentListClass">
 
       <!-- DARK SELECT BOX -->
-      <div class='darkSelectBox'>
-        <label class='selectedTarget isSelected'>Parcours</label>
+      <div class='darkSelectBox' id='darkSelectBox'>
+        <label [ngClass]="selectTargetParcours">Parcours</label>
         <div class='switchGroup'>
           <label class="switchName">
-            <ion-icon class='openMenuItems' [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
+            <ion-icon
+              class='openMenuItems'
+              [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
           </label>
-          <ion-toggle></ion-toggle>
+          <ion-toggle [(ngModel)]="selectedTarget" (ionChange)="onChangeSelectedTarget($event)"></ion-toggle>
         </div>
-        <label class='selectedTarget'>Points d'intérêts</label>
+        <label [ngClass]="selectTargetPoints">Points d'intérêts</label>
       </div>
       <!-- ./ DARK SELECT BOX -->
 
       <!-- OPTIONS ITEMS SORT -->
       <div class='optionsItemsSort'>
-        <div class='arrowIcon'>
+        <div class='arrowIcon left' (click)="changeOptionList('prev')">
           <ion-icon name="ios-arrow-back"></ion-icon>
         </div>
-        <label class='optionName'>Tri par proximité</label>
-        <div class='arrowIcon'>
+        <ul class='optionsList'>
+
+          <li [ngClass]="OptionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
+            <label class='optionName'>
+              {{ item.name }}
+            </label>
+          </li>
+        </ul>
+
+        <div class='arrowIcon right' (click)="changeOptionList('next')">
           <ion-icon name="ios-arrow-forward"></ion-icon>
         </div>
       </div>
@@ -38,23 +46,46 @@
 
       <!-- ITEMS LIST -->
       <div class='list'>
-        <div class='item'>
-          <div class='leftIconColor blue'>
-            <div class='icon'></div>
-          </div>
-          <div class='content'>
-            <div class='contentPreview'>
-              <div class='info'>
-                <h1>Le ciel vu de Paris</h1>
-                <label>5 (!) . entre 1h30 et 2h . à 1,9 km (24mins)</label>
-              </div>
-              <button class='btnDownload'>
-                <div class='icon'></div>
-                <label>télécharger les données</label>
-              </button>
-            </div>
-          </div>
-        </div>
+        <parcours-list-item
+          color='blue'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='yellow'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='red'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='pink'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='green'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='blue'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='blue'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
+        <parcours-list-item
+          color='blue'
+          [isOpenDiscover]="false"
+          previewTitle="preview title"
+          previewDescription="preview desc"></parcours-list-item>
       </div>
       <!-- ./ ITEMS LIST -->
 

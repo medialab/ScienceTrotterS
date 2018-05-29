@@ -7,118 +7,21 @@ page-parcours-list {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    overflow-y: hidden;
 
     .map {
       width: 100%;
-      height: 100%;
-      flex-grow: 1;
+      height: calc(100% - 56px);
       background-color: red;
     }
 
     .list {
       width: 100%;
-      height:210px;
+      height: calc(100% - 56px - 35px);
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
-
-      .item:nth-child(odd) {
-        background-color: #E2DFDF;
-      }
-
-      .item:nth-child(even) {
-        background-color: #F6F3F4;
-      }
-
-      .item {
-        min-height: 70px;
-        height: 70px;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-
-
-
-        .leftIconColor {
-          width: 45px;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-
-          .icon {
-            background-color: black;
-            width: 25px;
-            height: 25px;
-          }
-        }
-
-        .leftIconColor.blue {
-          background-color: blue;
-        }
-        .leftIconColor.red {
-          background-color: red;
-        }
-        .leftIconColor.yellow {
-          background-color: yellow;
-        }
-
-
-        .content {
-          display: flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
-          flex-grow: 1;
-
-          .contentPreview {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            height: 70px;
-            min-height: 70px;
-
-            .info {
-              flex: 1;
-              padding: 10px;
-
-              h1 {
-                margin: 0;
-                font-size: 18px;
-              }
-
-              label {
-                font-size: 11px;
-              }
-            }
-
-            .btnDownload {
-              width: 86px;
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              flex-wrap: nowrap;
-              justify-content: center;
-              align-items: center;
-              background-color: transparent;
-
-              .icon {
-                background-image: url('../../assets/imgs/icon_svg/download.svg');
-                width: 25px;
-                height: 25px;
-                margin: 3px 0;
-              }
-
-              label {
-                font-size: 11px;
-              }
-            }
-          }
-        }
-
-      }
+      overflow-y: scroll;
+      background-color: #E2DFDF;
     }
   }
 
@@ -136,6 +39,7 @@ page-parcours-list {
     bottom: calc(0px - calc( 100vh - 46px - 50px) + 56px);
     background-color: blue;
     transition: 0.4s ease-out;
+    z-index: 999;
 
     .darkSelectBox {
       background-color: black;
@@ -189,13 +93,35 @@ page-parcours-list {
       flex-wrap: nowrap;
       justify-content: center;
 
-      .optionName {
-        flex-grow: 1;
-        color: white;
-        text-transform: uppercase;
+      .optionsList {
+        list-style: none;
         display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        padding: 0;
+        margin: 0;
+        height: 35px;
         align-items: center;
+
+        .optionsItem.isSelected {
+          display: initial;
+        }
+        .optionsItem {
+          list-style: none;
+          display: none;
+          flex-grow: 1;
+
+          .optionName {
+            flex-grow: 1;
+            color: white;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+          }
+        }
       }
+
 
       .arrowIcon {
         color: white;
@@ -203,6 +129,12 @@ page-parcours-list {
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      .arrowIcon.left {
+        padding: 0 7px 0 0;
+      }
+      .arrowIcon.right {
+        padding: 0 0 0 7px;
       }
     }
   }

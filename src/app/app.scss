@@ -21,6 +21,10 @@ ion-app {
   font-family: 'montserratregular', sans-serif !important;
 }
 
+ion-app.ios {
+  margin-top: 20px;
+}
+
 /**
   THEME DAY
  */

@@ -21,6 +21,7 @@ export class MyApp {
    * @type {HomePage} - Page.
    */
   rootPage:any;
+
   /**
    * Context de navigation.
    */
@@ -42,12 +43,9 @@ export class MyApp {
       config.initialize();
 
       api.loadApiUrl().then(res => {
-        statusBar.styleDefault();
-        splashScreen.hide();
         this.rootPage = HomePage;
         this.nav.setRoot(HomePage);
       }).catch(err => {
-        statusBar.styleDefault();
         splashScreen.hide();
         this.rootPage = HomePage;
         this.nav.setRoot(HomePage);
@@ -81,5 +79,15 @@ export class MyApp {
       cameraDirection: this.camera.Direction.BACK
     };
     this.camera.getPicture(options);
+  }
+
+  menuHandler (state: any, target: string) {
+    /**
+    if (typeof state === 'boolean') {
+      document
+        .querySelector('#menuGlobal')
+        .setAttribute('aria-expanded', target === 'open' ? true : false);
+    }
+    */
   }
 }

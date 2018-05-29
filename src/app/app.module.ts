@@ -22,6 +22,9 @@ import {MainContentComponent} from "../components/main-content/main-content";
 import {CreditsPage} from "../pages/credits/credits";
 import {HomeSplitPage} from "../pages/home-split/home-split";
 import {ParcoursListPage} from "../pages/parcours-list/parcours-list";
+import { Geolocation } from '@ionic-native/geolocation';
+import {ParcoursListItemComponent} from "../components/parcours-list-item/parcours-list-item";
+import {DataProvider} from "../providers/data";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,7 +39,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeSplitPage,
     ParcoursListPage,
     MainHeaderComponent,
-    MainContentComponent
+    MainContentComponent,
+    ParcoursListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    IonicModule.forRoot(MyApp, {}, {
+    IonicModule.forRoot(MyApp, {
+      tabsPlacement: 'bottom',
+        platforms: {
+          ios: {
+            statusbarPadding: true,
+          }
+        }
+      }, {
       links: [
         {
           component: HomePage, name: 'Cities', segment: 'cities'
@@ -82,7 +93,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfigProvider,
     Camera,
     ApiProvider,
-    File
+    File,
+    Geolocation,
+    DataProvider
   ]
 })
 export class AppModule {}

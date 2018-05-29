@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ConfigProvider} from "../../providers/config";
+import {Content} from "ionic-angular";
 
 @Component({
   selector: 'main-content',

@@ -77,6 +77,7 @@ export class TranslateProvider {
       this.setCurrentLanguage(_findLanguage);
       this.setData(obj);
 
+      document.querySelector('html').lang = _findLanguage;
       localStorage.setItem('config::langue', _findLanguage);
       localStorage.setItem('translate:data', JSON.stringify(obj));
     }, err => {

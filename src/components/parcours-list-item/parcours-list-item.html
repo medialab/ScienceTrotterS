@@ -1,0 +1,34 @@
+<div class='parcoursListItem' id="search-content">
+  <div class='leftIconColor' [ngStyle]="{'background-color': color}">
+    <div class='icon'></div>
+  </div>
+  <div class='content'>
+    <div class='contentPreview'>
+      <div class='info' (click)="updateDiscoverState()">
+        <h1>{{ previewTitle }}</h1>
+        <label>{{ previewDescription }}</label>
+      </div>
+      <button class='btnDownload'>
+        <div class='icon'></div>
+        <label>télécharger les données</label>
+      </button>
+    </div>
+
+    <div [ngClass]="contentDiscover">
+
+      <div class='content'>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper placerat ipsum, quis sagittis augue convallis auctor. Aenean porta quam feugiat, pharetra neque vitae, porta libero.
+        </p>
+      </div>
+      <div class='playerAudio'>
+        player
+      </div>
+      <div class='footer'>
+        <button class='btnStart' [ngStyle]="{'background-color': color}">démarrer le parcours</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
