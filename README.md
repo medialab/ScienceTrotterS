@@ -32,7 +32,9 @@ https://github.com/medialab/ScienceTrotterS_API
 # src/manifest.json
 {
   ...
-  'endpoint': '[your_custom_url]'
+  'endpoint_data': '[your_custom_url]' # api data uri
+  'endpoint_assets': '[your_custom_url]' # api assets uri
+  'target:' '[your_target_platform]' # android or ios
   ...
 }
 ```
