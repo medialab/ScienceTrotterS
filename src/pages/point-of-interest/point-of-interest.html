@@ -1,0 +1,137 @@
+<main-header [withBackButton]="true" [withMenu]="true">
+  {{ sliceStr(pageName, 30) }}&
+</main-header>
+
+<main-content>
+  <div class="poi-page">
+
+    <!-- HEADER -->
+    <div class="poi-header">
+      <div class="poi-marker"></div>
+    </div>
+
+    <!-- SCROLL LIST POI -->
+    <div class="scrollListPOI">
+      <div class="actionbtn">
+        <button class='actionbtn action-left'
+                *ngIf="showMoveBtn('prev')"
+                (click)="onClickMoveList('prev')">
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </button>
+      </div>
+
+      <ul class="poiList">
+        <li class="poiItem">
+          <h1 class="description">
+            {{ getData('title', true) }}
+          </h1>
+          <h2 class="sub_description">
+            {{ getData('address', true) }}
+          </h2>
+        </li>
+      </ul>
+
+      <div class="actionbtn">
+        <button class='actionbtn action-left'
+                *ngIf="showMoveBtn('next')"
+                (click)="onClickMoveList('next')">
+          <ion-icon name="ios-arrow-forward"></ion-icon>
+        </button>
+      </div>
+    </div>
+    <!-- .\ SCROLL LIST POI -->
+
+    <!-- HELP BUTTONS -->
+    <div class="helpList">
+
+      <div class="helpItem"
+           data-target="information"
+           [ngClass]="getHelpItemActive('information')"
+           (click)="onClickSetHelpItemActive('information')">
+        <span class="icon icon-info"></span>
+        <label>
+          {{ sliceStr(getData('schedule', true), 30) }}
+          <br />
+          {{ sliceStr(getData('price', true), 30) }}
+        </label>
+      </div>
+
+      <div class="helpItem"
+           data-target="navigation"
+           [ngClass]="getHelpItemActive('navigation')"
+           (click)="onClickSetHelpItemActive('navigation')">
+        <span class="icon icon-navigation"></span>
+        <label>{{ translate.getKey('PLI_VAL_ITINERARY') }}</label>
+      </div>
+    </div>
+    <!-- .\ HELP BUTTONS -->
+    <!-- HELP CONTENT -->
+    <div class="helpContent" [ngClass]="getHelpItemActive(null, true)">
+
+      <!-- ITEM INFORMATION -->
+      <div class="helpItem helpContentInformation" [ngClass]="getHelpItemActive('information')">
+        <ul class="hciList">
+          <!-- INFO DATE -->
+          <li class="hciItem">
+            <span class="icon icon-date"></span>
+            <label>
+              {{ getData('schedule', true) }}
+            </label>
+          </li>
+          <!-- INFO PRICE -->
+          <li class="hciItem">
+            <span class="icon icon-clock"></span>
+            <label>
+              {{ getData('price', true) }}
+            </label>
+          </li>
+          <!-- BTN SUBMIT PROBLEM -->
+          <li class="hciItem">
+            <button class="btnFullSizeRound isTransparentAndBlack" (click)="btnEndPointOfInterest()">
+              {{ translate.getKey('PLI_BTN_SEND_PB') }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- .\ HELP CONTENT -->
+
+    <div [ngClass]="mainContentCls">
+
+      <div class="playerAudio">
+        <player-audio></player-audio>
+      </div>
+
+      <div class="endPOI">
+        <button class="btnFullSizeRound isOrangeAndWhite" (click)="btnReportProblem()">
+          {{ translate.getKey('PLI_BTN_END_POI') }}
+        </button>
+      </div>
+
+      <div class="tabs">
+         <ul class="tabList">
+           <li class="tabItem">
+             <button class="btnTab">
+                 <span class="icon icon-script-audio"></span>
+                 <label class="label">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</label>
+             </button>
+           </li>
+           <li class="tabItem">
+             <button class="btnTab">
+               <span class="icon icon-galery"></span>
+               <label class="label">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</label>
+             </button>
+           </li>
+           <li class="tabItem">
+             <button class="btnTab">
+               <span class="icon icon-book"></span>
+               <label class="label">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</label>
+             </button>
+           </li>
+         </ul>
+      </div>
+
+    </div>
+
+  </div>
+</main-content>

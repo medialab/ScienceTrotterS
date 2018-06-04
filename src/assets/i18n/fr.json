@@ -24,5 +24,16 @@
   "P_SETTING_FONT_SIZE": "Taille du texte",
   "P_SETTING_THEME": "Mode d'affichage",
   "P_SETTING_THEME_DAY": "Jour",
-  "P_SETTING_THEME_NIGHT": "Nuit"
+  "P_SETTING_THEME_NIGHT": "Nuit",
+
+  "PLI_ACTION_DOWNLOAD_DATA": "télécharger les données",
+  "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "effacer les données",
+  "PLI_LIST_START_PARCOURS": "Démarrer le parcours",
+  "PLI_LIST_START_POI": "Démarrer le point d'intérêt",
+  "PLI_VAL_ITINERARY": "itinéraire",
+  "PLI_BTN_END_POI": "TERMINER LE POINT D'INTÉRÊT",
+  "PLI_BTN_SEND_PB": "Signaler un problème",
+  "PLI_TAB_AUDIO_SCRIPT": "script audio",
+  "PLI_TAB_GALERY_IMAGE": "galerie d'images",
+  "PLI_TAB_BIBLIOGRAPHY": "bibliographie"
 }

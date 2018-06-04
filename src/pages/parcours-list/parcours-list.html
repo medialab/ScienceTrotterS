@@ -1,5 +1,5 @@
 <main-header [withBackButton]="true">
-  {{ translate.getKey('PAGE_NAME_PARCOURS_LIST') }}
+  {{ translate.fromApi(config.getLanguage(), city.title) }}
 </main-header>
 
 <main-content id='mainContentScroll' #mainContentScroll>
@@ -10,7 +10,7 @@
     <div [ngClass]="contentListClass">
 
       <!-- DARK SELECT BOX -->
-      <div class='darkSelectBox' id='darkSelectBox'>
+      <div class='darkSelectBox' id='   '>
         <label [ngClass]="selectTargetParcours">Parcours</label>
         <div class='switchGroup'>
           <label class="switchName">
@@ -31,7 +31,7 @@
         </div>
         <ul class='optionsList'>
 
-          <li [ngClass]="OptionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
+          <li [ngClass]="optionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
             <label class='optionName'>
               {{ item.name }}
             </label>
@@ -44,53 +44,35 @@
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->
 
-      <!-- ITEMS LIST -->
-      <div class='list'>
+      <!-- ITEMS LIST : RENDERING PARCOURS-->
+      <div class='list' *ngIf="selectedTarget === false">
         <parcours-list-item
-          color='blue'
+          *ngFor="let parcour of parcours"
+          target="parcours"
+          color="{{ parcour.color }}"
           [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='yellow'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='red'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='pink'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='green'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='blue'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='blue'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
-        <parcours-list-item
-          color='blue'
-          [isOpenDiscover]="false"
-          previewTitle="preview title"
-          previewDescription="preview desc"></parcours-list-item>
+          openId="{{ parcour.id }}"
+          parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
+          parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
+          previewTitle="{{ translate.fromApi(config.getLanguage(), parcour.title) }}"
+          previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}"></parcours-list-item>
       </div>
       <!-- ./ ITEMS LIST -->
 
+      <!-- ITEMS LIST : RENDERING INTERETS -->
+      <div class='list' *ngIf="selectedTarget === true">
+        <parcours-list-item
+          *ngFor="let interest of interests"
+          target="interests"
+          color='#336699'
+          [isOpenDiscover]="false"
+          openId="{{ interest.id }}"
+          interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
+          previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"
+          previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}"></parcours-list-item>
+      </div>
+      <!-- ./ ITEMS LIST -->
     </div>
-
   </div>
 
 </main-content>

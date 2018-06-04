@@ -1,0 +1,163 @@
+player-audio {
+  width: 100%;
+  margin: 20px;
+  .playerAudioComponent {
+    width: 100%;
+
+    ul.actionsList {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      list-style: none;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+
+      li.actionItem {
+        margin: 10px;
+
+        &.actionItemFastLeft {
+          margin-right: 20px;
+        }
+        &.actionItemFastRight {
+          margin-left: 20px;
+        }
+
+        button.actionBtn {
+          display: block;
+          padding: 10px;
+          background-color: transparent;
+        }
+
+        button.actionBtn {
+          span.icon {
+            display: block;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+
+            &.tiny {
+              width: 30px;
+              height: 30px;
+              min-height: 30px;
+              min-width: 30px;
+            }
+
+            &.big {
+              width: 50px;
+              height: 50px;
+              min-height: 50px;
+              min-width: 50px;
+            }
+          }
+        }
+
+      }
+    }
+
+  }
+
+  .durationBarContent {
+
+    .durationBar {
+      background-color: #EAEAED;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      position: relative;
+
+      .bar {
+        content: '';
+        position: absolute;
+        background-color: #000000;
+        height: 6px;
+        border-radius: 3px;
+        width: 0;
+      }
+
+      .round {
+        content: '';
+        position: absolute;
+        background-color: #000000;
+        box-shadow: 0 1px 4px rgba(74, 73, 97, 0.6);
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        margin-left: -4px;
+        top: -4px;
+        left: 0;
+      }
+    }
+  }
+
+  .playerDuration {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 5px 0 0 0;
+
+    .durationCurrent {
+      width: 50%;
+      text-align: left;
+    }
+
+    .durationLeft {
+      width: 50%;
+      text-align: right;
+    }
+
+    .durationValue {
+      font-size: 11px;
+      color: #4A4961;
+    }
+  }
+
+  .icon {
+    &.icon-action-fast-left {
+      background-image: url('../../assets/imgs/player-audio/icon-action-fast-left.svg');
+    }
+
+    &.icon-action-fast-right {
+      background-image: url('../../assets/imgs/player-audio/icon-action-fast-right.svg');
+    }
+
+    &.icon-action-pause {
+      background-image: url('../../assets/imgs/player-audio/icon-action-play.svg');
+    }
+  }
+}
+
+.inputTypeRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 36px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.inputTypeRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: black;
+  cursor: pointer;
+  border: none;
+  margin-top: -4px;
+}
+.inputTypeRange::-webkit-slider-runnable-track {
+  cursor: pointer;
+  background-color: #EAEAED;
+  border-radius: 3px;
+  height: 6px;
+  position: relative;
+}
+
+.inputTypeRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; /* 1 */
+  height: 40px;
+  background: #fff;
+  border: 2px solid #999; /* 1 */
+}

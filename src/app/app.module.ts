@@ -15,32 +15,53 @@ import { ConfigProvider } from "../providers/config";
 import { ApiProvider } from '../providers/api';
 import { MainHeaderComponent } from "../components/main-header/main-header";
 
-
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from "../pages/settings/settings";
 import {MainContentComponent} from "../components/main-content/main-content";
 import {CreditsPage} from "../pages/credits/credits";
-import {HomeSplitPage} from "../pages/home-split/home-split";
 import {ParcoursListPage} from "../pages/parcours-list/parcours-list";
 import { Geolocation } from '@ionic-native/geolocation';
 import {ParcoursListItemComponent} from "../components/parcours-list-item/parcours-list-item";
 import {DataProvider} from "../providers/data";
+import {PointOfInterestPage} from "../pages/point-of-interest/point-of-interest";
+import {PlayerAudioComponent} from "../components/player-audio/player-audio";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+const links = [
+  {
+    component: HomePage, name: 'Cities', segment: 'cities'
+  },
+  {
+    component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomePage]
+  },
+  {
+    component: CreditsPage, name: 'Credits', segment: 'credits', defaultHistory: [HomePage]
+  },
+  {
+    component: ParcoursListPage, name: 'ParcoursList', segment: 'parcours_list', defaultHistory: [HomePage]
+  },
+  {
+    component: PointOfInterestPage, name: 'PointOfInterest', segment: 'point_of_interest', defaultHistory: [HomePage]
+  }
+];
+
 @NgModule({
   declarations: [
     MyApp,
+
     HomePage,
     SettingsPage,
     CreditsPage,
-    HomeSplitPage,
     ParcoursListPage,
+    PointOfInterestPage,
+
     MainHeaderComponent,
     MainContentComponent,
-    ParcoursListItemComponent
+    ParcoursListItemComponent,
+    PlayerAudioComponent
   ],
   imports: [
     BrowserModule,
@@ -59,40 +80,32 @@ export function HttpLoaderFactory(http: HttpClient) {
             statusbarPadding: true,
           }
         }
-      }, {
-      links: [
-        {
-          component: HomePage, name: 'Cities', segment: 'cities'
-        },
-        {
-          component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomeSplitPage]
-        },
-        {
-          component: CreditsPage, name: 'Credits', segment: 'credits', defaultHistory: [HomeSplitPage]
-        },
-        {
-          component: ParcoursListPage, name: 'ParcoursList', segment: 'parcours_list', defaultHistory: [HomeSplitPage]
-        }
-      ]
-    })
+      },
+      {
+        links: links
+      }
+    )
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+
     HomePage,
     SettingsPage,
     CreditsPage,
-    HomeSplitPage,
-    ParcoursListPage
+    ParcoursListPage,
+    PointOfInterestPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+
     TranslateProvider,
     ConfigProvider,
-    Camera,
     ApiProvider,
+
+    Camera,
     File,
     Geolocation,
     DataProvider

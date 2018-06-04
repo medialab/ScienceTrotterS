@@ -2,6 +2,8 @@ import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {App, Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import leaflet from 'leaflet';
+import {ConfigProvider} from "../../providers/config";
+import {ApiProvider} from "../../providers/api";
 
 @IonicPage()
 @Component({
@@ -12,6 +14,10 @@ export class ParcoursListPage {
   @ViewChild(Content) content: Content;
   @ViewChild('map') mapContainer: ElementRef;
   map: any;
+
+  city: any;
+  parcours: Array<any> = new Array();
+  interests: Array<any> = new Array();
 
   contentListClass = {
     contentList: true,
@@ -34,7 +40,7 @@ export class ParcoursListPage {
     }
   ];
 
-  OptionsItemClasse(itemId: number) {
+  optionsItemClasse(itemId: number) {
     return {
       optionsItem: true,
       isSelected: this.optionsItemsSelected === itemId
@@ -57,12 +63,16 @@ export class ParcoursListPage {
               private renderer: Renderer2,
               public navCtrl: NavController,
               public navParams: NavParams,
+              public config: ConfigProvider,
+              public api: ApiProvider,
               public translate: TranslateProvider) {
-
+    this.city = navParams.get('city');
+    this.loadParcours();
+    this.loadInterests();
   }
 
   ionViewDidEnter() {
-    this.loadMap();
+    // this.loadMap();
   }
 
   openContentList() {
@@ -97,7 +107,36 @@ export class ParcoursListPage {
     }
   }
 
+  loadParcours() {
+    console.log('city', this.city);
+    this.api.get('/public/parcours/byCityId/' + this.city.id).subscribe((resp: any) => {
+      if (resp.success) {
+        this.parcours = resp.data;
+      }
+    }, (error: any) => {
+      console.log('error', error);
+    });
+  }
+
+  loadInterests() {
+    console.log('city', this.city);
+    this.api.get('/public/interests/byCityId/' + this.city.id).subscribe((resp: any) => {
+      if (resp.success) {
+        this.interests = resp.data;
+      }
+    }, (error: any) => {
+      console.log('error', error);
+    });
+  }
+
+  getTotalInterestsByParcourId(parcourId: string) {
+    return this.interests.filter(interest => {
+      return interest.parcours_id === parcourId
+    }).length;
+  }
+
   loadMap() {
+    /**
     this.map = leaflet.map("map").fitWorld();
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
@@ -110,11 +149,12 @@ export class ParcoursListPage {
       let marker: any = leaflet.marker([e.latitude, e.longitude]).on('click', () => {
         alert('Marker clicked');
       })
+
       markerGroup.addLayer(marker);
       this.map.addLayer(markerGroup);
     }).on('locationerror', (err) => {
       alert(err.message);
     })
+    */
   }
-
 }

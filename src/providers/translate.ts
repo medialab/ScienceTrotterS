@@ -85,4 +85,14 @@ export class TranslateProvider {
       console.log('error translate file');
     });
   }
+
+  fromApi (lg: string, key: any) {
+    const undefinedValue = 'UNDEFINED_VALUE';
+
+    if (typeof key === 'undefined' || typeof key[lg] === 'undefined') {
+      return undefinedValue;
+    } else {
+      return key[lg];
+    }
+  }
 }

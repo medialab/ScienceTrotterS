@@ -1,16 +1,37 @@
 <div class='parcoursListItem' id="search-content">
   <div class='leftIconColor' [ngStyle]="{'background-color': color}">
-    <div class='icon'></div>
+    <span class='icon'></span>
   </div>
   <div class='content'>
     <div class='contentPreview'>
       <div class='info' (click)="updateDiscoverState()">
         <h1>{{ previewTitle }}</h1>
-        <label>{{ previewDescription }}</label>
+
+        <ul class="infoParcours" *ngIf="target === 'parcours'">
+          <li>
+            <label>{{ parcourTotalInterets }}</label>
+            <span class="icon-poi"></span>
+          </li>
+          <li>
+            <label><span class="spanDot">.</span> {{ parcourTime }}</label>
+          </li>
+          <li>
+            <label><span class="spanDot">.</span> à 1k (10min)</label>
+          </li>
+        </ul>
+
+        <ul class="infoParcours" *ngIf="target === 'interests'">
+          <li>
+            <label>{{ interestAddress }}</label>
+          </li>
+        </ul>
+
       </div>
       <button class='btnDownload'>
-        <div class='icon'></div>
-        <label>télécharger les données</label>
+        <span class='icon icon-download'></span>
+        <label>
+          {{ translate.getKey('PLI_ACTION_DOWNLOAD_DATA') }}
+        </label>
       </button>
     </div>
 
@@ -18,17 +39,27 @@
 
       <div class='content'>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper placerat ipsum, quis sagittis augue convallis auctor. Aenean porta quam feugiat, pharetra neque vitae, porta libero.
+          {{ previewDescription }}
         </p>
       </div>
       <div class='playerAudio'>
-        player
+        <player-audio></player-audio>
       </div>
       <div class='footer'>
-        <button class='btnStart' [ngStyle]="{'background-color': color}">démarrer le parcours</button>
+        <button
+          *ngIf="target === 'parcours'"
+          (click)="openNext()"
+          class='btnStart' [ngStyle]="{'background-color': color}">
+          {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
+        </button>
+        <button
+          *ngIf="target === 'interests'"
+          (click)="openNext()"
+          class='btnStart' [ngStyle]="{'background-color': color}">
+          {{ translate.getKey('PLI_LIST_START_POI') }}
+        </button>
       </div>
 
     </div>
   </div>
 </div>
-

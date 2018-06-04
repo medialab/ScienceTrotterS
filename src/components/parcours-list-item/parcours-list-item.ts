@@ -1,4 +1,6 @@
 import {Component, Input} from '@angular/core';
+import {TranslateProvider} from "../../providers/translate";
+import {NavController} from "ionic-angular";
 
 @Component({
   selector: 'parcours-list-item',
@@ -13,9 +15,14 @@ export class ParcoursListItemComponent {
     isOpen: false
   };
 
+  @Input() openId: string = '';
   @Input() previewTitle: string = '';
   @Input() previewDescription: string = '';
-  @Input() color: string = 'red';
+  @Input() color: string = '';
+  @Input() target: string = '';
+  @Input() parcourTotalInterets: number = 0;
+  @Input() parcourTime: string = '';
+  @Input() interestAddress: string = '';
 
   @Input()
   set isOpenDiscover(nextState: boolean) {
@@ -26,8 +33,8 @@ export class ParcoursListItemComponent {
     return this._isOpenDiscover;
   }
 
-  constructor() {
-    console.log('Hello ParcoursListItemComponent Component');
+  constructor(public translate: TranslateProvider,
+              public navCtrl: NavController) {
   }
 
   updateDiscoverState() {
@@ -38,6 +45,14 @@ export class ParcoursListItemComponent {
       this.isOpenDiscover = true;
       this.contentDiscover.isOpen = true;
     }
+  }
+
+  openNext() {
+    this.navCtrl.push('PointOfInterest', {
+      target: this.target,
+      openId: this.openId,
+      pageName: this.previewTitle
+    });
   }
 
 }

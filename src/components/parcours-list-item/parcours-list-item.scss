@@ -23,22 +23,24 @@
     align-items: center;
 
     .icon {
-      background-color: black;
+      background-image: url('../../assets/imgs/parcours-list/icon_parcours.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-repeat: no-repeat;
       width: 25px;
       height: 25px;
     }
   }
 
   .leftIconColor.blue {
-    background-color: blue;
+    background-color: #336699;
   }
   .leftIconColor.red {
-    background-color: red;
+    background-color: #5F4B8B;
   }
   .leftIconColor.yellow {
-    background-color: yellow;
+    background-color: #3686A0;
   }
-
 
   .content {
     display: flex;
@@ -54,10 +56,14 @@
       display: none;
       flex-direction: column;
       flex-wrap: nowrap;
-      padding: 15px;
+      padding: 20px;
 
       .content {
         margin: 0 0 10px 0;
+
+        p {
+          font-size: 14px;
+        }
       }
 
       .playerAudio {
@@ -90,11 +96,39 @@
 
         h1 {
           margin: 0;
-          font-size: 18px;
+          font-size: 14px;
+          text-transform: uppercase;
         }
 
-        label {
-          font-size: 11px;
+        ul.infoParcours {
+          border: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: row;
+          list-style: none;
+
+          li {
+            list-style: puce;
+            display: flex;
+            flex-direction: row;
+            font-size: 12px;
+            label {
+              padding: 0 5px;
+            }
+          }
+        }
+
+        .spanDot {
+          font-size: 18px;
+        }
+        .icon-poi {
+          display: block;
+          width: 12px;
+          height: 12px;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+          background-image: url('../../assets/imgs/parcours-list/icon_poi.svg');
         }
       }
 
@@ -109,14 +143,21 @@
         background-color: transparent;
 
         .icon {
-          background-image: url('../../assets/imgs/icon_svg/download.svg');
           width: 25px;
           height: 25px;
           margin: 3px 0;
+
+          &.icon-download {
+            background-image: url('../../assets/imgs/parcours-list/icon_download.svg');
+          }
+
+          &.icon-download-remove {
+            background-image: url('../../assets/imgs/parcours-list/icon_download_remove.svg');
+          }
         }
 
         label {
-          font-size: 11px;
+          font-size: 12px;
         }
       }
     }

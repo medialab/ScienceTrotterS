@@ -21,8 +21,13 @@
     </div>
     <!-- \. -->
 
-    <div class="item" *ngFor="let city of listCities" [style.backgroundImage]="'url(' + city.image + ')'" (click)="openParcoursList(city.id)">
-      <label class="itemTitle">{{ city.label }}</label>
+    <div class="item"
+         *ngFor="let city of listCities"
+         [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'"
+         (click)="openParcoursList(city)">
+      <label class="itemTitle">
+        {{ translate.fromApi(config.getLanguage(), city.title) }}
+      </label>
     </div>
 
   </div>

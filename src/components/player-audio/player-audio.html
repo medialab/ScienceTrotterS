@@ -1,0 +1,50 @@
+<div class="playerAudioComponent">
+
+  <!-- PLAYER MAIN ACTIONS -->
+  <ul class="actionsList">
+    <!-- ACTION FAST LEFT -->
+    <li class="actionItem actionItemFastLeft">
+      <button class="actionBtn">
+        <span class="icon tiny icon-action-fast-left"></span>
+      </button>
+    </li>
+
+    <!-- ACTION AUDIO STATE -->
+    <li class="actionItem actionItemPause">
+      <button class="actionBtn">
+        <span class="icon big icon-action-pause"></span>
+      </button>
+    </li>
+
+
+    <!-- ACTION FAST RIGHT -->
+    <li class="actionItem actionItemFastRight">
+      <button class="actionBtn">
+        <span class="icon tiny icon-action-fast-right"></span>
+      </button>
+    </li>
+  </ul>
+
+  <!-- PLAYER DURATION BAR -->
+  <div class="durationBarContent">
+    <div class="durationBar">
+      <span class="bar" [style.width.%]="currentDuration"></span>
+      <span class="round" [style.left.%]="currentDuration"></span>
+    </div>
+  </div>
+
+  <!-- PLAUER TIMER -->
+  <div class="playerDuration">
+    <div class="durationCurrent">
+      <label class="durationValue">
+        {{ timerCurrent }}
+      </label>
+    </div>
+    <div class="durationLeft">
+      <label class="durationValue">
+        {{ timerLeft }}
+      </label>
+    </div>
+  </div>
+
+</div>

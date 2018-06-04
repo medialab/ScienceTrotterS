@@ -1,0 +1,343 @@
+page-point-of-interest {
+
+  .poi-page {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+
+    .poi-header {
+      width: 100%;
+      height: 25%;
+      min-height: 25%;
+      max-height: 25%;
+      background-color: red;
+      display: flex;
+      position: relative;
+
+      img {
+        flex-grow: 1;
+        display: block;
+      }
+
+      .poi-marker {
+        position: absolute;
+        background-image: url('../../assets/imgs/poi/poi_marker.svg');
+        width: 25px;
+        height: 30px;
+        bottom: -10px;
+        left: 50%;
+        margin-left: -12.5px;
+      }
+    }
+
+    .scrollListPOI {
+      background-color: #F9AC2F;
+      display: flex;
+      flex-direction: row;
+      height: 90px;
+
+      .actionbtn {
+        width: 56px;
+        min-width: 56px;
+        color: white;
+        font-size: 26px;
+        padding: 0;
+        background-color: #F9AC2F;
+
+        ion-icon {
+          width: 56px;
+          height: 90px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      ul.poiList {
+        flex-grow: 1;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li.poiItem {
+          height: 100%;
+          color: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          h1.description {
+            width: 100%;
+            font-size: 14px;
+            margin: 0;
+            text-align: center;
+            padding: 0 0 5px 0;
+            text-transform: uppercase;
+          }
+
+          h2.sub_description {
+            width: 100%;
+            font-size: 12px;
+            margin: 0;
+            text-align: center;
+            padding: 0 20px;
+          }
+        }
+      }
+
+    }
+
+    .helpList {
+      background-color: #F7F7F7;
+      width: 100%;
+      height: 70px;
+      border-bottom: 1px solid #707070;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      padding: 0 8%;
+
+      .helpItem {
+        height: 70px;
+        max-height: 70px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+
+        &.isActive:before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-left: 16px solid transparent;
+          border-right: 16px solid transparent;
+          border-top: 16px solid #707070;
+          bottom: -15px;
+          left: 5px;
+        }
+
+        &.isActive:after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-left: 15px solid transparent;
+          border-right: 15px solid transparent;
+          border-top: 15px solid #F7F7F7;
+          bottom: -14px;
+          left: 6px;
+        }
+
+        .icon {
+          width:30px;
+          min-width: 30px;
+          height: 30px;
+          min-height: 30px;
+          display: block;
+        }
+        .icon-info {
+          background-image: url('../../assets/imgs/poi/poi_info_icon.svg');
+        }
+        .icon-navigation {
+          background-image: url('../../assets/imgs/poi/poi_icon_navigation.svg');
+        }
+
+        label {
+          font-size: 12px;
+          color: black;
+          padding:0 10px;
+        }
+      }
+    }
+
+    .helpContent {
+      padding: 16px 0 0 0;
+      flex-grow: 1;
+      display: flex;
+
+      &.isHidden {
+        display: none;
+      }
+
+      .helpItem {
+        &.isHidden {
+          display: none;
+        }
+        &.isActive {
+          display: flex;
+        }
+      }
+    }
+
+    .helpContentInformation {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      ul.hciList {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        li.hciItem {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-items: center;
+          padding: 10px 0;
+
+          span.icon {
+            width:35px;
+            min-width: 35px;
+            height: 35px;
+            min-height: 35px;
+            display: block;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            margin: 0 10px;
+          }
+          span.icon-date {
+            background-image: url('../../assets/imgs/poi/poi_icon_clock.svg');
+          }
+          span.icon-clock {
+            background-image: url('../../assets/imgs/poi/poi_icon_hand.svg');
+          }
+
+          label {
+            font-size: 14px;
+            padding: 0 10px;
+          }
+        }
+      }
+    }
+
+    .mainContent {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      &.isHidden {
+        display: none;
+      }
+
+      .playerAudio {
+        flex-grow: 1;
+        display: flex;
+      }
+
+      .endPOI {
+        display: flex;
+      }
+
+      .tabs {
+        height: 56px;
+        width: 100%;
+        background-color: #FAFAFA;
+        border-top: 1px solid #95989A;
+
+        ul.tabList {
+          height: 56px;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+
+          li.tabItem {
+            flex-grow: 1;
+            display: flex;
+
+            button.btnTab {
+              flex-grow: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              background-color: transparent;
+              padding: 0;
+
+              .icon {
+                width:30px;
+                min-width: 30px;
+                height: 30px;
+                min-height: 30px;
+                display: block;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+              }
+
+              .label {
+                font-size: 10px;
+                color: #95989A;
+              }
+            }
+
+          }
+        }
+      }
+
+    }
+  }
+
+}
+
+
+.btnFullSizeRound {
+  padding: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 46px;
+  margin: 15px;
+  border-radius: 23px;
+  border: 1px solid #000000;
+  color: #000000;
+
+  &.isTransparentAndBlack {
+    background-color: transparent;
+    border: 1px solid #000000;
+    color: #000000;
+    font-size: 12px;
+  }
+
+  &.isOrangeAndWhite {
+    background-color: #F9AC2F;
+    border: 1px solid #F9AC2F;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+/**
+  ICONS
+ */
+.icon {
+  &.icon-script-audio {
+    background-image: url('../../assets/imgs/poi/poi_icon_script_audio.svg');
+  }
+  &.icon-galery {
+    background-image: url('../../assets/imgs/poi/poi_icon_galery.svg');
+  }
+  &.icon-book {
+    background-image: url('../../assets/imgs/poi/poi_icon_book.svg');
+  }
+}
+

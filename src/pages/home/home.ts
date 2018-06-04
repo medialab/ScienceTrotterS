@@ -41,13 +41,12 @@ export class HomePage {
 
   _initCities() {
     this.api.get('/public/cities/list').subscribe((resp: any) => {
-      if(resp.success) {
+      if (resp.success) {
         this.listCities = resp.data.map(city => new City(city));
       }
     }, (error: any) => {
       setTimeout(() => {
-        console.log('err');
-        console.log('err');
+        console.log('error', error);
         this._initCities();
       }, 500);
     });
@@ -57,13 +56,10 @@ export class HomePage {
     this.config.updateLanguage();
   }
 
-  openParcoursList(target: string) {
-    console.log('target', target);
-    this.navCtrl.push('ParcoursList');
-  }
-
-  openItemsList() {
-
+  openParcoursList(city: any) {
+    this.navCtrl.push('ParcoursList', {
+      city: city
+    });
   }
 
 }

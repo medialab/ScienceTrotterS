@@ -13,7 +13,7 @@
   "PAGE_NAME_HOME": "Select your city",
   "PAGE_NAME_SETTINGS": "Application settings",
   "PAGE_NAME_CREDITS": "Credits",
-  "PAGE_NAME_PARCOURS_LIST": "Parcours thématique",
+  "PAGE_NAME_PARCOURS_LIST": "Thematic route",
 
   "P_HOME_TITLE_PART1": "Select",
   "P_HOME_TITLE_PART2": "your city",
@@ -24,5 +24,16 @@
   "P_SETTING_FONT_SIZE": "Font size",
   "P_SETTING_THEME": "Screen mode",
   "P_SETTING_THEME_DAY": "Day",
-  "P_SETTING_THEME_NIGHT": "Night"
+  "P_SETTING_THEME_NIGHT": "Night",
+
+  "PLI_ACTION_DOWNLOAD_DATA": "dwonload data",
+  "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "remove data",
+  "PLI_LIST_START_PARCOURS": "Start parcours",
+  "PLI_LIST_START_POI": "Start point of interest",
+  "PLI_VAL_ITINERARY": "itinerary",
+  "PLI_BTN_END_POI": "END POINT OF INTEREST",
+  "PLI_BTN_SEND_PB": "Report a problem",
+  "PLI_TAB_AUDIO_SCRIPT": "audio script",
+  "PLI_TAB_GALERY_IMAGE": "galery image",
+  "PLI_TAB_BIBLIOGRAPHY": "bibliography"
 }
