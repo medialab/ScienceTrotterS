@@ -2,136 +2,157 @@
   {{ sliceStr(pageName, 30) }}
 </main-header>
 
-<main-content>
-  <div class="poi-page">
+<ion-content>
+  <div class="poi__header"></div>
 
-    <!-- HEADER -->
-    <div class="poi-header">
-      <div class="poi-marker"></div>
+  <div class="poi__info">
+    <h1 class="poi__info--title">
+      {{ getData('title', true) }}
+    </h1>
+    <h2 class="poi__info--subtitle">
+      {{ getData('address', true) }}
+    </h2>
+
+    <button class='poi__info__btn poi__info__btn--L' *ngIf="showMoveBtn('prev')" (click)="onClickMoveList('prev')">
+      <ion-icon name="ios-arrow-back"></ion-icon>
+    </button>
+
+    <button class='poi__info__btn poi__info__btn--R' *ngIf="showMoveBtn('next')" (click)="onClickMoveList('next')">
+      <ion-icon name="ios-arrow-forward"></ion-icon>
+    </button>
+  </div>
+  <!-- HELP BUTTONS -->
+  <div class="helpList">
+
+    <div class="helpItem" data-target="information" [ngClass]="getHelpItemActive('information')" (click)="onClickSetHelpItemActive('information')">
+      <span class="icon icon-info"></span>
+      <label>
+        {{ sliceStr(getData('schedule', true), 30) }}
+        <br /> {{ sliceStr(getData('price', true), 30) }}
+      </label>
     </div>
 
-    <!-- SCROLL LIST POI -->
-    <div class="scrollListPOI">
-      <div class="actionbtn">
-        <button class='actionbtn action-left'
-                *ngIf="showMoveBtn('prev')"
-                (click)="onClickMoveList('prev')">
-          <ion-icon name="ios-arrow-back"></ion-icon>
-        </button>
-      </div>
+    <div class="helpItem" data-target="navigation" [ngClass]="getHelpItemActive('navigation')" (click)="onClickSetHelpItemActive('navigation')">
+      <span class="icon icon-navigation"></span>
+      <label>{{ translate.getKey('PLI_VAL_ITINERARY') }}</label>
+    </div>
+  </div>
 
-      <ul class="poiList">
-        <li class="poiItem">
-          <h1 class="description">
-            {{ getData('title', true) }}
-          </h1>
-          <h2 class="sub_description">
-            {{ getData('address', true) }}
-          </h2>
+  <div class="helpContent" [ngClass]="getHelpItemActive(null, true)">
+    <div class="helpItem helpContentInformation" [ngClass]="getHelpItemActive('information')">
+      <ul class="hciList">
+        <!-- INFO DATE -->
+        <li class="hciItem">
+          <span class="icon icon-date"></span>
+          <label>
+            {{ getData('schedule', true) }}
+          </label>
+        </li>
+        <!-- INFO PRICE -->
+        <li class="hciItem">
+          <span class="icon icon-clock"></span>
+          <label>
+            {{ getData('price', true) }}
+          </label>
+        </li>
+        <!-- BTN SUBMIT PROBLEM -->
+        <li class="hciItem">
+          <button class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
+            {{ translate.getKey('PLI_BTN_SEND_PB') }}
+          </button>
         </li>
       </ul>
-
-      <div class="actionbtn">
-        <button class='actionbtn action-left'
-                *ngIf="showMoveBtn('next')"
-                (click)="onClickMoveList('next')">
-          <ion-icon name="ios-arrow-forward"></ion-icon>
-        </button>
-      </div>
     </div>
-    <!-- .\ SCROLL LIST POI -->
+  </div>
 
-    <!-- HELP BUTTONS -->
-    <div class="helpList">
+  <div *ngIf="!mainContentCls.isHidden">
 
-      <div class="helpItem"
-           data-target="information"
-           [ngClass]="getHelpItemActive('information')"
-           (click)="onClickSetHelpItemActive('information')">
-        <span class="icon icon-info"></span>
-        <label>
-          {{ sliceStr(getData('schedule', true), 30) }}
-          <br />
-          {{ sliceStr(getData('price', true), 30) }}
-        </label>
-      </div>
-
-      <div class="helpItem"
-           data-target="navigation"
-           [ngClass]="getHelpItemActive('navigation')"
-           (click)="onClickSetHelpItemActive('navigation')">
-        <span class="icon icon-navigation"></span>
-        <label>{{ translate.getKey('PLI_VAL_ITINERARY') }}</label>
-      </div>
+    <div class="poi__playerAudio">
+      <player-audio></player-audio>
     </div>
-    <!-- .\ HELP BUTTONS -->
-    <!-- HELP CONTENT -->
-    <div class="helpContent" [ngClass]="getHelpItemActive(null, true)">
 
-      <!-- ITEM INFORMATION -->
-      <div class="helpItem helpContentInformation" [ngClass]="getHelpItemActive('information')">
-        <ul class="hciList">
-          <!-- INFO DATE -->
-          <li class="hciItem">
-            <span class="icon icon-date"></span>
-            <label>
-              {{ getData('schedule', true) }}
-            </label>
-          </li>
-          <!-- INFO PRICE -->
-          <li class="hciItem">
-            <span class="icon icon-clock"></span>
-            <label>
-              {{ getData('price', true) }}
-            </label>
-          </li>
-          <!-- BTN SUBMIT PROBLEM -->
-          <li class="hciItem">
-            <button class="btnFullSizeRound isTransparentAndBlack" (click)="btnEndPointOfInterest()">
-              {{ translate.getKey('PLI_BTN_SEND_PB') }}
+    <div class="poi__end" >
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
+        {{ translate.getKey('PLI_BTN_END_POI') }}
+      </button>
+    </div>
+
+
+    <div class="poi__script">
+      <h1>Script audio</h1>
+      <p>{{getData('audio_script', true)}}</p>
+    </div>
+
+
+    <div class="poi__galery">
+      <h1>Galerie d'images</h1>
+
+      <ion-slides class="image-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
+        <ion-slide *ngFor="let img of images">
+          <img src="{{img}}" class="thumb-img" imageViewer/>
+        </ion-slide>
+      </ion-slides>
+    </div>
+
+    <div class="poi__bibliographie">
+      <h1 class=poi__bibliographie__title>Biographie</h1>
+      <table width="100%">
+        <td>
+
+          <ul>
+            <li>
+              <p class="poi__bibliographie__description">
+                {{getData('bibliography', true)}}
+              </p>
+            </li>
+          </ul>
+
+        </td>
+        <td>
+          <div class="poi__bibliographie__share">
+            <button>
+              <ion-icon name="ios-mail-outline"></ion-icon>
             </button>
-          </li>
-        </ul>
-      </div>
+            <span class=poi__bibliographie__share__label>partager la référence</span>
+
+          </div>
+        </td>
+      </table>
     </div>
-    <!-- .\ HELP CONTENT -->
 
-    <div [ngClass]="mainContentCls">
-
-      <div class="playerAudio">
-        <player-audio></player-audio>
-      </div>
-
-      <div class="endPOI">
-        <button class="btnFullSizeRound isOrangeAndWhite" (click)="btnReportProblem()">
-          {{ translate.getKey('PLI_BTN_END_POI') }}
-        </button>
-      </div>
-
-      <div class="tabs">
-         <ul class="tabList">
-           <li class="tabItem">
-             <button class="btnTab">
-                 <span class="icon icon-script-audio"></span>
-                 <label class="label">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</label>
-             </button>
-           </li>
-           <li class="tabItem">
-             <button class="btnTab">
-               <span class="icon icon-galery"></span>
-               <label class="label">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</label>
-             </button>
-           </li>
-           <li class="tabItem">
-             <button class="btnTab">
-               <span class="icon icon-book"></span>
-               <label class="label">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</label>
-             </button>
-           </li>
-         </ul>
-      </div>
-
+    <div class="poi__end">
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
+        {{ translate.getKey('PLI_BTN_END_POI') }}
+      </button>
     </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
 
   </div>
-</main-content>
+</ion-content>
+
+<footer *ngIf="!mainContentCls.isHidden">
+  <div>
+    <button class="footer__btn">
+      <div class="footer__btn__icon footer__btn__icon--cript-audio"></div>
+      <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</label>
+    </button>
+  </div>
+
+  <div>
+    <button class="footer__btn">
+      <div class="footer__btn__icon footer__btn__icon--galery"></div>
+      <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</label>
+    </button>
+  </div>
+
+  <div>
+    <button class="footer__btn">
+      <div class="footer__btn__icon footer__btn__icon--book"></div>
+      <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</label>
+    </button>
+  </div>
+</footer>

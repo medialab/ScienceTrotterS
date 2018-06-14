@@ -8,7 +8,6 @@ import { HomePage } from '../pages/home/home';
 import {TranslateProvider} from "../providers/translate";
 import {ConfigProvider} from "../providers/config";
 import {ApiProvider} from "../providers/api";
-import {PointOfInterestPage} from "../pages/point-of-interest/point-of-interest";
 
 @Component({
   templateUrl: 'app.html'

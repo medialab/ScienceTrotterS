@@ -26,6 +26,8 @@ import {DataProvider} from "../providers/data";
 import {PointOfInterestPage} from "../pages/point-of-interest/point-of-interest";
 import {PlayerAudioComponent} from "../components/player-audio/player-audio";
 
+import { IonicImageViewerModule } from 'ionic-img-viewer';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -64,6 +66,7 @@ const links = [
     PlayerAudioComponent
   ],
   imports: [
+    IonicImageViewerModule,
     BrowserModule,
     HttpClientModule,
     TranslateModule.forRoot({

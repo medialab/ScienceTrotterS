@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {ApiProvider} from "../../providers/api";
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
+import { Platform } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -24,14 +25,23 @@ export class PointOfInterestPage {
     isHidden: false,
   };
 
+  images = [
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
+    'https://cdn0.rubylane.com/_pod/item/413364/RA5467/Antique-Japanese-Bronze-Statue-Samurai-Warrior-full-2-2048-66.jpg',
+  ];
+
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
                public api: ApiProvider,
                public config: ConfigProvider,
-               public translate: TranslateProvider) {
+               public translate: TranslateProvider,
+              public platform : Platform) {
     this.curTarget = navParams.get('target');
     this.curId = navParams.get('openId');
-    this.pageName = navParams.get('pageName');
+    this.pageName = navParams.get("pageName") ? navParams.get("pageName") : "";
 
     this.init(navParams.get('target'), navParams.get('openId'));
   }
@@ -109,6 +119,14 @@ export class PointOfInterestPage {
     } else {
       this.setHelpItemActive(target);
       this.updateMainContentState(false);
+    }
+  }
+
+  getNbPicture(){ // retourne le nombre de photo à afficher (il faut en afficher plus sur ipad)
+    if(this.platform.is('tablet')){
+      return 3;
+    } else {
+      return 1.5;
     }
   }
 
