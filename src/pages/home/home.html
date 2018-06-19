@@ -22,7 +22,7 @@
     <!-- \. -->
 
     <div class="item"
-         *ngFor="let city of listCities"
+         *ngFor="let city of getListCities()"
          [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'"
          (click)="openParcoursList(city)">
       <label class="itemTitle">

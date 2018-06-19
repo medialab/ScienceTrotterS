@@ -1,9 +1,11 @@
 <main-header [withBackButton]="true" [withMenu]="true">
-  {{ sliceStr(pageName, 30) }}
+  {{ pageName }}
 </main-header>
 
 <ion-content>
-  <div class="poi__header"></div>
+  <div class="poi__header">
+    <img src="{{api.getAssetsUri(getData('header_image'))}}" />
+  </div>
 
   <div class="poi__info">
     <h1 class="poi__info--title">
@@ -38,19 +40,24 @@
     </div>
   </div>
 
+
   <div class="helpContent" [ngClass]="getHelpItemActive(null, true)">
     <div class="helpItem helpContentInformation" [ngClass]="getHelpItemActive('information')">
       <ul class="hciList">
         <!-- INFO DATE -->
         <li class="hciItem">
-          <span class="icon icon-date"></span>
+          <div class="icon">
+            <span class="icon icon-date"></span>
+          </div>
           <label>
             {{ getData('schedule', true) }}
           </label>
         </li>
         <!-- INFO PRICE -->
         <li class="hciItem">
-          <span class="icon icon-clock"></span>
+          <div class="icon">
+            <span class="icon icon-clock"></span>
+          </div>
           <label>
             {{ getData('price', true) }}
           </label>
@@ -63,9 +70,79 @@
         </li>
       </ul>
     </div>
+
+    <div class="helpItem helpContentNavigation" [ngClass]="getHelpItemActive('navigation')">
+
+      <!-- NAVIGATION INFORMATION -->
+      <ul class="infoList">
+
+        <!-- NAVIGATION ITEM -->
+        <li class="infoItem">
+          <div class="icon">
+            <ion-icon name="ios-walk-outline"></ion-icon>
+          </div>
+          <div class="info">
+            <h1 class="info-title">
+              Marcher 1,5km
+
+              <span>15 min</span>
+            </h1>
+            <h2 class="info-subtitle">
+              47-83 Boulevard de l'Hôpital, 75013 Paris
+            </h2>
+          </div>
+        </li>
+        <!-- NAVIGATION ITEM -->
+        <!-- NAVIGATION ITEM -->
+        <li class="infoItem">
+          <div class="icon">
+            <ion-icon name="ios-walk-outline"></ion-icon>
+          </div>
+          <div class="info">
+            <h1 class="info-title">
+              Marcher 1,5km
+            </h1>
+            <h2 class="info-subtitle">
+              47-83 Boulevard de l'Hôpital, 75013 Paris
+            </h2>
+          </div>
+        </li>
+        <!-- NAVIGATION ITEM -->
+      </ul>
+
+      <!-- ./ NAVIGATION INFORMATION -->
+
+      <!-- MAP -->
+      <div class="navigation-map">
+        <img src="../../assets/imgs/fake_map.png">
+      </div>
+
+      <!-- TRANSPORT -->
+      <ul class="infoList">
+        <li class="infoItem">
+          <div class="icon">
+            <ion-icon name="ios-subway-outline"></ion-icon>
+          </div>
+          <div class="info">
+            <h1 class="info-title">
+              Transports à proximité
+            </h1>
+            <h2 class="info-subtitle">
+              RER C, Métro 5 et 10, Bus 63 et 24 Gare
+              d’Austerlitz / Bus 63 et 89 Jardin des Plantes
+            </h2>
+          </div>
+        </li>
+      </ul>
+
+      <button class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
+        {{ translate.getKey('PLI_BTN_OPEN_IN_NEW_APP') }}
+      </button>
+
+    </div>
   </div>
 
-  <div *ngIf="!mainContentCls.isHidden">
+  <div class="poi-main-content" *ngIf="!mainContentCls.isHidden">
 
     <div class="poi__playerAudio">
       <player-audio></player-audio>
@@ -79,23 +156,29 @@
 
 
     <div class="poi__script">
-      <h1>Script audio</h1>
+      <h1 id="titleAudioScript">
+        {{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}
+      </h1>
       <p>{{getData('audio_script', true)}}</p>
     </div>
 
 
     <div class="poi__galery">
-      <h1>Galerie d'images</h1>
+      <h1 id="titleGalery">
+        {{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}
+      </h1>
 
-      <ion-slides class="image-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
-        <ion-slide *ngFor="let img of images">
-          <img src="{{img}}" class="thumb-img" imageViewer/>
+      <ion-slides class="image-slider poi-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
+        <ion-slide *ngFor="let img of getGalerryImage()">
+          <img src="{{api.getAssetsUri(img)}}" class="thumb-img" imageViewer/>
         </ion-slide>
       </ion-slides>
     </div>
 
     <div class="poi__bibliographie">
-      <h1 class=poi__bibliographie__title>Biographie</h1>
+      <h1 class="poi__bibliographie__title" id="titleBibliography">
+        {{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}
+      </h1>
       <table width="100%">
         <td>
 
@@ -113,7 +196,9 @@
             <button>
               <ion-icon name="ios-mail-outline"></ion-icon>
             </button>
-            <span class=poi__bibliographie__share__label>partager la référence</span>
+            <span class="poi__bibliographie__share__label">
+              {{ translate.getKey('PLI_BTN_SHARE_REF') }}
+            </span>
 
           </div>
         </td>
@@ -126,31 +211,26 @@
       </button>
     </div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-
   </div>
 </ion-content>
 
 <footer *ngIf="!mainContentCls.isHidden">
   <div>
-    <button class="footer__btn">
-      <div class="footer__btn__icon footer__btn__icon--cript-audio"></div>
+    <button class="footer__btn" (click)="scrollTo('titleAudioScript')">
+      <div class="footer__btn__icon footer__btn__icon--script-audio"></div>
       <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</label>
     </button>
   </div>
 
   <div>
-    <button class="footer__btn">
+    <button class="footer__btn" (click)="scrollTo('titleGalery')">
       <div class="footer__btn__icon footer__btn__icon--galery"></div>
       <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</label>
     </button>
   </div>
 
   <div>
-    <button class="footer__btn">
+    <button class="footer__btn" (click)="scrollTo('titleBibliography')">
       <div class="footer__btn__icon footer__btn__icon--book"></div>
       <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</label>
     </button>

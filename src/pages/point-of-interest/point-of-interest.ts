@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ApiProvider} from "../../providers/api";
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
@@ -11,6 +11,8 @@ import { Platform } from 'ionic-angular';
   templateUrl: 'point-of-interest.html',
 })
 export class PointOfInterestPage {
+  @ViewChild(Content) content: Content;
+
   helpItemActive = '';
 
   curTarget: string = '';
@@ -41,13 +43,20 @@ export class PointOfInterestPage {
               public platform : Platform) {
     this.curTarget = navParams.get('target');
     this.curId = navParams.get('openId');
-    this.pageName = navParams.get("pageName") ? navParams.get("pageName") : "";
+    this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
 
     this.init(navParams.get('target'), navParams.get('openId'));
   }
 
   init(curTarget: string, curId: string) {
     this.fetchData(curTarget, curId);
+  }
+
+  scrollTo (elementId: string) {
+    const yOffset = document.getElementById(elementId).offsetTop - 56;
+    if (this.content.scrollTo !== null) {
+      this.content.scrollTo(0, yOffset, 1000);
+    }
   }
 
   fetchData (curTarget: string, curId: string) {
@@ -166,4 +175,13 @@ export class PointOfInterestPage {
   btnEndPointOfInterest () {
     console.log('btnEndPointOfInterest');
   }
+
+  getGalerryImage () {
+    if (! this.getData('gallery_image')) {
+      return [];
+    } else {
+      return JSON.parse(this.getData('gallery_image'));
+    }
+  }
+
 }

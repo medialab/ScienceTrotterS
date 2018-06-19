@@ -1,6 +1,7 @@
 <div class='parcoursListItem' id="search-content">
   <div class='leftIconColor' [ngStyle]="{'background-color': color}">
-    <span class='icon'></span>
+    <span *ngIf="target === 'parcours'" class="icon icon-parcours"></span>
+    <span *ngIf="target === 'interests'" class="icon icon-poi"></span>
   </div>
   <div class='content'>
     <div class='contentPreview'>
@@ -47,7 +48,7 @@
       </div>
       <div class='footer'>
         <button
-          *ngIf="target === 'parcours'"
+          *ngIf="target === 'parcours' && parcourTotalInterets > 0"
           (click)="openNext()"
           class='btnStart' [ngStyle]="{'background-color': color}">
           {{ translate.getKey('PLI_LIST_START_PARCOURS') }}

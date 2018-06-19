@@ -115,15 +115,15 @@ player-audio {
 
   .icon {
     &.icon-action-fast-left {
-      background-image: url('../../assets/imgs/player-audio/icon-action-fast-left.svg');
+      background-image: url('../assets/imgs/player-audio/icon-action-fast-left.svg');
     }
 
     &.icon-action-fast-right {
-      background-image: url('../../assets/imgs/player-audio/icon-action-fast-right.svg');
+      background-image: url('../assets/imgs/player-audio/icon-action-fast-right.svg');
     }
 
     &.icon-action-pause {
-      background-image: url('../../assets/imgs/player-audio/icon-action-play.svg');
+      background-image: url('../assets/imgs/player-audio/icon-action-play.svg');
     }
   }
 }

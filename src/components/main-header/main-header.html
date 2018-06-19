@@ -4,7 +4,9 @@
     <div class="navBarContent">
       <button left class="menuBtnLeft backBtnLeft" (click)="goBack()" *ngIf="withBackButton">
         <ion-icon name="arrow-back" class="backIcon"></ion-icon>
-        <label class="backLabel">Retour</label>
+        <label class="backLabel">
+          {{ translate.getKey('COMP_MH_GO_BACK') }}
+        </label>
       </button>
 
       <ion-title left>

@@ -10,7 +10,7 @@ page-parcours-list {
 
     .map {
       width: 100%;
-      height: calc(100% - 56px);
+      height: calc(100% - 56px - 30%);
       background-color: red;
     }
 
@@ -26,7 +26,6 @@ page-parcours-list {
   }
 
   .contentList.isOpen {
-    bottom: 0 !important;
   }
 
   .contentList {
@@ -36,7 +35,8 @@ page-parcours-list {
     position: absolute;
     width: 100%;
     height: calc( 100vh - 46px - 50px);
-    bottom: calc(0px - calc( 100vh - 46px - 50px) + 56px);
+    bottom: calc(0px - calc( 100vh - 46px - 50px - 30%) + 56px);
+
     background-color: blue;
     transition: 0.4s ease-out;
     z-index: 999;

@@ -1,4 +1,5 @@
 $picture-size: 200px;
+
 .poi {
   padding-bottom: 1000px;
   &__header {
@@ -7,9 +8,15 @@ $picture-size: 200px;
     width: 100%;
     height: $picture-size;
     index: -5;
-    background: url(http://media.medias-presse.info/wp-content/uploads/2017/07/sculpture-antique.jpg) no-repeat top;
-    -webkit-background-size: cover;
-    background-size: cover;
+    background-color: rosybrown;
+
+    img {
+      width: 100%;
+      height: $picture-size;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
   }
   &__info {
     background-color: #F7AB3F;
@@ -31,7 +38,7 @@ $picture-size: 200px;
     }
     &:after {
       content: "";
-      background: url('../../assets/imgs/poi/poi_marker.svg') no-repeat bottom;
+      background: url('../assets/imgs/poi/poi_marker.svg') no-repeat bottom;
       width: 27px;
       height: 60px;
       top: $picture-size;
@@ -95,6 +102,13 @@ $picture-size: 200px;
     padding: 1em 2em;
     margin-top: 4em;
     background-color: #fafafa;
+
+    h1 {
+      font-size: 2.6rem;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
   }
   &__galery {
     height: 250px;
@@ -102,7 +116,10 @@ $picture-size: 200px;
     margin-top: 25px;
     h1 {
       margin: 0 .5em;
-      font-size: 20px;
+      font-size: 2.6rem;
+      &::first-letter {
+        text-transform: uppercase;
+      }
     }
     ion-slide.swiper-slide {
       left: 15%;
@@ -125,13 +142,22 @@ $picture-size: 200px;
   &__bibliographie {
     width: 100%;
     background-color: #fafafa;
-    padding: 2em 2em 2em 0em;
+    padding: 2em 0 2em 0em;
     &__title {
       padding-left: 1em;
+      &::first-letter {
+        text-transform: uppercase;
+      }
     }
+
     table{
       td{
         vertical-align: middle;
+
+        ul {
+          list-style: none;
+          padding: 0 20px;
+        }
       }
     }
     button {
@@ -140,13 +166,14 @@ $picture-size: 200px;
       background: transparent;
       height: 5em;
       width: 5em;
+      margin: 0 10px;
     }
-    
-    
+
+
     &__share {
       text-align: center;
       &__label{
-        font-size: 12px;
+        font-size: 11px;
       }
       ion-icon {
         display: block;
@@ -187,14 +214,14 @@ footer {
         background-repeat: no-repeat;
         background-position: center;
         margin-bottom: .3em;
-        &--cript-audio {
-          background-image: url('../../assets/imgs/poi/poi_icon_script_audio.svg');
+        &--script-audio {
+          background-image: url('../assets/imgs/poi/poi_icon_script_audio.svg');
         }
         &--galery {
-          background-image: url('../../assets/imgs/poi/poi_icon_galery.svg');
+          background-image: url('../assets/imgs/poi/poi_icon_galery.svg');
         }
         &--book {
-          background-image: url('../../assets/imgs/poi/poi_icon_book.svg');
+          background-image: url('../assets/imgs/poi/poi_icon_book.svg');
         }
       }
       &__label {
@@ -255,10 +282,10 @@ footer {
       display: block;
     }
     .icon-info {
-      background-image: url('../../assets/imgs/poi/poi_info_icon.svg');
+      background-image: url('../assets/imgs/poi/poi_info_icon.svg');
     }
     .icon-navigation {
-      background-image: url('../../assets/imgs/poi/poi_icon_navigation.svg');
+      background-image: url('../assets/imgs/poi/poi_icon_navigation.svg');
     }
     label {
       font-size: 12px;
@@ -304,22 +331,33 @@ footer {
       flex-wrap: nowrap;
       align-items: center;
       padding: 10px 0;
-      span.icon {
-        width: 35px;
-        min-width: 35px;
-        height: 35px;
-        min-height: 35px;
-        display: block;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
+
+      .icon {
+        width: 48px;
+        height: 48px;
+        min-height: 48px;
+        min-width: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin: 0 10px;
-      }
-      span.icon-date {
-        background-image: url('../../assets/imgs/poi/poi_icon_clock.svg');
-      }
-      span.icon-clock {
-        background-image: url('../../assets/imgs/poi/poi_icon_hand.svg');
+
+        span.icon {
+          width: 36px;
+          min-width: 36px;
+          height: 36px;
+          min-height: 36px;
+          display: block;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+        span.icon-date {
+          background-image: url('../assets/imgs/poi/poi_icon_clock.svg');
+        }
+        span.icon-clock {
+          background-image: url('../assets/imgs/poi/poi_icon_hand.svg');
+        }
       }
       label {
         font-size: 14px;
@@ -331,9 +369,106 @@ footer {
 
 .icon {
   &-info {
-    background-image: url('../../assets/imgs/poi/poi_info_icon.svg');
+    background-image: url('../assets/imgs/poi/poi_info_icon.svg');
   }
   &-navigation {
-    background-image: url('../../assets/imgs/poi/poi_icon_navigation.svg');
+    background-image: url('../assets/imgs/poi/poi_icon_navigation.svg');
   }
 }
+
+
+.helpContentNavigation {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .navigation-map {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  ul.infoList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li.infoItem {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 5px 0px;
+
+      .icon {
+        width: 48px;
+        height: 48px;
+        min-height: 48px;
+        min-width: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 10px;
+
+        ion-icon {
+          font-size: 38px;
+        }
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 0 10px 0 0;
+
+        .info-title {
+          font-size: 12px;
+          color: #000000;
+          margin: 0 0 10px 0;
+
+          span {
+            font-size: 12px;
+            float: right;
+          }
+        }
+        .info-subtitle {
+          font-size: 12px;
+          color: #4A4961;
+          margin: 0;
+          max-width:80%;
+        }
+      }
+    }
+  }
+}
+
+.icon-direction {
+  width: 46px;
+  height: 46px;
+  min-height: 46px;
+  min-width: 46px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.poi-slider {
+
+}
+
+.poi-main-content {
+  padding: 0 0 60px 0;
+}
+
+
+
+
+
+
+
+
+

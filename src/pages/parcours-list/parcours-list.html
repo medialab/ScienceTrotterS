@@ -2,7 +2,7 @@
   {{ translate.fromApi(config.getLanguage(), city.title) }}
 </main-header>
 
-<main-content id='mainContentScroll' #mainContentScroll>
+<ion-content>
 
   <div class='parcoursListContent'>
     <div id='map' #map class='map'></div>
@@ -10,8 +10,9 @@
     <div [ngClass]="contentListClass">
 
       <!-- DARK SELECT BOX -->
-      <div class='darkSelectBox' id='   '>
-        <label [ngClass]="selectTargetParcours">Parcours</label>
+      <div class='darkSelectBox'>
+        <label [ngClass]="selectTargetParcours"
+               (click)="onChangeSelectedTarget({'checked': false}, true)">Parcours</label>
         <div class='switchGroup'>
           <label class="switchName">
             <ion-icon
@@ -20,7 +21,8 @@
           </label>
           <ion-toggle [(ngModel)]="selectedTarget" (ionChange)="onChangeSelectedTarget($event)"></ion-toggle>
         </div>
-        <label [ngClass]="selectTargetPoints">Points d'intérêts</label>
+        <label [ngClass]="selectTargetPoints"
+               (click)="onChangeSelectedTarget({'checked': true}, true)">Points d'intérêts</label>
       </div>
       <!-- ./ DARK SELECT BOX -->
 
@@ -47,7 +49,8 @@
       <!-- ITEMS LIST : RENDERING PARCOURS-->
       <div class='list' *ngIf="selectedTarget === false">
         <parcours-list-item
-          *ngFor="let parcour of parcours"
+          (click)="onClickItem()"
+          *ngFor="let parcour of sortItems(parcours)"
           target="parcours"
           color="{{ parcour.color }}"
           [isOpenDiscover]="false"
@@ -62,7 +65,8 @@
       <!-- ITEMS LIST : RENDERING INTERETS -->
       <div class='list' *ngIf="selectedTarget === true">
         <parcours-list-item
-          *ngFor="let interest of interests"
+          (click)="onClickItem()"
+          *ngFor="let interest of sortItems(interests)"
           target="interests"
           color='#336699'
           [isOpenDiscover]="false"
@@ -75,4 +79,4 @@
     </div>
   </div>
 
-</main-content>
+</ion-content>

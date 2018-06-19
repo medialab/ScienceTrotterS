@@ -15,7 +15,11 @@ export class ParcoursListPage {
   @ViewChild('map') mapContainer: ElementRef;
   map: any;
 
-  city: any;
+  city: any = {
+    'id': null,
+    'title': {}
+  };
+
   parcours: Array<any> = new Array();
   interests: Array<any> = new Array();
 
@@ -24,19 +28,17 @@ export class ParcoursListPage {
     isOpen: false
   };
 
-  optionsItemsSelected: number = 2;
+  optionsItemsSelected: number = 0;
   otpionsItems = [
     {
       id: 0,
-      name: 'Tri par proximité 1'
+      name: this.translate.getKey('PLI_FILTER_PROXIMITE'),
+      action: 'proximite'
     },
     {
       id: 1,
-      name: 'Tri par proximité 2'
-    },
-    {
-      id: 2,
-      name: 'Tri par proximité 3'
+      name: this.translate.getKey('PLI_FILTER_ALPHA'),
+      action: 'alpha'
     }
   ];
 
@@ -66,26 +68,54 @@ export class ParcoursListPage {
               public config: ConfigProvider,
               public api: ApiProvider,
               public translate: TranslateProvider) {
-    this.city = navParams.get('city');
-    this.loadParcours();
-    this.loadInterests();
+    if (typeof navParams.get('city') !== 'undefined') {
+      this.city = navParams.get('city');
+      this.loadParcours();
+      this.loadInterests();
+    }
+  }
+
+  ionViewCanEnter () {
+    return this.city.id === null ? false : true;
   }
 
   ionViewDidEnter() {
     // this.loadMap();
   }
 
+
   openContentList() {
-    this.contentListClass.isOpen = this.contentListClass.isOpen ? false : true;
+    const duration = 500;
+
+    if (this.contentListClass.isOpen) {
+      if (this.content.scrollTo !== null) {
+        this.contentListClass.isOpen = false;
+        this.content.scrollTo(0, 0, duration);
+      }
+    } else {
+      if (this.content.scrollToBottom !== null) {
+        this.contentListClass.isOpen = true;
+        this.content.scrollToBottom(duration);
+      }
+    }
+  }
+
+  onClickItem () {
+    if (! this.contentListClass.isOpen) {
+      this.openContentList();
+    }
   }
 
   currentOpenIcon() {
     return this.contentListClass.isOpen ? 'ios-arrow-down': 'ios-arrow-up';
   }
 
-  onChangeSelectedTarget(next: any) {
+  onChangeSelectedTarget(next: any, isFromClick = false) {
     this.selectTargetPoints.isSelected = next.checked === true;
     this.selectTargetParcours.isSelected = next.checked === false;
+    if (isFromClick) {
+      this.selectedTarget = next.checked;
+    }
   }
 
   changeOptionList(next: string) {
@@ -133,6 +163,42 @@ export class ParcoursListPage {
     return this.interests.filter(interest => {
       return interest.parcours_id === parcourId
     }).length;
+  }
+
+  sortItems (arr: any) {
+    const sort_alpha = (a, b) => {
+      const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
+      const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
+
+      if (aTitle < bTitle) return -1;
+      if (aTitle > bTitle) return 1;
+      return 0;
+    };
+
+    const sort_proximite = (a, b) => {
+      const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
+      const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
+
+      if (aTitle > bTitle) return -1;
+      if (aTitle < bTitle) return 1;
+      return 0;
+    };
+
+    switch (this.otpionsItems[this.optionsItemsSelected].action) {
+      case 'alpha':
+        return arr.sort(sort_alpha);
+      case 'proximite':
+        return arr.sort(sort_proximite);
+      default:
+        return arr;
+    }
+  }
+
+  minifyString(str: string) {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
   }
 
   loadMap() {

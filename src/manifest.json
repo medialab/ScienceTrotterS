@@ -12,6 +12,6 @@
   "theme_color": "#4e8ef7",
   "version": "0.0.1",
   "target": "android",
-  "endpoint_data": "http://api-sts.actu.com/",
-  "endpoint_assets": "http://api-sts.actu.com/public/ressources"
+  "endpoint_data": "https://api-sts.actu.com/",
+  "endpoint_assets": "https://api-sts.actu.com/ressources/upload/"
 }

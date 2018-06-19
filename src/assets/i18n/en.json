@@ -1,13 +1,13 @@
 {
   "APP_NAME": "Science Trotters",
 
-  "HELLO_WORLD": "Hello world !",
-
   "RIGHT_MENU_CLOSE": "Close",
   "RIGHT_MENU_SETTINGS": "Settings",
   "RIGHT_MENU_PHOTO": "Photo",
   "RIGHT_MENU_GPS": "Send Position",
   "RIGHT_MENU_CREDITS": "Credits",
+
+  "COMP_MH_GO_BACK": "Back",
 
   "PAGE_NAME_HOME_SPLIT": "Paris",
   "PAGE_NAME_HOME": "Select your city",
@@ -26,7 +26,9 @@
   "P_SETTING_THEME_DAY": "Day",
   "P_SETTING_THEME_NIGHT": "Night",
 
-  "PLI_ACTION_DOWNLOAD_DATA": "dwonload data",
+  "PLI_FILTER_PROXIMITE": "Sort by proximity",
+  "PLI_FILTER_ALPHA": "Sort alphabetical",
+  "PLI_ACTION_DOWNLOAD_DATA": "download data",
   "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "remove data",
   "PLI_LIST_START_PARCOURS": "Start parcours",
   "PLI_LIST_START_POI": "Start point of interest",
@@ -35,5 +37,7 @@
   "PLI_BTN_SEND_PB": "Report a problem",
   "PLI_TAB_AUDIO_SCRIPT": "audio script",
   "PLI_TAB_GALERY_IMAGE": "galery image",
-  "PLI_TAB_BIBLIOGRAPHY": "bibliography"
+  "PLI_TAB_BIBLIOGRAPHY": "bibliography",
+  "PLI_BTN_OPEN_IN_NEW_APP": "Open in other app",
+  "PLI_BTN_SHARE_REF": "share the reference"
 }

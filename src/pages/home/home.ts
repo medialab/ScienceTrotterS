@@ -62,4 +62,9 @@ export class HomePage {
     });
   }
 
+  getListCities () {
+    return this.listCities.filter((item: City) => {
+      return item.force_lang === null || item.force_lang === this.config.getLanguage();
+    });
+  }
 }

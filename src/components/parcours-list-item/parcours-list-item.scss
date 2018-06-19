@@ -19,16 +19,23 @@
     min-width: 45px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
     .icon {
-      background-image: url('../../assets/imgs/parcours-list/icon_parcours.svg');
       background-repeat: no-repeat;
       background-size: contain;
       background-repeat: no-repeat;
+      background-position: center;
       width: 25px;
       height: 25px;
+      margin: 22.5px 0;
+
+      &.icon-parcours {
+        background-image: url('../assets/imgs/parcours-list/icon_parcours.svg');
+      }
+      &.icon-poi {
+        background-image: url('../assets/imgs/parcours-list/icon_poi_white.svg');
+      }
     }
   }
 
@@ -87,7 +94,6 @@
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
-      height: 70px;
       min-height: 70px;
 
       .info {
@@ -128,13 +134,12 @@
           background-repeat: no-repeat;
           background-position: center;
           background-size: contain;
-          background-image: url('../../assets/imgs/parcours-list/icon_poi.svg');
+          background-image: url('../assets/imgs/parcours-list/icon_poi.svg');
         }
       }
 
       .btnDownload {
         width: 86px;
-        height: 100%;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
@@ -148,11 +153,11 @@
           margin: 3px 0;
 
           &.icon-download {
-            background-image: url('../../assets/imgs/parcours-list/icon_download.svg');
+            background-image: url('../assets/imgs/parcours-list/icon_download.svg');
           }
 
           &.icon-download-remove {
-            background-image: url('../../assets/imgs/parcours-list/icon_download_remove.svg');
+            background-image: url('../assets/imgs/parcours-list/icon_download_remove.svg');
           }
         }
 
