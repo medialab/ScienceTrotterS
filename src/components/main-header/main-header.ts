@@ -7,15 +7,17 @@ import {NavController} from "ionic-angular";
   templateUrl: 'main-header.html'
 })
 export class MainHeaderComponent {
-
   @Input() withMenu: boolean = false;
   @Input() withBackButton: boolean = false;
 
-  constructor(public navCtrl: NavController,
+  constructor (public navCtrl: NavController,
               public translate: TranslateProvider) {
   }
 
-  goBack() {
+  /**
+   *
+   */
+  goBack () {
     this.navCtrl.pop();
   }
 }

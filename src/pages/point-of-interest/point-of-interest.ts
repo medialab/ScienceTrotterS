@@ -27,14 +27,6 @@ export class PointOfInterestPage {
     isHidden: false,
   };
 
-  images = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA7eOHgdH41_WtkMHU80WOwQiKoJzIjzuYoddqkrhX4ncCCogiCA',
-    'https://cdn0.rubylane.com/_pod/item/413364/RA5467/Antique-Japanese-Bronze-Statue-Samurai-Warrior-full-2-2048-66.jpg',
-  ];
-
   constructor (public navCtrl: NavController,
                public navParams: NavParams,
                public api: ApiProvider,
@@ -44,14 +36,22 @@ export class PointOfInterestPage {
     this.curTarget = navParams.get('target');
     this.curId = navParams.get('openId');
     this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
-
     this.init(navParams.get('target'), navParams.get('openId'));
   }
 
+  /**
+   *
+   * @param curTarget
+   * @param curId
+   */
   init(curTarget: string, curId: string) {
     this.fetchData(curTarget, curId);
   }
 
+  /**
+   *
+   * @param elementId
+   */
   scrollTo (elementId: string) {
     const yOffset = document.getElementById(elementId).offsetTop - 56;
     if (this.content.scrollTo !== null) {
@@ -59,6 +59,11 @@ export class PointOfInterestPage {
     }
   }
 
+  /**
+   *
+   * @param curTarget
+   * @param curId
+   */
   fetchData (curTarget: string, curId: string) {
     let resURI = '';
     resURI = curTarget === 'interests'
@@ -75,6 +80,11 @@ export class PointOfInterestPage {
     });
   }
 
+  /**
+   *
+   * @param dir
+   * @returns {boolean}
+   */
   showMoveBtn (dir: string) {
     let show = false;
 
@@ -94,14 +104,26 @@ export class PointOfInterestPage {
     return show;
   }
 
+  /**
+   *
+   * @param target
+   */
   setHelpItemActive (target: string) {
     this.helpItemActive = target;
   }
 
+  /**
+   *
+   * @param action
+   */
   updateMainContentState (action: boolean) {
     this.mainContentCls.isHidden = action ? false: true;
   }
 
+  /**
+   *
+   * @param dir
+   */
   onClickMoveList (dir: string) {
     switch (dir) {
       case 'prev':
@@ -121,6 +143,10 @@ export class PointOfInterestPage {
     }
   }
 
+  /**
+   *
+   * @param target
+   */
   onClickSetHelpItemActive (target: string) {
     if (this.helpItemActive === target) {
       this.setHelpItemActive("");
@@ -131,7 +157,11 @@ export class PointOfInterestPage {
     }
   }
 
-  getNbPicture(){ // retourne le nombre de photo à afficher (il faut en afficher plus sur ipad)
+  /**
+   * Retourne le nombre de photo à afficher. (Il faut en afficher d'avantage sur ipad).
+   * @returns {number}
+   */
+  getNbPicture () {
     if(this.platform.is('tablet')){
       return 3;
     } else {
@@ -139,6 +169,12 @@ export class PointOfInterestPage {
     }
   }
 
+  /**
+   *
+   * @param target
+   * @param isMainContent
+   * @returns {any}
+   */
   getHelpItemActive (target: string, isMainContent: boolean = false) {
     if (isMainContent && this.helpItemActive !== '') {
       return 'isActive';
@@ -147,6 +183,12 @@ export class PointOfInterestPage {
     }
   }
 
+  /**
+   *
+   * @param key
+   * @param translate
+   * @returns {any}
+   */
   getData (key: string, translate: boolean = false) {
     let value = "";
     if (typeof this.interests[this.activeItem] === 'undefined') {
@@ -160,6 +202,12 @@ export class PointOfInterestPage {
     }
   }
 
+  /**
+   *
+   * @param str
+   * @param length
+   * @returns {string}
+   */
   sliceStr (str: string, length: number) {
     if (str.length > length) {
       return str.slice(0, (length - 3)) + '...';
@@ -168,20 +216,29 @@ export class PointOfInterestPage {
     }
   }
 
+  /**
+   *
+   */
   btnReportProblem () {
     console.log('btnReportProblem');
   }
 
+  /**
+   *
+   */
   btnEndPointOfInterest () {
     console.log('btnEndPointOfInterest');
   }
 
-  getGalerryImage () {
+  /**
+   *
+   * @returns {any}
+   */
+  getGalleryImages () {
     if (! this.getData('gallery_image')) {
       return [];
     } else {
       return JSON.parse(this.getData('gallery_image'));
     }
   }
-
 }

@@ -12,7 +12,6 @@ import {DataProvider} from "../../providers/data";
 })
 
 export class HomePage {
-
   activeLg: string = "activeLg";
   listCities: Array<City> = new Array();
   platformValues: string = '';
@@ -29,16 +28,29 @@ export class HomePage {
     this.platformValues = platform.width() + ' --- ' + platform.height();
   }
 
+  /**
+   *
+   * @private
+   */
   _init() {
     this._initCities();
   }
 
+  /**
+   *
+   * @param targetLg
+   * @returns {{}}
+   */
   setActiveLanguageClass(targetLg: string) {
     return {
       [this.activeLg]: this.config.getLanguage() === targetLg
     };
   }
 
+  /**
+   *
+   * @private
+   */
   _initCities() {
     this.api.get('/public/cities/list').subscribe((resp: any) => {
       if (resp.success) {
@@ -52,16 +64,28 @@ export class HomePage {
     });
   }
 
+  /**
+   *
+   * @param e
+   */
   updateLanguage(e) {
     this.config.updateLanguage();
   }
 
+  /**
+   *
+   * @param city
+   */
   openParcoursList(city: any) {
     this.navCtrl.push('ParcoursList', {
       city: city
     });
   }
 
+  /**
+   *
+   * @returns {City[]}
+   */
   getListCities () {
     return this.listCities.filter((item: City) => {
       return item.force_lang === null || item.force_lang === this.config.getLanguage();

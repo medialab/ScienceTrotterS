@@ -7,8 +7,6 @@ import {Content} from "ionic-angular";
   templateUrl: 'main-content.html'
 })
 export class MainContentComponent {
-
   constructor(public config: ConfigProvider) {
   }
-
 }

@@ -7,7 +7,6 @@ import {NavController} from "ionic-angular";
   templateUrl: 'parcours-list-item.html'
 })
 export class ParcoursListItemComponent {
-
   _isOpenDiscover: boolean = false;
 
   contentDiscover = {
@@ -33,11 +32,14 @@ export class ParcoursListItemComponent {
     return this._isOpenDiscover;
   }
 
-  constructor(public translate: TranslateProvider,
+  constructor (public translate: TranslateProvider,
               public navCtrl: NavController) {
   }
 
-  updateDiscoverState() {
+  /**
+   *
+   */
+  updateDiscoverState () {
     if (this.isOpenDiscover) {
       this.isOpenDiscover = false;
       this.contentDiscover.isOpen = false;
@@ -47,12 +49,14 @@ export class ParcoursListItemComponent {
     }
   }
 
-  openNext() {
+  /**
+   *
+   */
+  openNext () {
     this.navCtrl.push('PointOfInterest', {
       target: this.target,
       openId: this.openId,
       pageName: this.previewTitle
     });
   }
-
 }

@@ -75,15 +75,24 @@ export class ParcoursListPage {
     }
   }
 
+  /**
+   *
+   * @returns {boolean}
+   */
   ionViewCanEnter () {
     return this.city.id === null ? false : true;
   }
 
+  /**
+   *
+   */
   ionViewDidEnter() {
     // this.loadMap();
   }
 
-
+  /**
+   *
+   */
   openContentList() {
     const duration = 500;
 
@@ -99,17 +108,31 @@ export class ParcoursListPage {
       }
     }
   }
+  on
 
-  onClickItem () {
+  /**
+   *
+   * @constructor
+   */
+  ClickItem () {
     if (! this.contentListClass.isOpen) {
       this.openContentList();
     }
   }
 
+  /**
+   *
+   * @returns {string|string}
+   */
   currentOpenIcon() {
     return this.contentListClass.isOpen ? 'ios-arrow-down': 'ios-arrow-up';
   }
 
+  /**
+   *
+   * @param next
+   * @param isFromClick
+   */
   onChangeSelectedTarget(next: any, isFromClick = false) {
     this.selectTargetPoints.isSelected = next.checked === true;
     this.selectTargetParcours.isSelected = next.checked === false;
@@ -118,6 +141,10 @@ export class ParcoursListPage {
     }
   }
 
+  /**
+   *
+   * @param next
+   */
   changeOptionList(next: string) {
     switch (next) {
       case 'prev':
@@ -137,6 +164,9 @@ export class ParcoursListPage {
     }
   }
 
+  /**
+   *
+   */
   loadParcours() {
     console.log('city', this.city);
     this.api.get('/public/parcours/byCityId/' + this.city.id).subscribe((resp: any) => {
@@ -148,6 +178,9 @@ export class ParcoursListPage {
     });
   }
 
+  /**
+   *
+   */
   loadInterests() {
     console.log('city', this.city);
     this.api.get('/public/interests/byCityId/' + this.city.id).subscribe((resp: any) => {
@@ -159,12 +192,22 @@ export class ParcoursListPage {
     });
   }
 
+  /**
+   *
+   * @param parcourId
+   * @returns {number}
+   */
   getTotalInterestsByParcourId(parcourId: string) {
     return this.interests.filter(interest => {
       return interest.parcours_id === parcourId
     }).length;
   }
 
+  /**
+   *
+   * @param arr
+   * @returns {any}
+   */
   sortItems (arr: any) {
     const sort_alpha = (a, b) => {
       const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
@@ -194,6 +237,11 @@ export class ParcoursListPage {
     }
   }
 
+  /**
+   *
+   * @param str
+   * @returns {string}
+   */
   minifyString(str: string) {
     return str
       .normalize('NFD')
@@ -201,6 +249,9 @@ export class ParcoursListPage {
       .toLowerCase();
   }
 
+  /**
+   *
+   */
   loadMap() {
     /**
     this.map = leaflet.map("map").fitWorld();

@@ -58,7 +58,8 @@
           parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
           parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
           previewTitle="{{ translate.fromApi(config.getLanguage(), parcour.title) }}"
-          previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}"></parcours-list-item>
+          previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}">
+        </parcours-list-item>
       </div>
       <!-- ./ ITEMS LIST -->
 
@@ -73,7 +74,8 @@
           openId="{{ interest.id }}"
           interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
           previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"
-          previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}"></parcours-list-item>
+          previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}">
+        </parcours-list-item>
       </div>
       <!-- ./ ITEMS LIST -->
     </div>

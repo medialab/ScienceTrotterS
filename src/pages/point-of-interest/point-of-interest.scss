@@ -7,16 +7,11 @@ $picture-size: 200px;
     margin-top: 47px;
     width: 100%;
     height: $picture-size;
-    index: -5;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: rosybrown;
-
-    img {
-      width: 100%;
-      height: $picture-size;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
+    index: -5;
   }
   &__info {
     background-color: #F7AB3F;
@@ -460,15 +455,100 @@ footer {
 
 }
 
-.poi-main-content {
+.poi__main__content {
   padding: 0 0 60px 0;
+
+  .poi__section {
+    display: flex;
+    flex-direction: column;
+    &--isWhite {
+      background-color: white;
+    }
+    &--iGrey {
+      background-color: #fafafa;
+    }
+
+    &__title {
+      font-size: 2.6em;
+      padding: 25px 2rem 10px 2rem;
+      margin: 0;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    &__content {
+      padding: 10px 2rem;
+    }
+  }
+}
+
+.section__gallery_image {
+  .poi__section__content {
+    height: 250px;
+  }
+
+  ion-slide.swiper-slide {
+    left: 15%;
+  }
+  .swiper-pagination-bullet {
+    $size: 18px;
+    background-color: #fff;
+    border: solid 1px black;
+    opacity: 1;
+    width: $size;
+    height: $size;
+    &-active {
+      background-color: black;
+    }
+  }
+  .thumb-img {
+    padding: 10px;
+  }
+}
+
+.section__bibliography {
+  .poi__section__content {
+    display: flex;
+    flex-direction: row;
+
+    .content__desc {
+      flex-grow: 1;
+      padding: 0 10px 0 0;
+    }
+
+    .btn__share {
+      display: flex;
+      flex-direction: column;
+      max-width: 82px;
+      min-width: 82px;
+      padding: 0;
+      padding: 5px 10px;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+
+      &__icon {
+        width: 48px;
+        height: 48px;
+        border: 1px solid black;
+        border-radius: 50%;
+        font-size: 32px;
+        text-align: center;
+        line-height: 48px;
+      }
+      &__span {
+        font-size: 11px;
+        padding: 5px 0;
+      }
+    }
+  }
 }
 
 
-
-
-
-
-
-
-
+/** RESET WIDTH CSS FOR PLAYER AUDIO **/
+.section__player__audio {
+  player-audio {
+    width: initial;
+  }
+}

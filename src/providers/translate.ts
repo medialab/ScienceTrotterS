@@ -24,7 +24,7 @@ export class TranslateProvider {
    */
   data: object;
 
-  constructor(public http: HttpClient,
+  constructor (public http: HttpClient,
               private _translate: TranslateService) {
   }
 
@@ -32,7 +32,7 @@ export class TranslateProvider {
    * Définition de la langue courante.
    * @param {string} lg
    */
-  setCurrentLanguage(lg: string) {
+  setCurrentLanguage (lg: string) {
     this.currentLanguage = lg;
   }
 
@@ -41,7 +41,7 @@ export class TranslateProvider {
    *
    * @param {Object} obj
    */
-  setData(obj: object) {
+  setData (obj: object) {
     this.data = obj;
   }
 
@@ -51,7 +51,7 @@ export class TranslateProvider {
    * @param {string} key
    * @returns {string}
    */
-  getKey(key: string) {
+  getKey (key: string) {
     if (typeof this.data === 'undefined') {
       return key;
     } else {
@@ -64,7 +64,7 @@ export class TranslateProvider {
    *
    * @param {string} nextLanguage
    */
-  setLanguage(nextLanguage: string = '') {
+  setLanguage (nextLanguage: string = '') {
     let _findLanguage: string = nextLanguage === ''
       ? this._translate.getBrowserLang()
       : nextLanguage;

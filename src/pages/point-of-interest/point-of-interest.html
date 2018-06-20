@@ -3,8 +3,9 @@
 </main-header>
 
 <ion-content>
-  <div class="poi__header">
-    <img src="{{api.getAssetsUri(getData('header_image'))}}" />
+  <div
+    class="poi__header"
+    [style.backgroundImage]="'url(' + api.getAssetsUri(getData('header_image')) + ')'">
   </div>
 
   <div class="poi__info">
@@ -26,7 +27,10 @@
   <!-- HELP BUTTONS -->
   <div class="helpList">
 
-    <div class="helpItem" data-target="information" [ngClass]="getHelpItemActive('information')" (click)="onClickSetHelpItemActive('information')">
+    <div class="helpItem"
+         data-target="information"
+         [ngClass]="getHelpItemActive('information')"
+         (click)="onClickSetHelpItemActive('information')">
       <span class="icon icon-info"></span>
       <label>
         {{ sliceStr(getData('schedule', true), 30) }}
@@ -34,12 +38,14 @@
       </label>
     </div>
 
-    <div class="helpItem" data-target="navigation" [ngClass]="getHelpItemActive('navigation')" (click)="onClickSetHelpItemActive('navigation')">
+    <div class="helpItem"
+         data-target="navigation"
+         [ngClass]="getHelpItemActive('navigation')"
+         (click)="onClickSetHelpItemActive('navigation')">
       <span class="icon icon-navigation"></span>
       <label>{{ translate.getKey('PLI_VAL_ITINERARY') }}</label>
     </div>
   </div>
-
 
   <div class="helpContent" [ngClass]="getHelpItemActive(null, true)">
     <div class="helpItem helpContentInformation" [ngClass]="getHelpItemActive('information')">
@@ -142,74 +148,72 @@
     </div>
   </div>
 
-  <div class="poi-main-content" *ngIf="!mainContentCls.isHidden">
+  <!-- MAIN CONTENT -->
+  <div class="poi__main__content" *ngIf="!mainContentCls.isHidden">
 
-    <div class="poi__playerAudio">
+    <section class="poi__section poi__section--isWhite section__player__audio">
       <player-audio></player-audio>
-    </div>
+    </section>
 
-    <div class="poi__end" >
+    <section class="poi__section poi__section--isWhite section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
-    </div>
+    </section>
 
+    <!-- SECTION AUDIO SCRIPT -->
+    <section class="poi__section poi__section--iGrey">
+      <h1 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</h1>
+      <div class="poi__section__content">
+        <p>
+          {{getData('audio_script', true)}}
+        </p>
+      </div>
+    </section>
+    <!-- ./ SECTION AUDIO SCRIPT -->
 
-    <div class="poi__script">
-      <h1 id="titleAudioScript">
-        {{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}
-      </h1>
-      <p>{{getData('audio_script', true)}}</p>
-    </div>
+    <!-- SECTION GALLERY -->
+    <section class="poi__section poi__section--isWhite section__gallery_image">
+      <h1 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</h1>
+      <div class="poi__section__content">
 
+        <ion-slides class="image-slider poi-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
+          <ion-slide *ngFor="let img of getGalleryImages()">
+            <img src="{{api.getAssetsUri(img)}}" class="thumb-img" imageViewer/>
+          </ion-slide>
+        </ion-slides>
 
-    <div class="poi__galery">
-      <h1 id="titleGalery">
-        {{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}
-      </h1>
+      </div>
+    </section>
+    <!-- ./ SECTION GALLERY -->
 
-      <ion-slides class="image-slider poi-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
-        <ion-slide *ngFor="let img of getGalerryImage()">
-          <img src="{{api.getAssetsUri(img)}}" class="thumb-img" imageViewer/>
-        </ion-slide>
-      </ion-slides>
-    </div>
+    <!-- SECTION BIBLIOGRAPHY -->
+    <section class="poi__section poi__section--iGrey section__bibliography">
+      <h1 id="titleBibliography" class="poi__section__title">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</h1>
+      <div class="poi__section__content">
 
-    <div class="poi__bibliographie">
-      <h1 class="poi__bibliographie__title" id="titleBibliography">
-        {{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}
-      </h1>
-      <table width="100%">
-        <td>
+        <div class="content__desc">
+          <p>
+            {{getData('bibliography', true)}}
+          </p>
+        </div>
 
-          <ul>
-            <li>
-              <p class="poi__bibliographie__description">
-                {{getData('bibliography', true)}}
-              </p>
-            </li>
-          </ul>
+        <button class="btn__share">
+          <ion-icon name="ios-mail-outline" class="btn__share__icon"></ion-icon>
+          <span class="btn__share__span">
+            {{ translate.getKey('PLI_BTN_SHARE_REF') }}
+          </span>
+        </button>
 
-        </td>
-        <td>
-          <div class="poi__bibliographie__share">
-            <button>
-              <ion-icon name="ios-mail-outline"></ion-icon>
-            </button>
-            <span class="poi__bibliographie__share__label">
-              {{ translate.getKey('PLI_BTN_SHARE_REF') }}
-            </span>
+      </div>
+    </section>
+    <!-- ./ SECTION BIBLIOGRAPHY -->
 
-          </div>
-        </td>
-      </table>
-    </div>
-
-    <div class="poi__end">
+    <section class="poi__section poi__section--isWhite section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
-    </div>
+    </section>
 
   </div>
 </ion-content>

@@ -26,7 +26,7 @@ export class MyApp {
    */
   @ViewChild(Nav) nav;
 
-  constructor(platform: Platform,
+  constructor (platform: Platform,
               statusBar: StatusBar,
               splashScreen: SplashScreen,
               public menuCtrl: MenuController,
@@ -59,7 +59,7 @@ export class MyApp {
    *
    * @param {string} nextPage - Nom d'une page.
    */
-  onItemClick(nextPage: string = '') {
+  onItemClick (nextPage: string = '') {
     this.menuCtrl.close();
 
     if (nextPage !== '') {
@@ -67,7 +67,10 @@ export class MyApp {
     }
   }
 
-  openCamera() {
+  /**
+   *
+   */
+  openCamera () {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -80,6 +83,11 @@ export class MyApp {
     this.camera.getPicture(options);
   }
 
+  /**
+   *
+   * @param state
+   * @param target
+   */
   menuHandler (state: any, target: string) {
     /**
     if (typeof state === 'boolean') {

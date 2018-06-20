@@ -10,5 +10,4 @@ export class City {
     this.image = item.image;
     this.force_lang = item.force_lang;
   }
-
 }
