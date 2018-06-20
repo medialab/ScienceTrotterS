@@ -34,19 +34,33 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 const links = [
   {
-    component: HomePage, name: 'Cities', segment: 'cities'
+    component: HomePage,
+    name: 'Cities',
+    segment: 'cities'
   },
   {
-    component: SettingsPage, name: 'Settings', segment: 'settings', defaultHistory: [HomePage]
+    component: SettingsPage,
+    name: 'Settings',
+    segment: 'settings',
+    defaultHistory: [HomePage]
   },
   {
-    component: CreditsPage, name: 'Credits', segment: 'credits', defaultHistory: [HomePage]
+    component: CreditsPage,
+    name: 'Credits',
+    segment: 'credits',
+    defaultHistory: [HomePage]
   },
   {
-    component: ParcoursListPage, name: 'ParcoursList', segment: 'parcours_list', defaultHistory: [HomePage]
+    component: ParcoursListPage,
+    name: 'ParcoursList',
+    segment: 'parcours_list',
+    defaultHistory: [HomePage]
   },
   {
-    component: PointOfInterestPage, name: 'PointOfInterest', segment: 'point_of_interest', defaultHistory: [HomePage]
+    component: PointOfInterestPage,
+    name: 'PointOfInterest',
+    segment: 'point_of_interest',
+    defaultHistory: [HomePage]
   }
 ];
 
