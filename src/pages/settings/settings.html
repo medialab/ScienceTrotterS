@@ -8,9 +8,9 @@
 
     <!-- SETTING LANGUAGE -->
     <div class="settingItem languageBlock">
-      <div class="title">
+      <h2 class="title">
         {{ translate.getKey('P_SETTING_LANGUAGE') }}
-      </div>
+      </h2>
       <div class="content contentCol">
         <label>{{ translate.getKey('P_SETTING_FR') }}</label>
         <ion-toggle [(ngModel)]="config.language"></ion-toggle>
@@ -20,9 +20,9 @@
 
     <!-- SETTING FONT SIZE -->
     <div class="settingItem fontSizeBlock">
-      <div class="title">
+      <h2 class="title">
         {{ translate.getKey('P_SETTING_FONT_SIZE') }}
-      </div>
+      </h2>
       <div class="content contentCol">
         <label class="letterOne">A</label>
         <ion-item class="rangeFontSize">
@@ -36,25 +36,25 @@
             color="secondary"></ion-range>
             class>
         </ion-item>
-        <label class="letterTwo">A</label>
+        <label class="letterTwo" aria-hidden=“true>A</label>
       </div>
     </div>
 
     <!-- SETTING THEME -->
     <div class="settingItem themeBlock">
-      <div class="title">
+      <h2 class="title">
         {{ translate.getKey('P_SETTING_THEME') }}
-      </div>
+      </h2>
       <div class="content contentCol">
         <label class="orderIconTextCol">
-          <ion-icon name="sunny" class="labelIcon"></ion-icon>
+          <ion-icon aria-hidden="true" name="sunny" class="labelIcon"></ion-icon>
           <span>{{ translate.getKey('P_SETTING_THEME_DAY') }}</span>
         </label>
         <ion-toggle
           (ionChange)="updateTheme()"
           checked="{{ config.listenerTheme() }}"></ion-toggle>
         <label class="orderIconTextCol">
-          <ion-icon name="moon" class="labelIcon"></ion-icon>
+          <ion-icon aria-hidden="true" name="moon" class="labelIcon"></ion-icon>
           <span>{{ translate.getKey('P_SETTING_THEME_NIGHT') }}</span>
         </label>
       </div>

@@ -23,8 +23,9 @@
 
     <li class="list__cities__item"
         *ngFor="let city of getListCities()"
-        [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'">
-
+        [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'"
+        alt=""
+        >
       <a class="list__cities__item__a"
          href="/#/parcours_list/{{ city.id }}"
          (click)="openParcoursList($event, city)">

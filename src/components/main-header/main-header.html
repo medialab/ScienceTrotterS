@@ -3,20 +3,20 @@
 
     <div class="navBarContent">
       <button left class="menuBtnLeft backBtnLeft" (click)="goBack()" *ngIf="withBackButton">
-        <ion-icon name="arrow-back" class="backIcon"></ion-icon>
+        <ion-icon aria-hidden=“true“ name="arrow-back" class="backIcon"></ion-icon>
         <label class="backLabel">
           {{ translate.getKey('COMP_MH_GO_BACK') }}
         </label>
       </button>
 
       <ion-title left>
-        <div class="headerTitle">
+        <h1 class="headerTitle">
           <ng-content></ng-content>
-        </div>
+        </h1>
       </ion-title>
 
-      <button ion-button menuToggle right class="menuBtnRight" *ngIf="withMenu">
-        <ion-icon name="menu"></ion-icon>
+      <button ion-button menuToggle right class="menuBtnRight" *ngIf="withMenu" [attr.aria-expanded]="config.getMenuState()">
+        <ion-icon aria-hidden=“true“ name="menu"></ion-icon>
         <label>MENU</label>
       </button>
     </div>

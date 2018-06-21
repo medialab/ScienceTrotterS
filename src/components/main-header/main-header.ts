@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {TranslateProvider} from "../../providers/translate";
 import {NavController} from "ionic-angular";
+import {ConfigProvider} from "../../providers/config";
 
 @Component({
   selector: 'main-header',
@@ -11,7 +12,12 @@ export class MainHeaderComponent {
   @Input() withBackButton: boolean = false;
 
   constructor (public navCtrl: NavController,
+              public config: ConfigProvider,
               public translate: TranslateProvider) {
+
+    setInterval(() => {
+      this.config.getMenuState();
+    }, 1000);
   }
 
   /**
@@ -20,4 +26,5 @@ export class MainHeaderComponent {
   goBack () {
     this.navCtrl.pop();
   }
+
 }

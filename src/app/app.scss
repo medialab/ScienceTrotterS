@@ -51,6 +51,9 @@ ion-app.ios {
 
 ion-header {
   .headerTitle {
+    padding: 0;
+    border: 0;
+    margin: 0;
     text-transform: uppercase;
     font-size: 14px;
   }
@@ -139,3 +142,56 @@ ion-header {
   margin: 0;
   padding: 0;
 }
+
+
+.left__menu {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0 5px 0;
+
+    &__a {
+      color: white;
+      text-decoration: none;
+
+      &__icon__block {
+        display: flex;
+        justify-content: center;
+
+        &__icon {
+          width: 35px;
+          height: 35px;
+          background-repeat: no-repeat;
+
+          &.fixIconPos {
+            margin-left: 10px;
+          }
+        }
+      }
+      &__title {
+        font-size: 1em;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 13px 0;
+
+        h1 {
+          font-size: initial;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+

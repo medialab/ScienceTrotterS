@@ -25,8 +25,18 @@ export class ConfigProvider {
   parameters = {
     language: 'fr',
     fontSize: '4',
-    theme: 'day'
+    theme: 'day',
+    menuState: false
   };
+
+  updateMenuState(nextState: boolean) {
+    this.parameters.menuState = nextState;
+  }
+
+  getMenuState(): boolean {
+    return this.parameters.menuState;
+  }
+
 
   get language(): boolean {
     return this.listenerLanguage();

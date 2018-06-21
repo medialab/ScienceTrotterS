@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {MenuController, Nav, Platform} from 'ionic-angular';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Content, MenuController, Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -21,6 +21,8 @@ export class MyApp {
    */
   rootPage:any;
 
+  @ViewChild('btnClose') btnClose: Content;
+
   /**
    * Context de navigation.
    */
@@ -40,6 +42,9 @@ export class MyApp {
      */
     platform.ready().then(() => {
       config.initialize();
+      statusBar.styleDefault();
+
+      console.log('statusBar', statusBar);
 
       api.loadApiUrl().then(res => {
         this.rootPage = HomePage;
@@ -50,7 +55,9 @@ export class MyApp {
         this.nav.setRoot(HomePage);
       })
 
+      splashScreen.hide();
     });
+
   }
 
   /**
@@ -59,7 +66,9 @@ export class MyApp {
    *
    * @param {string} nextPage - Nom d'une page.
    */
-  onItemClick (nextPage: string = '') {
+  onItemClick (event: any, nextPage: string = '') {
+    event.preventDefault();
+
     this.menuCtrl.close();
 
     if (nextPage !== '') {
@@ -89,12 +98,26 @@ export class MyApp {
    * @param target
    */
   menuHandler (state: any, target: string) {
-    /**
+    const focusHandler = () => {
+      setTimeout(() => {
+        this.btnClose._elementRef.nativeElement.focus();
+      }, 0);
+    };
+
     if (typeof state === 'boolean') {
-      document
-        .querySelector('#menuGlobal')
-        .setAttribute('aria-expanded', target === 'open' ? true : false);
+      switch (target) {
+        case 'open':
+          this.config.updateMenuState(true);
+          focusHandler();
+          break;
+        case 'close':
+          this.config.updateMenuState(false);
+          break;
+      }
     }
-    */
+  }
+
+  blurTest () {
+    console.log('blurTest');
   }
 }

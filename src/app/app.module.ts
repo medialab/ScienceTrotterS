@@ -27,6 +27,7 @@ import {PointOfInterestPage} from "../pages/point-of-interest/point-of-interest"
 import {PlayerAudioComponent} from "../components/player-audio/player-audio";
 
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import {PageHeaderComponent} from "../components/page-header/page-header";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -93,10 +94,10 @@ const linksConfig = {
       }
     }),
     IonicModule.forRoot(MyApp, {
-      tabsPlacement: 'bottom',
+        tabsPlacement: 'bottom',
         platforms: {
           ios: {
-            statusbarPadding: true,
+            menuType: 'overlay',
           }
         }
       },

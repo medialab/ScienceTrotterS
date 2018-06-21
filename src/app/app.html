@@ -1,3 +1,5 @@
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
 <ion-menu
   id="menuGlobal"
   [content]="content"
@@ -10,8 +12,8 @@
   <ion-header menuToggle>
     <ion-toolbar>
 
-      <button ion-button menuToggle right class="menuBtnRight">
-        <ion-icon name="close"></ion-icon>
+      <button #btnClose ion-button menuToggle right class="menuBtnRight" [attr.aria-expanded]="config.getMenuState()">
+        <ion-icon aria-hidden=“true“ name="close"></ion-icon>
         <label class="headerTitle">
           {{ translate.getKey('RIGHT_MENU_CLOSE') }}
         </label>
@@ -20,46 +22,71 @@
   </ion-header>
 
   <ion-content>
-    <div class="itemsList">
-      <!-- SETTINGS -->
-      <div class="item" (click)="onItemClick('Settings')">
-        <div class="icon-block">
-          <div class="icon icon-settings"></div>
-        </div>
-        <div class="title">
-          <label>{{ translate.getKey('RIGHT_MENU_SETTINGS') }}</label>
-        </div>
-      </div>
-      <!-- PHOTO -->
-      <div class="item">
-        <div class="icon-block" (click)="openCamera()">
-          <div class="icon icon-photo"></div>
-        </div>
-        <div class="title">
-          <label>{{ translate.getKey('RIGHT_MENU_PHOTO') }}</label>
-        </div>
-      </div>
-      <!-- SET POSITION -->
-      <div class="item">
-        <div class="icon-block" (click)="onItemClick()">
-          <div class="icon icon-send-position fixIconPos"></div>
-        </div>
-        <div class="title">
-          <label>{{ translate.getKey('RIGHT_MENU_GPS') }}</label>
-        </div>
-      </div>
-      <!-- CREDITS -->
-      <div class="item">
-        <div class="icon-block" (click)="onItemClick('Credits')">
-          <div class="icon icon-credits"></div>
-        </div>
-        <div class="title">
-          <label>{{ translate.getKey('RIGHT_MENU_CREDITS') }}</label>
-        </div>
-      </div>
-    </div>
-  </ion-content>
+    <!-- MENU LIST ITEM -->
+    <ul class="left__menu">
 
+      <!-- MENU ITEM -->
+      <li class="left__menu__item">
+        <a href="/#/settings"
+           class="left__menu__item__a"
+           (click)="onItemClick($event, 'Settings')">
+          <div class="left__menu__item__a__icon__block">
+            <i aria-hidden="true"
+               class="left__menu__item__a__icon__block__icon icon-settings"></i>
+          </div>
+          <div class="left__menu__item__a__title">
+            <h1>{{ translate.getKey('RIGHT_MENU_SETTINGS') }}</h1>
+          </div>
+        </a>
+      </li>
+      <!-- MENU ITEM -->
+
+      <!-- MENU ITEM -->
+      <li class="left__menu__item">
+        <a class="left__menu__item__a" (click)="openCamera()">
+          <div class="left__menu__item__a__icon__block">
+            <i aria-hidden="true"
+               class="left__menu__item__a__icon__block__icon icon-photo"></i>
+          </div>
+          <div class="left__menu__item__a__title">
+            <h1>{{ translate.getKey('RIGHT_MENU_PHOTO') }}</h1>
+          </div>
+        </a>
+      </li>
+      <!-- MENU ITEM -->
+
+      <!-- MENU ITEM -->
+      <li class="left__menu__item">
+        <a class="left__menu__item__a" (click)="onItemClick($event,  '')">
+          <div class="left__menu__item__a__icon__block">
+            <i aria-hidden="true"
+               class="left__menu__item__a__icon__block__icon icon-send-position fixIconPos"></i>
+          </div>
+          <div class="left__menu__item__a__title">
+            <h1>{{ translate.getKey('RIGHT_MENU_GPS') }}</h1>
+          </div>
+        </a>
+      </li>
+      <!-- MENU ITEM -->
+
+      <!-- MENU ITEM -->
+      <li class="left__menu__item">
+        <a href="/#/credits"
+           class="left__menu__item__a"
+           (click)="onItemClick($event, 'Credits')">
+          <div class="left__menu__item__a__icon__block">
+            <i aria-hidden="true"
+               class="left__menu__item__a__icon__block__icon icon-credits"></i>
+          </div>
+          <div class="left__menu__item__a__title">
+            <h1>{{ translate.getKey('RIGHT_MENU_CREDITS') }}</h1>
+          </div>
+        </a>
+      </li>
+      <!-- MENU ITEM -->
+
+    </ul>
+    <!-- .\ MENU LIST ITEM -->
+  </ion-content>
 </ion-menu>
 
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

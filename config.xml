@@ -53,16 +53,16 @@
     </platform>
     <platform name="ios">
         <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
-          <string>need camera access to take pictures</string>
+            <string>need camera access to take pictures</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-          <string>need photo library access to get pictures from there</string>
+            <string>need photo library access to get pictures from there</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
-          <string>need photo library access to save pictures there</string>
+            <string>need photo library access to save pictures there</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-          <string>We want your location to get your current position and help you with your road</string>
+            <string>We want your location to get your current position and help you with your road</string>
         </edit-config>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
