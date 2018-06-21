@@ -8,26 +8,32 @@
     <label [ngClass]="(setActiveLanguageClass('en'))">EN</label>
   </div>
 
-  <div class="listOfCities">
+  <!-- LIST ALL CITIES -->
+  <ul class="list__cities">
 
-    <!-- ITEM => LANGUAGE SWITCH -->
-    <div class="item itemSelectLg">
+    <!-- SELECT LANGUAGE TOGGLE -->
+    <li class="list__cities__item itemSelectLg">
       <ion-toggle [(ngModel)]="config.language" class="switch"></ion-toggle>
-      <div class="homePageTitle">
+      <h1 class="homePageTitle">
         <span class="bigTitle">{{ translate.getKey('P_HOME_TITLE_PART1') }}</span>
         <span class="smallTitle">{{ translate.getKey('P_HOME_TITLE_PART2') }}</span>
-      </div>
-    </div>
-    <!-- \. -->
+      </h1>
+    </li>
+    <!-- .\ SELECT LANGUAGE TOGGLE -->
 
-    <div class="item"
-         *ngFor="let city of getListCities()"
-         [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'"
-         (click)="openParcoursList(city)">
-      <label class="itemTitle">
-        {{ translate.fromApi(config.getLanguage(), city.title) }}
-      </label>
-    </div>
+    <li class="list__cities__item"
+        *ngFor="let city of getListCities()"
+        [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'">
 
-  </div>
+      <a class="list__cities__item__a"
+         href="/#/parcours_list/{{ city.id }}"
+         (click)="openParcoursList($event, city)">
+        <label class="list__cities__item__a__label">
+          {{ translate.fromApi(config.getLanguage(), city.title) }}
+        </label>
+      </a>
+    </li>
+  </ul>
+  <!-- ./ LIST ALL CITIES -->
+
 </main-content>

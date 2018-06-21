@@ -19,7 +19,7 @@ import { HomePage } from '../pages/home/home';
 import { SettingsPage } from "../pages/settings/settings";
 import {MainContentComponent} from "../components/main-content/main-content";
 import {CreditsPage} from "../pages/credits/credits";
-import {ParcoursListPage} from "../pages/parcours-list/parcours-list";
+import {PreviewByCityPage} from "../pages/preview-by-city/preview-by-city";
 import { Geolocation } from '@ionic-native/geolocation';
 import {ParcoursListItemComponent} from "../components/parcours-list-item/parcours-list-item";
 import {DataProvider} from "../providers/data";
@@ -32,37 +32,39 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-const links = [
-  {
-    component: HomePage,
-    name: 'Cities',
-    segment: 'cities'
-  },
-  {
-    component: SettingsPage,
-    name: 'Settings',
-    segment: 'settings',
-    defaultHistory: [HomePage]
-  },
-  {
-    component: CreditsPage,
-    name: 'Credits',
-    segment: 'credits',
-    defaultHistory: [HomePage]
-  },
-  {
-    component: ParcoursListPage,
-    name: 'ParcoursList',
-    segment: 'parcours_list',
-    defaultHistory: [HomePage]
-  },
-  {
-    component: PointOfInterestPage,
-    name: 'PointOfInterest',
-    segment: 'point_of_interest',
-    defaultHistory: [HomePage]
-  }
-];
+const linksConfig = {
+  links: [
+    {
+      component: HomePage,
+      name: 'Cities',
+      segment: 'cities'
+    },
+    {
+      component: SettingsPage,
+      name: 'Settings',
+      segment: 'settings',
+      defaultHistory: [HomePage]
+    },
+    {
+      component: CreditsPage,
+      name: 'Credits',
+      segment: 'credits',
+      defaultHistory: [HomePage]
+    },
+    {
+      component: PreviewByCityPage,
+      name: 'PreviewByCity',
+      segment: 'preview_by_city/:uuid',
+      defaultHistory: [HomePage]
+    },
+    {
+      component: PointOfInterestPage,
+      name: 'PointOfInterest',
+      segment: 'point_of_interest',
+      defaultHistory: [HomePage]
+    }
+  ]
+};
 
 @NgModule({
   declarations: [
@@ -71,7 +73,7 @@ const links = [
     HomePage,
     SettingsPage,
     CreditsPage,
-    ParcoursListPage,
+    PreviewByCityPage,
     PointOfInterestPage,
 
     MainHeaderComponent,
@@ -98,19 +100,16 @@ const links = [
           }
         }
       },
-      {
-        links: links
-      }
+      linksConfig
     )
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-
     HomePage,
     SettingsPage,
     CreditsPage,
-    ParcoursListPage,
+    PreviewByCityPage,
     PointOfInterestPage
   ],
   providers: [
@@ -128,4 +127,5 @@ const links = [
     DataProvider
   ]
 })
+
 export class AppModule {}

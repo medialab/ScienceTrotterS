@@ -35,7 +35,7 @@ page-home {
       background-size: cover;
 
       .itemTitle {
-        background-color: rgba(189, 195, 199, 0.7);
+        background-color: rgba(0, 0, 0, 0.6);
         text-align: center;
         color: white;
         padding: 5px 0;
@@ -63,15 +63,88 @@ page-home {
         display: flex;
         flex-direction: column;
 
-        .bigTitle {
-          font-size: 16px;
-        }
+        h1 {
+          margin: 0;
+          font-size: initial;
+          display: inline-grid;
 
-        .smallTitle {
-          font-size: 1.3em;
+          .bigTitle {
+            font-size: 16px;
+          }
+          .smallTitle {
+            font-size: 1.3em;
+          }
         }
       }
     }
   }
 
+}
+
+
+.list__cities {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0px 5px 25px 5px;
+  align-items: flex-end;
+  padding: 0 0 25px 0;
+  list-style: none;
+
+  &__item {
+    width: calc(50% - 10px);
+    height: 100px;
+    margin: 0px 5px 20px 5px;
+    background-color: dimgrey;
+    background-position: center;
+
+    &__a {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-size: cover;
+      text-decoration: none;
+
+      &__label {
+        background-color: rgba(0, 0, 0, 0.6);
+        text-align: center;
+        color: white;
+        padding: 5px 0;
+        text-transform: uppercase;
+        font-size: 1.3em;
+      }
+    }
+  }
+}
+
+.itemSelectLg {
+  background-color: transparent !important;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  height: auto;
+
+  .switch {
+    padding-bottom: 5px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: initial;
+    text-transform: uppercase;
+    font-weight: bold;
+    flex-grow: 1;
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+
+    .bigTitle {
+      font-size: 16px;
+    }
+    .smallTitle {
+      font-size: 1.3em;
+    }
+  }
 }

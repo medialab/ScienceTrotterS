@@ -76,9 +76,12 @@ export class HomePage {
    *
    * @param city
    */
-  openParcoursList(city: any) {
-    this.navCtrl.push('ParcoursList', {
-      city: city
+  openParcoursList(event: any, city: any) {
+    event.preventDefault();
+
+    this.navCtrl.push('PreviewByCity', {
+      city: city,
+      uuid: city.id
     });
   }
 

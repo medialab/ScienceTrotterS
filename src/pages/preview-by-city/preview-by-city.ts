@@ -7,10 +7,11 @@ import {ApiProvider} from "../../providers/api";
 
 @IonicPage()
 @Component({
-  selector: 'page-parcours-list',
-  templateUrl: 'parcours-list.html',
+  selector: 'page-preview-by-city',
+  templateUrl: 'preview-by-city.html',
 })
-export class ParcoursListPage {
+
+export class PreviewByCityPage {
   @ViewChild(Content) content: Content;
   @ViewChild('map') mapContainer: ElementRef;
   map: any;
@@ -114,7 +115,7 @@ export class ParcoursListPage {
    *
    * @constructor
    */
-  ClickItem () {
+  onClickItem () {
     if (! this.contentListClass.isOpen) {
       this.openContentList();
     }

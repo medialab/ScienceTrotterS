@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'montserratregular';
-  src: url('../assets/_fonts/montserrat/montserrat-regular.eot');
-  src: url('../assets/_fonts/montserrat/montserrat-regular.eot?#iefix') format('embedded-opentype'),
-  url('../assets/_fonts/montserrat/montserrat-regular.woff2') format('woff2'),
-  url('../assets/_fonts/montserrat/montserrat-regular.woff') format('woff'),
-  url('../assets/_fonts/montserrat/montserrat-regular.ttf') format('truetype'),
-  url('../assets/_fonts/montserrat/montserrat-regular.svg#montserratregular') format('svg');
+  src: url('../assets/fonts/montserrat/montserrat-regular.eot');
+  src: url('../assets/fonts/montserrat/montserrat-regular.eot?#iefix') format('embedded-opentype'),
+  url('../assets/fonts/montserrat/montserrat-regular.woff2') format('woff2'),
+  url('../assets/fonts/montserrat/montserrat-regular.woff') format('woff'),
+  url('../assets/fonts/montserrat/montserrat-regular.ttf') format('truetype'),
+  url('../assets/fonts/montserrat/montserrat-regular.svg#montserratregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -48,8 +48,6 @@ ion-app.ios {
 .fontSize6 {  font-size: 16px; }
 .fontSize7{  font-size: 17px; }
 .fontSize8 {  font-size: 18px; }
-
-
 
 ion-header {
   .headerTitle {
@@ -141,5 +139,3 @@ ion-header {
   margin: 0;
   padding: 0;
 }
-
-
