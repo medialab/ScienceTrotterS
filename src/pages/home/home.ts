@@ -5,6 +5,8 @@ import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
 import {City} from "../../models/City";
 import {DataProvider} from "../../providers/data";
+import { CacheService } from 'ionic-cache';
+import {map} from "rxjs/operator/map";
 
 @Component({
   selector: 'page-home',
@@ -21,11 +23,10 @@ export class HomePage {
               public config: ConfigProvider,
               public translate: TranslateProvider,
               public platform: Platform,
+              private cache: CacheService,
               public api: ApiProvider) {
 
     this._init();
-
-    this.platformValues = platform.width() + ' --- ' + platform.height();
   }
 
   /**
@@ -52,7 +53,8 @@ export class HomePage {
    * @private
    */
   _initCities() {
-    this.api.get('/public/cities/list').subscribe((resp: any) => {
+    const target = '/public/cities/list';
+    let req = this.api.get(target).subscribe((resp: any) => {
       if (resp.success) {
         this.listCities = resp.data.map(city => new City(city));
       }

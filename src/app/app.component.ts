@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import {TranslateProvider} from "../providers/translate";
 import {ConfigProvider} from "../providers/config";
 import {ApiProvider} from "../providers/api";
+import { CacheService } from "ionic-cache";
 
 @Component({
   templateUrl: 'app.html'
@@ -34,6 +35,7 @@ export class MyApp {
               public menuCtrl: MenuController,
               public config: ConfigProvider,
               public translate: TranslateProvider,
+              public cache: CacheService,
               public api: ApiProvider,
               private camera: Camera) {
 
@@ -44,16 +46,13 @@ export class MyApp {
       config.initialize();
       statusBar.styleDefault();
 
-      console.log('statusBar', statusBar);
-
       api.loadApiUrl().then(res => {
         this.rootPage = HomePage;
         this.nav.setRoot(HomePage);
       }).catch(err => {
-        splashScreen.hide();
         this.rootPage = HomePage;
         this.nav.setRoot(HomePage);
-      })
+      });
 
       splashScreen.hide();
     });
@@ -68,7 +67,6 @@ export class MyApp {
    */
   onItemClick (event: any, nextPage: string = '') {
     event.preventDefault();
-
     this.menuCtrl.close();
 
     if (nextPage !== '') {
@@ -77,7 +75,11 @@ export class MyApp {
   }
 
   /**
-   *
+   * Cette méthode ouvre la caméra de l'appareil
+   * et donne la possibilité de prendre une photo qui sera
+   * enregistré dans la galerie photo de l'appareil.
+   * Une option retour donne la possibilité de revenir vers
+   * l'application.
    */
   openCamera () {
     const options: CameraOptions = {
@@ -98,6 +100,8 @@ export class MyApp {
    * @param target
    */
   menuHandler (state: any, target: string) {
+
+    console.log('menu handler');
     const focusHandler = () => {
       setTimeout(() => {
         this.btnClose._elementRef.nativeElement.focus();
@@ -117,7 +121,10 @@ export class MyApp {
     }
   }
 
-  blurTest () {
-    console.log('blurTest');
+  /**
+   * TODO : sendCurrentPosition()
+   */
+  sendCurrentPosition () {
+    console.log('sendCurrentPosition');
   }
 }

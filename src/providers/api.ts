@@ -41,4 +41,8 @@ export class ApiProvider {
     return this.endpoint_assets + target;
   }
 
+  getRequestURI(target: string) {
+    return this.endpoint_data + target;
+  }
+
 }

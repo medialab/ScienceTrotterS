@@ -16,6 +16,7 @@
         <div class='switchGroup'>
           <label class="switchName">
             <ion-icon
+              aria-hidden="true"
               class='openMenuItems'
               [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
           </label>
@@ -29,7 +30,7 @@
       <!-- OPTIONS ITEMS SORT -->
       <div class='optionsItemsSort'>
         <div class='arrowIcon left' (click)="changeOptionList('prev')">
-          <ion-icon name="ios-arrow-back"></ion-icon>
+          <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
         </div>
         <ul class='optionsList'>
 
@@ -41,7 +42,7 @@
         </ul>
 
         <div class='arrowIcon right' (click)="changeOptionList('next')">
-          <ion-icon name="ios-arrow-forward"></ion-icon>
+          <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
         </div>
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->

@@ -4,6 +4,7 @@
 
 <ion-content>
   <div
+    alt=""
     class="poi__header"
     [style.backgroundImage]="'url(' + api.getAssetsUri(getData('header_image')) + ')'">
   </div>
@@ -17,11 +18,11 @@
     </h2>
 
     <button class='poi__info__btn poi__info__btn--L' *ngIf="showMoveBtn('prev')" (click)="onClickMoveList('prev')">
-      <ion-icon name="ios-arrow-back"></ion-icon>
+      <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
     </button>
 
     <button class='poi__info__btn poi__info__btn--R' *ngIf="showMoveBtn('next')" (click)="onClickMoveList('next')">
-      <ion-icon name="ios-arrow-forward"></ion-icon>
+      <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
     </button>
   </div>
   <!-- HELP BUTTONS -->
@@ -85,7 +86,7 @@
         <!-- NAVIGATION ITEM -->
         <li class="infoItem">
           <div class="icon">
-            <ion-icon name="ios-walk-outline"></ion-icon>
+            <ion-icon aria-hidden="true" name="ios-walk-outline"></ion-icon>
           </div>
           <div class="info">
             <h1 class="info-title">
@@ -102,7 +103,7 @@
         <!-- NAVIGATION ITEM -->
         <li class="infoItem">
           <div class="icon">
-            <ion-icon name="ios-walk-outline"></ion-icon>
+            <ion-icon aria-hidden="true" name="ios-walk-outline"></ion-icon>
           </div>
           <div class="info">
             <h1 class="info-title">
@@ -120,14 +121,14 @@
 
       <!-- MAP -->
       <div class="navigation-map">
-        <img src="../../assets/imgs/fake_map.png">
+        <img src="../../assets/imgs/fake_map.png" alt="">
       </div>
 
       <!-- TRANSPORT -->
       <ul class="infoList">
         <li class="infoItem">
           <div class="icon">
-            <ion-icon name="ios-subway-outline"></ion-icon>
+            <ion-icon aria-hidden="true" name="ios-subway-outline"></ion-icon>
           </div>
           <div class="info">
             <h1 class="info-title">
@@ -199,7 +200,7 @@
         </div>
 
         <button class="btn__share">
-          <ion-icon name="ios-mail-outline" class="btn__share__icon"></ion-icon>
+          <ion-icon aria-hidden="true" name="ios-mail-outline" class="btn__share__icon"></ion-icon>
           <span class="btn__share__span">
             {{ translate.getKey('PLI_BTN_SHARE_REF') }}
           </span>
