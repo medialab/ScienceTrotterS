@@ -17,11 +17,17 @@
       {{ getData('address', true) }}
     </h2>
 
-    <button class='poi__info__btn poi__info__btn--L' *ngIf="showMoveBtn('prev')" (click)="onClickMoveList('prev')">
+    <button class='poi__info__btn poi__info__btn--L'
+            [attr.alt]="translate.getKey('PLI_BTN_PREV_ALT')"
+            *ngIf="showMoveBtn('prev')"
+            (click)="onClickMoveList('prev')">
       <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
     </button>
 
-    <button class='poi__info__btn poi__info__btn--R' *ngIf="showMoveBtn('next')" (click)="onClickMoveList('next')">
+    <button class='poi__info__btn poi__info__btn--R'
+            [attr.alt]="translate.getKey('PLI_BTN_NEXT_ALT')"
+            *ngIf="showMoveBtn('next')"
+            (click)="onClickMoveList('next')">
       <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
     </button>
   </div>
@@ -199,8 +205,9 @@
           </p>
         </div>
 
-        <button class="btn__share">
-          <ion-icon aria-hidden="true" name="ios-mail-outline" class="btn__share__icon"></ion-icon>
+        <button class="btn__share" (click)="actionShareRef()">
+          <ion-icon aria-hidden="true" focusable="false"
+                    name="ios-mail-outline" class="btn__share__icon"></ion-icon>
           <span class="btn__share__span">
             {{ translate.getKey('PLI_BTN_SHARE_REF') }}
           </span>
@@ -222,21 +229,21 @@
 <footer *ngIf="!mainContentCls.isHidden">
   <div>
     <button class="footer__btn" (click)="scrollTo('titleAudioScript')">
-      <div class="footer__btn__icon footer__btn__icon--script-audio"></div>
+      <i class="footer__btn__icon footer__btn__icon--script-audio"></i>
       <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</label>
     </button>
   </div>
 
   <div>
     <button class="footer__btn" (click)="scrollTo('titleGalery')">
-      <div class="footer__btn__icon footer__btn__icon--galery"></div>
+      <i class="footer__btn__icon footer__btn__icon--galery"></i>
       <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</label>
     </button>
   </div>
 
   <div>
     <button class="footer__btn" (click)="scrollTo('titleBibliography')">
-      <div class="footer__btn__icon footer__btn__icon--book"></div>
+      <i class="footer__btn__icon footer__btn__icon--book"></i>
       <label class="footer__btn__label">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</label>
     </button>
   </div>

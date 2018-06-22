@@ -39,5 +39,8 @@
   "PLI_TAB_GALERY_IMAGE": "galerie d'images",
   "PLI_TAB_BIBLIOGRAPHY": "bibliographie",
   "PLI_BTN_OPEN_IN_NEW_APP": "Ouvrir dans une autre application",
-  "PLI_BTN_SHARE_REF": "partager la référence"
+  "PLI_BTN_SHARE_REF": "partager la référence",
+
+  "PLI_BTN_PREV_ALT": "Point d'intérêt précèdent.",
+  "PLI_BTN_NEXT_ALT": "Point d'intérêt suivant."
 }

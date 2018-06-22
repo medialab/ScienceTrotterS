@@ -241,4 +241,12 @@ export class PointOfInterestPage {
       return JSON.parse(this.getData('gallery_image'));
     }
   }
+
+  /**
+   * ACTION :
+   * Share the current POI reference.
+   */
+  actionShareRef () {
+    console.log('actionShareRef');
+  }
 }

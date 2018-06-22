@@ -43,6 +43,11 @@ export class MyApp {
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      // Set TTL to 12h
+      cache.setDefaultTTL(60 * 60 * 12);
+      // Keep our cached results when device is offline!
+      cache.setOfflineInvalidate(false);
+
       config.initialize();
       statusBar.styleDefault();
 
@@ -100,8 +105,6 @@ export class MyApp {
    * @param target
    */
   menuHandler (state: any, target: string) {
-
-    console.log('menu handler');
     const focusHandler = () => {
       setTimeout(() => {
         this.btnClose._elementRef.nativeElement.focus();

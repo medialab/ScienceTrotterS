@@ -194,6 +194,7 @@ footer {
   grid-column-gap: .5em; // padding: .2em 1em;
   background-color: #FAFAFA;
   border-top: solid 1px #95989A;
+
   div {
     width: 100%;
     margin-top: 5px;
@@ -202,6 +203,7 @@ footer {
       width: 100%;
       height: 100%;
       background-color: transparent;
+
       &__icon {
         display: block;
         width: 100%;
@@ -209,6 +211,8 @@ footer {
         background-repeat: no-repeat;
         background-position: center;
         margin-bottom: .3em;
+        height: 26px;
+
         &--script-audio {
           background-image: url('../assets/imgs/poi/poi_icon_script_audio.svg');
         }

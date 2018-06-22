@@ -11,7 +11,7 @@
   "background_color": "#464646",
   "theme_color": "#464646",
   "version": "0.0.1",
-  "target": "android",
+  "target": "browser",
   "endpoint_data": "https://api-sts.actu.com/",
   "endpoint_assets": "https://api-sts.actu.com/ressources/upload/"
 }
