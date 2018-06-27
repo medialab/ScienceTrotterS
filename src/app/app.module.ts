@@ -32,6 +32,7 @@ import { Media } from '@ionic-native/media';
 import { CacheModule } from 'ionic-cache';
 import {AlertProvider} from "../providers/alert";
 import {LoaderPage} from "../pages/loader/loader";
+import {BoxMapComponent} from "../components/box-map/box-map";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -90,7 +91,8 @@ const linksConfig = {
     MainHeaderComponent,
     MainContentComponent,
     ParcoursListItemComponent,
-    PlayerAudioComponent
+    PlayerAudioComponent,
+    BoxMapComponent
   ],
   imports: [
     IonicImageViewerModule,
