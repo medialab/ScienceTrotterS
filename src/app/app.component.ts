@@ -18,9 +18,9 @@ export class MyApp {
   /**
    * Page par défaut qui va être chargée lors de l'ouverture.
    *
-   * @type {HomePage} - Page.
+   * @type {LoaderPage} - Page.
    */
-  rootPage:any;
+  rootPage:any = 'LoaderPage';
 
   @ViewChild('btnClose') btnClose: Content;
 
@@ -29,39 +29,33 @@ export class MyApp {
    */
   @ViewChild(Nav) nav;
 
-  constructor (platform: Platform,
-              statusBar: StatusBar,
-              splashScreen: SplashScreen,
+  constructor (public platform: Platform,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen,
               public menuCtrl: MenuController,
               public config: ConfigProvider,
               public translate: TranslateProvider,
               public cache: CacheService,
               public api: ApiProvider,
               private camera: Camera) {
-
     /**
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      splashScreen.hide();
+      config.initialize();
+      statusBar.styleDefault();
+
       // Set TTL to 12h
       cache.setDefaultTTL(60 * 60 * 12);
       // Keep our cached results when device is offline!
       cache.setOfflineInvalidate(false);
 
-      config.initialize();
-      statusBar.styleDefault();
-
+      // Chargement de la configuration.
       api.loadApiUrl().then(res => {
         this.rootPage = HomePage;
-        this.nav.setRoot(HomePage);
-      }).catch(err => {
-        this.rootPage = HomePage;
-        this.nav.setRoot(HomePage);
       });
-
-      splashScreen.hide();
     });
-
   }
 
   /**

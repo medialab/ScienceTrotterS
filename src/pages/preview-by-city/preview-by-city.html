@@ -1,4 +1,4 @@
-<main-header [withBackButton]="true">
+<main-header [withBackButton]="true" [withMenu]="true">
   {{ translate.fromApi(config.getLanguage(), city.title) }}
 </main-header>
 
@@ -11,29 +11,35 @@
 
       <!-- DARK SELECT BOX -->
       <div class='darkSelectBox'>
-        <label [ngClass]="selectTargetParcours"
-               (click)="onChangeSelectedTarget({'checked': false}, true)">Parcours</label>
+        <h3>
+          <label [ngClass]="selectTargetParcours"
+                 (click)="onChangeSelectedTarget({'checked': false}, true)">Parcours</label>
+        </h3>
+
         <div class='switchGroup'>
-          <label class="switchName">
+          <button class="switchName">
             <ion-icon
               aria-hidden="true"
               class='openMenuItems'
               [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
-          </label>
+          </button>
           <ion-toggle [(ngModel)]="selectedTarget" (ionChange)="onChangeSelectedTarget($event)"></ion-toggle>
         </div>
-        <label [ngClass]="selectTargetPoints"
-               (click)="onChangeSelectedTarget({'checked': true}, true)">Points d'intérêts</label>
+
+        <h3>
+          <label [ngClass]="selectTargetPoints"
+                 (click)="onChangeSelectedTarget({'checked': true}, true)">Points d'intérêts</label>
+        </h3>
       </div>
       <!-- ./ DARK SELECT BOX -->
 
       <!-- OPTIONS ITEMS SORT -->
       <div class='optionsItemsSort'>
-        <div class='arrowIcon left' (click)="changeOptionList('prev')">
-          <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
-        </div>
-        <ul class='optionsList'>
+        <button class='arrowIcon left' (click)="changeOptionList('prev')" id="btnSortItemNext">
+          <ion-icon aria-hidden="true" focusable="false" name="ios-arrow-back"></ion-icon>
+        </button>
 
+        <ul class='optionsList'>
           <li [ngClass]="optionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
             <label class='optionName'>
               {{ item.name }}
@@ -41,43 +47,45 @@
           </li>
         </ul>
 
-        <div class='arrowIcon right' (click)="changeOptionList('next')">
-          <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
-        </div>
+        <button class='arrowIcon right' (click)="changeOptionList('next')" id="btnSortItemNext">
+          <ion-icon aria-hidden="true" focusable="false" name="ios-arrow-forward"></ion-icon>
+        </button>
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->
 
       <!-- ITEMS LIST : RENDERING PARCOURS-->
-      <div class='list' *ngIf="selectedTarget === false">
-        <parcours-list-item
-          (click)="onClickItem()"
-          *ngFor="let parcour of sortItems(parcours)"
-          target="parcours"
-          color="{{ parcour.color }}"
-          [isOpenDiscover]="false"
-          openId="{{ parcour.id }}"
-          parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
-          parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
-          previewTitle="{{ translate.fromApi(config.getLanguage(), parcour.title) }}"
-          previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}">
-        </parcours-list-item>
-      </div>
+      <ul class='list' *ngIf="selectedTarget === false">
+        <li *ngFor="let parcour of sortItems(parcours)">
+          <parcours-list-item
+            (click)="onClickItem()"
+            target="parcours"
+            color="{{ parcour.color }}"
+            [isOpenDiscover]="false"
+            openId="{{ parcour.id }}"
+            parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
+            parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
+            previewTitle="{{ translate.fromApi(config.getLanguage(), parcour.title) }}"
+            previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}">
+          </parcours-list-item>
+        </li>
+      </ul>
       <!-- ./ ITEMS LIST -->
 
       <!-- ITEMS LIST : RENDERING INTERETS -->
-      <div class='list' *ngIf="selectedTarget === true">
-        <parcours-list-item
-          (click)="onClickItem()"
-          *ngFor="let interest of sortItems(interests)"
-          target="interests"
-          color='#336699'
-          [isOpenDiscover]="false"
-          openId="{{ interest.id }}"
-          interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
-          previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"
-          previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}">
-        </parcours-list-item>
-      </div>
+      <ul class='list' *ngIf="selectedTarget === true">
+        <li *ngFor="let interest of sortItems(interests)">
+          <parcours-list-item
+            (click)="onClickItem()"
+            target="interests"
+            color='#336699'
+            [isOpenDiscover]="false"
+            openId="{{ interest.id }}"
+            interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
+            previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"
+            previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}">
+          </parcours-list-item>
+        </li>
+      </ul>
       <!-- ./ ITEMS LIST -->
     </div>
   </div>

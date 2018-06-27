@@ -5,6 +5,7 @@ import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
 import {City} from "../../models/City";
 import {DataProvider} from "../../providers/data";
+import {AlertProvider} from "../../providers/alert";
 
 @Component({
   selector: 'page-home',
@@ -21,9 +22,15 @@ export class HomePage {
               public config: ConfigProvider,
               public translate: TranslateProvider,
               public platform: Platform,
-              public api: ApiProvider) {
-
+              public api: ApiProvider,
+              public alert: AlertProvider) {
     this._init();
+
+    console.log('HomePage Constructor');
+  }
+
+  ionViewDidLoad () {
+    console.log('home controller ionViewDidLoad');
   }
 
   /**
@@ -50,10 +57,7 @@ export class HomePage {
    * @private
    */
   _initCities() {
-    const target = '/public/cities/list';
-    let req = this.api.get(target).subscribe((resp: any) => {
-      console.log('result', resp);
-
+    this.api.get('/public/cities/list').subscribe((resp: any) => {
       if (resp.success) {
         this.listCities = resp.data.map(city => new City(city));
       }

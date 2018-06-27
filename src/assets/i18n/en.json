@@ -42,5 +42,12 @@
   "PLI_BTN_SHARE_REF": "share the reference",
 
   "PLI_BTN_PREV_ALT": "Previous point of interest.",
-  "PLI_BTN_NEXT_ALT": "Next point of interest."
+  "PLI_BTN_NEXT_ALT": "Next point of interest.",
+
+  "PBC_ALT_POI": "Points' d'intérêts",
+  "PBC_ALT_PARCOURS": "Parcours",
+
+  "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
+  "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
+  "PLAYER_ACTION_STATE": "Player action state"
 }

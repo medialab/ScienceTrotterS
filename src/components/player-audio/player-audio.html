@@ -4,22 +4,28 @@
   <ul class="actionsList">
     <!-- ACTION FAST LEFT -->
     <li class="actionItem actionItemFastLeft">
-      <button class="actionBtn">
+      <button class="actionBtn"
+              (click)="actionFastLeft()"
+              tabindex="0" [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
       </button>
     </li>
 
     <!-- ACTION AUDIO STATE -->
     <li class="actionItem actionItemPause">
-      <button class="actionBtn">
-        <span aria-hidden="true" class="icon big icon-action-pause"></span>
+      <button id="actionBtnState" class="actionBtn" tabindex="1"
+              [attr.aria-label]="translate.getKey('PLAYER_ACTION_STATE')"
+              [attr.aria-pressed]="isPlaying"
+              (click)="updateActionState()">
+        <span aria-hidden="true" class="icon big"></span>
       </button>
     </li>
 
-
     <!-- ACTION FAST RIGHT -->
     <li class="actionItem actionItemFastRight">
-      <button class="actionBtn">
+      <button class="actionBtn"
+              (click)="actionFastRight()"
+              tabindex="2" [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
       </button>
     </li>
@@ -27,20 +33,24 @@
 
   <!-- PLAYER DURATION BAR -->
   <div class="durationBarContent">
-    <!-- TODO : styling the range component -->
-    <ion-range color="dark" pin="true"></ion-range>
+    <ion-range
+      [(ngModel)]="durationCurrent"
+      (ngModelChange)="onModelDurationChange($event)"
+      [min]="duration.track.min"
+      [max]="duration.track.max"
+    ></ion-range>
   </div>
 
   <!-- PLAUER TIMER -->
   <div class="playerDuration">
     <div class="durationCurrent">
       <label class="durationValue">
-        {{ timerCurrent }}
+        {{ duration.current }}
       </label>
     </div>
     <div class="durationLeft">
       <label class="durationValue">
-        {{ timerLeft }}
+        {{ duration.full }}
       </label>
     </div>
   </div>

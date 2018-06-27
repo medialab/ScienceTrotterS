@@ -1,9 +1,11 @@
-.parcoursListItem:nth-child(odd) {
-  background-color: #E2DFDF;
-}
+parcours-list-item {
+  &:nth-child(odd) {
+    background-color: #EAEAED;
+  }
 
-.parcoursListItem:nth-child(even) {
-  background-color: #F6F3F4;
+  &:nth-child(even) {
+    background-color: #F7F7F7;
+  }
 }
 
 .parcoursListItem {
@@ -55,15 +57,15 @@
     flex-wrap: nowrap;
     flex-grow: 1;
 
-    .contentDiscover.isOpen {
-      display: flex;
-    }
-
     .contentDiscover {
       display: none;
       flex-direction: column;
       flex-wrap: nowrap;
       padding: 20px;
+
+      &[aria-hidden="false"] {
+        display: flex;
+      }
 
       .content {
         margin: 0 0 10px 0;
@@ -99,11 +101,13 @@
       .info {
         flex: 1;
         padding: 10px;
+        background-color: transparent;
 
         h1 {
           margin: 0;
           font-size: 14px;
           text-transform: uppercase;
+          text-align: left;
         }
 
         ul.infoParcours {

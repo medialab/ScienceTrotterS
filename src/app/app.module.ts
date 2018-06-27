@@ -27,8 +27,11 @@ import {PointOfInterestPage} from "../pages/point-of-interest/point-of-interest"
 import {PlayerAudioComponent} from "../components/player-audio/player-audio";
 
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { Media } from '@ionic-native/media';
 
 import { CacheModule } from 'ionic-cache';
+import {AlertProvider} from "../providers/alert";
+import {LoaderPage} from "../pages/loader/loader";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -37,9 +40,14 @@ export function HttpLoaderFactory(http: HttpClient) {
 const linksConfig = {
   links: [
     {
+      component: LoaderPage,
+      name: 'Loader',
+      segment: ''
+    },
+    {
       component: HomePage,
       name: 'Cities',
-      segment: 'cities'
+      segment: ''
     },
     {
       component: SettingsPage,
@@ -77,6 +85,7 @@ const linksConfig = {
     CreditsPage,
     PreviewByCityPage,
     PointOfInterestPage,
+    LoaderPage,
 
     MainHeaderComponent,
     MainContentComponent,
@@ -113,7 +122,8 @@ const linksConfig = {
     SettingsPage,
     CreditsPage,
     PreviewByCityPage,
-    PointOfInterestPage
+    PointOfInterestPage,
+    LoaderPage
   ],
   providers: [
     StatusBar,
@@ -123,11 +133,13 @@ const linksConfig = {
     TranslateProvider,
     ConfigProvider,
     ApiProvider,
+    AlertProvider,
 
     Camera,
     File,
     Geolocation,
-    DataProvider
+    DataProvider,
+    Media
   ]
 })
 

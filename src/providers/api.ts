@@ -18,22 +18,6 @@ export class ApiProvider {
 
   constructor(private http: HttpClient,
               private cache: CacheService) {
-    this._init();
-  }
-
-  /**
-   *
-   * @private
-   */
-  _init() {
-    this.loadApiUrl()
-      .then(res =>{
-        console.log(res);
-        console.log(this.endpoint_data);
-      })
-      .catch(err =>  {
-        console.log('err', err);
-      })
   }
 
   /**
@@ -42,12 +26,13 @@ export class ApiProvider {
    */
   loadApiUrl() {
     return new Promise((resolve, reject) => {
-      this.http.get('manifest.json').subscribe((resp: any) => {
-        this.endpoint_data = resp.endpoint_data;
-        this.endpoint_assets = resp.endpoint_assets;
-        resolve('resolved');
+      this.get('manifest.json').subscribe((resp: any) => {
+        this.endpoint_data = resp.configuration.endpoint.data;
+        this.endpoint_assets = resp.configuration.endpoint.assets;
+
+        resolve(true);
       }, err => {
-        reject('rejected');
+        reject(false);
       });
     });
   }
@@ -64,7 +49,7 @@ export class ApiProvider {
     const request = this.http.get(httpURI);
     return withCache ? this.getRequestAsCache(httpURI, request, target) : request;
   }
-  
+
   /**
    * Middlleware d'une requête HTTP pour la gestion du cache.
    *

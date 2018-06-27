@@ -9,11 +9,6 @@ import {NavController} from "ionic-angular";
 export class ParcoursListItemComponent {
   _isOpenDiscover: boolean = false;
 
-  contentDiscover = {
-    contentDiscover: true,
-    isOpen: false
-  };
-
   @Input() openId: string = '';
   @Input() previewTitle: string = '';
   @Input() previewDescription: string = '';
@@ -25,7 +20,6 @@ export class ParcoursListItemComponent {
   @Input()
   set isOpenDiscover(nextState: boolean) {
     this._isOpenDiscover = nextState;
-    this.contentDiscover.isOpen = nextState;
   }
   get isOpenDiscover() {
     return this._isOpenDiscover;
@@ -36,20 +30,18 @@ export class ParcoursListItemComponent {
   }
 
   /**
-   *
+   * Met à jour l'état du dropdown contenant les informations.
    */
-  updateDiscoverState () {
-    if (this.isOpenDiscover) {
-      this.isOpenDiscover = false;
-      this.contentDiscover.isOpen = false;
+  updateDiscoverStateOrOpen () {
+    if (this.target === 'interests') {
+      this.openNext();
     } else {
-      this.isOpenDiscover = true;
-      this.contentDiscover.isOpen = true;
+      this.isOpenDiscover = this.isOpenDiscover ? false : true;
     }
   }
 
   /**
-   *
+   * Ouvre la page "PointOfInterest"
    */
   openNext () {
     this.navCtrl.push('PointOfInterest', {

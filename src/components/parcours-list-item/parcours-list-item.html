@@ -1,17 +1,22 @@
 <div class='parcoursListItem' id="search-content">
   <div class='leftIconColor' [ngStyle]="{'background-color': color}">
-    <span *ngIf="target === 'parcours'" class="icon icon-parcours"></span>
-    <span *ngIf="target === 'interests'" class="icon icon-poi"></span>
+    <span *ngIf="target === 'parcours'"
+          aria-hidden="true"
+          class="icon icon-parcours"
+          [attr.alt]="translate.getKey('PBC_ALT_PARCOURS')"></span>
+    <span *ngIf="target === 'interests'"
+          aria-hidden="true"
+          class="icon icon-poi"
+          [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
   </div>
   <div class='content'>
     <div class='contentPreview'>
-      <div class='info' (click)="updateDiscoverState()">
+      <button type="button"class='info' (click)="updateDiscoverStateOrOpen()" [attr.aria-expanded]="isOpenDiscover">
         <h1>{{ previewTitle }}</h1>
-
         <ul class="infoParcours" *ngIf="target === 'parcours'">
           <li>
             <label>{{ parcourTotalInterets }}</label>
-            <span aria-hidden="true" class="icon-poi"></span>
+            <span aria-hidden="true" class="icon-poi" [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
           </li>
           <li>
             <label><span class="spanDot">.</span> {{ parcourTime }}</label>
@@ -26,9 +31,9 @@
             <label>{{ interestAddress }}</label>
           </li>
         </ul>
+      </button>
 
-      </div>
-      <button class='btnDownload'>
+      <button type="button" class='btnDownload'>
         <span class='icon icon-download'></span>
         <label>
           {{ translate.getKey('PLI_ACTION_DOWNLOAD_DATA') }}
@@ -36,7 +41,7 @@
       </button>
     </div>
 
-    <div [ngClass]="contentDiscover">
+    <div class="contentDiscover" [attr.aria-hidden]="! isOpenDiscover">
 
       <div class='content'>
         <p>
@@ -47,13 +52,13 @@
         <player-audio></player-audio>
       </div>
       <div class='footer'>
-        <button
+        <button type="button"
           *ngIf="target === 'parcours' && parcourTotalInterets > 0"
           (click)="openNext()"
           class='btnStart' [ngStyle]="{'background-color': color}">
           {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
         </button>
-        <button
+        <button type="button"
           *ngIf="target === 'interests'"
           (click)="openNext()"
           class='btnStart' [ngStyle]="{'background-color': color}">

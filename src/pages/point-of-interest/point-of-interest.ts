@@ -73,7 +73,6 @@ export class PointOfInterestPage {
     this.api.get(resURI + curId).subscribe((resp: any) => {
       if (resp.success) {
         this.interests = resp.data;
-        console.log('success fetchPOI', resp.data);
       }
     }, (error: any) => {
       console.log('error fetchPOI', error);
@@ -130,14 +129,14 @@ export class PointOfInterestPage {
         if (this.activeItem > 0) {
           this.activeItem = this.activeItem - 1;
           this.updateMainContentState(true);
-          this.setHelpItemActive("");
+          this.setHelpItemActive('');
         }
         break;
       case 'next':
         if (this.interests.length > (this.activeItem + 1)) {
           this.activeItem = this.activeItem + 1;
           this.updateMainContentState(true);
-          this.setHelpItemActive("");
+          this.setHelpItemActive('');
         }
         break;
     }
@@ -148,12 +147,24 @@ export class PointOfInterestPage {
    * @param target
    */
   onClickSetHelpItemActive (target: string) {
-    if (this.helpItemActive === target) {
-      this.setHelpItemActive("");
+    if (target === null) {
+      document.querySelector(`#${this.helpItemActive}`).setAttribute('aria-expanded', 'false');
+      this.focusAnElement(`#${this.helpItemActive}`);
+      this.setHelpItemActive('');
       this.updateMainContentState(true);
     } else {
-      this.setHelpItemActive(target);
-      this.updateMainContentState(false);
+      if (this.helpItemActive === target) {
+        document.querySelector(`#${target}`).setAttribute('aria-expanded', 'false');
+        this.setHelpItemActive('');
+        this.updateMainContentState(true);
+      } else {
+        if (this.helpItemActive !== '') {
+          document.querySelector(`#${this.helpItemActive}`).setAttribute('aria-expanded', 'false');
+        }
+        document.querySelector(`#${target}`).setAttribute('aria-expanded', 'true');
+        this.setHelpItemActive(target);
+        this.updateMainContentState(false);
+      }
     }
   }
 
@@ -191,6 +202,7 @@ export class PointOfInterestPage {
    */
   getData (key: string, translate: boolean = false) {
     let value = "";
+
     if (typeof this.interests[this.activeItem] === 'undefined') {
       return '';
     } else {
@@ -236,9 +248,9 @@ export class PointOfInterestPage {
    */
   getGalleryImages () {
     if (! this.getData('gallery_image')) {
-      return [];
+    return [];
     } else {
-      return JSON.parse(this.getData('gallery_image'));
+    return JSON.parse(this.getData('gallery_image'));
     }
   }
 
@@ -248,5 +260,13 @@ export class PointOfInterestPage {
    */
   actionShareRef () {
     console.log('actionShareRef');
+  }
+
+  focusAnElement (element: string) {
+    const el = <HTMLElement>document.querySelector(element);
+    if (el !== null) {
+      //noinspection TypeScriptUnresolvedFunction
+      el.focus();
+    }
   }
 }

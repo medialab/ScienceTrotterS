@@ -52,41 +52,6 @@ player-audio {
             }
           }
         }
-
-      }
-    }
-
-  }
-
-  .durationBarContent {
-
-    .durationBar {
-      background-color: #EAEAED;
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      position: relative;
-
-      .bar {
-        content: '';
-        position: absolute;
-        background-color: #000000;
-        height: 6px;
-        border-radius: 3px;
-        width: 0;
-      }
-
-      .round {
-        content: '';
-        position: absolute;
-        background-color: #000000;
-        box-shadow: 0 1px 4px rgba(74, 73, 97, 0.6);
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        margin-left: -4px;
-        top: -4px;
-        left: 0;
       }
     }
   }
@@ -122,42 +87,21 @@ player-audio {
       background-image: url('../assets/imgs/player-audio/icon-action-fast-right.svg');
     }
 
-    &.icon-action-pause {
+    &.icon-action-play {
       background-image: url('../assets/imgs/player-audio/icon-action-play.svg');
     }
+
+    &.icon-action-pause {
+      background-image: url('../assets/imgs/player-audio/icon-action-pause.svg');
+    }
   }
-}
 
-.inputTypeRange {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 36px;
-  margin: 0 auto;
-  cursor: pointer;
-}
-
-.inputTypeRange::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 14px;
-  width: 14px;
-  border-radius: 50%;
-  background-color: black;
-  cursor: pointer;
-  border: none;
-  margin-top: -4px;
-}
-.inputTypeRange::-webkit-slider-runnable-track {
-  cursor: pointer;
-  background-color: #EAEAED;
-  border-radius: 3px;
-  height: 6px;
-  position: relative;
-}
-
-.inputTypeRange::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px; /* 1 */
-  height: 40px;
-  background: #fff;
-  border: 2px solid #999; /* 1 */
+  #actionBtnState {
+    &[aria-pressed="false"] span {
+      background-image: url('../assets/imgs/player-audio/icon-action-play.svg');
+    }
+    &[aria-pressed="true"] span {
+      background-image: url('../assets/imgs/player-audio/icon-action-pause.svg');
+    }
+  }
 }

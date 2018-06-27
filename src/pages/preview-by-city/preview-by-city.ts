@@ -69,10 +69,21 @@ export class PreviewByCityPage {
               public config: ConfigProvider,
               public api: ApiProvider,
               public translate: TranslateProvider) {
+
+    console.log('preview by city');
+
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
       this.loadParcours();
       this.loadInterests();
+    }
+  }
+
+  focusAnElement (element: string) {
+    const el = <HTMLElement>document.querySelector(element);
+    if (el !== null) {
+      //noinspection TypeScriptUnresolvedFunction
+      el.focus();
     }
   }
 
@@ -140,6 +151,8 @@ export class PreviewByCityPage {
     if (isFromClick) {
       this.selectedTarget = next.checked;
     }
+
+    this.focusAnElement('#btnSortItemNext');
   }
 
   /**
@@ -163,13 +176,19 @@ export class PreviewByCityPage {
         }
         break;
     }
+
+    // TODO : Attendre la fin du tri pour mettre le focus sur le premier element de la liste.
+    setTimeout(() => {
+      if (typeof document.querySelector('.list li:first-child') !== null) {
+        this.focusAnElement('.list li:first-child parcours-list-item .parcoursListItem .contentPreview button.info');
+      }
+    }, 100);
   }
 
   /**
    *
    */
   loadParcours() {
-    console.log('city', this.city);
     this.api.get('/public/parcours/byCityId/' + this.city.id).subscribe((resp: any) => {
       if (resp.success) {
         this.parcours = resp.data;
@@ -183,7 +202,6 @@ export class PreviewByCityPage {
    *
    */
   loadInterests() {
-    console.log('city', this.city);
     this.api.get('/public/interests/byCityId/' + this.city.id).subscribe((resp: any) => {
       if (resp.success) {
         this.interests = resp.data;
