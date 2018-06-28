@@ -7,6 +7,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'loader.html',
 })
 export class LoaderPage {
+
+  citiesCoords: object = {
+    'lat': 48.856578,
+    'lng': 2.351828
+  };
+
   img = 'https://images.unsplash.com/photo-1529933072015-5a5248282ad0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=883900194a4936e1179604d72bf128ff&auto=format&fit=crop&w=2251&q=80';
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -18,16 +24,15 @@ export class LoaderPage {
   }
 
   initCarousel () {
-    /**
+
+    /*
     const items = document.querySelectorAll('.carousel__items__item');
 
     //noinspection TypeScriptUnresolvedFunction
     Object.values(items).map(item => this.carouselItemObserver(item));
-     */
   }
 
   carouselItemSwitch(event: any) {
-    /**
     const id = event.target.getAttribute('aria-controls');
 
     //noinspection TypeScriptUnresolvedFunction
@@ -36,11 +41,16 @@ export class LoaderPage {
       'block': 'center',
       'inline': 'center'
     });
+
     */
+
   }
 
   carouselItemObserver (el) {
+
     /**
+     *
+     *
     document.querySelector('.carousel__items').addEventListener('scroll', (event) => {
       const itemActive = document.querySelector('.item__button[aria-hidden');
       const items = document.querySelectorAll('.carousel__items__item');
@@ -63,10 +73,7 @@ export class LoaderPage {
         }
       });
     });
-     */
 
-    /**
-     *
     const opts = {
       'root': null,
       'rootMargin': '-20px',

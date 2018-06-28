@@ -33,6 +33,7 @@ import { CacheModule } from 'ionic-cache';
 import {AlertProvider} from "../providers/alert";
 import {LoaderPage} from "../pages/loader/loader";
 import {BoxMapComponent} from "../components/box-map/box-map";
+import { PlayerAudioProvider } from '../providers/player-audio/player-audio';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -141,7 +142,9 @@ const linksConfig = {
     File,
     Geolocation,
     DataProvider,
-    Media
+    Media,
+    PlayerAudioProvider,
+    PlayerAudioProvider
   ]
 })
 

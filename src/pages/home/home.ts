@@ -59,7 +59,7 @@ export class HomePage {
   _initCities() {
     this.api.get('/public/cities/list').subscribe((resp: any) => {
       if (resp.success) {
-        this.listCities = resp.data.map(city => new City(city));
+        this.listCities = resp.data;
       }
     });
   }
@@ -80,8 +80,8 @@ export class HomePage {
     event.preventDefault();
 
     this.navCtrl.push('PreviewByCity', {
-      city: city,
-      uuid: city.id
+      'city': city,
+      'uuid': city.id
     });
   }
 
@@ -90,7 +90,7 @@ export class HomePage {
    * @returns {City[]}
    */
   getListCities () {
-    return this.listCities.filter((item: City) => {
+    return this.listCities.filter((item: any) => {
       return item.force_lang === null || item.force_lang === this.config.getLanguage();
     });
   }

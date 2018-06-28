@@ -13,13 +13,10 @@ import {ApiProvider} from "../../providers/api";
 
 export class PreviewByCityPage {
   @ViewChild(Content) content: Content;
-  @ViewChild('map') mapContainer: ElementRef;
+
   map: any;
 
-  city: any = {
-    'id': null,
-    'title': {}
-  };
+  city: any;
 
   parcours: Array<any> = new Array();
   interests: Array<any> = new Array();
@@ -69,8 +66,6 @@ export class PreviewByCityPage {
               public config: ConfigProvider,
               public api: ApiProvider,
               public translate: TranslateProvider) {
-
-    console.log('preview by city');
 
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');

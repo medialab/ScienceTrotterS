@@ -5,7 +5,12 @@
 <ion-content>
 
   <div class='parcoursListContent'>
-    <div id='map' #map class='map'></div>
+    <div id='map' #map class='map'>
+      <box-map
+        [citiesCoords]="city.geo"
+      ></box-map>
+      
+    </div>
 
     <div [ngClass]="contentListClass">
 

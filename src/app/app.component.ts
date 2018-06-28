@@ -53,7 +53,7 @@ export class MyApp {
 
       // Chargement de la configuration.
       api.loadApiUrl().then(res => {
-        // this.rootPage = HomePage;
+        this.rootPage = HomePage;
       });
     });
   }
