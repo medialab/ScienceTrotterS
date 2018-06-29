@@ -28,14 +28,13 @@ export class BoxMapComponent {
               private api: ApiProvider,
               private dataProvider: DataProvider) {
     leaflet.markercluster = leafletMarkercluster;
+  }
 
-    setTimeout(() => {
-      this.addFuncs();
+  ngAfterViewInit () {
+    this.addFuncs();
 
-      this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, 13);
-      this.addMarkers();
-      // this.addMockMaerkers();
-    }, 500);
+    this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, 13);
+    this.addMarkers();
   }
 
   updateCurrentGeoLoc () {

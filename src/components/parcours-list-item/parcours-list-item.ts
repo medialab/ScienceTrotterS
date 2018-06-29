@@ -17,6 +17,7 @@ export class ParcoursListItemComponent {
   @Input() parcourTotalInterets: number = 0;
   @Input() parcourTime: string = '';
   @Input() interestAddress: string = '';
+  @Input() audioURI: string = '';
   @Input()
   set isOpenDiscover(nextState: boolean) {
     this._isOpenDiscover = nextState;

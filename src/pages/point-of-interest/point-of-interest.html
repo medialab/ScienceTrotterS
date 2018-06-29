@@ -175,7 +175,10 @@
   <div class="poi__main__content" *ngIf="!mainContentCls.isHidden">
 
     <section class="poi__section poi__section--isWhite section__player__audio">
-      <player-audio [playerUUID]="getData('id')" [loadPlayer]="true"></player-audio>
+      <player-audio
+        [audioURI]="getData('audio', true)"
+        [playerUUID]="getData('id')"
+        [loadPlayer]="true"></player-audio>
     </section>
 
     <section class="poi__section poi__section--isWhite section__bibliography">

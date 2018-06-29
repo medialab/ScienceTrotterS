@@ -11,12 +11,11 @@ import {PlayerAudio} from "../../models/PlayerAudio";
 export class PlayerAudioComponent {
   @Input() playerUUID: string = '';
   @Input() loadPlayer: boolean = false;
+  @Input() audioURI: string = '';
 
   get audioPlayer () {
     return this._audioPlayer();
   }
-
-  audioURI: string = 'http://sercan.actu.com/audio_test/audio_un.mp3';
 
   constructor (public navParams: NavParams,
                public translate: TranslateProvider,
@@ -27,7 +26,7 @@ export class PlayerAudioComponent {
    * Evenement émis lorsque les paramètres "Input" sont récupéré.
    */
   ngOnChanges() {
-    if (this.loadPlayer) {
+    if (this.loadPlayer && this.audioURI !== '') {
       const audioPlayer = new PlayerAudio(
         this.playerUUID,
         this.audioURI

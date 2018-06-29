@@ -59,12 +59,11 @@ export class CarouselComponent {
   }
 
   showImage (img: string) {
-    const items = document.querySelectorAll('.unsetWithCarousel');
+    const items: NodeListOf<Element> = document.querySelectorAll('.unsetWithCarousel');
 
-    for (const item of items) {
-      item.classList.add('unsetDiv');
+    for (let i = 0; i < items.length; i++) {
+      items[i].classList.add('unsetDiv');
     }
-
 
     this.btnCloseCarouselIsHidden = false;
 
@@ -75,9 +74,9 @@ export class CarouselComponent {
 
   closeImageViewer () {
     const items = document.querySelectorAll('.unsetWithCarousel');
-
-    for (const item of items) {
-      item.classList.remove('unsetDiv');
+    
+    for (let i = 0; i < items.length; i++) {
+      items[i].classList.remove('unsetDiv');
     }
 
     this.btnCloseCarouselIsHidden = true;

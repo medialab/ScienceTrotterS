@@ -19,7 +19,14 @@ export class PointOfInterestPage {
   curId: string = '';
   pageName: string = '';
 
-  interests: Array<any> = new Array();
+  _interests: Array<any> = new Array();
+
+  get interests () {
+    return this._interests.filter((item: any) => {
+      return item.isDone === false
+    });
+  }
+
   activeItem = 0;
 
   mainContentCls = {
@@ -72,16 +79,12 @@ export class PointOfInterestPage {
 
     this.api.get(resURI + curId).subscribe((resp: any) => {
       if (resp.success) {
-        this.interests = resp.data;
-
-        const tmp = resp.data.map((item: any) => {
+        this._interests = resp.data.map((item: any) => {
           return {
             'isDone': false,
             'item': item
           };
         });
-
-        console.log('tmpt', tmp);
       }
     }, (error: any) => {
       console.log('error fetchPOI', error);
@@ -215,10 +218,10 @@ export class PointOfInterestPage {
     if (typeof this.interests[this.activeItem] === 'undefined') {
       return '';
     } else {
-      if (!translate) {
-        return this.interests[this.activeItem][key];
+      if (! translate) {
+        return this.interests[this.activeItem].item[key];
       } else {
-        return this.translate.fromApi(this.config.getLanguage(), this.interests[this.activeItem][key]);
+        return this.translate.fromApi(this.config.getLanguage(), this.interests[this.activeItem].item[key]);
       }
     }
   }
@@ -248,7 +251,11 @@ export class PointOfInterestPage {
    *
    */
   btnEndPointOfInterest () {
-    console.log('btnEndPointOfInterest');
+    if (this.interests.length === 1) {
+      this.navCtrl.pop();
+    } else {
+      this.interests[this.activeItem].isDone = true;
+    }
   }
 
   /**

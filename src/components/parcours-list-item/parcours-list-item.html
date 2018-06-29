@@ -50,7 +50,10 @@
       </div>
 
       <div class='playerAudio'>
-        <player-audio [playerUUID]="openId" [loadPlayer]="isOpenDiscover"></player-audio>
+        <player-audio
+          [audioURI]="audioURI"
+          [playerUUID]="openId"
+          [loadPlayer]="isOpenDiscover"></player-audio>
       </div>
 
       <div class='footer'>

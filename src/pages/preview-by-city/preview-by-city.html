@@ -9,7 +9,7 @@
       <box-map
         [citiesCoords]="city.geo"
       ></box-map>
-      
+
     </div>
 
     <div [ngClass]="contentListClass">
@@ -65,6 +65,7 @@
             (click)="onClickItem()"
             target="parcours"
             color="{{ parcour.color }}"
+            [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio)"
             [isOpenDiscover]="false"
             openId="{{ parcour.id }}"
             parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
@@ -83,6 +84,7 @@
             (click)="onClickItem()"
             target="interests"
             color='#336699'
+            [audioURI]="translate.fromApi(config.getLanguage(), interest.audio)"
             [isOpenDiscover]="false"
             openId="{{ interest.id }}"
             interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
