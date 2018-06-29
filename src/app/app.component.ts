@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {Content, MenuController, Nav, Platform} from 'ionic-angular';
+import {Content, Events, MenuController, Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -9,6 +9,8 @@ import {TranslateProvider} from "../providers/translate";
 import {ConfigProvider} from "../providers/config";
 import {ApiProvider} from "../providers/api";
 import { CacheService } from "ionic-cache";
+import {Observable} from "rxjs/Observable";
+import {PlayerAudioProvider} from "../providers/playerAudio";
 
 @Component({
   templateUrl: 'app.html'
@@ -29,19 +31,22 @@ export class MyApp {
    */
   @ViewChild(Nav) nav;
 
-  constructor (public platform: Platform,
-              public statusBar: StatusBar,
-              public splashScreen: SplashScreen,
-              public menuCtrl: MenuController,
-              public config: ConfigProvider,
-              public translate: TranslateProvider,
-              public cache: CacheService,
-              public api: ApiProvider,
-              private camera: Camera) {
+  constructor (public playerAudioProvider: PlayerAudioProvider,
+               public platform: Platform,
+               public statusBar: StatusBar,
+               public splashScreen: SplashScreen,
+               public menuCtrl: MenuController,
+               public config: ConfigProvider,
+               public translate: TranslateProvider,
+               public cache: CacheService,
+               public api: ApiProvider,
+               private camera: Camera) {
     /**
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      this.globalListener();
+
       splashScreen.hide();
       config.initialize();
       statusBar.styleDefault();
@@ -56,6 +61,8 @@ export class MyApp {
         this.rootPage = HomePage;
       });
     });
+
+
   }
 
   /**
@@ -124,4 +131,21 @@ export class MyApp {
   sendCurrentPosition () {
     console.log('sendCurrentPosition');
   }
+
+  /**
+   * Global listener pour lors du switch d'une page.
+   */
+  globalListener () {
+    const events = Observable.merge(
+      this.nav.viewWillLeave,
+      this.nav.viewWillEnter
+    );
+
+    events.subscribe(() => {
+
+      // .
+      this.playerAudioProvider.isPlayingAndStopThem();
+    });
+  }
+
 }

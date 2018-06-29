@@ -1,11 +1,11 @@
-<div class="playerAudioComponent">
+<div class="playerAudioComponent" *ngIf="audioPlayer !== false && loadPlayer === true">
 
   <!-- PLAYER MAIN ACTIONS -->
   <ul class="actionsList">
     <!-- ACTION FAST LEFT -->
     <li class="actionItem actionItemFastLeft">
       <button class="actionBtn"
-              (click)="actionFastLeft()"
+              (click)="audioPlayer.actionFastLeft()"
               tabindex="0" [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
       </button>
@@ -15,7 +15,7 @@
     <li class="actionItem actionItemPause">
       <button id="actionBtnState" class="actionBtn" tabindex="1"
               [attr.aria-label]="translate.getKey('PLAYER_ACTION_STATE')"
-              [attr.aria-pressed]="isPlaying"
+              [attr.aria-pressed]="audioPlayer.isPlaying"
               (click)="updateActionState()">
         <span aria-hidden="true" class="icon big"></span>
       </button>
@@ -24,7 +24,7 @@
     <!-- ACTION FAST RIGHT -->
     <li class="actionItem actionItemFastRight">
       <button class="actionBtn"
-              (click)="actionFastRight()"
+              (click)="audioPlayer.actionFastRight()"
               tabindex="2" [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
       </button>
@@ -34,10 +34,10 @@
   <!-- PLAYER DURATION BAR -->
   <div class="durationBarContent">
     <ion-range
-      [(ngModel)]="durationCurrent"
+      [(ngModel)]="audioPlayer.durationCurrent"
       (ngModelChange)="onModelDurationChange($event)"
-      [min]="duration.track.min"
-      [max]="duration.track.max"
+      [min]="audioPlayer.duration.track.min"
+      [max]="audioPlayer.duration.track.max"
     ></ion-range>
   </div>
 
@@ -45,12 +45,12 @@
   <div class="playerDuration">
     <div class="durationCurrent">
       <label class="durationValue">
-        {{ duration.current }}
+        {{ audioPlayer.duration.current }}
       </label>
     </div>
     <div class="durationLeft">
       <label class="durationValue">
-        {{ duration.full }}
+        {{ audioPlayer.duration.full }}
       </label>
     </div>
   </div>

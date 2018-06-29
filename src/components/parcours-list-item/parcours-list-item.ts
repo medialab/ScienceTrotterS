@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {TranslateProvider} from "../../providers/translate";
-import {NavController} from "ionic-angular";
+import {NavController, NavParams} from "ionic-angular";
 
 @Component({
   selector: 'parcours-list-item',
-  templateUrl: 'parcours-list-item.html'
+  templateUrl: 'parcours-list-item.html',
 })
 export class ParcoursListItemComponent {
   _isOpenDiscover: boolean = false;
@@ -26,6 +26,7 @@ export class ParcoursListItemComponent {
   }
 
   constructor (public translate: TranslateProvider,
+              public navParams: NavParams,
               public navCtrl: NavController) {
   }
 

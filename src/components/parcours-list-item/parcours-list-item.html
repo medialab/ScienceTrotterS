@@ -48,9 +48,11 @@
           {{ previewDescription }}
         </p>
       </div>
+
       <div class='playerAudio'>
-        <player-audio></player-audio>
+        <player-audio [playerUUID]="openId" [loadPlayer]="isOpenDiscover"></player-audio>
       </div>
+
       <div class='footer'>
         <button type="button"
           *ngIf="target === 'parcours' && parcourTotalInterets > 0"
