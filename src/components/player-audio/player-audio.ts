@@ -27,9 +27,6 @@ export class PlayerAudioComponent {
    * Evenement émis lorsque les paramètres "Input" sont récupéré.
    */
   ngOnChanges() {
-
-    console.log('this.playerUUID', this.playerUUID);
-
     if (this.loadPlayer) {
       const audioPlayer = new PlayerAudio(
         this.playerUUID,

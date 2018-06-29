@@ -6,14 +6,14 @@
     <li class="actionItem actionItemFastLeft">
       <button class="actionBtn"
               (click)="audioPlayer.actionFastLeft()"
-              tabindex="0" [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
+              [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
       </button>
     </li>
 
     <!-- ACTION AUDIO STATE -->
     <li class="actionItem actionItemPause">
-      <button id="actionBtnState" class="actionBtn" tabindex="1"
+      <button id="actionBtnState" class="actionBtn"
               [attr.aria-label]="translate.getKey('PLAYER_ACTION_STATE')"
               [attr.aria-pressed]="audioPlayer.isPlaying"
               (click)="updateActionState()">
@@ -25,7 +25,7 @@
     <li class="actionItem actionItemFastRight">
       <button class="actionBtn"
               (click)="audioPlayer.actionFastRight()"
-              tabindex="2" [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
+              [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
       </button>
     </li>

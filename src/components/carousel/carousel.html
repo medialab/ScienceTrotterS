@@ -1,0 +1,34 @@
+<div class="caroussel__component__main">
+
+  <div class="caroussel__image-viewer caroussel__image-viewer--hidden">
+
+    <button
+      type="button"
+      class="btnCloseCarousel"
+      [attr.aria-hidden]="btnCloseCarouselIsHidden"
+      (click)="closeImageViewer()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+
+    <img alt="" aria-hidden="true" class="caroussel__image-viewer__item" />
+  </div>
+
+  <div class="carousel">
+    <ul class="carousel__items">
+      <li class="carousel__items__item" id="tab-{{i}}" aria-hidden="true" tabindex="-1" *ngFor="let image of images; index as i">
+        <img [attr.src]='image' alt="" (click)="showImage(image)" />
+      </li>
+      <li class="carousel__items__item__hidden" aria-hidden="true"></li>
+    </ul>
+
+    <ul class="carousel__selector">
+      <li class="carousel__selector__item" *ngFor="let image of images; index as i">
+        <button class="item__button" role="tab" aria-hidden="true" [attr.aria-controls]='getAriaControlName(i)' aria-controls="image"
+                (click)="carouselItemSwitch($event)">
+          <span class="visuallyhidden">selector </span>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+</div>

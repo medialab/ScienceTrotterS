@@ -87,7 +87,7 @@ export class TranslateProvider {
   }
 
   fromApi (lg: string, key: any) {
-    const undefinedValue = 'UNDEFINED_VALUE';
+    const undefinedValue = '';
 
     if (typeof key === 'undefined' || typeof key[lg] === 'undefined') {
       return undefinedValue;

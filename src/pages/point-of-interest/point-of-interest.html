@@ -1,4 +1,4 @@
-<main-header [withBackButton]="true" [withMenu]="true">
+<main-header [withBackButton]="true" [withMenu]="true" class="unsetWithCarousel">
   {{ pageName }}
 </main-header>
 
@@ -200,11 +200,7 @@
       <h3 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALERY_IMAGE') }}</h3>
       <div class="poi__section__content">
 
-        <ion-slides class="image-slider poi-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
-          <ion-slide *ngFor="let img of getGalleryImages()">
-            <img [attr.src]="img" class="thumb-img" imageViewer/>
-          </ion-slide>
-        </ion-slides>
+        <carousel [images]="getGalleryImages()"></carousel>
 
       </div>
     </section>
@@ -244,7 +240,7 @@
   </div>
 </ion-content>
 
-<footer *ngIf="!mainContentCls.isHidden">
+<footer *ngIf="!mainContentCls.isHidden" class="unsetWithCarousel">
   <ul class="footer__list">
     <li class="footer__list__item">
       <button class="item__button" (click)="scrollTo('titleAudioScript')">

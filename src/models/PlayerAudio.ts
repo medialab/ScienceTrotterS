@@ -57,6 +57,10 @@ export class PlayerAudio {
 
   actionFastRight () {
     this.track.currentTime += 30.00;
+
+    if (this.track.currentTime === this.track.duration && ! this.isPlaying) {
+      this.updateActionState();
+    }
   }
 
   updateActionState () {

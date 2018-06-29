@@ -34,6 +34,7 @@ import {AlertProvider} from "../providers/alert";
 import {LoaderPage} from "../pages/loader/loader";
 import {BoxMapComponent} from "../components/box-map/box-map";
 import {PlayerAudioProvider} from "../providers/playerAudio";
+import {CarouselComponent} from "../components/carousel/carousel";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -93,7 +94,8 @@ const linksConfig = {
     MainContentComponent,
     ParcoursListItemComponent,
     PlayerAudioComponent,
-    BoxMapComponent
+    BoxMapComponent,
+    CarouselComponent
   ],
   imports: [
     IonicImageViewerModule,

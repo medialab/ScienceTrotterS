@@ -73,6 +73,15 @@ export class PointOfInterestPage {
     this.api.get(resURI + curId).subscribe((resp: any) => {
       if (resp.success) {
         this.interests = resp.data;
+
+        const tmp = resp.data.map((item: any) => {
+          return {
+            'isDone': false,
+            'item': item
+          };
+        });
+
+        console.log('tmpt', tmp);
       }
     }, (error: any) => {
       console.log('error fetchPOI', error);
@@ -248,9 +257,9 @@ export class PointOfInterestPage {
    */
   getGalleryImages () {
     if (! this.getData('gallery_image')) {
-    return [];
+      return [];
     } else {
-    return JSON.parse(this.getData('gallery_image'));
+      return JSON.parse(this.getData('gallery_image'));
     }
   }
 

@@ -142,8 +142,7 @@ export class MyApp {
     );
 
     events.subscribe(() => {
-
-      // .
+      console.log('event page');
       this.playerAudioProvider.isPlayingAndStopThem();
     });
   }
