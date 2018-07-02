@@ -4,9 +4,9 @@ main-content {
   position: relative;
   display: block;
   width: 100%;
-  height: calc(100% - 46px);
+  height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}));
   contain: layout size style;
-  margin: $mainHeaderHeight 0 0 0;
+  margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
 }
 
 ion-app.ios main-content {
@@ -15,7 +15,7 @@ ion-app.ios main-content {
   position: relative;
   display: block;
   width: 100%;
-  height: calc(100% - 46px - 20px) !important;
+  height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding})) !important;
   contain: layout size style;
-  margin: $mainHeaderHeight 0 0 0;
+  margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
 }

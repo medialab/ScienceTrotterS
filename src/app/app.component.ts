@@ -49,7 +49,6 @@ export class MyApp {
 
       splashScreen.hide();
       config.initialize();
-      statusBar.styleDefault();
 
       // Set TTL to 12h
       cache.setDefaultTTL(60 * 60 * 12);
