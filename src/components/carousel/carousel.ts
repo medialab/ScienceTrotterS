@@ -74,7 +74,7 @@ export class CarouselComponent {
 
   closeImageViewer () {
     const items = document.querySelectorAll('.unsetWithCarousel');
-    
+
     for (let i = 0; i < items.length; i++) {
       items[i].classList.remove('unsetDiv');
     }

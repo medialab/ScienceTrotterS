@@ -24,7 +24,7 @@ box-map {
       height: 50px;
       border-radius: 50%;
       background-color: black;
-      background-image: url('/assets/imgs/map/geolocalisation.svg');
+      background-image: url('../assets/imgs/map/geolocalisation.svg');
       background-size: 30px;
       background-position: center;
       background-repeat: no-repeat;
@@ -82,9 +82,9 @@ box-map {
         background-position: center;
         background-repeat: no-repeat;
         background-size: 25px;
-        background-image: url("/assets/imgs/map/timer.svg");
+        background-image: url("../assets/imgs/map/timer.svg");
       }
-
+      
       span {
 
       }

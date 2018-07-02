@@ -7,9 +7,8 @@
   <div class='parcoursListContent'>
     <div id='map' #map class='map'>
       <box-map
-        [citiesCoords]="city.geo"
+        [citiesCoords]="city.geoloc"
       ></box-map>
-
     </div>
 
     <div [ngClass]="contentListClass">
@@ -65,7 +64,7 @@
             (click)="onClickItem()"
             target="parcours"
             color="{{ parcour.color }}"
-            [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio)"
+            [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), parcour.audio))"
             [isOpenDiscover]="false"
             openId="{{ parcour.id }}"
             parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
@@ -84,7 +83,7 @@
             (click)="onClickItem()"
             target="interests"
             color='#336699'
-            [audioURI]="translate.fromApi(config.getLanguage(), interest.audio)"
+            [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
             [isOpenDiscover]="false"
             openId="{{ interest.id }}"
             interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"

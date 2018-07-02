@@ -263,13 +263,15 @@ export class PointOfInterestPage {
    * @returns {any}
    */
   getGalleryImages () {
-    if (! this.getData('gallery_image')) {
+    if (typeof this.getData('gallery_image') === 'undefined') {
       return [];
     } else {
-      return JSON.parse(this.getData('gallery_image'));
+      return Object
+        .values(this.getData('gallery_image'))
+        .map((img: string) => this.api.getAssetsUri(img));
     }
   }
-
+  
   /**
    * ACTION :
    * Share the current POI reference.

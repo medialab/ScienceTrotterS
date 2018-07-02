@@ -28,11 +28,13 @@ export class BoxMapComponent {
               private api: ApiProvider,
               private dataProvider: DataProvider) {
     leaflet.markercluster = leafletMarkercluster;
+    this.addFuncs();
   }
 
   ngAfterViewInit () {
-    this.addFuncs();
+  }
 
+  ngOnChanges () {
     this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, 13);
     this.addMarkers();
   }
