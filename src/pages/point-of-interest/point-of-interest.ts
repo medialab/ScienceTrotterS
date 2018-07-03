@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ApiProvider} from "../../providers/api";
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
@@ -13,6 +13,9 @@ import { Platform } from 'ionic-angular';
 export class PointOfInterestPage {
   @ViewChild(Content) content: Content;
 
+  isActivePage: boolean = false;
+  isOnUpdateLanguage: boolean = false;
+
   helpItemActive = '';
 
   curTarget: string = '';
@@ -23,7 +26,7 @@ export class PointOfInterestPage {
 
   get interests () {
     return this._interests.filter((item: any) => {
-      return item.isDone === false
+      return item.isDone === false && (item.item.force_lang === null || item.item.force_lang === this.config.getLanguage())
     });
   }
 
@@ -39,11 +42,37 @@ export class PointOfInterestPage {
                public api: ApiProvider,
                public config: ConfigProvider,
                public translate: TranslateProvider,
-              public platform : Platform) {
+               private alertCtrl: AlertController,
+               public events: Events,
+               public platform : Platform) {
     this.curTarget = navParams.get('target');
     this.curId = navParams.get('openId');
     this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
     this.init(navParams.get('target'), navParams.get('openId'));
+
+    events.subscribe('config:updateLanguage', () => {
+      this.isOnUpdateLanguage = true;
+    });
+  }
+
+  onUpdateLanguage () {
+    this.isOnUpdateLanguage = false;
+
+    if (this.interests.length === 0) {
+      this.navCtrl.pop();
+    }
+  }
+
+  ionViewDidEnter () {
+    this.isActivePage = true;
+
+    if (this.isOnUpdateLanguage) {
+      this.onUpdateLanguage();
+    }
+  }
+
+  ionViewWillLeave () {
+    this.isActivePage = false;
   }
 
   /**
@@ -271,7 +300,7 @@ export class PointOfInterestPage {
         .map((img: string) => this.api.getAssetsUri(img));
     }
   }
-  
+
   /**
    * ACTION :
    * Share the current POI reference.

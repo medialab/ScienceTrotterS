@@ -18,7 +18,6 @@ export class PlayerAudio {
   constructor (uuid: string, uri: string) {
     this.uuid = uuid;
     this.uri = uri;
-
     this.track = new Audio(this.uri);
     this.track.ontimeupdate = this.onTimeUpdate.bind(this);
     this.track.oncanplay = this.onCanPlay.bind(this);
@@ -33,6 +32,7 @@ export class PlayerAudio {
   }
 
   onCanPlay () {
+
     const duration: any = (this.track.duration / 60).toFixed(2);
 
     this.duration.track.max = this.track.duration;
@@ -64,10 +64,13 @@ export class PlayerAudio {
   }
 
   updateActionState () {
+    console.log('update action state');
     if (this.isPlaying) {
+      console.log('pause();');
       this.isPlaying = false;
       this.track.pause();
     } else {
+      console.log('play();')
       this.isPlaying = true;
       this.track.play();
     }

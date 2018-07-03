@@ -68,13 +68,23 @@ carousel {
         min-width: $itemHidden;
         height: $itemHeight;
       }
+
+      &__item--alone {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+
+        img {
+          width: auto !important;
+        }
+      }
+
       &__item {
         min-width: $itemWidth;
         max-width: $itemWidth;
         height: $itemHeight;
         padding: 0 20px;
-
-
 
         &:first-child {
           margin-left: 15vw;

@@ -10,14 +10,28 @@ export class CarouselComponent {
   btnCloseCarouselIsHidden: boolean = true;
 
   ngAfterViewInit () {
-    this.setCurrentActiveItem();
     this.carouselItemObserver();
+  }
+
+  ngOnChanges () {
+    this.setCurrentActiveItem();
+  }
+
+  ngClassLessThanOneImg () {
+    return {
+      'hideDiv': this.images.length === 1
+    };
+  }
+
+  ngClassLessThanOneImgAddCls (customClass: string = '') {
+    return {
+      [customClass]: this.images.length === 1
+    };
   }
 
   carouselItemSwitch (event: any) {
     const id = event.target.getAttribute('aria-controls');
 
-    //noinspection TypeScriptUnresolvedFunction
     document.querySelector(`#${id}`).scrollIntoView({
       'behavior': 'smooth',
       'block': 'center',
@@ -25,7 +39,7 @@ export class CarouselComponent {
     });
   }
 
-  carouselItemObserver() {
+  carouselItemObserver () {
     document.querySelector('.carousel__items').addEventListener('scroll', (event) => {
       this.setCurrentActiveItem();
     });
@@ -34,7 +48,6 @@ export class CarouselComponent {
   setCurrentActiveItem () {
     const itemActive = document.querySelector('.item__button[aria-hidden]');
     const items = document.querySelectorAll('.carousel__items__item');
-
 
     for (const index in items) {
       const item = items[index];

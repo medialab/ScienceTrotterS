@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {TranslateProvider} from "./translate";
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class ConfigProvider {
@@ -69,7 +70,9 @@ export class ConfigProvider {
    * @param {HttpClient} http
    * @param {TranslateProvider} _translate
    */
-  constructor(public http: HttpClient, _translate: TranslateProvider) {
+  constructor(public http: HttpClient,
+              public _translate: TranslateProvider,
+              public events: Events) {
     this.translate = _translate;
   }
 
@@ -81,10 +84,15 @@ export class ConfigProvider {
   updateLanguage(nextValue: string = '') {
     if (nextValue === '') {
       this.parameters.language = this.parameters.language === 'fr' ? 'en' : 'fr';
+
       this.translate.setLanguage(this.parameters.language);
+      this.events.publish('config:updateLanguage');
+
     } else if (this.availableLanguage.indexOf(nextValue) !== -1) {
       this.parameters.language = nextValue;
+
       this.translate.setLanguage(this.parameters.language);
+      this.events.publish('config:updateLanguage');
     }
   }
 
@@ -187,4 +195,6 @@ export class ConfigProvider {
     this.updateFontSize(_fontSize === null ? this.parameters.fontSize : _fontSize);
     this.updateFontSize(_theme === null ? this.parameters.theme : _theme);
   }
+
+
 }

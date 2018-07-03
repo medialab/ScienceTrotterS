@@ -17,7 +17,9 @@
       <div class='darkSelectBox'>
         <h3>
           <label [ngClass]="selectTargetParcours"
-                 (click)="onChangeSelectedTarget({'checked': false}, true)">Parcours</label>
+                 (click)="onChangeSelectedTarget({'checked': false}, true)">
+            {{ translate.getKey('PBC_ALT_PARCOURS') }}
+          </label>
         </h3>
 
         <div class='switchGroup'>
@@ -32,7 +34,9 @@
 
         <h3>
           <label [ngClass]="selectTargetPoints"
-                 (click)="onChangeSelectedTarget({'checked': true}, true)">Points d'intérêts</label>
+                 (click)="onChangeSelectedTarget({'checked': true}, true)">
+            {{ translate.getKey('PBC_ALT_POI') }}
+          </label>
         </h3>
       </div>
       <!-- ./ DARK SELECT BOX -->

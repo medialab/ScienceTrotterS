@@ -15,17 +15,27 @@
 
   <div class="carousel">
     <ul class="carousel__items">
-      <li class="carousel__items__item" id="tab-{{i}}" aria-hidden="true" tabindex="-1" *ngFor="let image of images; index as i">
+      <li class="carousel__items__item"
+          [ngClass]="ngClassLessThanOneImgAddCls('carousel__items__item--alone')"
+          id="tab-{{i}}"
+          aria-hidden="true"
+          tabindex="-1"
+          *ngFor="let image of images; index as i">
         <img [attr.src]='image' alt="" (click)="showImage(image)" />
       </li>
-      <li class="carousel__items__item__hidden" aria-hidden="true"></li>
+      <li class="carousel__items__item__hidden" aria-hidden="true" [ngClass]="ngClassLessThanOneImg()"></li>
     </ul>
 
-    <ul class="carousel__selector">
-      <li class="carousel__selector__item" *ngFor="let image of images; index as i">
-        <button class="item__button" role="tab" aria-hidden="true" [attr.aria-controls]='getAriaControlName(i)' aria-controls="image"
+    <ul class="carousel__selector" [ngClass]="ngClassLessThanOneImg()">
+      <li class="carousel__selector__item"
+          *ngFor="let image of images; index as i">
+        <button class="item__button"
+                role="tab"
+                aria-hidden="true"
+                [attr.aria-controls]='getAriaControlName(i)'
+                aria-controls="image"
                 (click)="carouselItemSwitch($event)">
-          <span class="visuallyhidden">selector </span>
+          <span class="visuallyhidden">selector</span>
         </button>
       </li>
     </ul>

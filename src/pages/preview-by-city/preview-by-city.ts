@@ -1,5 +1,5 @@
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {App, Content, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {App, Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import leaflet from 'leaflet';
 import {ConfigProvider} from "../../providers/config";
@@ -18,9 +18,21 @@ export class PreviewByCityPage {
 
   city: any;
 
-  parcours: Array<any> = new Array();
-  interests: Array<any> = new Array();
+  _parcours: Array<any> = new Array();
+  _interests: Array<any> = new Array();
 
+  get parcours () {
+    return this._parcours.filter((item: any) => {
+      return item.force_lang === null || item.force_lang === this.config.getLanguage();
+    });
+  }
+
+  get interests () {
+    return this._interests.filter((item: any) => {
+      return item.force_lang === null || item.force_lang === this.config.getLanguage();
+    });
+  }
+  
   contentListClass = {
     contentList: true,
     isOpen: false
@@ -65,13 +77,23 @@ export class PreviewByCityPage {
               public navParams: NavParams,
               public config: ConfigProvider,
               public api: ApiProvider,
+              public events: Events,
               public translate: TranslateProvider) {
 
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
       this.loadParcours();
       this.loadInterests();
+
+      /**
+       * TODO : LISTENER ON UPDATE LANGUAGE.
+       */
+     // events.subscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
     }
+  }
+
+  onUpdateLanguage () {
+    console.log('ok');
   }
 
   focusAnElement (element: string) {
@@ -186,7 +208,7 @@ export class PreviewByCityPage {
   loadParcours() {
     this.api.get('/public/parcours/byCityId/' + this.city.id).subscribe((resp: any) => {
       if (resp.success) {
-        this.parcours = resp.data;
+        this._parcours = resp.data;
       }
     }, (error: any) => {
       console.log('error', error);
@@ -199,7 +221,7 @@ export class PreviewByCityPage {
   loadInterests() {
     this.api.get('/public/interests/byCityId/' + this.city.id).subscribe((resp: any) => {
       if (resp.success) {
-        this.interests = resp.data;
+        this._interests = resp.data;
       }
     }, (error: any) => {
       console.log('error', error);

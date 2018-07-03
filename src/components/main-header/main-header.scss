@@ -1,3 +1,23 @@
+.app-root-ios {
+  main-header {
+    height: $mainHeaderHeight + $cordova-ios-statusbar-padding;
+
+    ion-header {
+      margin-top: $cordova-ios-statusbar-padding;
+    }
+  }
+}
+
+.app-root-md {
+  main-header {
+    height: $mainHeaderHeight;
+
+    ion-header {
+      padding-top: initial !important;
+    }
+  }
+}
+
 main-header {
   left: 0;
   top: 0;
@@ -5,13 +25,11 @@ main-header {
   z-index: 10;
   display: block;
   width: 100vw;
-  height: $mainHeaderHeight + $cordova-ios-statusbar-padding;
   background-color: #f8f8f8;
 
   ion-header {
     height: 46px;
     min-height: 46px !important;
-    margin-top: $cordova-ios-statusbar-padding;
 
     ion-navbar {
       height: 46px;
@@ -25,7 +43,6 @@ main-header {
     height: auto !important;
     overflow: hidden;
   }
-
 }
 
 .menuBtnRight {

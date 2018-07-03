@@ -1,7 +1,18 @@
-page-point-of-interest {
-  ion-content {
-    height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding})) !important;
-    margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
+.app-root-md {
+  page-point-of-interest {
+    ion-content {
+      height: calc(100% - #{$mainHeaderHeight}) !important;
+      margin: #{$mainHeaderHeight} 0 0 0;
+    }
+  }
+}
+
+.app-root-ios {
+  page-point-of-interest {
+    ion-content {
+      height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding})) !important;
+      margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
+    }
   }
 }
 

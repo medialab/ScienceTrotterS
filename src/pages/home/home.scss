@@ -1,5 +1,13 @@
 page-home {
 
+  .main__title {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.8em;
+    margin: 0;
+  }
+
   .currentLg {
     width: 100%;
     margin: 25px 20px 0px 20px;
@@ -14,6 +22,50 @@ page-home {
       color: black !important;
     }
   }
+  .list__cities__item__select__lg {
+    background-color: transparent !important;
+
+    #hiddenSelectLg {
+      display: none;
+    }
+
+    .ul__select__lg {
+      list-style: none;
+      margin: 0;
+      padding: 0 6px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-evenly;
+
+      .lg__item {
+
+        &__btn {
+          width: 100%;
+          height: 40px;
+          border-radius: 20px;
+          border: 1px solid black;
+          background-color: white;
+          text-transform: uppercase;
+          font-size: 1.1em;
+          transition: 0.4s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &[aria-checked="true"] {
+            background-color: black;
+            color: white;
+
+            ion-icon {
+              padding-right: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
 
   .listOfCities {
     display: flex;

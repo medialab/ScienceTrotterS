@@ -3,21 +3,55 @@
 </main-header>
 
 <main-content>
-  <div class="currentLg">
-    <label [ngClass]="(setActiveLanguageClass('fr'))">FR</label>
-    <label [ngClass]="(setActiveLanguageClass('en'))">EN</label>
-  </div>
+
+  <h2 class="main__title">
+    {{ translate.getKey('PAGE_NAME_HOME') }}
+  </h2>
 
   <!-- LIST ALL CITIES -->
   <ul class="list__cities">
 
     <!-- SELECT LANGUAGE TOGGLE -->
-    <li class="list__cities__item itemSelectLg">
-      <ion-toggle [(ngModel)]="config.language" class="switch"></ion-toggle>
-      <h1 class="homePageTitle">
-        <span class="bigTitle">{{ translate.getKey('P_HOME_TITLE_PART1') }}</span>
-        <span class="smallTitle">{{ translate.getKey('P_HOME_TITLE_PART2') }}</span>
-      </h1>
+    <li class="list__cities__item list__cities__item__select__lg">
+
+      <!-- HIDDEN SELECT LG -->
+      <select id="hiddenSelectLg"
+              [(ngModel)]="currentLanguage"
+              (change)="hiddenSelectLgOnChange($event)">
+        <option
+          id="otps__lg--fr"
+          [attr.aria-selected]="setLgActiveAria('fr')"
+          value="fr">{{ translate.getKey('P_SETTING_FR') }}</option>
+        <option
+          id="otps__lg--en"
+          [attr.aria-selected]="setLgActiveAria('en')"
+          value="en">{{ translate.getKey('P_SETTING_EN') }}</option>
+      </select>
+      <!-- .\ HIDDEN SELECT LG -->
+
+      <ul class="ul__select__lg">
+        <li class="lg__item">
+          <button
+            aria-controls="otps__lg--fr"
+            class="lg__item__btn"
+            (click)="updateLanguage('fr')"
+            [attr.aria-checked]="setLgActiveAria('fr')">
+            <ion-icon aria-hidden="true" name="md-checkmark" *ngIf="setLgActiveAria('fr')"></ion-icon>
+            <span>{{ translate.getKey('P_SETTING_FR') }}</span>
+          </button>
+        </li>
+        <li class="lg__item">
+          <button
+            aria-controls="otps__lg--en"
+            class="lg__item__btn"
+            (click)="updateLanguage('en')"
+            [attr.aria-checked]="setLgActiveAria('en')">
+            <ion-icon aria-hidden="true" name="md-checkmark" *ngIf="setLgActiveAria('en')"></ion-icon>
+            <span>{{ translate.getKey('P_SETTING_EN') }}</span>
+          </button>
+        </li>
+      </ul>
+
     </li>
     <!-- .\ SELECT LANGUAGE TOGGLE -->
 
@@ -25,7 +59,7 @@
         *ngFor="let city of getListCities()"
         [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'"
         alt=""
-        >
+    >
       <a class="list__cities__item__a"
          href="/#/parcours_list/{{ city.id }}"
          (click)="openParcoursList($event, city)">

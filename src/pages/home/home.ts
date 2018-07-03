@@ -17,6 +17,14 @@ export class HomePage {
   listCities: Array<City> = new Array();
   platformValues: string = '';
 
+  get currentLanguage () {
+    return this.config.getLanguage();
+  }
+
+  set currentLanguage (nextLg: string) {
+    // NONE.
+  }
+
   constructor(public dataProvider: DataProvider,
               public navCtrl: NavController,
               public config: ConfigProvider,
@@ -46,10 +54,8 @@ export class HomePage {
    * @param targetLg
    * @returns {{}}
    */
-  setActiveLanguageClass(targetLg: string) {
-    return {
-      [this.activeLg]: this.config.getLanguage() === targetLg
-    };
+  setLgActiveAria(targetLg: string) {
+    return this.config.getLanguage() === targetLg;
   }
 
   /**
@@ -68,8 +74,8 @@ export class HomePage {
    *
    * @param e
    */
-  updateLanguage(e) {
-    this.config.updateLanguage();
+  updateLanguage(nextValue: string = '') {
+    this.config.updateLanguage(nextValue);
   }
 
   /**
@@ -93,5 +99,11 @@ export class HomePage {
     return this.listCities.filter((item: any) => {
       return item.force_lang === null || item.force_lang === this.config.getLanguage();
     });
+  }
+
+  hiddenSelectLgOnChange (event: any) {
+    const selectedItem = event.target[event.target.selectedIndex];
+
+    this.updateLanguage(selectedItem.value);
   }
 }

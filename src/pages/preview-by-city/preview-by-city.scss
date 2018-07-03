@@ -1,3 +1,21 @@
+.app-root-ios {
+  page-preview-by-city {
+    .contentList {
+      height: calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px);
+      bottom: calc(0px - calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px - 30%) + 56px);
+    }
+  }
+}
+
+.app-root-md {
+  page-preview-by-city {
+    .contentList {
+      height: calc(100vh - #{$mainHeaderHeight} - 70px);
+      bottom: calc(0px - calc(100vh - #{$mainHeaderHeight} - 70px - 30%) + 56px);
+    }
+  }
+}
+
 page-preview-by-city {
 
   .parcoursListContent {
@@ -11,7 +29,7 @@ page-preview-by-city {
     .map {
       width: 100%;
       height: calc(100% - 56px - 30%);
-      background-color: red;
+      background-color: black;
     }
 
     ul.list {
@@ -54,9 +72,6 @@ page-preview-by-city {
     flex-wrap: nowrap;
     position: absolute;
     width: 100%;
-    height: calc( 100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px);
-    bottom: calc(0px - calc( 100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px - 30%) + 56px);
-
     background-color: blue;
     transition: 0.4s ease-out;
     z-index: 999;
