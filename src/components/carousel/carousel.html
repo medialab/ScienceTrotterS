@@ -23,7 +23,6 @@
           *ngFor="let image of images; index as i">
         <img [attr.src]='image' alt="" (click)="showImage(image)" />
       </li>
-      <li class="carousel__items__item__hidden" aria-hidden="true" [ngClass]="ngClassLessThanOneImg()"></li>
     </ul>
 
     <ul class="carousel__selector" [ngClass]="ngClassLessThanOneImg()">

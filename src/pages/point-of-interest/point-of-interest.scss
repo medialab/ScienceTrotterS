@@ -27,6 +27,7 @@ $picture-size: 200px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
     background-color: rosybrown;
     index: -5;
   }
@@ -586,6 +587,10 @@ $picture-size: 200px;
         &__item {
           font-size: 14px;
           padding: 2px 0;
+
+          p {
+            margin: 0;
+          }
         }
       }
     }

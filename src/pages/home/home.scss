@@ -79,12 +79,12 @@ page-home {
       width: calc(50% - 10px);
       height: 100px;
       margin: 0px 5px 20px 5px;
+      background-size: cover;
       background-color: dimgrey;
       background-position: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background-size: cover;
 
       .itemTitle {
         background-color: rgba(0, 0, 0, 0.6);
@@ -130,7 +130,6 @@ page-home {
       }
     }
   }
-
 }
 
 
@@ -149,6 +148,7 @@ page-home {
     margin: 0px 5px 20px 5px;
     background-color: dimgrey;
     background-position: center;
+    background-size: cover;
 
     &__a {
       height: 100%;
