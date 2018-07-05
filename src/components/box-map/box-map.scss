@@ -3,18 +3,18 @@
 box-map {
   width: 100%;
   height: 100%;
-  background-color: red;
+  background-color: black;
 
-  .map__compoennt {
+  .map_component {
     width: 100%;
     height: 100%;
-    background-color: darkred;
+    background-color: black;
     position: relative;
 
     &__content {
       width: 100%;
       height: 100%;
-      background-color: darkred;
+      background-color: black;
     }
 
     .btn__geoloc {
@@ -26,10 +26,25 @@ box-map {
       height: 50px;
       border-radius: 50%;
       background-color: black;
-      background-image: url('../assets/imgs/map/geolocalisation.svg');
-      background-size: 30px;
-      background-position: center;
-      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .icon__geoloc {
+        display: block;
+        width: 30px;
+        height: 30px;
+        background-image: url('../assets/imgs/map/geolocalisation.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      &--isLoading {
+        .icon__geoloc {
+          animation: spinning-circle 2s infinite linear;
+        }
+      }
 
       &--isLeft {
         left: 0;
@@ -43,7 +58,7 @@ box-map {
 
   .leaflet-control-attribution,
   .leaflet-control {
-    display:       none;
+    display: none;
   }
 
   path {
@@ -93,4 +108,13 @@ box-map {
     }
   }
 
+}
+
+@-webkit-keyframes spinning-circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

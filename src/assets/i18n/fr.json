@@ -49,5 +49,10 @@
 
   "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
   "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
-  "PLAYER_ACTION_STATE": "Player action state"
+  "PLAYER_ACTION_STATE": "Player action state",
+
+  "C_BOX_MAP_USER_MARKER": "Vous êtes ici !",
+  "PV_GEOLOC_ASKGEO_ERROR_TITLE": "Erreur",
+  "PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED": "Veuillez activer votre position gps.",
+  "PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED": "Veuillez autoriser cette application à utiliser votre position gps."
 }

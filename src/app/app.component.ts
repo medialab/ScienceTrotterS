@@ -56,12 +56,12 @@ export class MyApp {
       cache.setOfflineInvalidate(false);
 
       // Chargement de la configuration.
-      api.loadApiUrl().then(res => {
+      config.loadConfiguration().then(() => {
         this.rootPage = HomePage;
       });
     });
   }
-
+  
   /**
    * Au clique d'un lien du menu, une nouvelle page
    * va être ouverte.

@@ -1,10 +1,13 @@
-<div class="map__compoennt">
+<div class="map_component">
   <button
     (click)="updateCurrentGeoLoc()"
     type="button"
-    class="btn__geoloc btn__geoloc--isLeft"></button>
+    id="btn__geoloc"
+    class="btn__geoloc btn__geoloc--isLeft">
+    <i class="icon__geoloc"></i>
+  </button>
   <div
-    class="map__compoennt__content"
-    id="map__compoennt__content"
+    class="map_component__content"
+    id="map_component__content"
     #mapContainer></div>
 </div>

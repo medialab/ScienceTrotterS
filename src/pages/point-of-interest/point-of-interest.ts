@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {AlertController, Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ApiProvider} from "../../providers/api";
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
@@ -42,7 +42,6 @@ export class PointOfInterestPage {
                public api: ApiProvider,
                public config: ConfigProvider,
                public translate: TranslateProvider,
-               private alertCtrl: AlertController,
                public events: Events,
                public platform : Platform) {
     this.curTarget = navParams.get('target');
@@ -270,10 +269,49 @@ export class PointOfInterestPage {
   }
 
   /**
-   *
+   * TODO : dynamic data
+   * Envoi d'un message pour signaler un problème
+   * par mail.
    */
   btnReportProblem () {
-    console.log('btnReportProblem');
+    const subject = {
+      'fr': 'btnReportProblem FR',
+      'en': 'btnReportProblem EN'
+    };
+
+    this.sendMail(null, subject[this.config.getLanguage()]);
+  }
+
+  /**
+   * TODO : dynamic data
+   * Partage du point d'inrétêt courant par mail.
+   */
+  btnShareRef () {
+    const subject = {
+      'fr': 'btnShareRef FR',
+      'en': 'btnShareRef EN'
+    };
+    let body = '';
+
+    for (let itemDesc of this.getData('bibliography', true)) {
+      body += itemDesc + '%0D%0A';
+    }
+
+    this.sendMail(null, subject[this.config.getLanguage()], body);
+  }
+
+  /**
+   * Ouverture du client mail par défault pour l'envoi
+   * d'un mail.
+   *
+   * @param subject
+   */
+  sendMail (to: string = '', subject: string = '', body: string = '') {
+    if (to === '' || to === null) {
+      to = this.config.data.contact_mail;
+    }
+
+    const sendMail = window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system');
   }
 
   /**
@@ -299,14 +337,6 @@ export class PointOfInterestPage {
         .values(this.getData('gallery_image'))
         .map((img: string) => this.api.getAssetsUri(img));
     }
-  }
-
-  /**
-   * ACTION :
-   * Share the current POI reference.
-   */
-  actionShareRef () {
-    console.log('actionShareRef');
   }
 
   focusAnElement (element: string) {

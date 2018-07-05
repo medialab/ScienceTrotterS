@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {CacheService} from "ionic-cache";
+import {ConfigProvider} from "./config";
 
 @Injectable()
 export class ApiProvider {
-  endpoint_data: string = '';
-  endpoint_assets: string = '';
-
   /**
    * Cache configuration.
    * @type {{ttl: number; delayType: string}}
@@ -16,25 +14,9 @@ export class ApiProvider {
     'delayType': 'all'
   };
 
-  constructor(private http: HttpClient,
+  constructor(public config: ConfigProvider,
+              private http: HttpClient,
               private cache: CacheService) {
-  }
-
-  /**
-   *
-   * @returns {Promise<T>}
-   */
-  loadApiUrl() {
-    return new Promise((resolve, reject) => {
-      this.get('manifest.json').subscribe((resp: any) => {
-        this.endpoint_data = resp.configuration.endpoint.data;
-        this.endpoint_assets = resp.configuration.endpoint.assets;
-
-        resolve(true);
-      }, err => {
-        reject(false);
-      });
-    });
   }
 
   /**
@@ -70,7 +52,7 @@ export class ApiProvider {
    * @returns {string}
    */
   getAssetsUri(target: string) {
-    return this.endpoint_assets + target;
+    return this.config.data.endpoint.assets + target;
   }
 
   /**
@@ -80,6 +62,6 @@ export class ApiProvider {
    * @returns {string}
    */
   getRequestURI(target: string) {
-    return this.endpoint_data + target;
+    return this.config.data.endpoint.data + target;
   }
 }

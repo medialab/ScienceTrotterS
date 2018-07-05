@@ -5,10 +5,13 @@ import { Events } from 'ionic-angular';
 
 @Injectable()
 export class ConfigProvider {
-  /**
-   * Translate provider.
-   */
-  translate: TranslateProvider;
+  data: any = {
+    'contact_mail': '',
+    'endpoint': {
+      'data': '',
+      'assets': ''
+    }
+  };
 
   /**
    * Paramètres de l'application
@@ -71,9 +74,24 @@ export class ConfigProvider {
    * @param {TranslateProvider} _translate
    */
   constructor(public http: HttpClient,
-              public _translate: TranslateProvider,
+              public translate: TranslateProvider,
               public events: Events) {
-    this.translate = _translate;
+  }
+
+  /**
+   *
+   * @returns {Promise<T>}
+   */
+  loadConfiguration () {
+    return new Promise((resolve, reject) => {
+      return this.http.get('manifest.json').subscribe((resp: any) => {
+        this.data = resp.configuration;
+
+        resolve(true);
+      }, (err: any) => {
+        reject(false);
+      });
+    });
   }
 
   /**
@@ -195,6 +213,4 @@ export class ConfigProvider {
     this.updateFontSize(_fontSize === null ? this.parameters.fontSize : _fontSize);
     this.updateFontSize(_theme === null ? this.parameters.theme : _theme);
   }
-
-
 }

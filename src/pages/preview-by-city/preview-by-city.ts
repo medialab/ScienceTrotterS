@@ -32,7 +32,7 @@ export class PreviewByCityPage {
       return item.force_lang === null || item.force_lang === this.config.getLanguage();
     });
   }
-  
+
   contentListClass = {
     contentList: true,
     isOpen: false
@@ -42,14 +42,14 @@ export class PreviewByCityPage {
   otpionsItems = [
     {
       id: 0,
-      name: this.translate.getKey('PLI_FILTER_PROXIMITE'),
-      action: 'proximite'
+      name: this.translate.getKey('PLI_FILTER_ALPHA'),
+      action: 'alpha'
     },
     {
       id: 1,
-      name: this.translate.getKey('PLI_FILTER_ALPHA'),
-      action: 'alpha'
-    }
+      name: this.translate.getKey('PLI_FILTER_PROXIMITE'),
+      action: 'proximite'
+    },
   ];
 
   optionsItemClasse(itemId: number) {

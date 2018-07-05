@@ -4,6 +4,10 @@ import {HttpClient} from "@angular/common/http";
 import leafletMarkercluster from 'leaflet.markercluster';
 import {DataProvider} from "../../providers/data";
 import {ApiProvider} from "../../providers/api";
+import { Geolocation } from '@ionic-native/geolocation';
+import {AlertProvider} from "../../providers/alert";
+import {TranslateProvider} from "../../providers/translate";
+import {GeolocProvider} from "../../providers/geoloc";
 
 @Component({
   selector: 'box-map',
@@ -16,31 +20,34 @@ export class BoxMapComponent {
   };
 
   map: any;
+  posMarker: any = null;
 
   config = {
     'tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
-    'selector': 'map__compoennt__content',
+    'selector': 'map_component__content',
     'minZoom': 9,
     'maxZoom': 18,
+    'defaultZoom': 13
   };
 
   constructor(private http: HttpClient,
               private api: ApiProvider,
-              private dataProvider: DataProvider) {
+              public geoloc: GeolocProvider,
+              private dataProvider: DataProvider,
+              public translate: TranslateProvider,
+              private alert: AlertProvider,
+              private geolocation: Geolocation) {
     leaflet.markercluster = leafletMarkercluster;
     this.addFuncs();
+
   }
 
   ngAfterViewInit () {
   }
 
   ngOnChanges () {
-    this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, 13);
+    this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, this.config.defaultZoom);
     this.addMarkers();
-  }
-
-  updateCurrentGeoLoc () {
-    // TODO : updateCurrentGeoLoc
   }
 
   addFuncs() {
@@ -188,8 +195,54 @@ export class BoxMapComponent {
       }
     });
   }
-}
 
+  /**
+   * Récupération de la position GPS.
+   */
+  updateCurrentGeoLoc () {
+    const elBtnGeoloc = document.querySelector('#btn__geoloc');
+
+    // -- ADD: spinner de chargement.
+    elBtnGeoloc.classList.add('btn__geoloc--isLoading');
+
+    this.geoloc.getCurrentCoords().then((resp: any) => {
+      const {latitude, longitude} = resp;
+
+      this.addCurrentPosition(latitude, longitude);
+      // -- DEL: spinner de chargement.
+      elBtnGeoloc.classList.remove('btn__geoloc--isLoading');
+    }, (err: any) => {
+      // -- DEL: spinner de chargement.
+      elBtnGeoloc.classList.remove('btn__geoloc--isLoading');
+    });
+  }
+
+  /**
+   * ADD: Le marker de la position GPS de l'utilisateur.
+   *
+   * @param latitude
+   * @param longitude
+   */
+  addCurrentPosition (latitude: any, longitude: any) {
+    const icon = leaflet.icon({
+      iconUrl: '/assets/imgs/map/marker.svg',
+      iconSize: [35,35],
+      iconAnchor: [16,35],
+      popupAnchor:  [0,-37]
+    });
+
+    if (this.posMarker !== null) {
+      this.posMarker.remove();
+    }
+    // --> REF. du marker.
+    this.posMarker = leaflet
+      .marker([latitude, longitude], {icon: icon})
+      .bindPopup(this.translate.getKey('C_BOX_MAP_USER_MARKER'));
+    this.posMarker.addTo(this.map);
+    this.posMarker.openPopup();
+    this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
+  }
+}
 
 
 

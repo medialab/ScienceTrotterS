@@ -35,6 +35,7 @@ import {LoaderPage} from "../pages/loader/loader";
 import {BoxMapComponent} from "../components/box-map/box-map";
 import {PlayerAudioProvider} from "../providers/playerAudio";
 import {CarouselComponent} from "../components/carousel/carousel";
+import {GeolocProvider} from "../providers/geoloc";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -145,7 +146,8 @@ const linksConfig = {
     Geolocation,
     DataProvider,
     Media,
-    PlayerAudioProvider
+    PlayerAudioProvider,
+    GeolocProvider
   ]
 })
 

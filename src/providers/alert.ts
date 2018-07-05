@@ -7,10 +7,10 @@ export class AlertProvider {
   constructor (private alertCtrl: AlertController) {
   }
 
-  create () {
+  create (title: string, message: string) {
     let alert = this.alertCtrl.create({
-      title: 'Confirm purchase',
-      message: 'Do you want to buy this book?',
+      title: title,
+      message: message,
       buttons: [
         {
           text: 'Cancel',
@@ -20,7 +20,8 @@ export class AlertProvider {
           }
         },
         {
-          text: 'Buy',
+          text: 'Ok',
+          role: 'ok',
           handler: () => {
             console.log('Buy clicked');
           }

@@ -14,6 +14,7 @@
   "target": "browser",
 
   "configuration": {
+    "contact_mail": "managers@thenetgroup.net",
     "endpoint": {
       "data": "https://api-sts.actu.com/",
       "assets": "https://api-sts.actu.com/ressources/upload/"

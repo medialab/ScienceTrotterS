@@ -49,5 +49,11 @@
 
   "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
   "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
-  "PLAYER_ACTION_STATE": "Player action state"
+  "PLAYER_ACTION_STATE": "Player action state",
+
+  "C_BOX_MAP_USER_MARKER": "Your are here !",
+  "PV_GEOLOC_ASKGEO_ERROR_TITLE": "Error",
+  "PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED": "GPS is disabled.",
+  "PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED": "Access denied to GPS."
+
 }
