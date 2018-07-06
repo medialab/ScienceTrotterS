@@ -177,7 +177,7 @@
     <section class="poi__section poi__section--isWhite section__player__audio">
       <player-audio
         [audioURI]="getData('audio', true) === '' ? '' : api.getAssetsUri(getData('audio', true))"
-        [playerUUID]="getData('id')"
+        [playerUUID]="('player__audio') + getData('id')"
         [loadPlayer]="true"></player-audio>
     </section>
 

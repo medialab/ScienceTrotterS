@@ -18,9 +18,16 @@ export class PlayerAudio {
   constructor (uuid: string, uri: string) {
     this.uuid = uuid;
     this.uri = uri;
-    this.track = new Audio(this.uri);
-    this.track.ontimeupdate = this.onTimeUpdate.bind(this);
-    this.track.oncanplay = this.onCanPlay.bind(this);
+  }
+
+  init () {
+    setTimeout(() => {
+      this.track = document.querySelector(`#${this.uuid}`);
+      this.track.ontimeupdate = this.onTimeUpdate.bind(this);
+      this.track.oncanplay = this.onCanPlay.bind(this);
+      // HACK default loading.
+      this.onCanPlay();
+    }, 150);
   }
 
   set durationCurrent (nextState: any) {
@@ -32,7 +39,6 @@ export class PlayerAudio {
   }
 
   onCanPlay () {
-
     const duration: any = (this.track.duration / 60).toFixed(2);
 
     this.duration.track.max = this.track.duration;
@@ -64,7 +70,6 @@ export class PlayerAudio {
   }
 
   updateActionState () {
-    console.log('update action state');
     if (this.isPlaying) {
       console.log('pause();');
       this.isPlaying = false;
@@ -72,7 +77,12 @@ export class PlayerAudio {
     } else {
       console.log('play();')
       this.isPlaying = true;
-      this.track.play();
+
+      this.track.play().then(() => {
+        // NONE.
+      }).catch((err: any) => {
+        console.log('err', err);
+      });
     }
   }
 

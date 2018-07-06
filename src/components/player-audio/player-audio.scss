@@ -104,4 +104,8 @@ player-audio {
       background-image: url('../assets/imgs/player-audio/icon-action-pause.svg');
     }
   }
+
+  .hidden__audio__player {
+    display: none;
+  }
 }

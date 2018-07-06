@@ -36,6 +36,7 @@ import {BoxMapComponent} from "../components/box-map/box-map";
 import {PlayerAudioProvider} from "../providers/playerAudio";
 import {CarouselComponent} from "../components/carousel/carousel";
 import {GeolocProvider} from "../providers/geoloc";
+import {NativeAudio} from "@ionic-native/native-audio";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -144,6 +145,7 @@ const linksConfig = {
     Camera,
     File,
     Geolocation,
+    NativeAudio,
     DataProvider,
     Media,
     PlayerAudioProvider,

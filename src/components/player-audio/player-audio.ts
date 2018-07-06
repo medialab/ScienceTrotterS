@@ -32,7 +32,9 @@ export class PlayerAudioComponent {
         this.audioURI
       );
 
+      audioPlayer.init();
       this.playerAudioProvider.add(audioPlayer, this.playerUUID);
+
     }
   }
 
@@ -45,6 +47,7 @@ export class PlayerAudioComponent {
   }
 
   updateActionState () {
+
     this.playerAudioProvider.isPlayingAndStopThem(this.playerUUID);
   }
 }

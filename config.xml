@@ -110,10 +110,10 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <allow-navigation href="http://192.168.0.105:8100" />
     <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
-    <plugin name="cordova-plugin-media" spec="^5.0.2">
-        <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
-    </plugin>
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.4" />
+    <plugin name="cordova-plugin-media" spec="^5.0.2">
+        <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
+    </plugin>
 </widget>
