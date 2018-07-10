@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {TranslateProvider} from "../../providers/translate";
 import {NavController, NavParams} from "ionic-angular";
+import {LocalDataProvider} from "../../providers/localData";
+import {ConfigProvider} from "../../providers/config";
 
 @Component({
   selector: 'parcours-list-item',
@@ -26,9 +28,11 @@ export class ParcoursListItemComponent {
     return this._isOpenDiscover;
   }
 
-  constructor (public translate: TranslateProvider,
-              public navParams: NavParams,
-              public navCtrl: NavController) {
+  constructor (public localData: LocalDataProvider,
+               public translate: TranslateProvider,
+               public config: ConfigProvider,
+               public navParams: NavParams,
+               public navCtrl: NavController) {
   }
 
   /**
@@ -51,5 +55,16 @@ export class ParcoursListItemComponent {
       openId: this.openId,
       pageName: this.previewTitle
     });
+  }
+
+  isDone () {
+    const isDone = this.target === 'parcours'
+      ? this.localData.isParcoursIsDone(this.openId, this.config.getLanguage())
+      : this.localData.isPOIIsDone(this.openId, this.config.getLanguage())
+    ;
+
+    return {
+      'isDone': isDone
+    };
   }
 }

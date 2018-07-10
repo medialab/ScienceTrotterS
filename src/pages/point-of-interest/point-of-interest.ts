@@ -4,6 +4,7 @@ import {ApiProvider} from "../../providers/api";
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
 import { Platform } from 'ionic-angular';
+import {LocalDataProvider} from "../../providers/localData";
 
 @IonicPage()
 @Component({
@@ -43,6 +44,7 @@ export class PointOfInterestPage {
                public config: ConfigProvider,
                public translate: TranslateProvider,
                public events: Events,
+               public localData: LocalDataProvider,
                public platform : Platform) {
     this.curTarget = navParams.get('target');
     this.curId = navParams.get('openId');
@@ -317,7 +319,17 @@ export class PointOfInterestPage {
    */
   btnEndPointOfInterest () {
     if (this.interests.length === 1) {
+
+      // --> Ajout de l'item courant dans la liste des parocurs ou point d'intérêt done.
+      if (this.curTarget === 'parcours') {
+        this.localData.addParcoursDone(this.curId, this.config.getLanguage());
+      } else {
+        this.localData.addPOIDone(this.curId, this.config.getLanguage());
+      }
+
+      // --> On retourne à la page précèdente (liste poi ou parcours).
       this.navCtrl.pop();
+
     } else {
       this.interests[this.activeItem].isDone = true;
     }

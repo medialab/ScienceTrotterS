@@ -116,7 +116,6 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
-    // this.loadMap();
   }
 
   /**
@@ -283,31 +282,5 @@ export class PreviewByCityPage {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
-  }
-
-  /**
-   *
-   */
-  loadMap() {
-    /**
-    this.map = leaflet.map("map").fitWorld();
-    leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18
-    }).addTo(this.map);
-    this.map.locate({
-      setView: true,
-      maxZoom: 10
-    }).on('locationfound', (e) => {
-      let markerGroup = leaflet.featureGroup();
-      let marker: any = leaflet.marker([e.latitude, e.longitude]).on('click', () => {
-        alert('Marker clicked');
-      })
-
-      markerGroup.addLayer(marker);
-      this.map.addLayer(markerGroup);
-    }).on('locationerror', (err) => {
-      alert(err.message);
-    })
-    */
   }
 }

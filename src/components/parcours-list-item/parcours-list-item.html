@@ -1,4 +1,4 @@
-<div class='parcoursListItem' id="search-content">
+<div class='parcoursListItem' id="search-content" [ngClass]="isDone()">
   <div class='leftIconColor' [ngStyle]="{'background-color': color}">
     <span *ngIf="target === 'parcours'"
           aria-hidden="true"
