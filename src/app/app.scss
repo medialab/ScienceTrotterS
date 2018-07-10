@@ -155,12 +155,22 @@ ion-header {
 
 
 .unsetDiv {
-  z-index: -1;
+  visibility: hidden;
+  max-height: 0px;
+  overflow: hidden;
 }
 .hideDiv {
   display: none !important;
 }
 
+.fixIOSCarousel {
+  height: 100vh !important;
+  margin: 0 !important;
+
+  .scroll-content {
+    overflow-y: hidden !important;
+  }
+}
 /**
   *
   *

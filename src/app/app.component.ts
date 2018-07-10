@@ -61,7 +61,7 @@ export class MyApp {
       });
     });
   }
-  
+
   /**
    * Au clique d'un lien du menu, une nouvelle page
    * va être ouverte.

@@ -1,7 +1,7 @@
 .app-root-md {
   page-point-of-interest {
     ion-content {
-      height: calc(100% - #{$mainHeaderHeight}) !important;
+      height: calc(100% - #{$mainHeaderHeight});
       margin: #{$mainHeaderHeight} 0 0 0;
     }
   }
@@ -10,7 +10,7 @@
 .app-root-ios {
   page-point-of-interest {
     ion-content {
-      height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding})) !important;
+      height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}));
       margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
     }
   }
@@ -516,6 +516,14 @@ $picture-size: 200px;
 
 .poi__main__content {
   padding: 0 0 60px 0;
+
+  // FIX IOS.
+  &.isHidden {
+    visibility: hidden;
+    max-height: 0px;
+    overflow: hidden;
+    padding: 0 !important;
+  }
 
   .poi__section {
     display: flex;

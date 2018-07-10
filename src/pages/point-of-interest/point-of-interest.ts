@@ -168,15 +168,13 @@ export class PointOfInterestPage {
       case 'prev':
         if (this.activeItem > 0) {
           this.activeItem = this.activeItem - 1;
-          this.updateMainContentState(true);
-          this.setHelpItemActive('');
+          this.onClickSetHelpItemActive(null);
         }
         break;
       case 'next':
         if (this.interests.length > (this.activeItem + 1)) {
           this.activeItem = this.activeItem + 1;
-          this.updateMainContentState(true);
-          this.setHelpItemActive('');
+          this.onClickSetHelpItemActive(null);
         }
         break;
     }
@@ -187,12 +185,12 @@ export class PointOfInterestPage {
    * @param target
    */
   onClickSetHelpItemActive (target: string) {
-    if (target === null) {
+    if (target === null && this.helpItemActive !== '') {
       document.querySelector(`#${this.helpItemActive}`).setAttribute('aria-expanded', 'false');
       this.focusAnElement(`#${this.helpItemActive}`);
       this.setHelpItemActive('');
       this.updateMainContentState(true);
-    } else {
+    } else if (target !== null) {
       if (this.helpItemActive === target) {
         document.querySelector(`#${target}`).setAttribute('aria-expanded', 'false');
         this.setHelpItemActive('');

@@ -172,7 +172,7 @@
   </div>
 
   <!-- MAIN CONTENT -->
-  <div class="poi__main__content" *ngIf="!mainContentCls.isHidden">
+  <div class="poi__main__content" [ngClass]="mainContentCls">
 
     <section class="poi__section poi__section--isWhite section__player__audio">
       <player-audio

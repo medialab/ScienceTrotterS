@@ -73,9 +73,13 @@ export class CarouselComponent {
 
   showImage (img: string) {
     const items: NodeListOf<Element> = document.querySelectorAll('.unsetWithCarousel');
-
     for (let i = 0; i < items.length; i++) {
       items[i].classList.add('unsetDiv');
+    }
+
+    const ionContent: NodeListOf<Element> = document.querySelectorAll('ion-content');
+    for (let i = 0; i < ionContent.length; i++) {
+      ionContent[i].classList.add('fixIOSCarousel');
     }
 
     this.btnCloseCarouselIsHidden = false;
@@ -87,10 +91,15 @@ export class CarouselComponent {
 
   closeImageViewer () {
     const items = document.querySelectorAll('.unsetWithCarousel');
-
     for (let i = 0; i < items.length; i++) {
       items[i].classList.remove('unsetDiv');
     }
+
+    const ionContent: NodeListOf<Element> = document.querySelectorAll('ion-content');
+    for (let i = 0; i < ionContent.length; i++) {
+      ionContent[i].classList.remove('fixIOSCarousel');
+    }
+
 
     this.btnCloseCarouselIsHidden = true;
 
