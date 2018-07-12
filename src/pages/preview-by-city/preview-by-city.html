@@ -8,6 +8,9 @@
     <div id='map' #map class='map'>
       <box-map
         [citiesCoords]="city.geoloc"
+        [pointOfInterestList]="interests"
+        [parcoursList]="parcours"
+        [selectedTarget]="(selectedTarget ? 'point-of-interest' : 'parcours')"
       ></box-map>
     </div>
 
@@ -63,7 +66,7 @@
 
       <!-- ITEMS LIST : RENDERING PARCOURS-->
       <ul class='list' *ngIf="selectedTarget === false">
-        <li *ngFor="let parcour of sortItems(parcours)">
+        <li *ngFor="let parcour of parcours">
           <parcours-list-item
             (click)="onClickItem()"
             target="parcours"
@@ -82,7 +85,7 @@
 
       <!-- ITEMS LIST : RENDERING INTERETS -->
       <ul class='list' *ngIf="selectedTarget === true">
-        <li *ngFor="let interest of sortItems(interests)">
+        <li *ngFor="let interest of interests">
           <parcours-list-item
             (click)="onClickItem()"
             target="interests"

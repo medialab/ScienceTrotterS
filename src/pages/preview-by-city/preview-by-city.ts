@@ -14,24 +14,37 @@ import {ApiProvider} from "../../providers/api";
 export class PreviewByCityPage {
   @ViewChild(Content) content: Content;
 
-  map: any;
-
   city: any;
 
+  // Variables contenant les données non trié.
   _parcours: Array<any> = new Array();
   _interests: Array<any> = new Array();
 
-  get parcours () {
+  // Variables contenant les données trié.
+  parcours: Array<any> = new Array();
+  interests: Array<any> = new Array();
+
+  /**
+   * Filtre les parcours suivant les critères.
+   * @returns {any[]}
+   */
+  getParcours () {
     return this._parcours.filter((item: any) => {
       return item.force_lang === null || item.force_lang === this.config.getLanguage();
     });
   }
 
-  get interests () {
+  /**
+   * Filtre les points d'intérêts suivant les critères.
+   * @returns {any[]}
+   */
+  getInterests () {
     return this._interests.filter((item: any) => {
       return item.force_lang === null || item.force_lang === this.config.getLanguage();
     });
   }
+
+  itemsList : Array<any> = new Array();
 
   contentListClass = {
     contentList: true,
@@ -80,20 +93,41 @@ export class PreviewByCityPage {
               public events: Events,
               public translate: TranslateProvider) {
 
+    /** DEBUG MAP
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
       this.loadParcours();
       this.loadInterests();
 
-      /**
-       * TODO : LISTENER ON UPDATE LANGUAGE.
-       */
      // events.subscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
     }
+    */
+
+    this.city = {
+      id: "c661d0ba-f710-43d3-ac5b-79ea5e1fce8b",
+      title: {
+        fr: "Paris",
+        en: "Paris"
+      },
+      image: "cities/image/paris.jpg_1530627611",
+      geoloc: {
+        latitude: 48.8566,
+        longitude: 2.3522
+      },
+      force_lang: "fr",
+      updated_at: "2018-07-06 10:16:36"
+    };
+
+    this.init();
+  }
+
+  init () {
+    this.loadParcours();
+    this.loadInterests();
   }
 
   onUpdateLanguage () {
-    console.log('ok');
+    console.log('onUpdateLanguage');
   }
 
   focusAnElement (element: string) {
@@ -169,6 +203,9 @@ export class PreviewByCityPage {
     }
 
     this.focusAnElement('#btnSortItemNext');
+
+    this.parcours = this.getParcours();
+    this.interests = this.getInterests();
   }
 
   /**
@@ -208,6 +245,7 @@ export class PreviewByCityPage {
     this.api.get('/public/parcours/byCityId/' + this.city.id).subscribe((resp: any) => {
       if (resp.success) {
         this._parcours = resp.data;
+        this.parcours = this.getParcours();
       }
     }, (error: any) => {
       console.log('error', error);
@@ -221,6 +259,7 @@ export class PreviewByCityPage {
     this.api.get('/public/interests/byCityId/' + this.city.id).subscribe((resp: any) => {
       if (resp.success) {
         this._interests = resp.data;
+        this.interests = this.getInterests();
       }
     }, (error: any) => {
       console.log('error', error);
@@ -233,7 +272,7 @@ export class PreviewByCityPage {
    * @returns {number}
    */
   getTotalInterestsByParcourId(parcourId: string) {
-    return this.interests.filter(interest => {
+    return this.getInterests().filter(interest => {
       return interest.parcours_id === parcourId
     }).length;
   }

@@ -356,4 +356,9 @@ export class PointOfInterestPage {
       el.focus();
     }
   }
+
+  openMapToLocation () {
+    const geoloc: any = this.getData('geoloc');
+    const openMap = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`);
+  }
 }

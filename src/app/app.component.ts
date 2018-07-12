@@ -11,6 +11,7 @@ import {ApiProvider} from "../providers/api";
 import { CacheService } from "ionic-cache";
 import {Observable} from "rxjs/Observable";
 import {PlayerAudioProvider} from "../providers/playerAudio";
+import {PreviewByCityPage} from "../pages/preview-by-city/preview-by-city";
 
 @Component({
   templateUrl: 'app.html'
@@ -57,7 +58,7 @@ export class MyApp {
 
       // Chargement de la configuration.
       config.loadConfiguration().then(() => {
-        this.rootPage = HomePage;
+        this.rootPage = PreviewByCityPage;
       });
     });
   }
