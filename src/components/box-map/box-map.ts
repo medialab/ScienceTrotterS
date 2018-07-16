@@ -9,6 +9,7 @@ import {AlertProvider} from "../../providers/alert";
 import {TranslateProvider} from "../../providers/translate";
 import {GeolocProvider} from "../../providers/geoloc";
 import {ConfigProvider} from "../../providers/config";
+import {Events} from "ionic-angular";
 
 @Component({
   selector: 'box-map',
@@ -24,15 +25,18 @@ export class BoxMapComponent {
   @Input() parcoursList: Array<any> = [];
   @Input() pointOfInterestList: Array<any> = [];
 
+  onClickItemMapEventName = 'boxMap::onClickItemMap';
+
   pointOfInterestMarkerList: Array<any> = [];
   clusterList: Array<any> = [];
 
   map: any = null;
   posMarker: any = null;
   isMapRendered: boolean = false;
-  
+
   config = {
     'tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
+    'tmptileLayer': 'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
     'selector': 'map_component__content',
     'minZoom': 9,
     'maxZoom': 18,
@@ -46,7 +50,8 @@ export class BoxMapComponent {
               private dataProvider: DataProvider,
               public translate: TranslateProvider,
               private alert: AlertProvider,
-              private geolocation: Geolocation) {
+              private geolocation: Geolocation,
+              public events: Events) {
     leaflet.markercluster = leafletMarkercluster;
   }
 
@@ -54,6 +59,9 @@ export class BoxMapComponent {
   }
 
   async ngOnChanges () {
+    // Remove all previous evenements.
+    this.events.unsubscribe(this.onClickItemMapEventName);
+
     const selectedTarget = this.selectedTarget;
 
     /**
@@ -74,6 +82,30 @@ export class BoxMapComponent {
       if (this.selectedTarget === 'parcours') {
         this.initializeParcours(this.parcoursList, listGroup);
       }
+    });
+  }
+
+  createParcoursTrace (parcoursId: string, callback) {
+    const geoloc = `${this.citiesCoords.longitude};${this.citiesCoords.latitude}`;
+
+    return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}`).subscribe((resp: any) => {
+      const {data} = resp;
+
+      const poiArray = [];
+
+      for (const poi of data.interests) {
+        if (typeof poi.api_data !== 'undefined') {
+          // Créatoon de la route.
+          const routes =  poi.api_data.routes[0].geometry.coordinates;
+
+          for (let i = 0; i < routes.length; i++) {
+            poiArray.push(new leaflet.LatLng(routes[i][1],routes[i][0]));
+          }
+
+        }
+      }
+
+      callback(new leaflet.Polyline(poiArray, { color: data.color }));
     });
   }
 
@@ -109,7 +141,7 @@ export class BoxMapComponent {
    * @param item
    * @returns {any}
    */
-  createAndAddMarker (title: any, lat: any, lng: any, addToMap: boolean = true) {
+  createAndAddMarker (target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true) {
     const icon = leaflet.icon({
       iconUrl: '/assets/imgs/map/marker.svg',
       iconSize: [35,35],
@@ -117,7 +149,12 @@ export class BoxMapComponent {
       popupAnchor:  [0,-37]
     });
 
+    // Création de l'objet du marker.
     const marker = new leaflet.marker([lat, lng], {icon: icon}).bindPopup(title);
+    // Ajout des données du marker pour l'utiliser à son clique.
+    marker.getData = this.eventOnClickItemMapGetData(target, id);
+    // Ajout de l'évènement du clique d'un marker.
+    marker.on('click', this.handlerOnClickItemMap);
 
     if (addToMap) {
       marker.addTo(this.map);
@@ -125,6 +162,33 @@ export class BoxMapComponent {
 
     return marker;
   }
+
+  /**
+   * Mock des données pour la gestion du handler.
+   * @param target - "point-of-interest" ou "parcours"
+   * @param id - uuid du target.
+   * @returns {{target: string, id: string}}
+   */
+  eventOnClickItemMapGetData (target: string, id: string) {
+    return {
+      'target': target,
+      'id': id
+    };
+  }
+
+  /**
+   * Création d'un évènement au clique d'un item de la map pour
+   * utiliser les données récupérer dans la page "preview-by-city" et
+   * ouvrir le contenu de l'item à son clique.
+   * @param e
+   */
+  handlerOnClickItemMap = (e) => {
+    // @eventOnClickItemMapGetData
+    const data = e.target.getData;
+    // Publication de l'évènement.
+    console.log('public event');
+    this.events.publish(this.onClickItemMapEventName, data);
+  };
 
   /**
    * Creation du HTML du cluster.
@@ -217,21 +281,35 @@ export class BoxMapComponent {
 
         // Création du cluster.
         const cluster = this.createCluster(parcours.color, pointOfInterests.data.length, '1h31m');
+        cluster.getData = this.eventOnClickItemMapGetData('parcours', parcours.id);
+        cluster.on('clusterclick', this.handlerOnClickItemMap);
 
         // Ajout des point d'intérêts pour le positionnement du cluster du parcours.
         for (const poi of pointOfInterests.data) {
           // Création du marker.
           const {latitude, longitude} = poi.geoloc;
-          const marker = this.createAndAddMarker(poi.title[this.configProvider.getLanguage()], latitude, longitude, false);
+          const marker = this.createAndAddMarker(
+            'parcours',
+            parcours.id,
+            poi.title[this.configProvider.getLanguage()],
+            latitude,
+            longitude,
+            false);
+
           // Ajout du marker au groupe.
           cluster.addLayer(marker);
         }
 
-        // Ajout du cluster à la map.
-        cluster.addTo(this.map);
+        this.createParcoursTrace(parcours.id, (trace: any) => {
+          // Ajout du trace.
+          cluster.addLayer(trace);
 
-        // Save de la référence du cluster.
-        this.clusterList.push(cluster);
+          // Ajout du cluster à la map.
+          cluster.addTo(this.map);
+
+          // Save de la référence du cluster.
+          this.clusterList.push(cluster);
+        });
       }
     }
   }
@@ -247,7 +325,13 @@ export class BoxMapComponent {
       for (const item of listGroup[groupId].data) {
         // TODO: vérification des données reçu de la geo loc.
         const {latitude, longitude} = item.geoloc;
-        const marker = this.createAndAddMarker(item.title[this.configProvider.getLanguage()], latitude, longitude);
+
+        const marker = this.createAndAddMarker(
+          'point-of-interest',
+          item.id,
+          item.title[this.configProvider.getLanguage()],
+          latitude,
+          longitude);
         marker.addTo(this.map);
 
         // Save de la référence du marker.
@@ -312,6 +396,7 @@ export class BoxMapComponent {
     if (this.posMarker !== null) {
       this.posMarker.remove();
     }
+
     // --> REF. du marker.
     this.posMarker = leaflet
       .marker([latitude, longitude], {icon: icon})

@@ -92,7 +92,6 @@ export class PreviewByCityPage {
               public api: ApiProvider,
               public events: Events,
               public translate: TranslateProvider) {
-
     /** DEBUG MAP
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');

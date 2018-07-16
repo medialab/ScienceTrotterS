@@ -16,8 +16,8 @@
   "configuration": {
     "contact_mail": "managers@thenetgroup.net",
     "endpoint": {
-      "data": "https://api-sts.actu.com/",
-      "assets": "https://api-sts.actu.com/ressources/upload/"
+      "data": "https://api-sts-dev.actu.com/",
+      "assets": "https://api-sts-dev.actu.com/ressources/upload/"
     }
   }
 }
