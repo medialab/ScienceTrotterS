@@ -25,14 +25,12 @@ export class BoxMapComponent {
   @Input() pointOfInterestList: Array<any> = [];
 
   pointOfInterestMarkerList: Array<any> = [];
-
   clusterList: Array<any> = [];
 
   map: any = null;
   posMarker: any = null;
   isMapRendered: boolean = false;
-
-
+  
   config = {
     'tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
     'selector': 'map_component__content',
@@ -50,133 +48,31 @@ export class BoxMapComponent {
               private alert: AlertProvider,
               private geolocation: Geolocation) {
     leaflet.markercluster = leafletMarkercluster;
-    this.addFuncs();
-
   }
 
   ngAfterViewInit () {
   }
 
   async ngOnChanges () {
-    console.group('ngOnChanges');
-      console.log('this.selectedTarget', this.selectedTarget);
-      console.log('this.parcoursList', this.parcoursList);
-      console.log('this.pointOfInterestList', this.pointOfInterestList);
-    console.groupEnd();
+    const selectedTarget = this.selectedTarget;
 
     /**
      * Chargement de la map par défaut ou changement des coordonnées du centre de la map.
      */
     await this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, this.config.defaultZoom);
 
-    /**
-     * Gestion des points d'intérêts.
-     */
-    if (this.selectedTarget === 'point-of-interest') {
-      this.addMarkers(this.pointOfInterestList);
-    } else {
-      this.removeMarkers();
-    }
+    // On supprime les données de la map pour afficher les nouvelles données.
+    this.removeMarkers();
+    this.removeParcours();
 
-    /**
-     * Gestion des parcours.
-     */
-    if (this.selectedTarget === 'parcours') {
-      // TODO: parcours.
-    }
-  }
+    // Initialise les données des points d'intérêts et des parcours.
+    this.initializePointOfInterest(this.pointOfInterestList).then((listGroup: any) => {
+      if (this.selectedTarget === 'point-of-interest') {
+        this.addPointsOfInterests(listGroup);
+      }
 
-  addFuncs() {
-    const requestHttp = this.http;
-
-    leaflet.mPolyline = leaflet.FeatureGroup.extend({
-      'initialize': function (items) {
-        const oThis = this;
-
-        oThis._layers = {};
-
-        /**
-         *
-         * @param _items
-         */
-        const loadJsonRoute = function (_items) {
-          const routeInfos = {
-            'timeTrajet': 0
-          };
-          const pointsArray = [];
-
-          if (typeof items.route !== 'undefined') {
-            requestHttp.get('/assets/routes/' + items.route + '.json').subscribe((resp: any) => {
-              const jsonRoute = resp;
-              const routes = jsonRoute.routes[0].geometry.coordinates;
-              const timeTrajet = jsonRoute.routes[0].summary.duration;
-
-              routeInfos.timeTrajet = timeTrajet;
-
-              for (var i = 0; i < routes.length; i++) {
-                pointsArray.push(new leaflet.LatLng(routes[i][1], routes[i][0]));
-              }
-              oThis.addLayer(new leaflet.Polyline(pointsArray, {color: _items.polylineColor.color}));
-
-            }, (err: any) => {
-              console.log('error mPolyline');
-            });
-          }
-
-          /**
-           *
-           */
-          oThis.addLayer(oThis._markersArray(items, routeInfos));
-          return pointsArray;
-        };
-
-        /**
-         *
-         */
-        loadJsonRoute(items);
-      },
-
-      '_markersArray': function(_items, _routeInfos) {
-        const markers = new leaflet.featureGroup();
-
-        const clusterGroupTPL = (bgColor, nb, time) => {
-          return `<div class='cluster' style='background-color: ${bgColor}'>`
-          + `<p>${nb}</p>`
-          + `<div><i class="icon icon--clock"></i><span>${time}</span></div></div>`
-        };
-
-        const cluster = new leaflet.markerClusterGroup({
-          iconCreateFunction: function(cl) {
-            return new leaflet.DivIcon({
-              html: clusterGroupTPL(_items.clustergroup.bg, cl.getChildCount(), '2H')
-            });
-          },
-          maxClusterRadius: 4000,
-          // disableClusteringAtZoom: 17,
-          // spiderfyOnMaxZoom: 15
-        });
-
-        for (var i = 0; i < _items.markers.length; i++) {
-          const item = _items.markers[i];
-          const icon = leaflet.icon({
-            iconUrl: (item.icon == undefined ? '/assets/imgs/map/pin.png' : item.icon.url),
-            iconSize: [35,35],
-            iconAnchor: [16,35],
-            popupAnchor:  [0,-37]
-          });
-          const marker = new leaflet.marker([item['lat'],item['lng']], {icon: icon}).bindPopup(item['title']);
-
-          cluster.addLayer(marker);
-        }
-
-        markers.on('mouseover', function (e) {
-          e.layer.openPopup()
-        })
-        markers.on('mouseout', function (e) {
-          e.layer.closePopup()
-        })
-
-        return cluster;
+      if (this.selectedTarget === 'parcours') {
+        this.initializeParcours(this.parcoursList, listGroup);
       }
     });
   }
@@ -208,17 +104,12 @@ export class BoxMapComponent {
     this.map.setView([lat, lng], zoom);
   }
 
-  addPoyline (item: any) {
-    const polyline = new leaflet.mPolyline(item);
-    this.map.addLayer(polyline);
-  }
-
   /**
    * Création et ajout d'un marker à la map.
    * @param item
    * @returns {any}
    */
-  createAndAddMarker (title: any, lat: any, lng: any) {
+  createAndAddMarker (title: any, lat: any, lng: any, addToMap: boolean = true) {
     const icon = leaflet.icon({
       iconUrl: '/assets/imgs/map/marker.svg',
       iconSize: [35,35],
@@ -228,7 +119,10 @@ export class BoxMapComponent {
 
     const marker = new leaflet.marker([lat, lng], {icon: icon}).bindPopup(title);
 
-    marker.addTo(this.map);
+    if (addToMap) {
+      marker.addTo(this.map);
+    }
+
     return marker;
   }
 
@@ -239,15 +133,22 @@ export class BoxMapComponent {
    * @param time
    * @returns {string}
    */
-  clusterGroupTPL (bgColor, nb, time) {
+  clusterGroupTPL (bgColor: string, nb: string, time: string) {
     return `<div class='cluster' style='background-color: ${bgColor}'>`
       + `<p>${nb}</p>`
       + `<div><i class="icon icon--clock"></i><span>${time}</span></div></div>`
-    ;
+      ;
   }
 
-  createCluster (name: string, color: string, nb: any) {
-    const _clusterGroupTPL = this.clusterGroupTPL('red', '0', '0');
+  /**
+   * Création d'un cluster.
+   * @param bgColor
+   * @param nb
+   * @param time
+   * @returns {leaflet.markerClusterGroup}
+   */
+  createCluster (bgColor: string, nb: string, time: string) {
+    const _clusterGroupTPL = this.clusterGroupTPL(bgColor, nb, time);
 
     const cluster = new leaflet.markerClusterGroup({
       iconCreateFunction: function(cl) {
@@ -255,68 +156,121 @@ export class BoxMapComponent {
           html: _clusterGroupTPL
         });
       },
-      maxClusterRadius: 4000
+      maxClusterRadius: 16000,
+      disableClusteringAtZoom: 20
     });
 
     return cluster;
   }
 
   /**
-   * Ajout des différents markers des points d'intérêts.
+   * Initilisation des points d'intérêts.
+   * On en a besoin dans les 2 cas. si le mode "point d'intérêt" ou "parcours"
+   * est sélectionné.
    * @param list
    */
-  addMarkers (list: Array<any>) {
-    /**
-     * Construction d'un nouveau tableau groupant les points d'intérêt
-     * par parcours pour former un group et pouvoir switcher entre "parcours" et point d'intérêt.
-     *
-     * TODO: Vérifier que c.parcours.id n'est pas null
-     * TODO: Si null = point d'intérêt hors parcours sinon parcours.
-     * @type {any}
-     * @private
-     */
-    const listGroup = {};
+  initializePointOfInterest (list: Array<any>) {
+    return new Promise((resolve, reject) => {
+      /**
+       * Construction d'un nouveau tableau groupant les points d'intérêt
+       * par parcours pour former un group et pouvoir switcher entre "parcours" et point d'intérêt.
+       *
+       * TODO: Vérifier que c.parcours.id n'est pas null
+       * TODO: Si null = point d'intérêt hors parcours sinon parcours.
+       * @type {any}
+       * @private
+       */
+      const listGroup = {};
 
-    // Tri des parcours en group de parcours.
-    for(const item of list) {
-      const isParcours = item.parcours_id !== null;
-      const idList = isParcours ? item.parcours_id : item.id;
+      // Tri des parcours en group de parcours.
+      for(const item of list) {
+        const isParcours = item.parcours_id !== null;
+        const idList = isParcours ? item.parcours_id : item.id;
 
-      if (typeof listGroup[idList] !== 'undefined') {
-        listGroup[idList].data.push(item);
-      } else {
-        listGroup[idList] = {
-          'isParcours': isParcours,
-          'data': []
-        };
-        listGroup[idList].data.push(item);
+        if (typeof listGroup[idList] !== 'undefined') {
+          listGroup[idList].data.push(item);
+        } else {
+          listGroup[idList] = {
+            'isParcours': isParcours,
+            'data': []
+          };
+          listGroup[idList].data.push(item);
+        }
+      }
+
+      // Retour des données triées.
+      resolve(listGroup);
+    });
+  }
+
+  /**
+   * Initialisation des parcours si le mode est celui sélectionné.
+   * @param parcoursList
+   * @param listGroup
+   */
+  initializeParcours (parcoursList: Array<any>, listGroup: Array<any>) {
+    // Loop les parcours.
+    for (const parcours of parcoursList) {
+      // Check s'il y a des points d'intérêts pour ce parcours
+      if (typeof listGroup[parcours.id] !== 'undefined') {
+        const pointOfInterests = listGroup[parcours.id];
+
+        // Création du cluster.
+        const cluster = this.createCluster(parcours.color, pointOfInterests.data.length, '1h31m');
+
+        // Ajout des point d'intérêts pour le positionnement du cluster du parcours.
+        for (const poi of pointOfInterests.data) {
+          // Création du marker.
+          const {latitude, longitude} = poi.geoloc;
+          const marker = this.createAndAddMarker(poi.title[this.configProvider.getLanguage()], latitude, longitude, false);
+          // Ajout du marker au groupe.
+          cluster.addLayer(marker);
+        }
+
+        // Ajout du cluster à la map.
+        cluster.addTo(this.map);
+
+        // Save de la référence du cluster.
+        this.clusterList.push(cluster);
       }
     }
+  }
 
-    // Création et ajout des markers.
+  /**
+   * Création de tous les points d'intérêts si le mode
+   * "point-of-interest" est sélectionné.
+   * @param listGroup
+   */
+  addPointsOfInterests (listGroup: any) {
+    // Loop des groupes
     for (const groupId in listGroup) {
-      const group = listGroup[groupId];
-
-      for (const item of group.data) {
+      for (const item of listGroup[groupId].data) {
+        // TODO: vérification des données reçu de la geo loc.
         const {latitude, longitude} = item.geoloc;
-        const marker = this.createAndAddMarker(
-          item.title[this.configProvider.getLanguage()],
-          latitude, longitude);
+        const marker = this.createAndAddMarker(item.title[this.configProvider.getLanguage()], latitude, longitude);
+        marker.addTo(this.map);
 
         // Save de la référence du marker.
         this.pointOfInterestMarkerList.push(marker);
       }
     }
-
   }
 
   /**
    * Supprime  tous les markers des points d'intérêts de la map.
    */
   removeMarkers () {
-    console.log('removeMarkers');
     for (const item of this.pointOfInterestMarkerList) {
       item.remove();
+    }
+  }
+
+  /**
+   * Supprime tous les cluster des parcours de la map.
+   */
+  removeParcours () {
+    for (const item of this.clusterList) {
+      item.clearLayers();
     }
   }
 
@@ -367,13 +321,3 @@ export class BoxMapComponent {
     this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
   }
 }
-
-
-
-
-
-
-
-
-
-
