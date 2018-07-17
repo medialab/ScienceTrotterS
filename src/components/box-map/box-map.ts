@@ -88,7 +88,7 @@ export class BoxMapComponent {
     });
   }
 
-  createParcoursTrace (parcoursId: string, callback) {
+  createParcoursTraces (parcoursId: string, callback) {
     const geoloc = `${this.citiesCoords.longitude};${this.citiesCoords.latitude}`;
 
     return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}`).subscribe((resp: any) => {
@@ -98,17 +98,21 @@ export class BoxMapComponent {
 
       for (const poi of data.interests) {
         if (typeof poi.api_data !== 'undefined') {
-          // Créatoon de la route.
-          const routes =  poi.api_data.routes[0].geometry.coordinates;
-
-          for (let i = 0; i < routes.length; i++) {
-            poiArray.push(new leaflet.LatLng(routes[i][1],routes[i][0]));
-          }
-          
+          // Création de la route.
+          const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
+            style: function(feature) {
+              return {
+                'color': data.color,
+                'weight': 5,
+                'opacity': 0.65
+              };
+            }
+          });
+          poiArray.push(_polyline);
         }
       }
 
-      callback(new leaflet.Polyline(poiArray, { color: data.color }));
+      callback(poiArray);
     });
   }
 
@@ -302,9 +306,11 @@ export class BoxMapComponent {
           cluster.addLayer(marker);
         }
 
-        this.createParcoursTrace(parcours.id, (trace: any) => {
-          // Ajout du trace.
-          cluster.addLayer(trace);
+        this.createParcoursTraces(parcours.id, (traces: any) => {
+          // Ajout des tracés.
+          for (const trace of traces) {
+            cluster.addLayer(trace);
+          }
 
           // Ajout du cluster à la map.
           cluster.addTo(this.map);
@@ -371,6 +377,8 @@ export class BoxMapComponent {
 
     this.geoloc.getCurrentCoords().then((resp: any) => {
       const {latitude, longitude} = resp;
+
+      console.log('resp', resp);
 
       this.addCurrentPosition(latitude, longitude);
       // -- DEL: spinner de chargement.

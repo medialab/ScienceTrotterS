@@ -2,7 +2,7 @@
   {{ translate.fromApi(config.getLanguage(), city.title) }}
 </main-header>
 
-<ion-content>
+<ion-content id="previewByCityContent">
 
   <div class='parcoursListContent'>
     <div id='map' #map class='map'>
@@ -53,7 +53,7 @@
         <ul class='optionsList'>
           <li [ngClass]="optionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
             <label class='optionName'>
-              {{ item.name }}
+              {{ item.name() }}
             </label>
           </li>
         </ul>
@@ -69,11 +69,11 @@
         <li *ngFor="let parcour of parcours">
           <parcours-list-item
             (click)="onClickItem()"
-            [eventOnClickItemMap]="eventOnClickItemMap"
             target="parcours"
             color="{{ parcour.color }}"
             [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), parcour.audio))"
             [isOpenDiscover]="false"
+            [handler]="parcoursListItemHandler"
             openId="{{ parcour.id }}"
             parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
             parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
@@ -81,28 +81,37 @@
             previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}">
           </parcours-list-item>
         </li>
+        <li *ngIf="parcours.length === 0">
+          <p class="msgNotDataAvailable">
+            {{ translate.getKeyAndReplace('PBC_NO_DATA_AVAILABLE_PARCOURS', ':city', translate.fromApi(config.getLanguage(), city.title)) }}
+          </p>
+        </li>
       </ul>
-      <!-- ./ ITEMS LIST -->
+      <!-- ./ ITEMS LIST P -->
 
       <!-- ITEMS LIST : RENDERING INTERETS -->
       <ul class='list' *ngIf="selectedTarget === true">
         <li *ngFor="let interest of interests">
           <parcours-list-item
             (click)="onClickItem()"
-            [eventOnClickItemMap]="eventOnClickItemMap"
             target="interests"
             color='#336699'
             [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
             [isOpenDiscover]="false"
+            [handler]="parcoursListItemHandler"
             openId="{{ interest.id }}"
             interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
             previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"
             previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}">
           </parcours-list-item>
         </li>
+        <li *ngIf="interests.length === 0">
+          <p class="msgNotDataAvailable">
+            {{ translate.getKeyAndReplace('PBC_NO_DATA_AVAILABLE_INTERESTS', ':city', translate.fromApi(config.getLanguage(), city.title)) }}
+          </p>
+        </li>
       </ul>
-      <!-- ./ ITEMS LIST -->
+      <!-- ./ ITEMS LIST POI -->
     </div>
   </div>
-
 </ion-content>

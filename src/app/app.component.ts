@@ -58,7 +58,7 @@ export class MyApp {
 
       // Chargement de la configuration.
       config.loadConfiguration().then(() => {
-        this.rootPage = PreviewByCityPage;
+        this.rootPage = HomePage;
       });
     });
   }
@@ -138,7 +138,7 @@ export class MyApp {
       this.nav.viewWillLeave,
       this.nav.viewWillEnter
     );
-    
+
     events.subscribe(() => {
       this.playerAudioProvider.isPlayingAndStopThem();
     });

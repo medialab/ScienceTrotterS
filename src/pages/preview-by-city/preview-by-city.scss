@@ -44,7 +44,11 @@ page-preview-by-city {
       margin: 0;
       padding: 0;
 
+      p.msgNotDataAvailable {
+        padding: 20px;
       }
+
+    }
 
     ul.list {
       li {

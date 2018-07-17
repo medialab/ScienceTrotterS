@@ -4,6 +4,8 @@ import {TranslateProvider} from "../../providers/translate";
 import leaflet from 'leaflet';
 import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
+import {GeolocProvider} from "../../providers/geoloc";
+import {AlertProvider} from "../../providers/alert";
 
 @IonicPage()
 @Component({
@@ -14,7 +16,7 @@ import {ApiProvider} from "../../providers/api";
 export class PreviewByCityPage {
   @ViewChild(Content) content: Content;
 
-  eventOnClickItemMap: any = null;
+  eventOnClickItemMapName = 'boxMap::onClickItemMap';
 
   city: any;
 
@@ -25,6 +27,9 @@ export class PreviewByCityPage {
   // Variables contenant les données trié.
   parcours: Array<any> = new Array();
   interests: Array<any> = new Array();
+
+  parcoursListItemHandler: any = null;
+  eventUpdateLanguage: any = null;
 
   /**
    * Filtre les parcours suivant les critères.
@@ -57,12 +62,12 @@ export class PreviewByCityPage {
   otpionsItems = [
     {
       id: 0,
-      name: this.translate.getKey('PLI_FILTER_ALPHA'),
+      name: () => (this.translate.getKey('PLI_FILTER_ALPHA')),
       action: 'alpha'
     },
     {
       id: 1,
-      name: this.translate.getKey('PLI_FILTER_PROXIMITE'),
+      name: () => (this.translate.getKey('PLI_FILTER_PROXIMITE')),
       action: 'proximite'
     },
   ];
@@ -90,20 +95,18 @@ export class PreviewByCityPage {
               private renderer: Renderer2,
               public navCtrl: NavController,
               public navParams: NavParams,
+              public geoloc: GeolocProvider,
               public config: ConfigProvider,
+              public alert: AlertProvider,
               public api: ApiProvider,
               public events: Events,
               public translate: TranslateProvider) {
-    /** DEBUG MAP
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
-      this.loadParcours();
-      this.loadInterests();
-
-     // events.subscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
+      this.init();
     }
-    */
 
+    /** ONLY FOR DEV DEBUG.
     this.city = {
       id: "c661d0ba-f710-43d3-ac5b-79ea5e1fce8b",
       title: {
@@ -118,21 +121,29 @@ export class PreviewByCityPage {
       force_lang: "fr",
       updated_at: "2018-07-06 10:16:36"
     };
-
     this.init();
+    */
   }
 
-  init () {
-    this.loadParcours();
-    this.loadInterests();
+  async init () {
+    await this.loadParcours();
+    await this.loadInterests();
+
+    if (this.parcours.length === 0) {
+      this.onChangeSelectedTarget({'next': true});
+    }
+
+    this.changeOptionListHandler();
   }
 
   onUpdateLanguage () {
-    console.log('onUpdateLanguage');
+    console.log('onUpdateLanguagee');
+    this.interests = this.getInterests();
+    this.parcours = this.getParcours();
   }
 
   focusAnElement (element: string) {
-    const el = <HTMLElement>document.querySelector(element);
+    const el: any = document.querySelector(element);
     if (el !== null) {
       //noinspection TypeScriptUnresolvedFunction
       el.focus();
@@ -151,25 +162,89 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
+    console.log('ionViewDidEnter');
     const eventName = 'boxMap::onClickItemMap';
-    this.eventOnClickItemMap = this.events.subscribe(eventName, this.openContentList.bind(this));
+
+    if (this.eventUpdateLanguage === null) {
+      this.eventUpdateLanguage = this.events.subscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
+    }
+
+    this.events.subscribe(this.eventOnClickItemMapName, (data: any) => {
+      // Handler for event on a component.
+      this.parcoursListItemHandler = data;
+
+      setTimeout(() => {
+        this.parcoursListItemHandler = null;
+      }, 250);
+
+      // Ouverture de la liste.
+      this.openContentList();
+    });
+  }
+
+  ionViewWillUnload () {
+    console.log('ionViewWillUnload');
+    this.eventUpdateLanguage = null;
+    this.events.unsubscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
+  }
+
+  ionViewDidLeave () {
+    console.log('ionViewDidLeave');
+  }
+
+  /**
+   *
+   */
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave');
+    this.events.unsubscribe(this.eventOnClickItemMapName);
+  }
+
+  scrollToDiv (selector, to, duration) {
+    const element: any = document.querySelector(selector);
+
+    const easeInOutQuad =  (t, b, c, d) => {
+      t /= d/2;
+      if (t < 1) return c/2*t*t + b;
+      t--;
+      return -c/2 * (t*(t-2) - 1) + b;
+    };
+
+    let start = element.scrollTop,
+      change = to - start,
+      currentTime = 0,
+      increment = 20;
+
+    const animateScroll = () => {
+      currentTime += increment;
+      const val = easeInOutQuad(currentTime, start, change, duration);
+
+      element.scrollTop = val;
+      if (currentTime < duration) {
+        setTimeout(animateScroll, increment);
+      }
+    };
+
+    animateScroll();
   }
 
   /**
    *
    */
   openContentList() {
-    const duration = 500;
+    const duration = 570;
+    const selector = '#previewByCityContent .scroll-content';
 
     if (this.contentListClass.isOpen) {
-      if (this.content.scrollTo !== null) {
-        this.contentListClass.isOpen = false;
-        this.content.scrollTo(0, 0, duration);
-      }
+      this.contentListClass.isOpen = false;
+      this.scrollToDiv(selector, 0, duration);
     } else {
-      if (this.content.scrollToBottom !== null) {
-        this.contentListClass.isOpen = true;
-        this.content.scrollToBottom(duration);
+      this.contentListClass.isOpen = true;
+      //noinspection TypeScriptUnresolvedFunction
+      const contentHeight: any = document.querySelector('#previewByCityContent .scroll-content');
+
+      if (contentHeight !== null) {
+        this.scrollToDiv(selector, contentHeight.offsetHeight, duration);
       }
     }
   }
@@ -238,15 +313,81 @@ export class PreviewByCityPage {
         this.focusAnElement('.list li:first-child parcours-list-item .parcoursListItem .contentPreview button.info');
       }
     }, 100);
+
+    // -->/
+    this.changeOptionListHandler();
   }
 
   /**
    *
    */
-  loadParcours() {
-    this.api.get('/public/parcours/byCityId/' + this.city.id).subscribe((resp: any) => {
+  changeOptionListHandler () {
+    switch (this.otpionsItems[this.optionsItemsSelected].action) {
+      case 'alpha':
+        this.actionSortAlpha();
+        break;
+      case 'proximite':
+        this.actionSortProximite();
+        break;
+    }
+  }
+
+  async actionSortProximite () {
+    const loaderContent = '';
+    const loader = this.alert.createLoader(loaderContent);
+
+    // Triage en fonction que la géolocalition est disponible ou non.
+    await this.geoloc.getCurrentCoords().then(async (resp: any) => {
+      const {latitude, longitude} = resp;
+
+      if (this.parcours.length > 1) {
+        await this.loadParcours(`${latitude};${longitude}`);
+      }
+
+      if (this.interests.length > 1) {
+        await this.loadInterests(`${latitude};${longitude}`);
+      }
+
+      loader.dismiss();
+    }, (err: any) => {
+      this.changeOptionList('next');
+      loader.dismiss();
+    });
+  }
+
+  actionSortAlpha() {
+    // Parcours.
+    this._parcours = this._parcours.sort(this.sort_alpha);
+    this.parcours = this.getParcours();
+
+    // Points d'intérêts.
+    this._interests = this._interests.sort(this.sort_alpha);
+    this.interests = this.getInterests();
+  }
+
+  sort_alpha = (a, b) => {
+    const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
+    const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
+
+    if (aTitle < bTitle) return -1;
+    if (aTitle > bTitle) return 1;
+    return 0;
+  };
+
+  /**
+   *
+   */
+  async loadParcours(closest: string = '') {
+    const path = closest === ''
+      ? `/public/parcours/byCityId/${this.city.id}`
+      : `/public/parcours/closest/${this.city.id}?geoloc=${closest}`;
+
+    this.api.get(path).subscribe((resp: any) => {
       if (resp.success) {
-        this._parcours = resp.data;
+        this._parcours = closest === ''
+          ? resp.data
+          : resp.data.parcours;
+
         this.parcours = this.getParcours();
       }
     }, (error: any) => {
@@ -257,9 +398,14 @@ export class PreviewByCityPage {
   /**
    *
    */
-  loadInterests() {
-    this.api.get('/public/interests/byCityId/' + this.city.id).subscribe((resp: any) => {
+  async loadInterests(closest: string = '') {
+    const path = closest === ''
+      ? `/public/interests/byCityId/${this.city.id}`
+      : `public/interests/closest/?city=${this.city.id}&geoloc=${closest}`;
+
+    this.api.get(path).subscribe((resp: any) => {
       if (resp.success) {
+
         this._interests = resp.data;
         this.interests = this.getInterests();
       }
@@ -277,40 +423,6 @@ export class PreviewByCityPage {
     return this.getInterests().filter(interest => {
       return interest.parcours_id === parcourId
     }).length;
-  }
-
-  /**
-   *
-   * @param arr
-   * @returns {any}
-   */
-  sortItems (arr: any) {
-    const sort_alpha = (a, b) => {
-      const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
-      const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
-
-      if (aTitle < bTitle) return -1;
-      if (aTitle > bTitle) return 1;
-      return 0;
-    };
-
-    const sort_proximite = (a, b) => {
-      const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
-      const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
-
-      if (aTitle > bTitle) return -1;
-      if (aTitle < bTitle) return 1;
-      return 0;
-    };
-
-    switch (this.otpionsItems[this.optionsItemsSelected].action) {
-      case 'alpha':
-        return arr.sort(sort_alpha);
-      case 'proximite':
-        return arr.sort(sort_proximite);
-      default:
-        return arr;
-    }
   }
 
   /**

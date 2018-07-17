@@ -46,7 +46,9 @@
 
   "PBC_ALT_POI": "Points d'intérêts",
   "PBC_ALT_PARCOURS": "Parcours",
-
+  "PBC_NO_DATA_AVAILABLE_INTERESTS": "A ce jour, aucun point d'intérêt n'est encore proposé à :city",
+  "PBC_NO_DATA_AVAILABLE_PARCOURS": "A ce jour, aucun parcours n'est encore proposé à :city",
+  
   "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
   "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
   "PLAYER_ACTION_STATE": "Player action state",

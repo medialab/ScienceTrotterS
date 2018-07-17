@@ -60,6 +60,17 @@ export class TranslateProvider {
   }
 
   /**
+   *
+   * @param key
+   * @param replaceKey
+   * @param replaceValue
+   * @returns {string|any|void}
+   */
+  getKeyAndReplace (key: string, replaceKey: string, replaceValue: string) {
+    return this.getKey(key).replace(replaceKey, replaceValue);
+  }
+
+  /**
    * Définition de la langue courante.
    *
    * @param {string} nextLanguage

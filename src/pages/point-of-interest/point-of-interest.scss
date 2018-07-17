@@ -702,3 +702,18 @@ footer {
     }
   }
 }
+
+
+ion-slides {
+  .swiper-container.swiper-container-horizontal {
+    display: flex;
+    flex-direction: column;
+
+    .swiper-wrapper {
+    }
+
+    .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets {
+      position: initial;
+    }
+  }
+}

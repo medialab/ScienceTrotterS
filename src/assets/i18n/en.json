@@ -46,6 +46,8 @@
 
   "PBC_ALT_POI": "Points of interest",
   "PBC_ALT_PARCOURS": "Parcours",
+  "PBC_NO_DATA_AVAILABLE_INTERESTS": "there is currently no available point of interest located at :city",
+  "PBC_NO_DATA_AVAILABLE_PARCOURS": "there is currently no available parcours located at :city",
 
   "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
   "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
