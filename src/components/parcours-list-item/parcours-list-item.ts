@@ -11,6 +11,7 @@ import {ConfigProvider} from "../../providers/config";
 export class ParcoursListItemComponent {
   _isOpenDiscover: boolean = false;
 
+  @Input() eventOnClickItemMap: any = null;
   @Input() openId: string = '';
   @Input() previewTitle: string = '';
   @Input() previewDescription: string = '';
@@ -35,24 +36,31 @@ export class ParcoursListItemComponent {
                public events: Events,
                public navCtrl: NavController) {
 
-    const eventName = 'boxMap::onClickItemMap';
-    const eventSubscriber = this.events.subscribe(eventName, this.handlerOnClickItemMap);
+    console.log('constructor parcours list item');
   }
-  
+
+  ionViewDidEnter () {
+    console.log('ionViewWillEnter');
+  }
+
+  ionViewDidLoad () {
+    console.log('ionViewWillLeave');
+  }
+
+  ngOnChanges () {
+    const eventName = 'boxMap::onClickItemMap';
+    this.events.subscribe(eventName, this.handlerOnClickItemMap);
+  }
+
   /**
    * @ref components/box-map
    * @param e
    */
   handlerOnClickItemMap = ({target, id}) => {
+    console.log('handlerOnClickItemMap parcours list item');
+
     if (id === this.openId) {
-      switch (target) {
-        case 'parcours':
-          this.openContent();
-          break;
-        case 'point-of-interest':
-          this.openNext();
-          break;
-      }
+      this.updateDiscoverStateOrOpen();
     }
   };
 
@@ -87,12 +95,5 @@ export class ParcoursListItemComponent {
     return {
       'isDone': isDone
     };
-  }
-
-  /**
-   * Ouverture du contenu.
-   */
-  openContent () {
-    this.isOpenDiscover = true;
   }
 }

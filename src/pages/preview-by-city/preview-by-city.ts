@@ -14,6 +14,8 @@ import {ApiProvider} from "../../providers/api";
 export class PreviewByCityPage {
   @ViewChild(Content) content: Content;
 
+  eventOnClickItemMap: any = null;
+
   city: any;
 
   // Variables contenant les données non trié.
@@ -149,6 +151,8 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
+    const eventName = 'boxMap::onClickItemMap';
+    this.eventOnClickItemMap = this.events.subscribe(eventName, this.openContentList.bind(this));
   }
 
   /**
@@ -169,7 +173,6 @@ export class PreviewByCityPage {
       }
     }
   }
-  on
 
   /**
    *

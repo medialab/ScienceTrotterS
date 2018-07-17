@@ -138,9 +138,8 @@ export class MyApp {
       this.nav.viewWillLeave,
       this.nav.viewWillEnter
     );
-
+    
     events.subscribe(() => {
-      console.log('event page');
       this.playerAudioProvider.isPlayingAndStopThem();
     });
   }

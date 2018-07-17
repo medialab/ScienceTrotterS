@@ -69,6 +69,7 @@
         <li *ngFor="let parcour of parcours">
           <parcours-list-item
             (click)="onClickItem()"
+            [eventOnClickItemMap]="eventOnClickItemMap"
             target="parcours"
             color="{{ parcour.color }}"
             [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), parcour.audio))"
@@ -88,6 +89,7 @@
         <li *ngFor="let interest of interests">
           <parcours-list-item
             (click)="onClickItem()"
+            [eventOnClickItemMap]="eventOnClickItemMap"
             target="interests"
             color='#336699'
             [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"

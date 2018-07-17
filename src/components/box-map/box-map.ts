@@ -29,6 +29,7 @@ export class BoxMapComponent {
 
   pointOfInterestMarkerList: Array<any> = [];
   clusterList: Array<any> = [];
+  firstInit = true;
 
   map: any = null;
   posMarker: any = null;
@@ -60,7 +61,9 @@ export class BoxMapComponent {
 
   async ngOnChanges () {
     // Remove all previous evenements.
-    this.events.unsubscribe(this.onClickItemMapEventName);
+    if (this.isMapRendered) {
+      this.events.unsubscribe(this.onClickItemMapEventName);
+    }
 
     const selectedTarget = this.selectedTarget;
 
@@ -101,7 +104,7 @@ export class BoxMapComponent {
           for (let i = 0; i < routes.length; i++) {
             poiArray.push(new leaflet.LatLng(routes[i][1],routes[i][0]));
           }
-
+          
         }
       }
 
@@ -186,7 +189,6 @@ export class BoxMapComponent {
     // @eventOnClickItemMapGetData
     const data = e.target.getData;
     // Publication de l'évènement.
-    console.log('public event');
     this.events.publish(this.onClickItemMapEventName, data);
   };
 
