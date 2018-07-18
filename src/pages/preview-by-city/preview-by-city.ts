@@ -36,8 +36,13 @@ export class PreviewByCityPage {
    * @returns {any[]}
    */
   getParcours () {
-    return this._parcours.filter((item: any) => {
-      return item.force_lang === null || item.force_lang === this.config.getLanguage();
+    return new Promise(async (res) => {
+
+      this.parcours = await this._parcours.filter((item: any) => {
+        return item.force_lang === null || item.force_lang === this.config.getLanguage();
+      });
+
+      res();
     });
   }
 
@@ -46,8 +51,13 @@ export class PreviewByCityPage {
    * @returns {any[]}
    */
   getInterests () {
-    return this._interests.filter((item: any) => {
-      return item.force_lang === null || item.force_lang === this.config.getLanguage();
+    return new Promise(async (res) => {
+
+      this.interests = await this._interests.filter((item: any) => {
+        return item.force_lang === null || item.force_lang === this.config.getLanguage();
+      });
+
+      res();
     });
   }
 
@@ -107,6 +117,7 @@ export class PreviewByCityPage {
     }
 
     /** ONLY FOR DEV DEBUG.
+     *
     this.city = {
       id: "c661d0ba-f710-43d3-ac5b-79ea5e1fce8b",
       title: {
@@ -126,20 +137,23 @@ export class PreviewByCityPage {
   }
 
   async init () {
-    await this.loadParcours();
-    await this.loadInterests();
+    this.loadInterests().then(() => {
+      this.loadParcours().then(() => {
 
-    if (this.parcours.length === 0) {
-      this.onChangeSelectedTarget({'next': true});
-    }
+        if (this.parcours.length === 0) {
+          // Si aucun parcours n'est disponible on affiche
+          // les points d'intérêt par défaut.
+          this.onChangeSelectedTarget({'checked': true}, true);
+        }
 
-    this.changeOptionListHandler();
+        this.changeOptionListHandler();
+      });
+    });
   }
 
   onUpdateLanguage () {
-    console.log('onUpdateLanguagee');
-    this.interests = this.getInterests();
-    this.parcours = this.getParcours();
+    this.getInterests();
+    this.getParcours();
   }
 
   focusAnElement (element: string) {
@@ -162,7 +176,6 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
-    console.log('ionViewDidEnter');
     const eventName = 'boxMap::onClickItemMap';
 
     if (this.eventUpdateLanguage === null) {
@@ -172,10 +185,7 @@ export class PreviewByCityPage {
     this.events.subscribe(this.eventOnClickItemMapName, (data: any) => {
       // Handler for event on a component.
       this.parcoursListItemHandler = data;
-
-      setTimeout(() => {
-        this.parcoursListItemHandler = null;
-      }, 250);
+      setTimeout(() => {this.parcoursListItemHandler = null;}, 250);
 
       // Ouverture de la liste.
       this.openContentList();
@@ -183,20 +193,14 @@ export class PreviewByCityPage {
   }
 
   ionViewWillUnload () {
-    console.log('ionViewWillUnload');
     this.eventUpdateLanguage = null;
     this.events.unsubscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
-  }
-
-  ionViewDidLeave () {
-    console.log('ionViewDidLeave');
   }
 
   /**
    *
    */
   ionViewWillLeave() {
-    console.log('ionViewWillLeave');
     this.events.unsubscribe(this.eventOnClickItemMapName);
   }
 
@@ -281,8 +285,8 @@ export class PreviewByCityPage {
 
     this.focusAnElement('#btnSortItemNext');
 
-    this.parcours = this.getParcours();
-    this.interests = this.getInterests();
+    this.getParcours();
+    this.getInterests();
   }
 
   /**
@@ -308,11 +312,13 @@ export class PreviewByCityPage {
     }
 
     // TODO : Attendre la fin du tri pour mettre le focus sur le premier element de la liste.
+    /**
     setTimeout(() => {
       if (typeof document.querySelector('.list li:first-child') !== null) {
         this.focusAnElement('.list li:first-child parcours-list-item .parcoursListItem .contentPreview button.info');
       }
     }, 100);
+    */
 
     // -->/
     this.changeOptionListHandler();
@@ -358,11 +364,11 @@ export class PreviewByCityPage {
   actionSortAlpha() {
     // Parcours.
     this._parcours = this._parcours.sort(this.sort_alpha);
-    this.parcours = this.getParcours();
+    this.getParcours();
 
     // Points d'intérêts.
     this._interests = this._interests.sort(this.sort_alpha);
-    this.interests = this.getInterests();
+    this.getInterests();
   }
 
   sort_alpha = (a, b) => {
@@ -382,35 +388,46 @@ export class PreviewByCityPage {
       ? `/public/parcours/byCityId/${this.city.id}`
       : `/public/parcours/closest/${this.city.id}?geoloc=${closest}`;
 
-    this.api.get(path).subscribe((resp: any) => {
-      if (resp.success) {
-        this._parcours = closest === ''
-          ? resp.data
-          : resp.data.parcours;
+    return new Promise((res) => {
+      this.api.get(path).subscribe(async (resp: any) => {
+        if (resp.success) {
+          this._parcours = closest === ''
+            ? resp.data
+            : resp.data.parcours;
 
-        this.parcours = this.getParcours();
-      }
-    }, (error: any) => {
-      console.log('error', error);
+          this.getParcours().then(() => {
+            res();
+          });
+        }
+      }, (error: any) => {
+        console.log('error', error);
+        res();
+      });
     });
   }
 
   /**
    *
    */
-  async loadInterests(closest: string = '') {
-    const path = closest === ''
-      ? `/public/interests/byCityId/${this.city.id}`
-      : `public/interests/closest/?city=${this.city.id}&geoloc=${closest}`;
+   async loadInterests(closest: string = '') {
+     const path = closest === ''
+       ? `/public/interests/byCityId/${this.city.id}`
+       : `public/interests/closest/?city=${this.city.id}&geoloc=${closest}`;
 
-    this.api.get(path).subscribe((resp: any) => {
-      if (resp.success) {
+    return new Promise((res) => {
+      this.api.get(path).subscribe(async (resp: any) => {
+        if (resp.success) {
 
-        this._interests = resp.data;
-        this.interests = this.getInterests();
-      }
-    }, (error: any) => {
-      console.log('error', error);
+          this._interests = resp.data;
+
+          this.getInterests().then(() => {
+            res();
+          });
+        }
+      }, (error: any) => {
+        console.log('error', error);
+        res();
+      });
     });
   }
 
@@ -420,7 +437,7 @@ export class PreviewByCityPage {
    * @returns {number}
    */
   getTotalInterestsByParcourId(parcourId: string) {
-    return this.getInterests().filter(interest => {
+    return this.interests.filter(interest => {
       return interest.parcours_id === parcourId
     }).length;
   }

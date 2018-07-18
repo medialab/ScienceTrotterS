@@ -31,7 +31,7 @@ export class ApiProvider {
     const request = this.http.get(httpURI);
     return withCache ? this.getRequestAsCache(httpURI, request, target) : request;
   }
-
+  
   /**
    * Middlleware d'une requête HTTP pour la gestion du cache.
    *

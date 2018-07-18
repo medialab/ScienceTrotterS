@@ -9,14 +9,10 @@
 
   "COMP_MH_GO_BACK": "Retour",
 
-  "PAGE_NAME_HOME_SPLIT": "Paris",
   "PAGE_NAME_HOME": "Sélectionnez votre ville",
   "PAGE_NAME_SETTINGS": "Paramètres de l'application",
   "PAGE_NAME_CREDITS": "Crédits",
   "PAGE_NAME_PARCOURS_LIST": "Parcours thématique",
-
-  "P_HOME_TITLE_PART1": "Sélectionnez",
-  "P_HOME_TITLE_PART2": "votre ville",
 
   "P_SETTING_LANGUAGE": "Langue",
   "P_SETTING_FR": "Français",
@@ -48,12 +44,13 @@
   "PBC_ALT_PARCOURS": "Parcours",
   "PBC_NO_DATA_AVAILABLE_INTERESTS": "A ce jour, aucun point d'intérêt n'est encore proposé à :city",
   "PBC_NO_DATA_AVAILABLE_PARCOURS": "A ce jour, aucun parcours n'est encore proposé à :city",
-  
+
   "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
   "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
   "PLAYER_ACTION_STATE": "Player action state",
 
   "C_BOX_MAP_USER_MARKER": "Vous êtes ici !",
+  
   "PV_GEOLOC_ASKGEO_ERROR_TITLE": "Erreur",
   "PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED": "Veuillez activer votre position gps.",
   "PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED": "Veuillez autoriser cette application à utiliser votre position gps."

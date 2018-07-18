@@ -9,14 +9,10 @@
 
   "COMP_MH_GO_BACK": "Back",
 
-  "PAGE_NAME_HOME_SPLIT": "Paris",
   "PAGE_NAME_HOME": "Select your city",
   "PAGE_NAME_SETTINGS": "Application settings",
   "PAGE_NAME_CREDITS": "Credits",
   "PAGE_NAME_PARCOURS_LIST": "Thematic route",
-
-  "P_HOME_TITLE_PART1": "Select",
-  "P_HOME_TITLE_PART2": "your city",
 
   "P_SETTING_LANGUAGE": "Language",
   "P_SETTING_FR": "Français",
@@ -54,8 +50,8 @@
   "PLAYER_ACTION_STATE": "Player action state",
 
   "C_BOX_MAP_USER_MARKER": "Your are here !",
+
   "PV_GEOLOC_ASKGEO_ERROR_TITLE": "Error",
   "PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED": "GPS is disabled.",
   "PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED": "Access denied to GPS."
-
 }
