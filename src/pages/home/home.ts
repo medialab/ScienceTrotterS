@@ -63,9 +63,24 @@ export class HomePage {
    * @private
    */
   _initCities() {
+    // Loader au chargement des données.
+    let isLoaderVisible = true;
+    const loaderContent = '';
+    const loader = this.alert.createLoader(loaderContent);
+
     this.api.get('/public/cities/list').subscribe((resp: any) => {
       if (resp.success) {
         this.listCities = resp.data;
+      }
+      
+      if (isLoaderVisible) {
+        isLoaderVisible = false;
+        loader.dismiss();
+      }
+    }, (err: any) => {
+      if (isLoaderVisible) {
+        isLoaderVisible = false;
+        loader.dismiss();
       }
     });
   }
