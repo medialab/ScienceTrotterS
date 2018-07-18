@@ -205,7 +205,6 @@ export class BoxMapComponent {
    */
   clusterGroupTPL (bgColor: string, nb: string, time: string) {
     return `<div class='cluster' style='background-color: ${bgColor}'>`
-      + `<p>${nb}</p>`
       + `<div><i class="icon icon--clock"></i><span>${time}</span></div></div>`
       ;
   }

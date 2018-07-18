@@ -78,7 +78,6 @@ box-map {
     left:-15px;
     z-index: 1007;
     min-width: 60px;
-    min-height: 44px;
     display: flex;
     flex-direction: column;
 
@@ -89,7 +88,6 @@ box-map {
     div{
       display: inline-flex;
       align-items: center;
-      margin-top: -6px;
 
       i.icon--clock {
         display: block;
