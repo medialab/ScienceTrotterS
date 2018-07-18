@@ -24,7 +24,7 @@ export class PointOfInterestPage {
   pageName: string = '';
 
   _interests: Array<any> = new Array();
-
+  
   get interests () {
     return this._interests.filter((item: any) => {
       return item.isDone === false && (item.item.force_lang === null || item.item.force_lang === this.config.getLanguage())
@@ -54,6 +54,11 @@ export class PointOfInterestPage {
     events.subscribe('config:updateLanguage', () => {
       this.isOnUpdateLanguage = true;
     });
+
+
+    setTimeout(() => {
+      console.log('get data biblio', this.getData('bibliography', true));
+    }, 2000);
   }
 
   onUpdateLanguage () {
@@ -360,5 +365,9 @@ export class PointOfInterestPage {
   openMapToLocation () {
     const geoloc: any = this.getData('geoloc');
     const openMap = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`);
+  }
+
+  showSliderPager () {
+    return this.getGalleryImages().length > 1;
   }
 }

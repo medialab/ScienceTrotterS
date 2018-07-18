@@ -203,9 +203,9 @@
       <h3 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALLERY_IMAGE') }}</h3>
       <div class="poi__section__content">
 
-        <ion-slides class="image-slider poi-slider" loop="true" slidesPerView="{{ getNbPicture() }}" pager="true">
+        <ion-slides class="image-slider poi-slider" loop="true" [pager]="showSliderPager()">
           <ion-slide *ngFor="let img of getGalleryImages()">
-            <img [attr.src]="img" class="thumb-img" imageViewer/>
+            <img [attr.src]="img" class="thumb-img" imageViewer />
           </ion-slide>
         </ion-slides>
 

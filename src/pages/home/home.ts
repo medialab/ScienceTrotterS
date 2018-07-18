@@ -72,7 +72,7 @@ export class HomePage {
       if (resp.success) {
         this.listCities = resp.data;
       }
-      
+
       if (isLoaderVisible) {
         isLoaderVisible = false;
         loader.dismiss();

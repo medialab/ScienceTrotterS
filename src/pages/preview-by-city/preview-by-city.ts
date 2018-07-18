@@ -69,7 +69,7 @@ export class PreviewByCityPage {
   };
 
   // Tri par défaut sélectionné qui est par proximité.
-  optionsItemsSelected: number = 1;
+  optionsItemsSelected: number = 0;
   otpionsItems = [
     {
       id: 0,
