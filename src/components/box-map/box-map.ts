@@ -395,11 +395,11 @@ export class BoxMapComponent {
    * @param longitude
    */
   addCurrentPosition (latitude: any, longitude: any) {
+    // --->
     const icon = leaflet.icon({
-      iconUrl: '/assets/imgs/map/marker.svg',
-      iconSize: [35,35],
-      iconAnchor: [16,35],
-      popupAnchor:  [0,-37]
+      iconUrl: '/assets/imgs/map/marker-user.svg',
+      iconSize: [30,30],
+      popupAnchor:  [0,-15]
     });
 
     if (this.posMarker !== null) {

@@ -52,17 +52,36 @@ export class LocalDataProvider {
    * @param language
    * @returns {any}
    */
-  addParcoursDone (uuid: string, language: string) {
+  addParcoursDone ({uuid, created_at}, language: string) {
+
+    console.log('uuid', uuid, 'created_at', created_at);
+
     const key = 'sts::statusParcours';
     let data: any = this.getAsArray(key);
 
     if (typeof data[language] !== 'undefined') {
-      if (data[language].indexOf(uuid) === -1) {
-        data[language].push(uuid);
+      const itemId = data[language].findIndex(i => i.uuid === uuid);
+
+      if (itemId === -1) {
+        // SAVE DU PARCOURS.
+        data[language].push({
+          'uuid': uuid,
+          'created_at': created_at
+        });
+      } else {
+        // MAJ DU PARCOURS
+        data[language][itemId] = {
+          'uuid': uuid,
+          'created_at': created_at
+        };
       }
+
     } else {
       data[language] = [];
-      data[language].push(uuid);
+      data[language].push({
+        'uuid': uuid,
+        'created_at': created_at
+      });
     }
 
     this.addAsArray(key, data);
@@ -75,34 +94,62 @@ export class LocalDataProvider {
    * @param language
    * @returns {boolean}
    */
-  isParcoursIsDone (uuid: string, language: string) {
+  isParcoursIsDone ({uuid, created_at}, language: string) {
     const key = 'sts::statusParcours';
     let data = this.getAsArray(key);
 
     if (typeof data[language] === 'undefined') {
       return false;
     } else {
-      return data[language].indexOf(uuid) !== -1;
+      const itemId = data[language].findIndex(i => i.uuid === uuid);
+
+      if (itemId === -1) {
+        return false;
+      } else {
+        if (data[language][itemId].created_at === created_at) {
+          return true;
+        } else {
+          data[language].splice(itemId, 1);
+          this.addAsArray(key, data);
+          return false;
+        }
+      }
     }
   }
-
+  
   /**
    * Ajout d'un point d'intérêt ) la liste de ceux complétés.
    * @param uuid
    * @param language
    * @returns {any}
    */
-  addPOIDone (uuid: string, language: string) {
+  addPOIDone ({uuid, created_at}, language: string) {
     const key = 'sts::statusPOI';
     let data: any = this.getAsArray(key);
 
     if (typeof data[language] !== 'undefined') {
-      if (data[language].indexOf(uuid) === -1) {
-        data[language].push(uuid);
+      const itemId = data[language].findIndex(i => i.uuid === uuid);
+
+      if (itemId === -1) {
+        // SAVE DU POI.
+        data[language].push({
+          'uuid': uuid,
+          'created_at': created_at
+        });
+      } else {
+        // MAJ DU POI
+        data[language][itemId] = {
+          'uuid': uuid,
+          'created_at': created_at
+        };
       }
+
     } else {
       data[language] = [];
-      data[language].push(uuid);
+      data[language].push({
+        'uuid': uuid,
+        'created_at': created_at
+      });
     }
 
     this.addAsArray(key, data);
@@ -115,14 +162,26 @@ export class LocalDataProvider {
    * @param language
    * @returns {boolean}
    */
-  isPOIIsDone (uuid: string, language: string) {
+  isPOIIsDone ({uuid, created_at}, language: string) {
     const key = 'sts::statusPOI';
     let data = this.getAsArray(key);
 
     if (typeof data[language] === 'undefined') {
       return false;
     } else {
-      return data[language].indexOf(uuid) !== -1;
+      const itemId = data[language].findIndex(i => i.uuid === uuid);
+
+      if (itemId === -1) {
+        return false;
+      } else {
+        if (data[language][itemId].created_at === created_at) {
+          return true;
+        } else {
+          data[language].splice(itemId, 1);
+          this.addAsArray(key, data);
+          return false;
+        }
+      }
     }
   }
 }

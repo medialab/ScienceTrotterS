@@ -15,7 +15,7 @@
     </div>
 
     <div [ngClass]="contentListClass">
-      
+
       <!-- DARK SELECT BOX -->
       <div class='darkSelectBox'>
         <h3>
@@ -75,6 +75,7 @@
             [isOpenDiscover]="false"
             [handler]="parcoursListItemHandler"
             openId="{{ parcour.id }}"
+            [createdAt]="parcour.updated_at"
             parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
             parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
             previewTitle="{{ translate.fromApi(config.getLanguage(), parcour.title) }}"
@@ -99,6 +100,7 @@
             [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
             [isOpenDiscover]="false"
             [handler]="parcoursListItemHandler"
+            [createdAt]="interest.updated_at"
             openId="{{ interest.id }}"
             interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
             previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"

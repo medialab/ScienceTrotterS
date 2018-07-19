@@ -16,16 +16,16 @@ export class PointOfInterestPage {
 
   isActivePage: boolean = false;
   isOnUpdateLanguage: boolean = false;
-
   helpItemActive = '';
-
   curTarget: string = '';
   curId: string = '';
   pageName: string = '';
+  createdAt: string = '';
 
   _interests: Array<any> = new Array();
-  
-  get interests () {
+  interests: Array<any> = new Array();
+
+  getInterests () {
     return this._interests.filter((item: any) => {
       return item.isDone === false && (item.item.force_lang === null || item.item.force_lang === this.config.getLanguage())
     });
@@ -48,6 +48,7 @@ export class PointOfInterestPage {
                public platform : Platform) {
     this.curTarget = navParams.get('target');
     this.curId = navParams.get('openId');
+    this.createdAt = navParams.get('createdAt');
     this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
     this.init(navParams.get('target'), navParams.get('openId'));
 
@@ -55,10 +56,6 @@ export class PointOfInterestPage {
       this.isOnUpdateLanguage = true;
     });
 
-
-    setTimeout(() => {
-      console.log('get data biblio', this.getData('bibliography', true));
-    }, 2000);
   }
 
   onUpdateLanguage () {
@@ -120,6 +117,8 @@ export class PointOfInterestPage {
             'item': item
           };
         });
+
+        this.interests = this.getInterests();
       }
     }, (error: any) => {
       console.log('error fetchPOI', error);
@@ -182,6 +181,8 @@ export class PointOfInterestPage {
         if (this.interests.length > (this.activeItem + 1)) {
           this.activeItem = this.activeItem + 1;
           this.onClickSetHelpItemActive(null);
+        } else {
+          this.activeItem = 0;
         }
         break;
     }
@@ -323,23 +324,41 @@ export class PointOfInterestPage {
    *
    */
   btnEndPointOfInterest () {
-    if (this.interests.length === 1) {
+    const data = {
+      'uuid': this.getData('id'),
+      'created_at': this.getData('updated_at'),
+      'name': this.getData('title', true)
+    };
 
+    // Par défaut on enregistre le POI comme étant terminé.
+    this.localData.addPOIDone(data, this.config.getLanguage());
+
+    if (this.interests.length === 1) {
       // --> Ajout de l'item courant dans la liste des parocurs ou point d'intérêt done.
+
       if (this.curTarget === 'parcours') {
-        this.localData.addParcoursDone(this.curId, this.config.getLanguage());
-      } else {
-        this.localData.addPOIDone(this.curId, this.config.getLanguage());
+        data.uuid = this.curId;
+        data.created_at = this.createdAt;
+        this.localData.addParcoursDone(data, this.config.getLanguage());
       }
 
       // --> On retourne à la page précèdente (liste poi ou parcours).
       this.navCtrl.pop();
 
     } else {
-      this.interests[this.activeItem].isDone = true;
+      // Enregistrement du point d'intérêt éffectué dans la liste courante.
+      this._interests[this.activeItem].isDone = true;
+      this._interests = this.getInterests();
+      this.interests = this.getInterests();
+
+      if (this.activeItem > 0) {
+        this.activeItem -=1;
+      }
+
+      this.onClickSetHelpItemActive(null);
     }
   }
-
+  
   /**
    *
    * @returns {any}

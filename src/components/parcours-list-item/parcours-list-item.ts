@@ -19,6 +19,7 @@ export class ParcoursListItemComponent {
   @Input() target: string = '';
   @Input() parcourTotalInterets: number = 0;
   @Input() parcourTime: string = '';
+  @Input() createdAt: string = '';
   @Input() interestAddress: string = '';
   @Input() audioURI: string = '';
   @Input()
@@ -71,16 +72,22 @@ export class ParcoursListItemComponent {
    */
   openNext () {
     this.navCtrl.push('PointOfInterest', {
-      target: this.target,
-      openId: this.openId,
-      pageName: this.previewTitle
+      'target': this.target,
+      'openId': this.openId,
+      'pageName': this.previewTitle,
+      'createdAt': this.createdAt
     });
   }
 
   isDone () {
+    const data = {
+      'uuid': this.openId,
+      'created_at': this.createdAt
+    };
+
     const isDone = this.target === 'parcours'
-      ? this.localData.isParcoursIsDone(this.openId, this.config.getLanguage())
-      : this.localData.isPOIIsDone(this.openId, this.config.getLanguage())
+      ? this.localData.isParcoursIsDone(data, this.config.getLanguage())
+      : this.localData.isPOIIsDone(data, this.config.getLanguage())
     ;
 
     return {
