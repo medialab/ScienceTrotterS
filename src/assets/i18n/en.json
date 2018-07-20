@@ -24,8 +24,8 @@
 
   "PLI_FILTER_PROXIMITE": "Sort by proximity",
   "PLI_FILTER_ALPHA": "Sort alphabetical",
-  "PLI_ACTION_DOWNLOAD_DATA": "download data",
-  "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "remove data",
+  "PLI_ACTION_DOWNLOAD_DATA": "download<br>data",
+  "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "remove<br>data",
   "PLI_LIST_START_PARCOURS": "Start parcours",
   "PLI_LIST_START_POI": "Start point of interest",
   "PLI_VAL_ITINERARY": "itinerary",

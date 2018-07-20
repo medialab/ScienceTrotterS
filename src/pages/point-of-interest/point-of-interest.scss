@@ -42,12 +42,12 @@ $picture-size: 200px;
     grid-template-areas: "L T R" "L S R";
     &--title {
       grid-area: T;
-      font-size: 14px;
+      font-size: 1.2em;
       text-transform: uppercase;
     }
     &--subtitle {
       grid-area: S;
-      font-size: 12px;
+      font-size: 1em;
     }
     .poi__marker{
       content: "";
@@ -93,6 +93,7 @@ $picture-size: 200px;
     padding: 1em 3em;
   }
   &__end__btn {
+    font-size: 1.4em;
     padding: 0;
     display: block;
     width: calc(100% - 30px);
@@ -102,17 +103,17 @@ $picture-size: 200px;
     border-radius: 23px;
     border: 1px solid #000000;
     color: #000000;
+    padding: 4px 0;
+
     &--TransparentAndBlack {
       background-color: transparent;
       border: 1px solid #000000;
       color: #000000;
-      font-size: 12px;
     }
     &--OrangeAndWhite {
       background-color: #F9AC2F;
       border: 1px solid #F9AC2F;
       color: white;
-      font-size: 14px;
       font-weight: bold;
     }
 
@@ -207,6 +208,7 @@ $picture-size: 200px;
       justify-content: center;
       position: relative;
       cursor: pointer;
+      font-size: inherit;
 
       &[aria-expanded="true"] {
         &:before {
@@ -247,7 +249,7 @@ $picture-size: 200px;
         background-image: url('../assets/imgs/poi/poi_icon_navigation.svg');
       }
       label {
-        font-size: 12px;
+        font-size: 0.9;
         color: black;
         padding: 0 10px;
       }
@@ -325,11 +327,11 @@ $picture-size: 200px;
   justify-content: flex-end;
 
   .btnCloseHelpContent {
+    font-size: inherit;
     display: flex;
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
     padding: 7px 12px 7px 7px;
     margin: 0 12px 0 0;
     cursor: pointer;
@@ -338,6 +340,7 @@ $picture-size: 200px;
       padding: 0 7px 0 0;
       text-transform: uppercase;
       cursor: pointer;
+      font-size: 1em;
     }
 
     ion-icon {
@@ -414,7 +417,7 @@ $picture-size: 200px;
         }
       }
       label {
-        font-size: 14px;
+        font-size: 1.2em;
         padding: 0 10px;
       }
     }
@@ -549,6 +552,7 @@ $picture-size: 200px;
 
       .pJustified {
         text-align: justify;
+        font-size: 1.2em;
       }
     }
   }
@@ -593,11 +597,11 @@ $picture-size: 200px;
         list-style: none;
 
         &__item {
-          font-size: 14px;
           padding: 2px 0;
 
           p {
             margin: 0;
+            font-size: 1.2em;
           }
         }
       }
@@ -613,6 +617,7 @@ $picture-size: 200px;
       justify-content: center;
       align-items: center;
       background-color: transparent;
+      font-size: inherit;
 
       &__icon {
         width: 48px;
@@ -624,7 +629,7 @@ $picture-size: 200px;
         line-height: 48px;
       }
       &__span {
-        font-size: 11px;
+        font-size: 1em;
         padding: 5px 0;
       }
     }
@@ -662,6 +667,7 @@ footer {
     flex-direction: row;
     flex-wrap: nowrap;
     height: 100%;
+    font-size: inherit;
 
     &__item {
       flex-grow: 1;
@@ -674,14 +680,15 @@ footer {
         justify-content: center;
         align-items: center;
         background-color: transparent;
+        font-size: inherit;
 
         &__icon {
           display: block;
           width: 100%;
-          font-size: 0.7em;
+          font-size: 0.7rem;
           background-repeat: no-repeat;
           background-position: center;
-          margin-bottom: .3em;
+          margin-bottom: .3rem;
           height: 26px;
 
           &--script-audio {
@@ -695,7 +702,7 @@ footer {
           }
         }
         &__label {
-          font-size: 10px;
+          font-size: 0.8em;
           color: #95989A;
         }
       }

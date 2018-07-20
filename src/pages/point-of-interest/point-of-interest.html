@@ -2,7 +2,7 @@
   {{ pageName }}
 </main-header>
 
-<ion-content>
+<ion-content [ngClass]="config.globalGlobalCss()">
   <div
     alt=""
     class="poi__header"
@@ -247,7 +247,7 @@
   </div>
 </ion-content>
 
-<footer *ngIf="!mainContentCls.isHidden" class="unsetWithCarousel">
+<footer *ngIf="!mainContentCls.isHidden" class="unsetWithCarousel" [ngClass]="config.globalGlobalCss()">
   <ul class="footer__list">
     <li class="footer__list__item">
       <button class="item__button" (click)="scrollTo('titleAudioScript')">

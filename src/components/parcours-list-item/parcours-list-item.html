@@ -11,7 +11,7 @@
   </div>
   <div class='content'>
     <div class='contentPreview'>
-      <button type="button"class='info' (click)="updateDiscoverStateOrOpen()" [attr.aria-expanded]="isOpenDiscover">
+      <button type="button"class='info' (click)="updateDiscoverStateOrOpen()" [attr.aria-expanded]="isOpenDiscover" [ngClass]="config.globalGlobalCss()">
         <h1>{{ previewTitle }}</h1>
         <ul class="infoParcours" *ngIf="target === 'parcours'">
           <li>
@@ -32,18 +32,17 @@
           </li>
         </ul>
       </button>
-      
-      <button type="button" class='btnDownload'>
+
+      <button type="button" class='btnDownload' [ngClass]="config.globalGlobalCss()">
         <span class='icon icon-download'></span>
-        <label>
-          {{ translate.getKey('PLI_ACTION_DOWNLOAD_DATA') }}
+        <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
         </label>
       </button>
     </div>
 
     <div class="contentDiscover" [attr.aria-hidden]="! isOpenDiscover">
 
-      <div class='content'>
+      <div class='content' [ngClass]="config.globalGlobalCss()">
         <p>
           {{ previewDescription }}
         </p>
@@ -56,7 +55,7 @@
           [loadPlayer]="isOpenDiscover"></player-audio>
       </div>
 
-      <div class='footer'>
+      <div class='footer' [ngClass]="config.globalGlobalCss()">
         <button type="button"
           *ngIf="target === 'parcours' && parcourTotalInterets > 0"
           (click)="openNext()"

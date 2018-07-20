@@ -1,5 +1,6 @@
 parcours-list-item {
   display: block;
+  font-size: initial;
 
   &:nth-child(odd) {
     background-color: #EAEAED;
@@ -81,7 +82,7 @@ parcours-list-item {
         margin: 0 0 10px 0;
 
         p {
-          font-size: 14px;
+          font-size: 1em;
         }
       }
 
@@ -96,7 +97,7 @@ parcours-list-item {
           height: 46px;
           color: white;
           border-radius: 23px;
-          font-size: 18px;
+          font-size: 1.4em;
           font-weight: bold;
         }
       }
@@ -115,7 +116,7 @@ parcours-list-item {
 
         h1 {
           margin: 0;
-          font-size: 14px;
+          font-size: 1.2em;
           text-transform: uppercase;
           text-align: left;
         }
@@ -126,14 +127,17 @@ parcours-list-item {
           display: flex;
           flex-direction: row;
           list-style: none;
+          align-items: center;
 
           li {
             list-style: puce;
             display: flex;
             flex-direction: row;
-            font-size: 12px;
+            align-items: center;
+
             label {
               padding: 0 5px;
+              font-size: 1.1em;
             }
           }
         }
@@ -153,7 +157,7 @@ parcours-list-item {
       }
 
       .btnDownload {
-        width: 86px;
+        width: auto;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
@@ -176,7 +180,7 @@ parcours-list-item {
         }
 
         label {
-          font-size: 12px;
+          font-size: 1em;
         }
       }
     }
