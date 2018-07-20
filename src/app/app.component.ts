@@ -12,6 +12,7 @@ import { CacheService } from "ionic-cache";
 import {Observable} from "rxjs/Observable";
 import {PlayerAudioProvider} from "../providers/playerAudio";
 import {PreviewByCityPage} from "../pages/preview-by-city/preview-by-city";
+import {LoaderPage} from "../pages/loader/loader";
 
 @Component({
   templateUrl: 'app.html'

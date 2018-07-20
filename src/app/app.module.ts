@@ -38,6 +38,7 @@ import {CarouselComponent} from "../components/carousel/carousel";
 import {GeolocProvider} from "../providers/geoloc";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LocalDataProvider} from "../providers/localData";
+import {FileTransfer} from '@ionic-native/file-transfer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -151,7 +152,8 @@ const linksConfig = {
     DataProvider,
     Media,
     PlayerAudioProvider,
-    GeolocProvider
+    GeolocProvider,
+    FileTransfer
   ]
 })
 

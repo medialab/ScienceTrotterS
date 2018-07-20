@@ -358,7 +358,7 @@ export class PointOfInterestPage {
       this.onClickSetHelpItemActive(null);
     }
   }
-  
+
   /**
    *
    * @returns {any}

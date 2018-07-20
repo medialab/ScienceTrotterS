@@ -82,6 +82,7 @@
             previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}">
           </parcours-list-item>
         </li>
+        <!-- Si aucun parcours -->
         <li *ngIf="parcours.length === 0">
           <p class="msgNotDataAvailable">
             {{ translate.getKeyAndReplace('PBC_NO_DATA_AVAILABLE_PARCOURS', ':city', translate.fromApi(config.getLanguage(), city.title)) }}
@@ -107,6 +108,7 @@
             previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}">
           </parcours-list-item>
         </li>
+        <!-- Si aucun point d'intérêt -->
         <li *ngIf="interests.length === 0">
           <p class="msgNotDataAvailable">
             {{ translate.getKeyAndReplace('PBC_NO_DATA_AVAILABLE_INTERESTS', ':city', translate.fromApi(config.getLanguage(), city.title)) }}

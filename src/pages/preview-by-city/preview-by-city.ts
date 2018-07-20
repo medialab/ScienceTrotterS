@@ -19,6 +19,10 @@ export class PreviewByCityPage {
   eventOnClickItemMapName = 'boxMap::onClickItemMap';
 
   city: any;
+  curPositionUser: object = {
+    'longitude': '',
+    'latitude': ''
+  };
 
   // Variables contenant les données non trié.
   _parcours: Array<any> = new Array();
@@ -148,6 +152,11 @@ export class PreviewByCityPage {
         }
 
         this.changeOptionListHandler();
+
+        this.events.publish('previewByCity::initMapData', {
+          'parcours': this.parcours,
+          'interests': this.interests
+        });
       });
     });
   }
@@ -183,6 +192,7 @@ export class PreviewByCityPage {
       this.eventUpdateLanguage = this.events.subscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
     }
 
+    // -->.
     this.events.subscribe(this.eventOnClickItemMapName, (data: any) => {
       // Handler for event on a component.
       this.parcoursListItemHandler = data;
@@ -190,6 +200,15 @@ export class PreviewByCityPage {
 
       // Ouverture de la liste.
       this.openContentList();
+    });
+
+    // -->.
+    this.events.subscribe('boxMap::updateCurrentGeoLoc', () => {
+      console.log('boxMap::updateCurrentGeoLoc', Date.now());
+      this.actionSortProximite()
+        .then((data: any) => {
+          this.events.publish('previewByCity::updateCurrentGeoLoc', data);
+        });
     });
   }
 
@@ -202,7 +221,11 @@ export class PreviewByCityPage {
    *
    */
   ionViewWillLeave() {
+    // -->.
     this.events.unsubscribe(this.eventOnClickItemMapName);
+    this.events.unsubscribe('boxMap::updateCurrentGeoLoc');
+    // -->.
+    this.events.publish('previewByCity::ionViewWillLeave');
   }
 
   scrollToDiv (selector, to, duration) {
@@ -278,6 +301,8 @@ export class PreviewByCityPage {
    * @param isFromClick
    */
   onChangeSelectedTarget(next: any, isFromClick = false) {
+    console.log('@onChangeSelectedTarget', Date.now());
+
     this.selectTargetPoints.isSelected = next.checked === true;
     this.selectTargetParcours.isSelected = next.checked === false;
     if (isFromClick) {
@@ -288,6 +313,10 @@ export class PreviewByCityPage {
 
     this.getParcours();
     this.getInterests();
+
+    const target = next.checked === true ? 'point-of-interest' : 'parcours';
+
+    this.events.publish('previewByCity::onChangeSelectedTarget', target);
   }
 
   /**
@@ -334,31 +363,41 @@ export class PreviewByCityPage {
         this.actionSortAlpha();
         break;
       case 'proximite':
-        this.actionSortProximite();
+        this.actionSortProximite()
+          .then((data: any) => {
+            this.events.publish('previewByCity::updateCurrentGeoLoc', data);
+          });
         break;
     }
   }
 
-  async actionSortProximite () {
-    const loaderContent = '';
-    const loader = this.alert.createLoader(loaderContent);
+  actionSortProximite () {
+    return new Promise(async (success, error) => {
+      const loaderContent = '';
+      const loader = this.alert.createLoader(loaderContent);
 
-    // Triage en fonction que la géolocalition est disponible ou non.
-    await this.geoloc.getCurrentCoords().then(async (resp: any) => {
-      const {latitude, longitude} = resp;
+      // Triage en fonction que la géolocalition est disponible ou non.
+      await this.geoloc.getCurrentCoords().then(async (resp: any) => {
+        const {latitude, longitude} = resp;
 
-      if (this.parcours.length > 1) {
-        await this.loadParcours(`${latitude};${longitude}`);
-      }
+        console.log('@actionSortProximite -> longitude', longitude, 'latitude', latitude);
 
-      if (this.interests.length > 1) {
-        await this.loadInterests(`${latitude};${longitude}`);
-      }
+        if (this.parcours.length > 1) {
+          await this.loadParcours(`${latitude};${longitude}`);
+        }
 
-      loader.dismiss();
-    }, (err: any) => {
-      this.changeOptionList('next');
-      loader.dismiss();
+        if (this.interests.length > 1) {
+          await this.loadInterests(`${latitude};${longitude}`);
+        }
+
+        loader.dismiss();
+
+        success(resp);
+      }, (err: any) => {
+        this.changeOptionList('next');
+        loader.dismiss();
+        error();
+      });
     });
   }
 

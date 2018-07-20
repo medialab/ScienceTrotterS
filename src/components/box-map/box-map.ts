@@ -21,11 +21,17 @@ export class BoxMapComponent {
     'latitude': null
   };
 
+  userCoords: any = {
+    'longitude': null,
+    'latitude': null
+  };
+
   @Input() selectedTarget: string = '';
   @Input() parcoursList: Array<any> = [];
   @Input() pointOfInterestList: Array<any> = [];
 
   onClickItemMapEventName = 'boxMap::onClickItemMap';
+  onClickGeolocEventName = 'boxMap::updateCurrentGeoLoc';
 
   pointOfInterestMarkerList: Array<any> = [];
   clusterList: Array<any> = [];
@@ -54,42 +60,96 @@ export class BoxMapComponent {
               private geolocation: Geolocation,
               public events: Events) {
     leaflet.markercluster = leafletMarkercluster;
+
+    console.log('constructor');
+
+    this.events.subscribe('previewByCity::initMapData', (data) => {
+      this.parcoursList = data.parcours;
+      this.pointOfInterestList = data.interests;
+
+      this.initMapData.bind(this);
+      this.initMapData();
+    });
+
+    this.events.subscribe('previewByCity::onChangeSelectedTarget', (target) => {
+      this.selectedTarget = target;
+
+      if (this.userCoords.longitude !== null && this.userCoords.latitude !== null) {
+        this.initMapData(true, this.userCoords.longitude, this.userCoords.latitude);
+      } else {
+        this.initMapData();
+      }
+    });
+
+    // -->. Obtenir les coords de l'utilisation longitude, latitude.
+    this.events.subscribe('previewByCity::updateCurrentGeoLoc', (data: any) => {
+      console.log('@previewByCity::updateCurrentGeoLoc');
+      const {latitude, longitude} = data;
+
+      this.addCurrentPosition(longitude, latitude);
+    });
+
+    // -->. Evenement à la sortie de la page " preview by city "
+    // pour annuler tous les écoutes des évèenements.
+    this.events.subscribe('previewByCity::ionViewWillLeave', () => {
+      this.events.unsubscribe('previewByCity::updateCurrentGeoLoc');
+      this.events.unsubscribe('previewByCity::ionViewWillLeave');
+      this.events.unsubscribe('previewByCity::initMapData');
+      this.events.unsubscribe('previewByCity::onChangeSelectedTarget');
+    });
   }
 
   ngAfterViewInit () {
   }
 
   async ngOnChanges () {
+    console.log('@ngOnChanges', Date.now());
+    const selectedTarget = this.selectedTarget;
+
     // Remove all previous evenements.
     if (this.isMapRendered) {
       this.events.unsubscribe(this.onClickItemMapEventName);
+    } else {
+      await this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, this.config.defaultZoom);
     }
-
-    const selectedTarget = this.selectedTarget;
 
     /**
      * Chargement de la map par défaut ou changement des coordonnées du centre de la map.
      */
-    await this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, this.config.defaultZoom);
+    // await this.renderMap(this.citiesCoords.latitude, this.citiesCoords.longitude, this.config.defaultZoom);
+
+    // this.initMapData();
+  }
+
+  initMapData (askCurPosition: boolean = false, longitude: any = null, latitude: any = null) {
+    console.log('@initMapData', Date.now());
 
     // On supprime les données de la map pour afficher les nouvelles données.
     this.removeMarkers();
     this.removeParcours();
 
+    // Si aucune coords on sélectionne ceux de la ville.
+    if (! askCurPosition) {
+      longitude = this.citiesCoords.longitude;
+      latitude = this.citiesCoords.latitude;
+    }
+
     // Initialise les données des points d'intérêts et des parcours.
     this.initializePointOfInterest(this.pointOfInterestList).then((listGroup: any) => {
       if (this.selectedTarget === 'point-of-interest') {
+        this.addCurrentPosition.bind(this);
         this.addPointsOfInterests(listGroup);
       }
 
       if (this.selectedTarget === 'parcours') {
-        this.initializeParcours(this.parcoursList, listGroup);
+        this.initializeParcours.bind(this);
+        this.initializeParcours(this.parcoursList, listGroup, longitude, latitude);
       }
     });
   }
 
-  createParcoursTraces (parcoursId: string, callback) {
-    const geoloc = `${this.citiesCoords.longitude};${this.citiesCoords.latitude}`;
+  createParcoursTraces (parcoursId: string, longitude: any, latitude: any, callback) {
+    const geoloc = `${longitude};${latitude}`;
 
     return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}`).subscribe((resp: any) => {
       const {data} = resp;
@@ -277,7 +337,7 @@ export class BoxMapComponent {
    * @param parcoursList
    * @param listGroup
    */
-  initializeParcours (parcoursList: Array<any>, listGroup: Array<any>) {
+  initializeParcours (parcoursList: Array<any>, listGroup: Array<any>, longitude: any, latitude: any) {
     // Loop les parcours.
     for (const parcours of parcoursList) {
       // Check s'il y a des points d'intérêts pour ce parcours
@@ -305,7 +365,7 @@ export class BoxMapComponent {
           cluster.addLayer(marker);
         }
 
-        this.createParcoursTraces(parcours.id, (traces: any) => {
+        this.createParcoursTraces(parcours.id, longitude, latitude, (traces: any) => {
           // Ajout des tracés.
           for (const trace of traces) {
             cluster.addLayer(trace);
@@ -369,6 +429,10 @@ export class BoxMapComponent {
    * Récupération de la position GPS.
    */
   updateCurrentGeoLoc () {
+
+    this.events.publish(this.onClickGeolocEventName);
+
+    /**
     const elBtnGeoloc = document.querySelector('#btn__geoloc');
 
     // -- ADD: spinner de chargement.
@@ -377,15 +441,16 @@ export class BoxMapComponent {
     this.geoloc.getCurrentCoords().then((resp: any) => {
       const {latitude, longitude} = resp;
 
-      console.log('resp', resp);
+      this.addCurrentPosition(longitude, latitude);
+      this.initMapData(true, longitude, latitude);
 
-      this.addCurrentPosition(latitude, longitude);
       // -- DEL: spinner de chargement.
       elBtnGeoloc.classList.remove('btn__geoloc--isLoading');
     }, (err: any) => {
       // -- DEL: spinner de chargement.
       elBtnGeoloc.classList.remove('btn__geoloc--isLoading');
     });
+     */
   }
 
   /**
@@ -394,24 +459,35 @@ export class BoxMapComponent {
    * @param latitude
    * @param longitude
    */
-  addCurrentPosition (latitude: any, longitude: any) {
-    // --->
-    const icon = leaflet.icon({
-      iconUrl: '/assets/imgs/map/marker-user.svg',
-      iconSize: [30,30],
-      popupAnchor:  [0,-15]
-    });
+  addCurrentPosition = async (longitude: any, latitude: any) => {
+    await this.initMapData(true, longitude, latitude);
 
-    if (this.posMarker !== null) {
-      this.posMarker.remove();
+    console.log('@addCurrentPosition -> longitude', longitude, 'latitude', latitude);
+    console.log('this', this);
+    console.log('this.map', this.map);
+
+    if (this.map !== null) {
+      // --->
+      const icon = leaflet.icon({
+        iconUrl: '/assets/imgs/map/marker-user.svg',
+        iconSize: [30,30],
+        popupAnchor:  [0,-15]
+      });
+
+      if (this.posMarker !== null) {
+        this.posMarker.remove();
+      }
+
+      // --> REF. du marker.
+      this.posMarker = leaflet
+        .marker([latitude, longitude], {icon: icon})
+        .bindPopup(this.translate.getKey('C_BOX_MAP_USER_MARKER'));
+      this.posMarker.addTo(this.map);
+      this.posMarker.openPopup();
+
+      setTimeout(() => {
+        this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
+      }, 110);
     }
-
-    // --> REF. du marker.
-    this.posMarker = leaflet
-      .marker([latitude, longitude], {icon: icon})
-      .bindPopup(this.translate.getKey('C_BOX_MAP_USER_MARKER'));
-    this.posMarker.addTo(this.map);
-    this.posMarker.openPopup();
-    this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
   }
 }
