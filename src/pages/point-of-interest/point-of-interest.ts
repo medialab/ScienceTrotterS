@@ -55,7 +55,6 @@ export class PointOfInterestPage {
     events.subscribe('config:updateLanguage', () => {
       this.isOnUpdateLanguage = true;
     });
-
   }
 
   onUpdateLanguage () {
@@ -226,6 +225,19 @@ export class PointOfInterestPage {
     }
   }
 
+  showBiblio () {
+    const biblio = this.getData('bibliography', true);
+    let isShow = false;
+
+    for (const itemDesc of biblio) {
+      if (itemDesc !== '') {
+        isShow = true;
+        break;
+      }
+    }
+
+    return isShow;
+  }
   /**
    *
    * @param target

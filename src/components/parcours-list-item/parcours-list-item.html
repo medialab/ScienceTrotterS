@@ -15,20 +15,23 @@
         <h1>{{ previewTitle }}</h1>
         <ul class="infoParcours" *ngIf="target === 'parcours'">
           <li>
-            <label>{{ parcourTotalInterets }}</label>
+            <label class="labelToLeft">{{ parcourTotalInterets }}</label>
             <span aria-hidden="true" class="icon-poi" [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
           </li>
           <li>
             <label>{{ parcourTime }}</label>
           </li>
-          <li>
-            <label>à 1k (10min)</label>
+          <li *ngIf="isShowTimeToObj">
+            <label></label>
           </li>
         </ul>
 
         <ul class="infoParcours" *ngIf="target === 'interests'">
           <li>
-            <label>{{ interestAddress }}</label>
+            <label class="labelToLeft">{{ interestAddress }}</label>
+          </li>
+          <li *ngIf="isShowTimeToObj">
+            <label></label>
           </li>
         </ul>
       </button>

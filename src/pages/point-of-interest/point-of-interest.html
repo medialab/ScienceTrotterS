@@ -189,6 +189,17 @@
 
     <!-- SECTION AUDIO SCRIPT -->
     <section class="poi__section poi__section--isGrey">
+      <h3 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_DESC') }}</h3>
+      <div class="poi__section__content">
+        <p class="pJustified">
+          {{getData('description', true)}}
+        </p>
+      </div>
+    </section>
+    <!-- ./ SECTION AUDIO SCRIPT -->
+
+    <!-- SECTION AUDIO SCRIPT -->
+    <section class="poi__section poi__section--isWhite">
       <h3 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</h3>
       <div class="poi__section__content">
         <p class="pJustified">
@@ -199,7 +210,7 @@
     <!-- ./ SECTION AUDIO SCRIPT -->
 
     <!-- SECTION GALLERY -->
-    <section class="poi__section poi__section--isWhite section__gallery_image">
+    <section class="poi__section poi__section--isGrey section__gallery_image">
       <h3 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALLERY_IMAGE') }}</h3>
       <div class="poi__section__content">
 
@@ -214,7 +225,7 @@
     <!-- ./ SECTION GALLERY -->
 
     <!-- SECTION BIBLIOGRAPHY -->
-    <section class="poi__section poi__section--isGrey section__bibliography">
+    <section class="poi__section poi__section--White section__bibliography" *ngIf="showBiblio()">
       <h3 id="titleBibliography" class="poi__section__title">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</h3>
 
       <div class="poi__section__content">
@@ -238,7 +249,7 @@
     </section>
     <!-- ./ SECTION BIBLIOGRAPHY -->
 
-    <section class="poi__section poi__section--isWhite section__bibliography">
+    <section class="poi__section poi__section--isGrey section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
@@ -263,7 +274,7 @@
       </button>
     </li>
 
-    <li class="footer__list__item">
+    <li class="footer__list__item" *ngIf="showBiblio()">
       <button class="item__button" (click)="scrollTo('titleBibliography')">
         <i aria-hidden="true" class="item__button__icon item__button__icon--book"></i>
         <label class="item__button__label">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</label>

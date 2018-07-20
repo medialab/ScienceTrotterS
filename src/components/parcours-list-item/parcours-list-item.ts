@@ -22,6 +22,12 @@ export class ParcoursListItemComponent {
   @Input() createdAt: string = '';
   @Input() interestAddress: string = '';
   @Input() audioURI: string = '';
+  @Input() geoloc: any = undefined;
+  @Input() curPositionUser: any = undefined;
+
+  timeToObj = 'à 1k (10min)';
+  isShowTimeToObj: boolean = false;
+
   @Input()
   set isOpenDiscover(nextState: boolean) {
     this._isOpenDiscover = nextState;
@@ -40,6 +46,18 @@ export class ParcoursListItemComponent {
   }
 
   ngOnChanges () {
+    console.group('@ngOnChanges');
+    console.log('curPositionUser', this.curPositionUser);
+    console.log('geoloc', this.geoloc);
+    console.groupEnd();
+
+    if (typeof this.geoloc !== 'undefined' && this.curPositionUser !== 'undefined') {
+      this.isShowTimeToObj = true;
+      this.calculGeoLocDistance();
+    } else {
+      this.isShowTimeToObj = false;
+    }
+
     if (this.handler !== null) {
       this.handlerOnClickItemMap(this.handler);
       this.handler = null;
@@ -95,7 +113,7 @@ export class ParcoursListItemComponent {
     };
   }
 
-  distance (lat1, lon1, lat2, lon2, unit) {
+  distance (lat1, lon1, lat2, lon2, unit = 'K') {
     var radlat1 = Math.PI * lat1/180;
     var radlat2 = Math.PI * lat2/180;
     var theta = lon1-lon2;
@@ -112,4 +130,9 @@ export class ParcoursListItemComponent {
     return dist.toFixed(2);
   }
 
+  calculGeoLocDistance () {
+    this.timeToObj = this.distance(
+      this.geoloc.latitude, this.geoloc.longitude,
+      this.curPositionUser.longitude, this.curPositionUser.latitude);
+  }
 }

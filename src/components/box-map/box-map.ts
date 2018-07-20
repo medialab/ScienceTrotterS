@@ -73,6 +73,7 @@ export class BoxMapComponent {
 
     this.events.subscribe('previewByCity::onChangeSelectedTarget', (target) => {
       this.selectedTarget = target;
+      this.initMapData.bind(this);
 
       if (this.userCoords.longitude !== null && this.userCoords.latitude !== null) {
         this.initMapData(true, this.userCoords.longitude, this.userCoords.latitude);
@@ -137,7 +138,7 @@ export class BoxMapComponent {
     // Initialise les données des points d'intérêts et des parcours.
     this.initializePointOfInterest(this.pointOfInterestList).then((listGroup: any) => {
       if (this.selectedTarget === 'point-of-interest') {
-        this.addCurrentPosition.bind(this);
+        this.addPointsOfInterests.bind(this);
         this.addPointsOfInterests(listGroup);
       }
 
@@ -153,7 +154,6 @@ export class BoxMapComponent {
 
     return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}`).subscribe((resp: any) => {
       const {data} = resp;
-
       const poiArray = [];
 
       for (const poi of data.interests) {
@@ -223,7 +223,7 @@ export class BoxMapComponent {
     // Ajout de l'évènement du clique d'un marker.
     marker.on('click', this.handlerOnClickItemMap);
 
-    if (addToMap) {
+    if (addToMap && this.map !== null) {
       marker.addTo(this.map);
     }
 
@@ -399,7 +399,10 @@ export class BoxMapComponent {
           item.title[this.configProvider.getLanguage()],
           latitude,
           longitude);
-        marker.addTo(this.map);
+
+        if (this.map !== null) {
+          marker.addTo(this.map);
+        }
 
         // Save de la référence du marker.
         this.pointOfInterestMarkerList.push(marker);

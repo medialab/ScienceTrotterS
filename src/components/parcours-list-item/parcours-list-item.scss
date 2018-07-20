@@ -97,7 +97,7 @@ parcours-list-item {
           height: 46px;
           color: white;
           border-radius: 23px;
-          font-size: 1.4em;
+          font-size: 1.3em;
           font-weight: bold;
         }
       }
@@ -186,4 +186,7 @@ parcours-list-item {
     }
   }
 
+  .labelToLeft {
+    text-align: left;
+  }
 }

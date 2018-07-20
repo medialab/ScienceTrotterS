@@ -22,6 +22,7 @@
   "P_SETTING_THEME_DAY": "Jour",
   "P_SETTING_THEME_NIGHT": "Nuit",
 
+  "PLI_TAB_DESC": "Description",
   "PLI_FILTER_PROXIMITE": "Tri par proximité",
   "PLI_FILTER_ALPHA": "Tri alphabétique",
   "PLI_ACTION_DOWNLOAD_DATA": "télécharger<br>les données",

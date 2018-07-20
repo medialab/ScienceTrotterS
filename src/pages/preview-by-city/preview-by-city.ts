@@ -380,6 +380,11 @@ export class PreviewByCityPage {
       await this.geoloc.getCurrentCoords().then(async (resp: any) => {
         const {latitude, longitude} = resp;
 
+        this.curPositionUser = {
+          'longitude': resp.longitude,
+          'latitude': resp.latitude
+        };
+
         console.log('@actionSortProximite -> longitude', longitude, 'latitude', latitude);
 
         if (this.parcours.length > 1) {
