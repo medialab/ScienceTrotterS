@@ -123,6 +123,7 @@ ion-header {
       color: white;
       text-decoration: none;
       background-color: transparent;
+      font-size: inherit;
 
       &__icon__block {
         display: flex;
@@ -145,7 +146,7 @@ ion-header {
         padding: 13px 0;
 
         h1 {
-          font-size: initial;
+          font-size: 1.2em;
           margin: 0;
         }
       }

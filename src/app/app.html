@@ -8,8 +8,8 @@
   persistent="true"
   (ionOpen)="menuHandler($event, 'open')"
   (ionClose)="menuHandler($event, 'close')"
-  class="rightNavBar">
-
+  class="rightNavBar"
+  [ngClass]="config.globalGlobalCss()">
   <ion-header menuToggle>
     <ion-toolbar>
 
