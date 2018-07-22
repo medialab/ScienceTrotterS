@@ -44,6 +44,8 @@ export class PlayerAudioComponent {
 
   onModelDurationChange (nextDuration: any) {
     this.audioPlayer.track.currentTime = nextDuration;
+
+    console.log('@onModelDurationChange');
   }
 
   updateActionState () {

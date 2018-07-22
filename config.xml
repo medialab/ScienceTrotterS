@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.thenetgroup.stsdev" version="0.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Science Trotters</name>
     <description>Science Trotters.</description>
     <author email="managers@thenetgroup.net" href="http://www.thenetgroup.net/">The Net Group</author>
@@ -115,6 +115,7 @@
     </plugin>
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <allow-navigation href="http://192.168.43.44:8100" />
+    <allow-navigation href="http://192.168.1.82:8100" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.4" />

@@ -49,6 +49,8 @@
   "PLAYER_ACTION_FAST_LEFT": "Player action fast left",
   "PLAYER_ACTION_FAST_RIGHT": "Player action fast right",
   "PLAYER_ACTION_STATE": "Player action state",
+  "PLAYER_ACTION_VOLUME_DOWN": "volume -",
+  "PLAYER_ACTION_VOLUME_UP": "volume +",
 
   "C_BOX_MAP_USER_MARKER": "Vous êtes ici !",
 

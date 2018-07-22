@@ -91,7 +91,7 @@ export class BoxMapComponent {
     });
 
     // -->. Evenement à la sortie de la page " preview by city "
-    // pour annuler tous les écoutes des évèenements.
+    // pour annuler tous les écoutes des évènements.
     this.events.subscribe('previewByCity::ionViewWillLeave', () => {
       this.events.unsubscribe('previewByCity::updateCurrentGeoLoc');
       this.events.unsubscribe('previewByCity::ionViewWillLeave');
@@ -210,7 +210,7 @@ export class BoxMapComponent {
    */
   createAndAddMarker (target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true) {
     const icon = leaflet.icon({
-      iconUrl: '/assets/imgs/map/marker.svg',
+      iconUrl: 'assets/imgs/map/marker.svg',
       iconSize: [35,35],
       iconAnchor: [16,35],
       popupAnchor:  [0,-37]
@@ -472,7 +472,7 @@ export class BoxMapComponent {
     if (this.map !== null) {
       // --->
       const icon = leaflet.icon({
-        iconUrl: '/assets/imgs/map/marker-user.svg',
+        iconUrl: 'assets/imgs/map/marker-user.svg',
         iconSize: [30,30],
         popupAnchor:  [0,-15]
       });

@@ -55,6 +55,11 @@ export class PlayerAudio {
     } else {
       this.duration.current = '0' + (nextCurTime / 60).toFixed(2);
     }
+
+    // Si l'audio est terminé on change l'état à pause.
+    if (this.track.currentTime === this.track.duration && this.isPlaying) {
+      this.updateActionState();
+    }
   }
 
   actionFastLeft () {

@@ -16,31 +16,38 @@
 
     <div [ngClass]="contentListClass">
 
+
       <!-- DARK SELECT BOX -->
       <div class='darkSelectBox'>
-        <h3>
-          <label [ngClass]="selectTargetParcours"
-                 (click)="onChangeSelectedTarget({'checked': false}, true)">
-            {{ translate.getKey('PBC_ALT_PARCOURS') }}
-          </label>
-        </h3>
 
-        <div class='switchGroup'>
-          <button class="switchName">
-            <ion-icon
-              aria-hidden="true"
-              class='openMenuItems'
-              [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
-          </button>
-          <ion-toggle [(ngModel)]="selectedTarget" (ionChange)="onChangeSelectedTarget($event)"></ion-toggle>
-        </div>
+        <button class="btnUpAndDown">
+          <ion-icon
+            aria-hidden="true"
+            class='openMenuItems'
+            [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
+        </button>
 
-        <h3>
-          <label [ngClass]="selectTargetPoints"
-                 (click)="onChangeSelectedTarget({'checked': true}, true)">
-            {{ translate.getKey('PBC_ALT_POI') }}
-          </label>
-        </h3>
+        <ul class="switch__target__list">
+          <!-- BTN PARCOURS -->
+          <li class="item">
+            <button class="item__btn item__btn--left" [ngClass]="selectTargetParcours"
+                    (click)="onChangeSelectedTarget({'checked': false}, true)">
+              <label>
+                {{ translate.getKey('PBC_ALT_PARCOURS') }}
+              </label>
+            </button>
+          </li>
+          <!-- BTN POINT D INTERET -->
+          <li class="item">
+            <button class="item__btn item__btn--right" [ngClass]="selectTargetPoints"
+                    (click)="onChangeSelectedTarget({'checked': true}, true)">
+              <label>
+                {{ translate.getKey('PBC_ALT_POI') }}
+              </label>
+            </button>
+          </li>
+        </ul>
+
       </div>
       <!-- ./ DARK SELECT BOX -->
 

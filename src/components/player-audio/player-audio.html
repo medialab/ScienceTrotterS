@@ -3,7 +3,7 @@
   <!-- PLAYER MAIN ACTIONS -->
   <ul class="actionsList">
     <!-- ACTION FAST LEFT -->
-    <li class="actionItem actionItemFastLeft">
+    <li class="actionItem actionItemFastLeft hide--item">
       <button class="actionBtn"
               (click)="audioPlayer.actionFastLeft()"
               [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
@@ -22,7 +22,7 @@
     </li>
 
     <!-- ACTION FAST RIGHT -->
-    <li class="actionItem actionItemFastRight">
+    <li class="actionItem actionItemFastRight hide--item">
       <button class="actionBtn"
               (click)="audioPlayer.actionFastRight()"
               [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
@@ -41,7 +41,7 @@
     ></ion-range>
   </div>
 
-  <!-- PLAUER TIMER -->
+  <!-- PLAYER TIMER -->
   <div class="playerDuration">
     <div class="durationCurrent">
       <label class="durationValue">
@@ -54,6 +54,36 @@
       </label>
     </div>
   </div>
+
+  <!-- PLAYER BTNS VOKUMEs -->
+  <ul class="round__btn__list">
+
+    <!-- VOLUMN DOWN BTN -->
+    <li class="item">
+      <button
+        (click)="audioPlayer.downVolume()"
+        class="item__btn"
+        [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_DOWN')">
+        <div class="icon">
+          <ion-icon aria-hidden="true" name="volume-down"></ion-icon>
+        </div>
+        <label>{{ translate.getKey('PLAYER_ACTION_VOLUME_DOWN') }}</label>
+      </button>
+    </li>
+
+    <!-- VOLUMN UP BTN -->
+    <li class="item">
+      <button
+        (click)="audioPlayer.upVolume()"
+        class="item__btn"
+        [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_UP')">
+        <div class="icon">
+          <ion-icon aria-hidden="true" name="volume-up"></ion-icon>
+        </div>
+        <label>{{ translate.getKey('PLAYER_ACTION_VOLUME_UP') }}</label>
+      </button>
+    </li>
+  </ul>
 
   <audio controls [attr.id]="playerUUID" class="hidden__audio__player">
     <source [attr.src]="audioURI" />

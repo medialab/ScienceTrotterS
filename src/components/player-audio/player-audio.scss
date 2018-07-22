@@ -108,4 +108,52 @@ player-audio {
   .hidden__audio__player {
     display: none;
   }
+
+  .round__btn__list {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    justify-content: space-evenly;
+
+    .item {
+
+      &__btn {
+        background-color: transparent;
+        font-size: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+          background-color: transparent;
+          border: 2px solid black;
+          border-radius: 50%;
+          min-width: 50px;
+          width: 50px;
+          min-height: 50px;
+          height: 50px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          ion-icon {
+            font-size: 2.5rem !important;
+          }
+        }
+
+        label {
+          display: block;
+          padding: 4px 0 0 0;
+          font-size: 1em;
+        }
+      }
+    }
+  }
+
+  .hide--item {
+    display: none;
+  }
 }
