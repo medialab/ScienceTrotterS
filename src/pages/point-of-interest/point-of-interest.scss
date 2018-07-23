@@ -710,7 +710,6 @@ footer {
   }
 }
 
-
 ion-slides {
   .swiper-container.swiper-container-horizontal {
     display: flex;
@@ -723,4 +722,8 @@ ion-slides {
       position: initial;
     }
   }
+}
+
+.isDoneBTN {
+  background-color: #4d4d4d;
 }

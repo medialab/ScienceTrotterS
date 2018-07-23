@@ -61,11 +61,9 @@ export class BoxMapComponent {
               public events: Events) {
     leaflet.markercluster = leafletMarkercluster;
 
-    console.log('constructor');
-
-    this.events.subscribe('previewByCity::initMapData', (data) => {
-      this.parcoursList = data.parcours;
-      this.pointOfInterestList = data.interests;
+    this.events.subscribe('previewByCity::initMapData', async (data) => {
+      this.parcoursList = await data.parcours;
+      this.pointOfInterestList = await data.interests;
 
       this.initMapData.bind(this);
       this.initMapData();
@@ -84,7 +82,6 @@ export class BoxMapComponent {
 
     // -->. Obtenir les coords de l'utilisation longitude, latitude.
     this.events.subscribe('previewByCity::updateCurrentGeoLoc', (data: any) => {
-      console.log('@previewByCity::updateCurrentGeoLoc');
       const {latitude, longitude} = data;
 
       this.addCurrentPosition(longitude, latitude);
@@ -104,7 +101,6 @@ export class BoxMapComponent {
   }
 
   async ngOnChanges () {
-    console.log('@ngOnChanges', Date.now());
     const selectedTarget = this.selectedTarget;
 
     // Remove all previous evenements.
@@ -123,8 +119,6 @@ export class BoxMapComponent {
   }
 
   initMapData (askCurPosition: boolean = false, longitude: any = null, latitude: any = null) {
-    console.log('@initMapData', Date.now());
-
     // On supprime les données de la map pour afficher les nouvelles données.
     this.removeMarkers();
     this.removeParcours();
@@ -152,21 +146,18 @@ export class BoxMapComponent {
   createParcoursTraces (parcoursId: string, longitude: any, latitude: any, callback) {
     const geoloc = `${longitude};${latitude}`;
 
-    return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}`).subscribe((resp: any) => {
+    return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}`).subscribe((resp: any) => {
       const {data} = resp;
       const poiArray = [];
 
       for (const poi of data.interests) {
         if (typeof poi.api_data !== 'undefined') {
+
           // Création de la route.
           const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-            style: function(feature) {
-              return {
-                'color': data.color,
-                'weight': 5,
-                'opacity': 0.65
-              };
-            }
+            'color': data.color,
+            'weight': 5,
+            'opacity': 0.65
           });
           poiArray.push(_polyline);
         }
@@ -285,8 +276,7 @@ export class BoxMapComponent {
           html: _clusterGroupTPL
         });
       },
-      maxClusterRadius: 16000,
-      disableClusteringAtZoom: 20
+      disableClusteringAtZoom: 15
     });
 
     return cluster;
@@ -380,7 +370,7 @@ export class BoxMapComponent {
       }
     }
   }
-
+  
   /**
    * Création de tous les points d'intérêts si le mode
    * "point-of-interest" est sélectionné.
@@ -464,10 +454,6 @@ export class BoxMapComponent {
    */
   addCurrentPosition = async (longitude: any, latitude: any) => {
     await this.initMapData(true, longitude, latitude);
-
-    console.log('@addCurrentPosition -> longitude', longitude, 'latitude', latitude);
-    console.log('this', this);
-    console.log('this.map', this.map);
 
     if (this.map !== null) {
       // --->

@@ -17,7 +17,7 @@ export class ParcoursListItemComponent {
   @Input() previewDescription: string = '';
   @Input() color: string = '';
   @Input() target: string = '';
-  @Input() parcourTotalInterets: number = 0;
+  @Input() parcourTotalInterets: any = 0;
   @Input() parcourTime: string = '';
   @Input() createdAt: string = '';
   @Input() interestAddress: string = '';
@@ -46,11 +46,6 @@ export class ParcoursListItemComponent {
   }
 
   ngOnChanges () {
-    console.group('@ngOnChanges');
-    console.log('curPositionUser', this.curPositionUser);
-    console.log('geoloc', this.geoloc);
-    console.groupEnd();
-
     if (typeof this.geoloc !== 'undefined' && this.curPositionUser !== 'undefined') {
       this.isShowTimeToObj = true;
       this.calculGeoLocDistance();
@@ -108,8 +103,11 @@ export class ParcoursListItemComponent {
       : this.localData.isPOIIsDone(data, this.config.getLanguage())
     ;
 
+    const hideIt = this.target === 'parcours' && parseInt(this.parcourTotalInterets) === 0;
+
     return {
-      'isDone': isDone
+      'isDone': isDone,
+      'hideIt': hideIt
     };
   }
 

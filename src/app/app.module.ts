@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
@@ -39,6 +39,8 @@ import {GeolocProvider} from "../providers/geoloc";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LocalDataProvider} from "../providers/localData";
 import {FileTransfer} from '@ionic-native/file-transfer';
+import {UniqueDeviceID} from "@ionic-native/unique-device-id";
+import {Device} from "@ionic-native/device";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -144,12 +146,13 @@ const linksConfig = {
     ApiProvider,
     AlertProvider,
     LocalDataProvider,
-
     Camera,
     File,
     Geolocation,
     NativeAudio,
+    Device,
     DataProvider,
+    UniqueDeviceID,
     Media,
     PlayerAudioProvider,
     GeolocProvider,

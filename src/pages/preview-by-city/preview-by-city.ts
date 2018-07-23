@@ -73,7 +73,7 @@ export class PreviewByCityPage {
   };
 
   // Tri par défaut sélectionné qui est par proximité.
-  optionsItemsSelected: number = 0;
+  optionsItemsSelected: number = 1;
   otpionsItems = [
     {
       id: 0,
@@ -153,6 +153,7 @@ export class PreviewByCityPage {
 
         this.changeOptionListHandler();
 
+        console.log('publish event');
         this.events.publish('previewByCity::initMapData', {
           'parcours': this.parcours,
           'interests': this.interests
@@ -161,9 +162,9 @@ export class PreviewByCityPage {
     });
   }
 
-  onUpdateLanguage () {
-    this.getInterests();
-    this.getParcours();
+  onUpdateLanguage = () => {
+    console.log('@onUpdateLanguage', Date.now());
+    this.init();
   }
 
   focusAnElement (element: string) {
@@ -189,7 +190,7 @@ export class PreviewByCityPage {
     const eventName = 'boxMap::onClickItemMap';
 
     if (this.eventUpdateLanguage === null) {
-      this.eventUpdateLanguage = this.events.subscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
+      this.eventUpdateLanguage = this.events.subscribe('config:updateLanguage', this.onUpdateLanguage);
     }
 
     // -->.
@@ -204,7 +205,6 @@ export class PreviewByCityPage {
 
     // -->.
     this.events.subscribe('boxMap::updateCurrentGeoLoc', () => {
-      console.log('boxMap::updateCurrentGeoLoc', Date.now());
       this.actionSortProximite()
         .then((data: any) => {
           this.events.publish('previewByCity::updateCurrentGeoLoc', data);
@@ -214,18 +214,16 @@ export class PreviewByCityPage {
 
   ionViewWillUnload () {
     this.eventUpdateLanguage = null;
-    this.events.unsubscribe('config:updateLanguage', this.onUpdateLanguage.bind(this));
+    this.events.unsubscribe('config:updateLanguage', this.onUpdateLanguage);
+    this.events.unsubscribe(this.eventOnClickItemMapName);
+    this.events.unsubscribe('boxMap::updateCurrentGeoLoc');
+    this.events.publish('previewByCity::ionViewWillLeave');
   }
 
   /**
    *
    */
   ionViewWillLeave() {
-    // -->.
-    this.events.unsubscribe(this.eventOnClickItemMapName);
-    this.events.unsubscribe('boxMap::updateCurrentGeoLoc');
-    // -->.
-    this.events.publish('previewByCity::ionViewWillLeave');
   }
 
   scrollToDiv (selector, to, duration) {
@@ -301,7 +299,6 @@ export class PreviewByCityPage {
    * @param isFromClick
    */
   onChangeSelectedTarget(next: any, isFromClick = false) {
-    console.log('@onChangeSelectedTarget', Date.now());
 
     this.selectTargetPoints.isSelected = next.checked === true;
     this.selectTargetParcours.isSelected = next.checked === false;
@@ -385,8 +382,6 @@ export class PreviewByCityPage {
           'latitude': resp.latitude
         };
 
-        console.log('@actionSortProximite -> longitude', longitude, 'latitude', latitude);
-
         if (this.parcours.length > 1) {
           await this.loadParcours(`${latitude};${longitude}`);
         }
@@ -430,15 +425,13 @@ export class PreviewByCityPage {
    */
   async loadParcours(closest: string = '') {
     const path = closest === ''
-      ? `/public/parcours/byCityId/${this.city.id}`
-      : `/public/parcours/closest/${this.city.id}?geoloc=${closest}`;
+      ? `/public/parcours/byCityId/${this.city.id}?lang=${this.config.getLanguage()}`
+      : `/public/parcours/closest/${this.city.id}?geoloc=${closest}&lang=${this.config.getLanguage()}`;
 
     return new Promise((res) => {
       this.api.get(path).subscribe(async (resp: any) => {
         if (resp.success) {
-          this._parcours = closest === ''
-            ? resp.data
-            : resp.data.parcours;
+          this._parcours = resp.data;
 
           this.getParcours().then(() => {
             res();
@@ -456,8 +449,8 @@ export class PreviewByCityPage {
    */
    async loadInterests(closest: string = '') {
      const path = closest === ''
-       ? `/public/interests/byCityId/${this.city.id}`
-       : `public/interests/closest/?city=${this.city.id}&geoloc=${closest}`;
+       ? `/public/interests/byCityId/${this.city.id}?lang=${this.config.getLanguage()}`
+       : `public/interests/closest/?city=${this.city.id}&geoloc=${closest}&lang=${this.config.getLanguage()}`;
 
     return new Promise((res) => {
       this.api.get(path).subscribe(async (resp: any) => {

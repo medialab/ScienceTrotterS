@@ -32,6 +32,22 @@ export class LocalDataProvider {
 
   /**
    * Récupèration d'une donnée du localStorage
+   * sous forme d'un object.
+   * @param key
+   * @returns {any}
+   */
+  getAsObject (key: string) {
+    let data: any = this.get(key);
+
+    if (data === null) {
+      return {};
+    } else {
+      return JSON.parse(data);
+    }
+  }
+
+  /**
+   * Récupèration d'une donnée du localStorage
    * sous forme d'un tableau.
    * @param key
    * @returns {any}
@@ -40,7 +56,7 @@ export class LocalDataProvider {
     let data: any = this.get(key);
 
     if (data === null) {
-      return {};
+      return [];
     } else {
       return JSON.parse(data);
     }
@@ -53,11 +69,8 @@ export class LocalDataProvider {
    * @returns {any}
    */
   addParcoursDone ({uuid, created_at}, language: string) {
-
-    console.log('uuid', uuid, 'created_at', created_at);
-
     const key = 'sts::statusParcours';
-    let data: any = this.getAsArray(key);
+    let data: any = this.getAsObject(key);
 
     if (typeof data[language] !== 'undefined') {
       const itemId = data[language].findIndex(i => i.uuid === uuid);
@@ -116,7 +129,7 @@ export class LocalDataProvider {
       }
     }
   }
-  
+
   /**
    * Ajout d'un point d'intérêt ) la liste de ceux complétés.
    * @param uuid
@@ -125,7 +138,7 @@ export class LocalDataProvider {
    */
   addPOIDone ({uuid, created_at}, language: string) {
     const key = 'sts::statusPOI';
-    let data: any = this.getAsArray(key);
+    let data: any = this.getAsObject(key);
 
     if (typeof data[language] !== 'undefined') {
       const itemId = data[language].findIndex(i => i.uuid === uuid);
@@ -164,7 +177,7 @@ export class LocalDataProvider {
    */
   isPOIIsDone ({uuid, created_at}, language: string) {
     const key = 'sts::statusPOI';
-    let data = this.getAsArray(key);
+    let data = this.getAsObject(key);
 
     if (typeof data[language] === 'undefined') {
       return false;
@@ -182,6 +195,35 @@ export class LocalDataProvider {
           return false;
         }
       }
+    }
+  }
+
+  /**
+   * Log des écoutes des audios.
+   * @param target - "parcours" ou "interests"
+   * @param uuid - id du target
+   * @param lang - langue ciblée
+   * @returns {boolean}
+   */
+  isAudioLoggedOrLogIt (target: string, uuid: string, lang: string) {
+    const key = 'sts::audioLog';
+    let data = this.getAsArray(key);
+
+    const indexIndex = data.findIndex(i => {
+      return i.uuid === uuid && i.target === target && i.lang === lang;
+    });
+
+    if (indexIndex === -1) {
+      data.push({
+        'uuid': uuid,
+        'target': target,
+        'lang': lang
+      });
+
+      this.addAsArray(key, data);
+      return false;
+    } else {
+      return true;
     }
   }
 }

@@ -164,7 +164,8 @@
         </li>
       </ul>
 
-      <button class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
+      <button class="poi__end__btn poi__end__btn--TransparentAndBlack"
+              (click)="btnReportProblem()">
         <label>{{ translate.getKey('PLI_BTN_OPEN_IN_NEW_APP') }}</label>
       </button>
 
@@ -176,13 +177,17 @@
 
     <section class="poi__section poi__section--isWhite section__player__audio">
       <player-audio
+        [target]="curTarget"
         [audioURI]="getData('audio', true) === '' ? '' : api.getAssetsUri(getData('audio', true))"
         [playerUUID]="('player__audio') + getData('id')"
+        [uuid]="getData('id')"
         [loadPlayer]="true"></player-audio>
     </section>
 
     <section class="poi__section poi__section--isWhite section__bibliography">
-      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="isPOIIsDone()"
+              (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
     </section>
@@ -191,9 +196,7 @@
     <section class="poi__section poi__section--isGrey">
       <h3 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_DESC') }}</h3>
       <div class="poi__section__content">
-        <p class="pJustified">
-          {{getData('description', true)}}
-        </p>
+        <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('description', true))"></p>
       </div>
     </section>
     <!-- ./ SECTION AUDIO SCRIPT -->
@@ -202,9 +205,7 @@
     <section class="poi__section poi__section--isWhite">
       <h3 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</h3>
       <div class="poi__section__content">
-        <p class="pJustified">
-          {{getData('audio_script', true)}}
-        </p>
+        <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('audio_script', true))"></p>
       </div>
     </section>
     <!-- ./ SECTION AUDIO SCRIPT -->
@@ -232,7 +233,7 @@
         <div class="content__desc">
           <ul class="bibliography__list">
             <li class="bibliography__list__item" *ngFor="let itemDesc of getData('bibliography', true)">
-              <p>{{ itemDesc }}</p>
+              <p [innerHtml]="data.bbCodeToHtml(itemDesc)"></p>
             </li>
           </ul>
         </div>
@@ -250,7 +251,9 @@
     <!-- ./ SECTION BIBLIOGRAPHY -->
 
     <section class="poi__section poi__section--isGrey section__bibliography">
-      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"  (click)="btnEndPointOfInterest()">
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="isPOIIsDone()"
+              (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
     </section>

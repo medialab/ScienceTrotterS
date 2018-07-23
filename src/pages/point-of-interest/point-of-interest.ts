@@ -5,6 +5,7 @@ import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
 import { Platform } from 'ionic-angular';
 import {LocalDataProvider} from "../../providers/localData";
+import {DataProvider} from "../../providers/data";
 
 @IonicPage()
 @Component({
@@ -44,6 +45,7 @@ export class PointOfInterestPage {
                public config: ConfigProvider,
                public translate: TranslateProvider,
                public events: Events,
+               public data: DataProvider,
                public localData: LocalDataProvider,
                public platform : Platform) {
     this.curTarget = navParams.get('target');
@@ -400,5 +402,18 @@ export class PointOfInterestPage {
 
   showSliderPager () {
     return this.getGalleryImages().length > 1;
+  }
+
+  isPOIIsDone () {
+    const data = {
+      'uuid': this.getData('id'),
+      'created_at': this.getData('updated_at')
+    };
+
+    const isDone = this.localData.isPOIIsDone(data, this.config.getLanguage());
+
+    return {
+      'isDoneBTN': isDone
+    };
   }
 }
