@@ -370,7 +370,7 @@ export class BoxMapComponent {
       }
     }
   }
-  
+
   /**
    * Création de tous les points d'intérêts si le mode
    * "point-of-interest" est sélectionné.

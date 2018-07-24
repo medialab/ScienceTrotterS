@@ -83,7 +83,24 @@
         <label>{{ translate.getKey('PLAYER_ACTION_VOLUME_UP') }}</label>
       </button>
     </li>
+
+    <!-- SCRIPT AUDIO BTN -->
+    <li class="item">
+      <button
+        (click)="openAudioScriptPopup()"
+        class="item__btn"
+        [attr.aria-label]="translate.getKey('PLAYER_ACTION_TEXT')">
+        <div class="icon">
+          <ion-icon aria-hidden="true" name="ios-paper-outline"></ion-icon>
+        </div>
+        <label>{{ translate.getKey('PLAYER_ACTION_TEXT') }}</label>
+      </button>
+    </li>
   </ul>
+  
+  <div class="audio__script" *ngIf="showAudioScript">
+    <p [innerHTML]="audioScript"></p>
+  </div>
 
   <audio controls [attr.id]="playerUUID" class="hidden__audio__player">
     <source [attr.src]="audioURI" />

@@ -1,6 +1,7 @@
 player-audio {
   width: 100%;
   margin: 20px;
+
   .playerAudioComponent {
     width: 100%;
 
@@ -140,7 +141,7 @@ player-audio {
           align-items: center;
 
           ion-icon {
-            font-size: 2.5rem !important;
+            font-size: 3.2rem !important;
           }
         }
 
@@ -155,5 +156,13 @@ player-audio {
 
   .hide--item {
     display: none;
+  }
+
+  .audio__script {
+
+    p {
+      margin: 12px 0;
+      font-size: 1em;
+    }
   }
 }

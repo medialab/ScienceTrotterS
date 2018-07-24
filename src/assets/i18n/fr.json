@@ -23,13 +23,13 @@
   "P_SETTING_THEME_NIGHT": "Nuit",
 
   "PLI_TAB_DESC": "Description",
-  "PLI_FILTER_PROXIMITE": "Tri par proximité",
-  "PLI_FILTER_ALPHA": "Tri alphabétique",
+  "PLI_FILTER_PROXIMITE": "Autour de moi",
+  "PLI_FILTER_ALPHA": "Tout afficher",
   "PLI_ACTION_DOWNLOAD_DATA": "télécharger<br>les données",
   "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "effacer<br>les données",
   "PLI_LIST_START_PARCOURS": "Démarrer le parcours",
   "PLI_LIST_START_POI": "Démarrer le point d'intérêt",
-  "PLI_VAL_ITINERARY": "itinéraire",
+  "PLI_VAL_ITINERARY": "S'y rendre",
   "PLI_BTN_END_POI": "TERMINER LE POINT D'INTÉRÊT",
   "PLI_BTN_SEND_PB": "Signaler un problème",
   "PLI_TAB_AUDIO_SCRIPT": "script audio",
@@ -40,6 +40,8 @@
 
   "PLI_BTN_PREV_ALT": "Point d'intérêt précèdent.",
   "PLI_BTN_NEXT_ALT": "Point d'intérêt suivant.",
+  "PLI_ALERT_NO_INTERESTS_TITLE": "Erreur",
+  "PLI_ALERT_NO_INTERESTS_MESSAGE": "Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
 
   "PBC_ALT_POI": "Points d'intérêts",
   "PBC_ALT_PARCOURS": "Parcours",
@@ -51,6 +53,7 @@
   "PLAYER_ACTION_STATE": "Player action state",
   "PLAYER_ACTION_VOLUME_DOWN": "volume -",
   "PLAYER_ACTION_VOLUME_UP": "volume +",
+  "PLAYER_ACTION_TEXT": "texte",
 
   "C_BOX_MAP_USER_MARKER": "Vous êtes ici !",
 

@@ -22,24 +22,26 @@
   "P_SETTING_THEME_DAY": "Day",
   "P_SETTING_THEME_NIGHT": "Night",
 
-  "PLI_TAB_DESC": "Description",
-  "PLI_FILTER_PROXIMITE": "Sort by proximity",
-  "PLI_FILTER_ALPHA": "Sort alphabetical",
+  "PLI_FILTER_PROXIMITE": "Nearby",
+  "PLI_FILTER_ALPHA": "Display all",
   "PLI_ACTION_DOWNLOAD_DATA": "download<br>data",
   "PLI_ACTION_DOWNLOAD_DATA_REMOVE": "remove<br>data",
   "PLI_LIST_START_PARCOURS": "Start parcours",
   "PLI_LIST_START_POI": "Start point of interest",
-  "PLI_VAL_ITINERARY": "itinerary",
+  "PLI_VAL_ITINERARY": "Go",
   "PLI_BTN_END_POI": "END POINT OF INTEREST",
   "PLI_BTN_SEND_PB": "Report a problem",
   "PLI_TAB_AUDIO_SCRIPT": "audio script",
   "PLI_TAB_GALLERY_IMAGE": "image gallery",
   "PLI_TAB_BIBLIOGRAPHY": "bibliography",
+  "PLI_TAB_DESC": "Description",
   "PLI_BTN_OPEN_IN_NEW_APP": "Open in other app",
   "PLI_BTN_SHARE_REF": "share the reference",
 
   "PLI_BTN_PREV_ALT": "Previous point of interest.",
   "PLI_BTN_NEXT_ALT": "Next point of interest.",
+  "PLI_ALERT_NO_INTERESTS_TITLE": "Error",
+  "PLI_ALERT_NO_INTERESTS_MESSAGE": "No point of interest available.",
 
   "PBC_ALT_POI": "Points of interest",
   "PBC_ALT_PARCOURS": "Parcours",
@@ -51,6 +53,7 @@
   "PLAYER_ACTION_STATE": "Player action state",
   "PLAYER_ACTION_VOLUME_DOWN": "volume -",
   "PLAYER_ACTION_VOLUME_UP": "volume +",
+  "PLAYER_ACTION_TEXT": "texte",
 
   "C_BOX_MAP_USER_MARKER": "Your are here !",
 

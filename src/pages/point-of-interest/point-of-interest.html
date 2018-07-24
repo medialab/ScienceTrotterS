@@ -69,7 +69,7 @@
         <label class="headerTitle">
           {{ translate.getKey('RIGHT_MENU_CLOSE') }}
         </label>
-        <ion-icon aria-hidden=“true“ name="close"></ion-icon>
+        <ion-icon focusable="false" aria-hidden="true" aria-hidden=“true“ name="ios-close-circle-outline"></ion-icon>
       </button>
     </div>
 
@@ -78,7 +78,7 @@
         <!-- INFO DATE -->
         <li class="hciItem">
           <div class="icon">
-            <span class="icon icon-date"></span>
+            <ion-icon focusable="false" aria-hidden="true" aria-hidden=“true“ name="ios-time-outline"></ion-icon>
           </div>
           <label>
             {{ getData('schedule', true) }}
@@ -87,7 +87,7 @@
         <!-- INFO PRICE -->
         <li class="hciItem">
           <div class="icon">
-            <span class="icon icon-clock"></span>
+            <ion-icon focusable="false" aria-hidden="true" name="ios-warning-outline"></ion-icon>
           </div>
           <label>
             {{ getData('price', true) }}
@@ -102,74 +102,6 @@
       </ul>
     </div>
 
-    <div class="helpItem helpContentNavigation" [ngClass]="getHelpItemActive('btn_navigation')">
-
-      <!-- NAVIGATION INFORMATION -->
-      <ul class="infoList">
-        <!-- NAVIGATION ITEM -->
-        <li class="infoItem">
-          <div class="icon">
-            <ion-icon aria-hidden="true" name="ios-walk-outline"></ion-icon>
-          </div>
-          <div class="info">
-            <h1 class="info-title">
-              Marcher 1,5km
-
-              <span>15 min</span>
-            </h1>
-            <h2 class="info-subtitle">
-              47-83 Boulevard de l'Hôpital, 75013 Paris
-            </h2>
-          </div>
-        </li>
-        <!-- NAVIGATION ITEM -->
-        <li class="infoItem">
-          <div class="icon">
-            <ion-icon aria-hidden="true" name="ios-walk-outline"></ion-icon>
-          </div>
-          <div class="info">
-            <h1 class="info-title">
-              Marcher 1,5km
-            </h1>
-            <h2 class="info-subtitle">
-              47-83 Boulevard de l'Hôpital, 75013 Paris
-            </h2>
-          </div>
-        </li>
-        <!-- NAVIGATION ITEM -->
-      </ul>
-
-      <!-- ./ NAVIGATION INFORMATION -->
-
-      <!-- MAP -->
-      <div class="navigation-map">
-        <img src="../../assets/imgs/fake_map.png" alt="">
-      </div>
-
-      <!-- TRANSPORT -->
-      <ul class="infoList">
-        <li class="infoItem">
-          <div class="icon">
-            <ion-icon aria-hidden="true" name="ios-subway-outline"></ion-icon>
-          </div>
-          <div class="info">
-            <h1 class="info-title">
-              Transports à proximité
-            </h1>
-            <h2 class="info-subtitle">
-              RER C, Métro 5 et 10, Bus 63 et 24 Gare
-              d’Austerlitz / Bus 63 et 89 Jardin des Plantes
-            </h2>
-          </div>
-        </li>
-      </ul>
-
-      <button class="poi__end__btn poi__end__btn--TransparentAndBlack"
-              (click)="btnReportProblem()">
-        <label>{{ translate.getKey('PLI_BTN_OPEN_IN_NEW_APP') }}</label>
-      </button>
-
-    </div>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -193,17 +125,7 @@
     </section>
 
     <!-- SECTION AUDIO SCRIPT -->
-    <section class="poi__section poi__section--isGrey">
-      <h3 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_DESC') }}</h3>
-      <div class="poi__section__content">
-        <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('description', true))"></p>
-      </div>
-    </section>
-    <!-- ./ SECTION AUDIO SCRIPT -->
-
-    <!-- SECTION AUDIO SCRIPT -->
-    <section class="poi__section poi__section--isWhite">
-      <h3 id="titleAudioScript" class="poi__section__title">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</h3>
+    <section class="poi__section poi__section--isGrey" id="titleAudioScript">
       <div class="poi__section__content">
         <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('audio_script', true))"></p>
       </div>
@@ -211,7 +133,7 @@
     <!-- ./ SECTION AUDIO SCRIPT -->
 
     <!-- SECTION GALLERY -->
-    <section class="poi__section poi__section--isGrey section__gallery_image">
+    <section class="poi__section poi__section--isWhite section__gallery_image">
       <h3 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALLERY_IMAGE') }}</h3>
       <div class="poi__section__content">
 
@@ -226,7 +148,7 @@
     <!-- ./ SECTION GALLERY -->
 
     <!-- SECTION BIBLIOGRAPHY -->
-    <section class="poi__section poi__section--White section__bibliography" *ngIf="showBiblio()">
+    <section class="poi__section poi__section--isGrey section__bibliography" *ngIf="showBiblio()">
       <h3 id="titleBibliography" class="poi__section__title">{{ translate.getKey('PLI_TAB_BIBLIOGRAPHY') }}</h3>
 
       <div class="poi__section__content">
@@ -250,7 +172,7 @@
     </section>
     <!-- ./ SECTION BIBLIOGRAPHY -->
 
-    <section class="poi__section poi__section--isGrey section__bibliography">
+    <section class="poi__section poi__section--isWhite section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
               [ngClass]="isPOIIsDone()"
               (click)="btnEndPointOfInterest()">

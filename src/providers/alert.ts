@@ -8,32 +8,40 @@ export class AlertProvider {
                public loadingCtrl: LoadingController) {
   }
 
-  create (title: string, message: string) {
+  /**
+   * Création d'une alerte affiché à l'écran.
+   * @param title - titre
+   * @param message - message
+   * @param okHandler - function au clique du bouton "OK"
+   * @param onDidDismiss - function au clique extérieur de la zone de l'alerte. (Par défaut désactivé)
+   * @returns {Alert}
+   */
+  create (title: string, message: string, okHandler: any = null, onDidDismiss: any = null) {
     let alert = this.alertCtrl.create({
       title: title,
       message: message,
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
           text: 'Ok',
           role: 'ok',
-          handler: () => {
-            console.log('Buy clicked');
-          }
+          handler: okHandler
         }
       ]
     });
     alert.present();
 
+    if (onDidDismiss !== null) {
+      alert.onDidDismiss(onDidDismiss);
+    }
+
     return alert;
   }
 
+  /**
+   * Création d'un loader affiché à l'écran.
+   * @param content
+   * @returns {Loading}
+   */
   createLoader (content: string) {
     let loader = this.loadingCtrl.create({
       content: content

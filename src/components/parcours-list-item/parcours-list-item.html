@@ -15,7 +15,7 @@
         <h1>{{ previewTitle }}</h1>
         <ul class="infoParcours" *ngIf="target === 'parcours'">
           <li>
-            <label class="labelToLeft">{{ parcourTotalInterets }}</label>
+            <label class="labelToLeft">{{ interestsList.length }}</label>
             <span aria-hidden="true" class="icon-poi" [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
           </li>
           <li>
@@ -44,25 +44,24 @@
     </div>
 
     <div class="contentDiscover" [attr.aria-hidden]="! isOpenDiscover">
-
       <div class='content' [ngClass]="config.globalGlobalCss()">
         <p>
           {{ previewDescription }}
         </p>
       </div>
 
-      <div class='playerAudio'>
+      <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
         <player-audio
           [audioURI]="audioURI"
           [playerUUID]="('player__audio') + openId"
+          [audioScript]="audioScript"
           [target]="target"
           [uuid]="openId"
           [loadPlayer]="isOpenDiscover"></player-audio>
       </div>
-
       <div class='footer' [ngClass]="config.globalGlobalCss()">
         <button type="button"
-          *ngIf="target === 'parcours' && parcourTotalInterets > 0"
+          *ngIf="target === 'parcours' && interestsList.length > 0"
           (click)="openNext()"
           class='btnStart' [ngStyle]="{'background-color': color}">
           {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
@@ -74,7 +73,6 @@
           {{ translate.getKey('PLI_LIST_START_POI') }}
         </button>
       </div>
-
     </div>
   </div>
 </div>

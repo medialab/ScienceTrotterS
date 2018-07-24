@@ -6,6 +6,7 @@ import {ConfigProvider} from "../../providers/config";
 import { Platform } from 'ionic-angular';
 import {LocalDataProvider} from "../../providers/localData";
 import {DataProvider} from "../../providers/data";
+import {AlertProvider} from "../../providers/alert";
 
 @IonicPage()
 @Component({
@@ -22,6 +23,9 @@ export class PointOfInterestPage {
   curId: string = '';
   pageName: string = '';
   createdAt: string = '';
+  geoloc: any = undefined;
+  curPositionUser: any = undefined;
+  sortOrder: any = null;
 
   _interests: Array<any> = new Array();
   interests: Array<any> = new Array();
@@ -44,15 +48,24 @@ export class PointOfInterestPage {
                public api: ApiProvider,
                public config: ConfigProvider,
                public translate: TranslateProvider,
+               public alert: AlertProvider,
                public events: Events,
                public data: DataProvider,
                public localData: LocalDataProvider,
                public platform : Platform) {
-    this.curTarget = navParams.get('target');
-    this.curId = navParams.get('openId');
-    this.createdAt = navParams.get('createdAt');
-    this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
-    this.init(navParams.get('target'), navParams.get('openId'));
+    if (typeof navParams.get('interestsList') !== 'undefined') {
+      if (navParams.get('sortOrder') !== null) {
+        this.sortOrder = navParams.get('sortOrder');
+      }
+
+      this.curTarget = navParams.get('target');
+      this.curId = navParams.get('openId');
+      this.geoloc = navParams.get('geoloc');
+      this.curPositionUser = navParams.get('curPositionUser');
+      this.createdAt = navParams.get('createdAt');
+      this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
+      this.initInterestsList(navParams.get('interestsList'));
+    }
 
     events.subscribe('config:updateLanguage', () => {
       this.isOnUpdateLanguage = true;
@@ -61,10 +74,7 @@ export class PointOfInterestPage {
 
   onUpdateLanguage () {
     this.isOnUpdateLanguage = false;
-
-    if (this.interests.length === 0) {
-      this.navCtrl.pop();
-    }
+    this.initializeInterestsWithApi();
   }
 
   ionViewDidEnter () {
@@ -81,15 +91,6 @@ export class PointOfInterestPage {
 
   /**
    *
-   * @param curTarget
-   * @param curId
-   */
-  init(curTarget: string, curId: string) {
-    this.fetchData(curTarget, curId);
-  }
-
-  /**
-   *
    * @param elementId
    */
   scrollTo (elementId: string) {
@@ -99,30 +100,64 @@ export class PointOfInterestPage {
     }
   }
 
+  initInterestsList (interestsList: Array<any>) {
+    this._interests = interestsList.map((item: any) => {
+      return {
+        'isDone': false,
+        'item': item
+      };
+    });
+
+    this.interests = this.getInterests();
+  }
+
   /**
    *
    * @param curTarget
    * @param curId
    */
-  fetchData (curTarget: string, curId: string) {
-    let resURI = '';
-    resURI = curTarget === 'interests'
-      ? '/public/interests/byId/'
-      : '/public/interests/byParcourId/';
+  async initializeInterestsWithApi () {
+    console.log('@sortOrder', this.sortOrder);
 
-    this.api.get(resURI + curId).subscribe((resp: any) => {
-      if (resp.success) {
+    let showAlert = true;
+    let geolocStr = '';
+
+    if (this.curPositionUser.latitude === '' && this.curPositionUser.longitude === '') {
+      geolocStr = `${this.geoloc.latitude};${this.geoloc.longitude}`;
+    } else {
+      geolocStr = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
+    }
+
+    let endpoint = this.curTarget === 'interests'
+      ? `/public/interests/byId/${this.curId}?lang=${this.config.getLanguage()}`
+      : `/public/interests/closest/?parcours=${this.curId}&geoloc=${geolocStr}&lang=${this.config.getLanguage()}`;
+
+    this.api.get(endpoint).subscribe((resp: any) => {
+      if (resp.success && typeof resp.data === 'object') {
+        showAlert = false;
+
+        // Gestion du tri alphabétique.
+        if (this.sortOrder !== null && this.sortOrder.action === 'alpha') {
+          resp.data = resp.data.sort(this.sort_alpha);
+        }
+
         this._interests = resp.data.map((item: any) => {
           return {
             'isDone': false,
             'item': item
           };
         });
-
-        this.interests = this.getInterests();
+      } else {
+        this._interests = [];
       }
+
+      this.interests = this.getInterests();
     }, (error: any) => {
       console.log('error fetchPOI', error);
+    }, () => {
+      if (showAlert) {
+        this.noInterestsAlertOnLangChange();
+      }
     });
   }
 
@@ -415,5 +450,59 @@ export class PointOfInterestPage {
     return {
       'isDoneBTN': isDone
     };
+  }
+
+  /**
+   * Affichage une alerte et au clique du bouton "OK"
+   * un retour arrière est effectué.
+   */
+  noInterestsAlertOnLangChange() {
+    const title = this.translate.getKey('PLI_ALERT_NO_INTERESTS_TITLE');
+    const message = this.translate.getKey('PLI_ALERT_NO_INTERESTS_MESSAGE');
+    let okHandlerDone = false;
+
+    /**
+     * Reteur à la page précèdente.
+     */
+    const okHandler = () => {
+      if (! okHandlerDone) {
+        okHandlerDone = true;
+        this.navCtrl.pop();
+      }
+    };
+
+    this.alert.create(
+      title,
+      message,
+      okHandler,
+      okHandler
+    );
+  }
+
+  /**
+   *
+   * @param a
+   * @param b
+   * @returns {number}
+   */
+  sort_alpha = (a, b) => {
+    const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
+    const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
+
+    if (aTitle < bTitle) return -1;
+    if (aTitle > bTitle) return 1;
+    return 0;
+  };
+
+  /**
+   *
+   * @param str
+   * @returns {string}
+   */
+  minifyString(str: string) {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
   }
 }

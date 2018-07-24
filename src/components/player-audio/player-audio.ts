@@ -18,6 +18,8 @@ export class PlayerAudioComponent {
   @Input() audioURI: string = '';
   @Input() target: string = '';
   @Input() uuid: string = '';
+  @Input() audioScript: string = '';
+  showAudioScript: boolean = false;
 
   get audioPlayer () {
     return this._audioPlayer();
@@ -92,6 +94,13 @@ export class PlayerAudioComponent {
     }
   }
 
+  /**
+   * Envoi la requête de log vers l'api.
+   * @param target - "parcours" ou "interests".
+   * @param uuid - uuid du target.
+   * @param phoneId - uuid du téléphone.
+   * @param lang - langue d'écoute.
+   */
   addListenToLogApiCall (target: string, uuid: string, phoneId: string, lang: string) {
     const endpoint = `/public/${target}/listen/${uuid}?phone_id=${phoneId}&lang=${lang}`;
 
@@ -100,5 +109,12 @@ export class PlayerAudioComponent {
     }, (error: any) => {
       // console.log('addListenToLogApiCall error', error);
     });
+  }
+
+  /**
+   * Affichage ou cache le script audio au clique du bouton.
+   */
+  openAudioScriptPopup () {
+    this.showAudioScript = this.showAudioScript ? false : true;
   }
 }

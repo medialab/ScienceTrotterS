@@ -77,18 +77,20 @@
           <parcours-list-item
             (click)="onClickItem()"
             target="parcours"
-            color="{{ parcour.color }}"
+            [color]="parcour.color"
             [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), parcour.audio))"
+            [audioScript]="translate.fromApi(config.getLanguage(), parcour.audio_script)"
             [isOpenDiscover]="false"
-            [geoloc]="parcour.geoloc"
+            [geoloc]="city.geoloc"
             [curPositionUser]="curPositionUser"
             [handler]="parcoursListItemHandler"
-            openId="{{ parcour.id }}"
+            [openId]="parcour.id"
+            [sortOrder]="otpionsItems[optionsItemsSelected]"
             [createdAt]="parcour.updated_at"
-            parcourTotalInterets="{{ getTotalInterestsByParcourId(parcour.id) }}"
-            parcourTime="{{ translate.fromApi(config.getLanguage(), parcour.time) }}"
-            previewTitle="{{ translate.fromApi(config.getLanguage(), parcour.title) }}"
-            previewDescription="{{ translate.fromApi(config.getLanguage(), parcour.description) }}">
+            [parcourTime]="translate.fromApi(config.getLanguage(), parcour.time)"
+            [previewTitle]="translate.fromApi(config.getLanguage(), parcour.title)"
+            [interestsList]="getInterestsByParcoursId(parcour.id)"
+            [previewDescription]="translate.fromApi(config.getLanguage(), parcour.description)">
           </parcours-list-item>
         </li>
         <!-- Si aucun parcours -->
@@ -109,14 +111,16 @@
             color='#336699'
             [curPositionUser]="curPositionUser"
             [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
+            [audioScript]="translate.fromApi(config.getLanguage(), interest.audio_script)"
             [isOpenDiscover]="false"
             [geoloc]="interest.geoloc"
             [handler]="parcoursListItemHandler"
             [createdAt]="interest.updated_at"
-            openId="{{ interest.id }}"
-            interestAddress="{{ translate.fromApi(config.getLanguage(), interest.address) }}"
-            previewTitle="{{ translate.fromApi(config.getLanguage(), interest.title) }}"
-            previewDescription="{{ translate.fromApi(config.getLanguage(), interest.audio_script) }}">
+            [openId]="interest.id"
+            [interestsList]="getInterestsById(interest.id)"
+            [interestAddress]="translate.fromApi(config.getLanguage(), interest.address)"
+            [previewTitle]="translate.fromApi(config.getLanguage(), interest.title)"
+            [previewDescription]="translate.fromApi(config.getLanguage(), interest.audio_script)">
           </parcours-list-item>
         </li>
         <!-- Si aucun point d'intérêt -->

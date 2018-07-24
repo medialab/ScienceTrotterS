@@ -327,6 +327,7 @@ $picture-size: 200px;
   justify-content: flex-end;
 
   .btnCloseHelpContent {
+    background: gainsboro;
     font-size: inherit;
     display: flex;
     flex-direction:row;
@@ -409,6 +410,11 @@ $picture-size: 200px;
           background-position: center;
           background-size: contain;
         }
+
+        ion-icon {
+          font-size: 4rem;
+        }
+
         span.icon-date {
           background-image: url('../assets/imgs/poi/poi_icon_clock.svg');
         }

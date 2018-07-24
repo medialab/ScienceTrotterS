@@ -17,13 +17,15 @@ export class ParcoursListItemComponent {
   @Input() previewDescription: string = '';
   @Input() color: string = '';
   @Input() target: string = '';
-  @Input() parcourTotalInterets: any = 0;
   @Input() parcourTime: string = '';
   @Input() createdAt: string = '';
   @Input() interestAddress: string = '';
   @Input() audioURI: string = '';
   @Input() geoloc: any = undefined;
   @Input() curPositionUser: any = undefined;
+  @Input() audioScript: string = '';
+  @Input() interestsList: Array<any> = [];
+  @Input() sortOrder: any = null;
 
   timeToObj = 'à 1k (10min)';
   isShowTimeToObj: boolean = false;
@@ -88,7 +90,11 @@ export class ParcoursListItemComponent {
       'target': this.target,
       'openId': this.openId,
       'pageName': this.previewTitle,
-      'createdAt': this.createdAt
+      'createdAt': this.createdAt,
+      'interestsList': this.interestsList,
+      'geoloc': this.geoloc,
+      'curPositionUser': this.curPositionUser,
+      'sortOrder': this.sortOrder
     });
   }
 
@@ -103,7 +109,7 @@ export class ParcoursListItemComponent {
       : this.localData.isPOIIsDone(data, this.config.getLanguage())
     ;
 
-    const hideIt = this.target === 'parcours' && parseInt(this.parcourTotalInterets) === 0;
+    const hideIt = this.target === 'parcours' && parseInt(String(this.interestsList.length)) === 0;
 
     return {
       'isDone': isDone,

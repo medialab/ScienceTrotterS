@@ -73,7 +73,7 @@ export class PreviewByCityPage {
   };
 
   // Tri par défaut sélectionné qui est par proximité.
-  optionsItemsSelected: number = 1;
+  optionsItemsSelected: number = 0;
   otpionsItems = [
     {
       id: 0,
@@ -401,6 +401,9 @@ export class PreviewByCityPage {
     });
   }
 
+  /**
+   *
+   */
   actionSortAlpha() {
     // Parcours.
     this._parcours = this._parcours.sort(this.sort_alpha);
@@ -411,6 +414,12 @@ export class PreviewByCityPage {
     this.getInterests();
   }
 
+  /**
+   *
+   * @param a
+   * @param b
+   * @returns {number}
+   */
   sort_alpha = (a, b) => {
     const aTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), a.title));
     const bTitle = this.minifyString(this.translate.fromApi(this.config.getLanguage(), b.title));
@@ -470,16 +479,26 @@ export class PreviewByCityPage {
   }
 
   /**
-   *
-   * @param parcourId
-   * @returns {number}
+   * Return les points d'intérêt relié à un id de parcours
+   * @param parcourId - id du parcours
+   * @returns {any[]}
    */
-  getTotalInterestsByParcourId(parcourId: string) {
+  getInterestsByParcoursId(parcoursId: string) {
     return this.interests.filter(interest => {
-      return interest.parcours_id === parcourId
-    }).length;
+      return interest.parcours_id === parcoursId
+    });
   }
 
+  /**
+   * Return un point d'intérêt relié à son id.
+   * @param interestId
+   * @returns {any[]}
+   */
+  getInterestsById(interestId: string) {
+    return this.interests.filter(interest => {
+      return interest.id === interestId
+    });
+  }
   /**
    *
    * @param str
