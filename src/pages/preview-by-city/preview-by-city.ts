@@ -187,6 +187,7 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
+    console.log('@ionViewDidEnter');
     const eventName = 'boxMap::onClickItemMap';
 
     if (this.eventUpdateLanguage === null) {

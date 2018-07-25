@@ -34,6 +34,7 @@
     </button>
   </div>
 
+
   <!-- HELP LIST -->
   <ul class="help__list">
 
@@ -104,6 +105,7 @@
 
   </div>
 
+
   <!-- MAIN CONTENT -->
   <div class="poi__main__content" [ngClass]="mainContentCls">
 
@@ -113,6 +115,8 @@
         [audioURI]="getData('audio', true) === '' ? '' : api.getAssetsUri(getData('audio', true))"
         [playerUUID]="('player__audio') + getData('id')"
         [uuid]="getData('id')"
+        [audioScript]="getData('audio_script', true)"
+        [showAudioScriptListener]="showAudioScriptListener.bind(this)"
         [loadPlayer]="true"></player-audio>
     </section>
 
@@ -125,7 +129,7 @@
     </section>
 
     <!-- SECTION AUDIO SCRIPT -->
-    <section class="poi__section poi__section--isGrey" id="titleAudioScript">
+    <section class="poi__section poi__section--isGrey" id="titleAudioScript" [ngClass]="{'hideSectionScriptAudio': ! showScriptAudioSection}">
       <div class="poi__section__content">
         <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('audio_script', true))"></p>
       </div>
@@ -186,7 +190,7 @@
 <footer *ngIf="!mainContentCls.isHidden" class="unsetWithCarousel" [ngClass]="config.globalGlobalCss()">
   <ul class="footer__list">
     <li class="footer__list__item">
-      <button class="item__button" (click)="scrollTo('titleAudioScript')">
+      <button class="item__button" (click)="scrollToScriptAudio()">
         <i aria-hidden="true" class="item__button__icon item__button__icon--script-audio"></i>
         <label class="item__button__label">{{ translate.getKey('PLI_TAB_AUDIO_SCRIPT') }}</label>
       </button>

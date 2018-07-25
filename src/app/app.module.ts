@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, NavParams} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
@@ -41,6 +41,7 @@ import {LocalDataProvider} from "../providers/localData";
 import {FileTransfer} from '@ionic-native/file-transfer';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
 import {Device} from "@ionic-native/device";
+import {DirectAccessPage} from "../pages/direct-access/direct-access";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -81,6 +82,12 @@ const linksConfig = {
       name: 'PointOfInterest',
       segment: 'point_of_interest',
       defaultHistory: [HomePage]
+    },
+    {
+      component: DirectAccessPage,
+      name: 'DirectAccessPage',
+      segment: 'direct_access/:criteria',
+      defaultHistory: [HomePage]
     }
   ]
 };
@@ -95,6 +102,7 @@ const linksConfig = {
     PreviewByCityPage,
     PointOfInterestPage,
     LoaderPage,
+    DirectAccessPage,
 
     MainHeaderComponent,
     MainContentComponent,
@@ -134,13 +142,13 @@ const linksConfig = {
     CreditsPage,
     PreviewByCityPage,
     PointOfInterestPage,
-    LoaderPage
+    LoaderPage,
+    DirectAccessPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-
     TranslateProvider,
     ConfigProvider,
     ApiProvider,

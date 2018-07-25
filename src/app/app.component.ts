@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {Content, Events, MenuController, Nav, Platform} from 'ionic-angular';
+import {Content, Events, MenuController, Nav, NavParams, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -13,6 +13,7 @@ import {Observable} from "rxjs/Observable";
 import {PlayerAudioProvider} from "../providers/playerAudio";
 import {PreviewByCityPage} from "../pages/preview-by-city/preview-by-city";
 import {LoaderPage} from "../pages/loader/loader";
+import {DirectAccessPage} from "../pages/direct-access/direct-access";
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +25,7 @@ export class MyApp {
    *
    * @type {LoaderPage} - Page.
    */
-  rootPage:any = 'LoaderPage';
+  rootPage:any = LoaderPage;
 
   @ViewChild('btnClose') btnClose: Content;
 
@@ -40,6 +41,7 @@ export class MyApp {
                public menuCtrl: MenuController,
                public config: ConfigProvider,
                public translate: TranslateProvider,
+               public events: Events,
                public cache: CacheService,
                public api: ApiProvider,
                private camera: Camera) {
@@ -47,6 +49,7 @@ export class MyApp {
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      console.log('app loaded');
       this.globalListener();
 
       splashScreen.hide();
@@ -59,11 +62,27 @@ export class MyApp {
 
       // Chargement de la configuration.
       config.loadConfiguration().then(() => {
-        this.rootPage = HomePage;
+        if (typeof this.nav.getActive() !== 'undefined') {
+          this.handleDirectAccess(this.nav.getActive().name);
+        } else {
+          this.handleDirectAccess('');
+        }
       });
     });
   }
 
+  handleDirectAccess (activePageName: string) {
+    console.log('active page name', activePageName);
+
+    if (activePageName !== 'DirectAccessPage') {
+      console.log('redirect to home page');
+      this.rootPage = HomePage;
+    } else {
+      console.log('publish event');
+      this.events.publish('sts::configLoaded');
+    }
+  }
+  
   /**
    * Au clique d'un lien du menu, une nouvelle page
    * va être ouverte.
@@ -144,5 +163,4 @@ export class MyApp {
       this.playerAudioProvider.isPlayingAndStopThem();
     });
   }
-
 }

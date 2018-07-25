@@ -26,6 +26,7 @@ export class PointOfInterestPage {
   geoloc: any = undefined;
   curPositionUser: any = undefined;
   sortOrder: any = null;
+  showScriptAudioSection: boolean = false;
 
   _interests: Array<any> = new Array();
   interests: Array<any> = new Array();
@@ -392,7 +393,7 @@ export class PointOfInterestPage {
       }
 
       // --> On retourne à la page précèdente (liste poi ou parcours).
-      this.navCtrl.pop();
+      this.goBackOrGoCitiesList();
 
     } else {
       // Enregistrement du point d'intérêt éffectué dans la liste courante.
@@ -467,7 +468,7 @@ export class PointOfInterestPage {
     const okHandler = () => {
       if (! okHandlerDone) {
         okHandlerDone = true;
-        this.navCtrl.pop();
+        this.goBackOrGoCitiesList();
       }
     };
 
@@ -504,5 +505,33 @@ export class PointOfInterestPage {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
+  }
+
+  scrollToScriptAudio (hideIt: boolean = true) {
+    if (hideIt) {
+      const selectorId = 'titleAudioScript';
+
+      if (! this.showScriptAudioSection) {
+        this.showScriptAudioSection = true;
+      }
+      setTimeout(() => {
+        this.scrollTo(selectorId);
+      }, 150);
+    } else {
+      this.showScriptAudioSection = false;
+    }
+  }
+
+  showAudioScriptListener (nextState: boolean) {
+    console.log('nextState', nextState);
+    this.scrollToScriptAudio(nextState);
+  }
+
+  goBackOrGoCitiesList () {
+    if (this.navCtrl.canGoBack()) {
+      this.navCtrl.pop();
+    } else {
+      this.navCtrl.setRoot('Cities');
+    }
   }
 }

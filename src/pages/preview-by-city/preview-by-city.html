@@ -2,7 +2,7 @@
   {{ translate.fromApi(config.getLanguage(), city.title) }}
 </main-header>
 
-<ion-content id="previewByCityContent" [ngClass]="config.globalGlobalCss()">
+<ion-content id="previewByCityContent" [ngClass]="config.globalGlobalCss()" *ngIf="city !== null">
 
   <div class='parcoursListContent'>
     <div id='map' #map class='map'>

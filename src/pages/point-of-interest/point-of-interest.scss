@@ -1,3 +1,12 @@
+
+page-point-of-interest {
+  player-audio {
+    .audio__script {
+      display: none !important;
+    }
+  }
+}
+
 .app-root-md {
   page-point-of-interest {
     ion-content {
@@ -714,6 +723,8 @@ footer {
       }
     }
   }
+
+
 }
 
 ion-slides {
@@ -732,4 +743,8 @@ ion-slides {
 
 .isDoneBTN {
   background-color: #4d4d4d;
+}
+
+.hideSectionScriptAudio {
+  display: none !important;
 }

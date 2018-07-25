@@ -19,7 +19,9 @@ export class PlayerAudioComponent {
   @Input() target: string = '';
   @Input() uuid: string = '';
   @Input() audioScript: string = '';
+  @Input() showAudioScriptListener: any = null;
   showAudioScript: boolean = false;
+
 
   get audioPlayer () {
     return this._audioPlayer();
@@ -116,5 +118,9 @@ export class PlayerAudioComponent {
    */
   openAudioScriptPopup () {
     this.showAudioScript = this.showAudioScript ? false : true;
+
+    if (this.showAudioScriptListener !== null) {
+      this.showAudioScriptListener(this.showAudioScript);
+    }
   }
 }
