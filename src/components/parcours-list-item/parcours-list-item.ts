@@ -170,7 +170,7 @@ export class ParcoursListItemComponent {
     const distancePrefix = this.translate.getKey('PLI_DISTANCE_PREFIX');
     const res = this.getDistance(this.getClosetLandmarkGeolocFromParcours(), this.curPositionUser);
 
-    this.timeToObj = `${distancePrefix} ${res.distance} (${res.time})`;
+    this.timeToObj = `${distancePrefix} ${res.distance}`;
   }
 
   /**

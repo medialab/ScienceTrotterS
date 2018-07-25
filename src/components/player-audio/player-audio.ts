@@ -22,6 +22,13 @@ export class PlayerAudioComponent {
   @Input() showAudioScriptListener: any = null;
   showAudioScript: boolean = false;
 
+  configAudio: any = {
+    'playerUUID': '',
+    'loadPlayer': false,
+    'audioURI': '',
+    'target': '',
+    'uuid': '',
+  };
 
   get audioPlayer () {
     return this._audioPlayer();
@@ -36,11 +43,14 @@ export class PlayerAudioComponent {
                public playerAudioProvider: PlayerAudioProvider) {
   }
 
-  /**
-   * Evenement émis lorsque les paramètres "Input" sont récupéré.
-   */
   ngOnChanges() {
-    if (this.loadPlayer && this.audioURI !== '') {
+    this.initData();
+  }
+
+  initData () {
+    if (this.loadPlayer && this.audioURI !== '' && (this.configAudio.audioURI === '' || this.audioURI !== this.configAudio.audioURI)) {
+      this.configAudio.audioURI = this.audioURI;
+
       const audioPlayer = new PlayerAudio(
         this.playerUUID,
         this.audioURI
@@ -48,7 +58,6 @@ export class PlayerAudioComponent {
 
       audioPlayer.init();
       this.playerAudioProvider.add(audioPlayer, this.playerUUID);
-
     }
   }
 

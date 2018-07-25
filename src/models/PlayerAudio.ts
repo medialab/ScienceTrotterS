@@ -23,10 +23,13 @@ export class PlayerAudio {
   init () {
     setTimeout(() => {
       this.track = document.querySelector(`#${this.uuid}`);
-      this.track.ontimeupdate = this.onTimeUpdate.bind(this);
-      this.track.oncanplay = this.onCanPlay.bind(this);
-      // HACK default loading.
-      this.onCanPlay();
+
+      if (this.track !== null) {
+        this.track.ontimeupdate = this.onTimeUpdate.bind(this);
+        this.track.oncanplay = this.onCanPlay.bind(this);
+        // HACK default loading.
+        this.onCanPlay();
+      }
     }, 150);
   }
 
@@ -39,22 +42,13 @@ export class PlayerAudio {
   }
 
   onCanPlay () {
-    const duration: any = (this.track.duration / 60).toFixed(2);
-
     this.duration.track.max = this.track.duration;
-    this.duration.full = duration < 10 ? '0' + duration : duration;
+    this.duration.full = this.formatSecondsAsTime(this.track.duration);
   }
 
   onTimeUpdate () {
-    const nextCurTime = this.track.currentTime.toFixed(2);
-
-    this.duration.track.current = parseInt(nextCurTime, 10);
-
-    if (nextCurTime < 60) {
-      this.duration.current = nextCurTime < 10 ? '00.0' + parseInt(nextCurTime) : '00.' + parseInt(nextCurTime);
-    } else {
-      this.duration.current = '0' + (nextCurTime / 60).toFixed(2);
-    }
+    this.duration.track.current = this.track.currentTime;
+    this.duration.current = this.formatSecondsAsTime(this.track.currentTime);
 
     // Si l'audio est terminé on change l'état à pause.
     if (this.track.currentTime === this.track.duration && this.isPlaying) {
@@ -101,5 +95,20 @@ export class PlayerAudio {
     if (this.track.volume >= 0.1) {
       this.track.volume -= 0.1;
     }
+  }
+
+  formatSecondsAsTime(secs) {
+    let hr  = Math.floor(secs / 3600);
+    let min = Math.floor((secs - (hr * 3600))/60);
+    let sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+    if (min < 10){
+      min = "0" + min;
+    }
+    if (sec < 10){
+      sec  = "0" + sec;
+    }
+
+    return min + ':' + sec;
   }
 }
