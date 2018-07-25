@@ -10,7 +10,7 @@
   }],
   "background_color": "#464646",
   "theme_color": "#464646",
-  "version": "0.0.1",
+  "version": "0.0.9",
   "target": "browser",
 
   "configuration": {

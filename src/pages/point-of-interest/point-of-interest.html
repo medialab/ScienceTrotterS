@@ -116,7 +116,7 @@
         [playerUUID]="('player__audio') + getData('id')"
         [uuid]="getData('id')"
         [audioScript]="getData('audio_script', true)"
-        [showAudioScriptListener]="null"
+        [showAudioScriptListener]="showAudioScriptListener.bind(this)"
         [loadPlayer]="true"></player-audio>
     </section>
 
