@@ -21,6 +21,19 @@ ion-app {
   font-family: 'montserratregular', sans-serif !important;
 }
 
+
+.app-root-ios {
+  .hideOnIOSDevices {
+    display: none !important;
+  }
+}
+
+ion-app.ios {
+  .hideOnIOSDevices {
+    display: none !important;
+  }
+}
+
 /*
 ion-app.ios {
   margin-top: 20px;

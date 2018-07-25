@@ -32,7 +32,7 @@ export class PlayerAudio {
       }
     }, 150);
   }
-
+  
   set durationCurrent (nextState: any) {
 
   }
@@ -42,8 +42,23 @@ export class PlayerAudio {
   }
 
   onCanPlay () {
-    this.duration.track.max = this.track.duration;
-    this.duration.full = this.formatSecondsAsTime(this.track.duration);
+    const maxTry = 5;
+    let curTry = 0;
+
+    const setTime = () => {
+      if (! isNaN(this.track.duration)) {
+        this.duration.track.max = this.track.duration;
+        this.duration.full = this.formatSecondsAsTime(this.track.duration);
+
+      } else {
+        curTry++;
+        if (curTry <= maxTry) {
+          setTimeout(setTime, 125);
+        }
+      }
+    };
+
+    setTime();
   }
 
   onTimeUpdate () {
@@ -70,11 +85,9 @@ export class PlayerAudio {
 
   updateActionState () {
     if (this.isPlaying) {
-      console.log('pause();');
       this.isPlaying = false;
       this.track.pause();
     } else {
-      console.log('play();')
       this.isPlaying = true;
 
       this.track.play().then(() => {
@@ -98,9 +111,9 @@ export class PlayerAudio {
   }
 
   formatSecondsAsTime(secs) {
-    let hr  = Math.floor(secs / 3600);
-    let min = Math.floor((secs - (hr * 3600))/60);
-    let sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+    let hr: any = Math.floor(secs / 3600);
+    let min: any = Math.floor((secs - (hr * 3600))/60);
+    let sec: any = Math.floor(secs - (hr * 3600) -  (min * 60));
 
     if (min < 10){
       min = "0" + min;

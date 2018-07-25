@@ -59,10 +59,10 @@
   <ul class="round__btn__list">
 
     <!-- VOLUMN DOWN BTN -->
-    <li class="item">
+    <li class="item hideOnIOSDevices">
       <button
         (click)="audioPlayer.downVolume()"
-        class="item__btn"
+        class="item__btn hideOnIOSDevices"
         [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_DOWN')">
         <div class="icon">
           <ion-icon aria-hidden="true" name="volume-down"></ion-icon>
@@ -72,7 +72,7 @@
     </li>
 
     <!-- VOLUMN UP BTN -->
-    <li class="item">
+    <li class="item hideOnIOSDevices">
       <button
         (click)="audioPlayer.upVolume()"
         class="item__btn"
@@ -97,7 +97,7 @@
       </button>
     </li>
   </ul>
-  
+
   <div class="audio__script" *ngIf="showAudioScript">
     <p [innerHTML]="audioScript"></p>
   </div>
