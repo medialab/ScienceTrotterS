@@ -143,27 +143,33 @@ export class BoxMapComponent {
     });
   }
 
-  createParcoursTraces (parcoursId: string, longitude: any, latitude: any, callback) {
-    const geoloc = `${longitude};${latitude}`;
+  createParcoursTraces (parcoursId: string, longitude: any, latitude: any) {
+    return new Promise((resolve) => {
+      const geoloc = `${longitude};${latitude}`;
 
-    return this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}`).subscribe((resp: any) => {
-      const {data} = resp;
-      const poiArray = [];
+      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}`).subscribe((resp: any) => {
+        const {data} = resp;
+        const time = data.length.time;
+        const poiArray = [];
 
-      for (const poi of data.interests) {
-        if (typeof poi.api_data !== 'undefined') {
+        for (const poi of data.interests) {
+          if (typeof poi.api_data !== 'undefined') {
 
-          // Création de la route.
-          const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-            'color': data.color,
-            'weight': 5,
-            'opacity': 0.65
-          });
-          poiArray.push(_polyline);
+            // Création de la route.
+            const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
+              'color': data.color,
+              'weight': 5,
+              'opacity': 0.65
+            });
+            poiArray.push(_polyline);
+          }
         }
-      }
 
-      callback(poiArray);
+        resolve({
+          'poiArray': poiArray,
+          'time': time
+        });
+      });
     });
   }
 
@@ -327,19 +333,22 @@ export class BoxMapComponent {
    * @param parcoursList
    * @param listGroup
    */
-  initializeParcours (parcoursList: Array<any>, listGroup: Array<any>, longitude: any, latitude: any) {
+  async initializeParcours (parcoursList: Array<any>, listGroup: Array<any>, longitude: any, latitude: any) {
     // Loop les parcours.
     for (const parcours of parcoursList) {
       // Check s'il y a des points d'intérêts pour ce parcours
       if (typeof listGroup[parcours.id] !== 'undefined') {
         const pointOfInterests = listGroup[parcours.id];
 
-        // Création du cluster.
-        const cluster = this.createCluster(parcours.color, pointOfInterests.data.length, '1h31m');
+        // 1. GET /parcours/trace
+        const parcoursTraces: any = await this.createParcoursTraces(parcours.id, longitude, latitude);
+
+        // 2. CREATE CLUSTER
+        const cluster = this.createCluster(parcours.color, pointOfInterests.data.length, this.createParcoursTime(parcoursTraces.time));
         cluster.getData = this.eventOnClickItemMapGetData('parcours', parcours.id);
         cluster.on('clusterclick', this.handlerOnClickItemMap);
 
-        // Ajout des point d'intérêts pour le positionnement du cluster du parcours.
+        // 3. ADD All landmarks
         for (const poi of pointOfInterests.data) {
           // Création du marker.
           const {latitude, longitude} = poi.geoloc;
@@ -355,18 +364,16 @@ export class BoxMapComponent {
           cluster.addLayer(marker);
         }
 
-        this.createParcoursTraces(parcours.id, longitude, latitude, (traces: any) => {
-          // Ajout des tracés.
-          for (const trace of traces) {
-            cluster.addLayer(trace);
-          }
+        // 4. ADD route.
+        for (const trace of parcoursTraces.poiArray) {
+          cluster.addLayer(trace);
+        }
 
-          // Ajout du cluster à la map.
-          cluster.addTo(this.map);
+        // Ajout du cluster à la map.
+        cluster.addTo(this.map);
 
-          // Save de la référence du cluster.
-          this.clusterList.push(cluster);
-        });
+        // Save de la référence du cluster.
+        this.clusterList.push(cluster);
       }
     }
   }
@@ -477,6 +484,22 @@ export class BoxMapComponent {
       setTimeout(() => {
         this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
       }, 110);
+    }
+  }
+
+  /**
+   * Construction d'une date en forme humaine.
+   * @param time {'h': '03', 'm': '10'}
+   * @returns {string}
+   */
+  createParcoursTime (time: any) {
+    const durationHour = parseInt(time.h);
+    const durationMinute = parseInt(time.m);
+
+    if (durationHour > 0) {
+      return parseInt(time.h) + 'h' + parseInt(time.m) + 'm';
+    } else {
+      return parseInt(time.m) + 'm';
     }
   }
 }

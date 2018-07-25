@@ -25,14 +25,28 @@ export class DirectAccessPage {
     console.log(name, Date.now());
   }
 
+  /**
+   * Initialisation des paramètres de la route pour obtenir
+   * les différentes paramètres.
+   */
   initURI () {
     this.uri = new URL(this.fakeURI + this.navParams.get('criteria'));
   }
 
+  /**
+   * Récupérer un paramètre de l'url grâce à sa clé/
+   * @param key
+   * @returns {null}
+   */
   getParam (key: string) {
     return this.uri !== null ? this.uri.searchParams.get(key) : null;
   }
 
+  /**
+   * Pour faire les différentes requêtes HTTP vers l API nous avons besoin
+   * de charger la configuration.
+   * On écoute que la configuration est bien chargée.
+   */
   waitForConfigToBeLoaded () {
     this.log('waitForConfigToBeLoaded');
     this.events.subscribe('sts::configLoaded', () => {
@@ -42,6 +56,9 @@ export class DirectAccessPage {
     });
   }
 
+  /**
+   * Changement de la langue de l'application si le paramètre "lang={nextLang}".
+   */
   setLang () {
     this.log('setLang');
     const nextLang = this.getParam('lang');
@@ -51,11 +68,19 @@ export class DirectAccessPage {
     }
   }
 
+  /**
+   * Ouverture d'une nouvelle page.
+   * @param pageName
+   * @param params
+   */
   setRootPage (pageName: string, params: object = {}) {
     this.log('setRootPage ==>' + pageName);
     this.navCtrl.setRoot(pageName, params);
   }
 
+  /**
+   * Traitement des différentes pages.
+   */
   openPage () {
     const pageName = this.getParam('page_name');
     this.log('openPage ==> pagename : ' + pageName);
@@ -103,6 +128,11 @@ export class DirectAccessPage {
     };
   }
 
+  /**
+   * Récupération d'une ville grâce à son ID.
+   * @param cityId
+   * @returns {Promise<T>}
+   */
   getCityById (cityId: string) {
     return new Promise ((success, error) => {
       const path = `/public/cities/byId/${cityId}?lang=${this.config.getLanguage()}`;
@@ -129,6 +159,11 @@ export class DirectAccessPage {
     });
   }
 
+  /**
+   * Récupération d'un point d'intérêt grâce à son ID.
+   * @param interestid
+   * @returns {Promise<T>}
+   */
   getInterestById (interestid: string) {
     return new Promise ((success, error) => {
       const path = `/public/interests/byId/${interestid}?lang=${this.config.getLanguage()}`;

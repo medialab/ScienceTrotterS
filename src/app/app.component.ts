@@ -82,7 +82,7 @@ export class MyApp {
       this.events.publish('sts::configLoaded');
     }
   }
-  
+
   /**
    * Au clique d'un lien du menu, une nouvelle page
    * va être ouverte.

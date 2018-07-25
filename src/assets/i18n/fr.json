@@ -42,6 +42,7 @@
   "PLI_BTN_NEXT_ALT": "Point d'intérêt suivant.",
   "PLI_ALERT_NO_INTERESTS_TITLE": "Erreur",
   "PLI_ALERT_NO_INTERESTS_MESSAGE": "Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
+  "PLI_DISTANCE_PREFIX": "à",
 
   "PBC_ALT_POI": "Points d'intérêts",
   "PBC_ALT_PARCOURS": "Parcours",

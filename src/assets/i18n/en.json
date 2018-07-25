@@ -42,6 +42,7 @@
   "PLI_BTN_NEXT_ALT": "Next point of interest.",
   "PLI_ALERT_NO_INTERESTS_TITLE": "Error",
   "PLI_ALERT_NO_INTERESTS_MESSAGE": "No point of interest available.",
+  "PLI_DISTANCE_PREFIX": "at",
 
   "PBC_ALT_POI": "Points of interest",
   "PBC_ALT_PARCOURS": "Parcours",
