@@ -23,8 +23,8 @@ export class PlayerAudio {
   init () {
     setTimeout(() => {
       this.track = document.querySelector(`#${this.uuid}`);
-
       if (this.track !== null) {
+        this.track.load();
         this.track.ontimeupdate = this.onTimeUpdate.bind(this);
         this.track.oncanplay = this.onCanPlay.bind(this);
         // HACK default loading.
@@ -32,7 +32,7 @@ export class PlayerAudio {
       }
     }, 150);
   }
-  
+
   set durationCurrent (nextState: any) {
 
   }

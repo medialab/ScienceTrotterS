@@ -38,7 +38,7 @@ export class PlayerAudioProvider {
       }
     });
 
-    if (curUUID != '') {
+    if (curUUID !== '') {
       this.get(curUUID).updateActionState();
     }
   }

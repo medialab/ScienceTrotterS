@@ -7,6 +7,7 @@ import { Platform } from 'ionic-angular';
 import {LocalDataProvider} from "../../providers/localData";
 import {DataProvider} from "../../providers/data";
 import {AlertProvider} from "../../providers/alert";
+import {PlayerAudioProvider} from "../../providers/playerAudio";
 
 @IonicPage()
 @Component({
@@ -53,6 +54,7 @@ export class PointOfInterestPage {
                public events: Events,
                public data: DataProvider,
                public localData: LocalDataProvider,
+               public playerAudioProvider: PlayerAudioProvider,
                public platform : Platform) {
     if (typeof navParams.get('interestsList') !== 'undefined') {
       if (navParams.get('sortOrder') !== null) {
@@ -183,6 +185,7 @@ export class PointOfInterestPage {
         break;
     }
 
+
     return show;
   }
 
@@ -207,6 +210,8 @@ export class PointOfInterestPage {
    * @param dir
    */
   onClickMoveList (dir: string) {
+    this.playerAudioProvider.isPlayingAndStopThem();
+
     switch (dir) {
       case 'prev':
         if (this.activeItem > 0) {
@@ -407,6 +412,8 @@ export class PointOfInterestPage {
 
       this.onClickSetHelpItemActive(null);
     }
+
+    this.playerAudioProvider.isPlayingAndStopThem();
   }
 
   /**
