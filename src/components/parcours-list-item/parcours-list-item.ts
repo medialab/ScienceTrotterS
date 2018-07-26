@@ -26,6 +26,7 @@ export class ParcoursListItemComponent {
   @Input() audioScript: string = '';
   @Input() interestsList: Array<any> = [];
   @Input() sortOrder: any = null;
+  @Input() cityName: string = '';
 
   timeToObj = '';
   isShowTimeToObj: boolean = false;
@@ -94,7 +95,8 @@ export class ParcoursListItemComponent {
       'interestsList': this.interestsList,
       'geoloc': this.geoloc,
       'curPositionUser': this.curPositionUser,
-      'sortOrder': this.sortOrder
+      'sortOrder': this.sortOrder,
+      'cityName': this.cityName
     });
   }
 

@@ -14,6 +14,9 @@ import {PlayerAudioProvider} from "../providers/playerAudio";
 import {PreviewByCityPage} from "../pages/preview-by-city/preview-by-city";
 import {LoaderPage} from "../pages/loader/loader";
 import {DirectAccessPage} from "../pages/direct-access/direct-access";
+import {GeolocProvider} from "../providers/geoloc";
+import {AlertProvider} from "../providers/alert";
+import {DataProvider} from "../providers/data";
 
 @Component({
   templateUrl: 'app.html'
@@ -42,8 +45,11 @@ export class MyApp {
                public config: ConfigProvider,
                public translate: TranslateProvider,
                public events: Events,
+               public geoloc: GeolocProvider,
                public cache: CacheService,
+               public data: DataProvider,
                public api: ApiProvider,
+               public alert: AlertProvider,
                private camera: Camera) {
     /**
      * Initialisation de l'application.
@@ -147,7 +153,24 @@ export class MyApp {
    * TODO : sendCurrentPosition()
    */
   sendCurrentPosition () {
-    console.log('sendCurrentPosition');
+    const loader = this.alert.createLoader();
+
+    this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
+      loader.dismiss();
+
+      const to = ''
+      const subject = this.translate.getKey('MAIL_SEND_POSITION_SUBJECT');
+      const body = this.translate.getKeyAndReplaceWords('MAIL_SEND_POSITION_BODY', {
+        'latitude': latitude,
+        'longitude': longitude
+      });
+
+      this.data.sendEmail(to, subject, body);
+    }).catch((resp: any) => {
+      console.log('error', resp);
+
+      loader.dismiss();
+    })
   }
 
   /**

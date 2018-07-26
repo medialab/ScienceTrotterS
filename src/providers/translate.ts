@@ -70,6 +70,23 @@ export class TranslateProvider {
     return this.getKey(key).replace(replaceKey, replaceValue);
   }
 
+  replaceKeywordByWord = (str: string, replaceKeysAndValues: object = {}) => {
+    for (let replaceKey in replaceKeysAndValues) {
+      const replaceValue = replaceKeysAndValues[replaceKey];
+
+      str = str.replace(':' + replaceKey, replaceValue);
+    }
+
+    return str;
+  }
+
+  getKeyAndReplaceWords (key: string, replaceKeysAndValues: object = {}) {
+    return this.replaceKeywordByWord(
+      this.getKey(key),
+      replaceKeysAndValues
+    );
+  }
+
   /**
    * Définition de la langue courante.
    *

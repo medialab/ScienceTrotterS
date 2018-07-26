@@ -28,6 +28,7 @@ export class PointOfInterestPage {
   curPositionUser: any = undefined;
   sortOrder: any = null;
   showScriptAudioSection: boolean = false;
+  cityName: string = '';
 
   _interests: Array<any> = new Array();
   interests: Array<any> = new Array();
@@ -61,6 +62,7 @@ export class PointOfInterestPage {
         this.sortOrder = navParams.get('sortOrder');
       }
 
+      this.cityName = navParams.get('cityName');
       this.curTarget = navParams.get('target');
       this.curId = navParams.get('openId');
       this.geoloc = navParams.get('geoloc');
@@ -335,12 +337,17 @@ export class PointOfInterestPage {
    * par mail.
    */
   btnReportProblem () {
-    const subject = {
-      'fr': 'btnReportProblem FR',
-      'en': 'btnReportProblem EN'
-    };
+    const to = this.config.data.contact_mail;
+    const subject = this.translate.getKeyAndReplaceWords('MAIL_REPORT_PROBLEM_SUBJECT', {
+      'landmarkName': this.getData('title', true),
+      'cityName': this.cityName
+    });
+    const body = this.translate.getKeyAndReplaceWords('MAIL_REPORT_PROBLEM_BODY', {
+      'landmarkName': this.getData('title', true),
+      'cityName': this.cityName
+    });
 
-    this.sendMail(null, subject[this.config.getLanguage()]);
+    this.data.sendEmail(to, subject, body);
   }
 
   /**
@@ -348,36 +355,20 @@ export class PointOfInterestPage {
    * Partage du point d'inrétêt courant par mail.
    */
   btnShareRef () {
-    const subject = {
-      'fr': 'btnShareRef FR',
-      'en': 'btnShareRef EN'
-    };
+    const subject = this.translate.getKeyAndReplaceWords('MAIL_SHARE_BIBLIO_SUBJECT', {
+      'landmarkName': this.getData('title', true),
+      'cityName': this.cityName
+    });
+
     let body = '';
 
     for (let itemDesc of this.getData('bibliography', true)) {
-      body += itemDesc + '%0D%0A';
+      body += itemDesc + '[jumpLine]';
     }
 
-    this.sendMail(null, subject[this.config.getLanguage()], body);
+    this.data.sendEmail('', subject, this.data.bbCodeToMail(body));
   }
 
-  /**
-   * Ouverture du client mail par défault pour l'envoi
-   * d'un mail.
-   *
-   * @param subject
-   */
-  sendMail (to: string = '', subject: string = '', body: string = '') {
-    if (to === '' || to === null) {
-      to = this.config.data.contact_mail;
-    }
-
-    const sendMail = window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system');
-  }
-
-  /**
-   *
-   */
   btnEndPointOfInterest () {
     const data = {
       'uuid': this.getData('id'),

@@ -87,6 +87,7 @@
             [openId]="parcour.id"
             [sortOrder]="otpionsItems[optionsItemsSelected]"
             [createdAt]="parcour.updated_at"
+            [cityName]="translate.fromApi(config.getLanguage(), city.title)"
             [parcourTime]="translate.fromApi(config.getLanguage(), parcour.time)"
             [previewTitle]="translate.fromApi(config.getLanguage(), parcour.title)"
             [interestsList]="getInterestsByParcoursId(parcour.id)"
@@ -119,6 +120,7 @@
             [openId]="interest.id"
             [interestsList]="getInterestsById(interest.id)"
             [interestAddress]="translate.fromApi(config.getLanguage(), interest.address)"
+            [cityName]="translate.fromApi(config.getLanguage(), city.title)"
             [previewTitle]="translate.fromApi(config.getLanguage(), interest.title)"
             [previewDescription]="translate.fromApi(config.getLanguage(), interest.audio_script)">
           </parcours-list-item>

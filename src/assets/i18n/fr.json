@@ -47,8 +47,8 @@
 
   "PBC_ALT_POI":"Points d'intérêts",
 	"PBC_ALT_PARCOURS":"Parcours",
-	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt n'est encore proposé à city",
-	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours n'est proposé à city",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt n'est encore proposé à :city",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours n'est proposé à :city",
 
 	"PLAYER_ACTION_STATE":"Player action state",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",
@@ -58,6 +58,15 @@
 	"C_BOX_MAP_USER_MARKER":"Vous êtes ici",
 
 	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Erreur",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED.":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer à nouveau la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application"
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer à nouveau la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
+
+  "MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
+  "MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
+
+  "MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
+  "MAIL_SHARE_BIBLIO_BODY": "",
+
+  "MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
+  "MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]"
 }

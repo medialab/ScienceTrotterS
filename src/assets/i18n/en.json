@@ -47,8 +47,8 @@
 
 	"PBC_ALT_POI":"Landmark",
 	"PBC_ALT_PARCOURS":"Tour",
-	"PBC_NO_DATA_AVAILABLE_INTEREST":"To date, no landmark is offered in city",
-	"PBC_NO_DATA_AVAILABLE_PARCOURS":"To date, no tour is offered in city",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"To date, no landmark is offered in :city",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"To date, no tour is offered in :city",
 
 	"PLAYER_ACTION_STATE":"Player action state",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",
@@ -58,6 +58,15 @@
 	"C_BOX_MAP_USER_MARKER":"Your are here",
 
 	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Error",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED.":"To offer you the closest tour, Science Trotters wants to activate geolocation in smaller all data will be erased when you close the application",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED.":"To offer you the closest tour, Science Trotters wants to activate geolocation again in smaller all data will be erased when you close the application"
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"To offer you the closest tour, Science Trotters wants to activate geolocation in smaller all data will be erased when you close the application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"To offer you the closest tour, Science Trotters wants to activate geolocation again in smaller all data will be erased when you close the application",
+
+  "MAIL_REPORT_PROBLEM_SUBJECT": "Landmark problem :landmarkName :cityName",
+  "MAIL_REPORT_PROBLEM_BODY": "Hello,[jumpLine]I have encountered the following problem at landmark :landmarkName of :cityName :",
+
+  "MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliography - :landmarkName",
+  "MAIL_SHARE_BIBLIO_BODY": "",
+
+  "MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Registered landmark",
+  "MAIL_SEND_POSITION_BODY": "I have identified a landmark at the following coordinates :[jumpLine]:latitude,:longitude[jumpLine]It concerns :[jumpLine]"
 }

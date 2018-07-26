@@ -42,7 +42,7 @@ export class AlertProvider {
    * @param content
    * @returns {Loading}
    */
-  createLoader (content: string) {
+  createLoader (content: string = '') {
     let loader = this.loadingCtrl.create({
       content: content
     });
