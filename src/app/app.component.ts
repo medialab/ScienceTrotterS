@@ -55,7 +55,6 @@ export class MyApp {
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
-      console.log('app loaded');
       this.globalListener();
 
       splashScreen.hide();
@@ -78,13 +77,9 @@ export class MyApp {
   }
 
   handleDirectAccess (activePageName: string) {
-    console.log('active page name', activePageName);
-
     if (activePageName !== 'DirectAccessPage') {
-      console.log('redirect to home page');
       this.rootPage = HomePage;
     } else {
-      console.log('publish event');
       this.events.publish('sts::configLoaded');
     }
   }
@@ -158,7 +153,7 @@ export class MyApp {
     this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
       loader.dismiss();
 
-      const to = ''
+      const to = '';
       const subject = this.translate.getKey('MAIL_SEND_POSITION_SUBJECT');
       const body = this.translate.getKeyAndReplaceWords('MAIL_SEND_POSITION_BODY', {
         'latitude': latitude,
@@ -167,8 +162,6 @@ export class MyApp {
 
       this.data.sendEmail(to, subject, body);
     }).catch((resp: any) => {
-      console.log('error', resp);
-
       loader.dismiss();
     })
   }
