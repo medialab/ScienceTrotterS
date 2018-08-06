@@ -56,6 +56,9 @@ ionic cordova build android
 ```
 ionic cordova build ios
 ```
+7) En voir plus sur la publication ionic
+https://ionicframework.com/docs/v1/guide/publishing.html
+
 ## License
 This project is licensed under the GPLv2 License - see the [GPLv2-LICENSE.md](https://github.com/medialab/ScienceTrotterS_mobile/GPLv2-LICENSE.md) file for details
 
