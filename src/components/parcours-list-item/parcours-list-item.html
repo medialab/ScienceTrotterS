@@ -36,7 +36,7 @@
         </ul>
       </button>
 
-      <button type="button" class='btnDownload' [ngClass]="config.globalGlobalCss()">
+      <button type="button" *ngIf="canBeDownload()" class='btnDownload' (click)="download()" [ngClass]="config.globalGlobalCss()">
         <span class='icon icon-download'></span>
         <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
         </label>
@@ -52,7 +52,7 @@
 
       <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
         <player-audio
-          [audioURI]="audioURI"
+          [audioURI]="getAudio()"
           [playerUUID]="('player__audio') + openId"
           [audioScript]="audioScript"
           [target]="target"

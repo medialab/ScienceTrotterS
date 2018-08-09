@@ -1,3 +1,4 @@
+import { Network } from '@ionic-native/network';
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {App, Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
@@ -115,7 +116,8 @@ export class PreviewByCityPage {
               public alert: AlertProvider,
               public api: ApiProvider,
               public events: Events,
-              public translate: TranslateProvider) {
+              public translate: TranslateProvider,
+              public network: Network) {
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
       this.init();
@@ -153,7 +155,7 @@ export class PreviewByCityPage {
 
         this.changeOptionListHandler();
 
-        console.log('publish event');
+        // console.log('publish event');
         this.events.publish('previewByCity::initMapData', {
           'parcours': this.parcours,
           'interests': this.interests
@@ -166,6 +168,8 @@ export class PreviewByCityPage {
     console.log('@onUpdateLanguage', Date.now());
     this.init();
   }
+
+
 
   focusAnElement (element: string) {
     const el: any = document.querySelector(element);
@@ -187,7 +191,6 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
-    console.log('@ionViewDidEnter');
     const eventName = 'boxMap::onClickItemMap';
 
     if (this.eventUpdateLanguage === null) {
@@ -211,6 +214,14 @@ export class PreviewByCityPage {
           this.events.publish('previewByCity::updateCurrentGeoLoc', data);
         });
     });
+
+    var connected = this.network.onConnect().subscribe(data => {
+      console.log(data)
+      this.init();
+      
+    }, error => console.error(error));
+   
+
   }
 
   ionViewWillUnload () {
@@ -220,6 +231,9 @@ export class PreviewByCityPage {
     this.events.unsubscribe('boxMap::updateCurrentGeoLoc');
     this.events.publish('previewByCity::ionViewWillLeave');
   }
+
+
+
 
   /**
    *
@@ -511,4 +525,5 @@ export class PreviewByCityPage {
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
   }
+
 }

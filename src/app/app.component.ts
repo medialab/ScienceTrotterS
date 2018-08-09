@@ -1,3 +1,4 @@
+import { PointOfInterestPage } from './../pages/point-of-interest/point-of-interest';
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Content, Events, MenuController, Nav, NavParams, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -17,6 +18,7 @@ import {DirectAccessPage} from "../pages/direct-access/direct-access";
 import {GeolocProvider} from "../providers/geoloc";
 import {AlertProvider} from "../providers/alert";
 import {DataProvider} from "../providers/data";
+
 
 @Component({
   templateUrl: 'app.html'
@@ -59,6 +61,8 @@ export class MyApp {
 
       splashScreen.hide();
       config.initialize();
+
+      statusBar.styleDefault();
 
       // Set TTL to 12h
       cache.setDefaultTTL(60 * 60 * 12);

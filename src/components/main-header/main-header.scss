@@ -26,7 +26,7 @@ main-header {
   display: block;
   width: 100vw;
   background-color: #f8f8f8;
-
+  
   ion-header {
     height: 46px;
     min-height: 46px !important;
@@ -43,6 +43,10 @@ main-header {
     height: auto !important;
     overflow: hidden;
   }
+}
+
+.platform-ios main-header ion-header ion-navbar{
+  height: 65px;
 }
 
 .menuBtnRight {

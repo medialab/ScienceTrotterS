@@ -1,3 +1,4 @@
+import { Network } from '@ionic-native/network';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import {IonicApp, IonicErrorHandler, IonicModule, NavParams} from 'ionic-angular';
@@ -42,6 +43,7 @@ import {FileTransfer} from '@ionic-native/file-transfer';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
 import {Device} from "@ionic-native/device";
 import {DirectAccessPage} from "../pages/direct-access/direct-access";
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -143,7 +145,7 @@ const linksConfig = {
     PreviewByCityPage,
     PointOfInterestPage,
     LoaderPage,
-    DirectAccessPage
+    DirectAccessPage,
   ],
   providers: [
     StatusBar,
@@ -164,7 +166,8 @@ const linksConfig = {
     Media,
     PlayerAudioProvider,
     GeolocProvider,
-    FileTransfer
+    FileTransfer,
+    Network
   ]
 })
 
