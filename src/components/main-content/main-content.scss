@@ -1,0 +1,25 @@
+.app-root-md {
+  main-content {
+    left: 0;
+    top: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% - #{$mainHeaderHeight});
+    contain: layout size style;
+    margin: #{$mainHeaderHeight} 0 0 0;
+  }
+}
+
+.app-root-ios {
+  main-content {
+    left: 0;
+    top: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding})) !important;
+    contain: layout size style;
+    margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
+  }
+}

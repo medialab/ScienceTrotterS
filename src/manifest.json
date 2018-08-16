@@ -1,0 +1,23 @@
+{
+  "name": "Science Trotters",
+  "short_name": "sts",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/imgs/logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#464646",
+  "theme_color": "#464646",
+  "version": "0.0.9",
+  "target": "browser",
+
+  "configuration": {
+    "contact_mail": "managers@thenetgroup.net",
+    "endpoint": {
+      "data": "https://api-sts.actu.com/",
+      "assets": "https://api-sts.actu.com/ressources/upload/"
+    }
+  }
+}

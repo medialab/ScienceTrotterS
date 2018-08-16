@@ -1,0 +1,109 @@
+<div class="playerAudioComponent" *ngIf="audioPlayer !== false && loadPlayer === true">
+
+  <!-- PLAYER MAIN ACTIONS -->
+  <ul class="actionsList">
+    <!-- ACTION FAST LEFT -->
+    <li class="actionItem actionItemFastLeft hide--item">
+      <button class="actionBtn"
+              (click)="audioPlayer.actionFastLeft()"
+              [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
+        <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
+      </button>
+    </li>
+
+    <!-- ACTION AUDIO STATE -->
+    <li class="actionItem actionItemPause">
+      <button id="actionBtnState" class="actionBtn"
+              [attr.aria-label]="translate.getKey('PLAYER_ACTION_STATE')"
+              [attr.aria-pressed]="audioPlayer.isPlaying"
+              (click)="updateActionState()">
+        <span aria-hidden="true" class="icon big"></span>
+      </button>
+    </li>
+
+    <!-- ACTION FAST RIGHT -->
+    <li class="actionItem actionItemFastRight hide--item">
+      <button class="actionBtn"
+              (click)="audioPlayer.actionFastRight()"
+              [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
+        <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
+      </button>
+    </li>
+  </ul>
+
+  <!-- PLAYER DURATION BAR -->
+  <div class="durationBarContent">
+    <ion-range
+      [(ngModel)]="audioPlayer.durationCurrent"
+      (ngModelChange)="onModelDurationChange($event)"
+      [min]="audioPlayer.duration.track.min"
+      [max]="audioPlayer.duration.track.max"
+    ></ion-range>
+  </div>
+
+  <!-- PLAYER TIMER -->
+  <div class="playerDuration">
+    <div class="durationCurrent">
+      <label class="durationValue">
+        {{ audioPlayer.duration.current }}
+      </label>
+    </div>
+    <div class="durationLeft">
+      <label class="durationValue">
+        {{ audioPlayer.duration.full }}
+      </label>
+    </div>
+  </div>
+
+  <!-- PLAYER BTNS VOKUMEs -->
+  <ul class="round__btn__list">
+
+    <!-- VOLUMN DOWN BTN -->
+    <li class="item hideOnIOSDevices">
+      <button
+        (click)="audioPlayer.downVolume()"
+        class="item__btn hideOnIOSDevices"
+        [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_DOWN')">
+        <div class="icon">
+          <ion-icon aria-hidden="true" name="volume-down"></ion-icon>
+        </div>
+        <label>{{ translate.getKey('PLAYER_ACTION_VOLUME_DOWN') }}</label>
+      </button>
+    </li>
+
+    <!-- VOLUMN UP BTN -->
+    <li class="item hideOnIOSDevices">
+      <button
+        (click)="audioPlayer.upVolume()"
+        class="item__btn"
+        [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_UP')">
+        <div class="icon">
+          <ion-icon aria-hidden="true" name="volume-up"></ion-icon>
+        </div>
+        <label>{{ translate.getKey('PLAYER_ACTION_VOLUME_UP') }}</label>
+      </button>
+    </li>
+
+    <!-- SCRIPT AUDIO BTN -->
+    <li class="item">
+      <button
+        (click)="openAudioScriptPopup()"
+        class="item__btn"
+        [attr.aria-label]="translate.getKey('PLAYER_ACTION_TEXT')">
+        <div class="icon">
+          <ion-icon aria-hidden="true" name="ios-paper-outline"></ion-icon>
+        </div>
+        <label>{{ translate.getKey('PLAYER_ACTION_TEXT') }}</label>
+      </button>
+    </li>
+  </ul>
+
+  <div class="audio__script" *ngIf="showAudioScript">
+    <p [innerHTML]="audioScript"></p>
+  </div>
+
+  <audio controls [attr.id]="playerUUID" class="hidden__audio__player">
+    <source [attr.src]="audioURI" />
+  </audio>
+
+</div>

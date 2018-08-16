@@ -1,0 +1,27 @@
+<ion-header tab-index="-1" [ngClass]="config.globalGlobalCss()">
+  <ion-navbar hideBackButton>
+
+    <div class="navBarContent">
+      <button left class="menuBtnLeft backBtnLeft" (click)="goBack()" *ngIf="withBackButton">
+        <ion-icon aria-hidden=“true“ name="arrow-back" class="backIcon"></ion-icon>
+        <label class="backLabel">
+          {{ translate.getKey('COMP_MH_GO_BACK') }}
+        </label>
+      </button>
+
+      <div class="title__group">
+        <div class="title_content">
+          <h1 class="title__h1">
+            <ng-content></ng-content>
+          </h1>
+        </div>
+      </div>
+
+      <button ion-button menuToggle right class="menuBtnRight" *ngIf="withMenu" [attr.aria-expanded]="config.getMenuState()">
+        <ion-icon aria-hidden=“true“ name="menu"></ion-icon>
+        <label>MENU</label>
+      </button>
+    </div>
+
+  </ion-navbar>
+</ion-header>

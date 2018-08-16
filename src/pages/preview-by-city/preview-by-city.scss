@@ -1,0 +1,252 @@
+.app-root-ios {
+  page-preview-by-city {
+    .contentList {
+      height: calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px);
+      bottom: calc(0px - calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px - 30%) + 56px);
+    }
+  }
+}
+
+.app-root-md {
+  page-preview-by-city {
+    .contentList {
+      height: calc(100vh - #{$mainHeaderHeight} - 70px);
+      bottom: calc(0px - calc(100vh - #{$mainHeaderHeight} - 70px - 30%) + 56px);
+    }
+  }
+}
+
+page-preview-by-city {
+
+  .parcoursListContent {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .map {
+      width: 100%;
+      height: calc(100% - 56px - 30%);
+      background-color: black;
+    }
+
+    ul.list {
+      width: 100%;
+      height: calc(100% - 56px - 35px);
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      overflow-y: scroll;
+      background-color: #EAEAED;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      p.msgNotDataAvailable {
+        padding: 20px;
+      }
+
+    }
+
+    ul.list {
+      li {
+        &:nth-child(odd) {
+          parcours-list-item {
+            background-color: #EAEAED !important;
+          }
+        }
+
+        &:nth-child(even) {
+          parcours-list-item {
+            background-color: #F7F7F7 !important;
+          }
+        }
+      }
+    }
+  }
+
+  .contentList.isOpen {
+  }
+
+  .contentList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: absolute;
+    width: 100%;
+    background-color: blue;
+    transition: 0.4s ease-out;
+    z-index: 999;
+
+    .darkSelectBox {
+      background-color: black;
+      height: 56px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+
+      h3 {
+        font-size: initial;
+        margin: 0;
+        color: #707070;
+        text-transform: uppercase;
+        width: 100%;
+        max-width: 150px;
+        text-align: center;
+        font-size: 1.2em !important;
+      }
+
+      .selectedTarget {  }
+      .selectedTarget.isSelected {
+        color: white;
+      }
+
+      .switchGroup {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+
+        .switchName {
+          color: white;
+          text-transform: uppercase;
+          text-align: center;
+          height: 18px;
+          background-color: transparent;
+
+          .openMenuItems {
+            width: 100px;
+            height: 18px;
+            font-weight: bold;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+    .optionsItemsSort {
+      background-color: #A0A0AC;
+      height: 35px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+
+      .optionsList {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        padding: 0;
+        margin: 0;
+        height: 35px;
+        align-items: center;
+
+        .optionsItem.isSelected {
+          display: initial;
+        }
+        .optionsItem {
+          list-style: none;
+          display: none;
+          flex-grow: 1;
+
+          .optionName {
+            flex-grow: 1;
+            color: white;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+
+      .arrowIcon {
+        color: white;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+      }
+      .arrowIcon.left {
+        padding: 0 7px 0 0;
+      }
+      .arrowIcon.right {
+        padding: 0 0 0 7px;
+      }
+    }
+  }
+
+  .switch__target__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 56px;
+    padding: 8px;
+
+    .item {
+      width: 50%;
+      min-width: 50%;
+
+      &__btn {
+        width: 100%;
+        height: 100%;
+        font-size: inherit;
+        border-top: 1px solid #414246;
+        border-bottom: 1px solid #414246;
+        background-color: black;
+        color: #8F8E93;
+
+        &.isSelected {
+          background-color: #80848F;
+          color: white;
+        }
+
+        &--left {
+          border-top-left-radius: 7px;
+          border-bottom-left-radius: 7px;
+          border-left: 1px solid #414246;
+        }
+
+        &--right {
+          border-top-right-radius: 7px;
+          border-bottom-right-radius: 7px;
+          border-right: 1px solid #414246;
+        }
+
+        label {
+          font-size: 1.2em !important;
+        }
+      }
+    }
+  }
+
+  .btnUpAndDown {
+    position: absolute;
+    background: black;
+    width: 60px;
+    height: 30px;
+    top: -30px;
+    left: calc(50% - 30px);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+    ion-icon {
+      font-size: 3rem;
+      color: white;
+    }
+  }
+}
+
+.platform-android .openMenuItems {
+  padding: 3px 0 0 0;
+}

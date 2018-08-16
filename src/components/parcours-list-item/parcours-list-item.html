@@ -1,0 +1,78 @@
+<div class='parcoursListItem' id="search-content" [ngClass]="isDone()">
+  <div class='leftIconColor' [ngStyle]="{'background-color': color}">
+    <span *ngIf="target === 'parcours'"
+          aria-hidden="true"
+          class="icon icon-parcours"
+          [attr.alt]="translate.getKey('PBC_ALT_PARCOURS')"></span>
+    <span *ngIf="target === 'interests'"
+          aria-hidden="true"
+          class="icon icon-poi"
+          [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
+  </div>
+  <div class='content'>
+    <div class='contentPreview'>
+      <button type="button"class='info' (click)="updateDiscoverStateOrOpen()" [attr.aria-expanded]="isOpenDiscover" [ngClass]="config.globalGlobalCss()">
+        <h1>{{ previewTitle }}</h1>
+        <ul class="infoParcours" *ngIf="target === 'parcours'">
+          <li>
+            <label class="labelToLeft">{{ interestsList.length }}</label>
+            <span aria-hidden="true" class="icon-poi" [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
+          </li>
+          <li>
+            <label>{{ parcourTime }}</label>
+          </li>
+          <li *ngIf="isShowTimeToObj">
+            <label>{{ timeToObj }}</label>
+          </li>
+        </ul>
+
+        <ul class="infoParcours" *ngIf="target === 'interests'">
+          <li>
+            <label class="labelToLeft">{{ interestAddress }}</label>
+          </li>
+          <li *ngIf="isShowTimeToObj">
+            <label>{{ timeToObj }}</label>
+          </li>
+        </ul>
+      </button>
+
+      <button type="button" class='btnDownload' [ngClass]="config.globalGlobalCss()">
+        <span class='icon icon-download'></span>
+        <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
+        </label>
+      </button>
+    </div>
+
+    <div class="contentDiscover" [attr.aria-hidden]="! isOpenDiscover">
+      <div class='content' [ngClass]="config.globalGlobalCss()">
+        <p>
+          {{ previewDescription }}
+        </p>
+      </div>
+
+      <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
+        <player-audio
+          [audioURI]="audioURI"
+          [playerUUID]="('player__audio') + openId"
+          [audioScript]="audioScript"
+          [target]="target"
+          [uuid]="openId"
+          [loadPlayer]="isOpenDiscover"></player-audio>
+      </div>
+      <div class='footer' [ngClass]="config.globalGlobalCss()">
+        <button type="button"
+          *ngIf="target === 'parcours' && interestsList.length > 0"
+          (click)="openNext()"
+          class='btnStart' [ngStyle]="{'background-color': color}">
+          {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
+        </button>
+        <button type="button"
+          *ngIf="target === 'interests'"
+          (click)="openNext()"
+          class='btnStart' [ngStyle]="{'background-color': color}">
+          {{ translate.getKey('PLI_LIST_START_POI') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

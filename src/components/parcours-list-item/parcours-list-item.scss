@@ -1,0 +1,197 @@
+parcours-list-item {
+  display: block;
+  font-size: initial;
+
+  &:nth-child(odd) {
+    background-color: #EAEAED;
+
+    .isDone {
+      background-color: dimgrey;
+    }
+  }
+
+  &:nth-child(even) {
+    background-color: #F7F7F7;
+
+    .isDone {
+      background-color: dimgrey;
+    }
+  }
+}
+
+.parcoursListItem {
+  min-height: 70px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .leftIconColor {
+    width: 45px;
+    min-width: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .icon {
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 25px;
+      height: 25px;
+      margin: 22.5px 0;
+
+      &.icon-parcours {
+        background-image: url('../assets/imgs/parcours-list/icon_parcours.svg');
+      }
+      &.icon-poi {
+        background-image: url('../assets/imgs/parcours-list/icon_poi_white.svg');
+      }
+    }
+  }
+
+  .leftIconColor.blue {
+    background-color: #336699;
+  }
+  .leftIconColor.red {
+    background-color: #5F4B8B;
+  }
+  .leftIconColor.yellow {
+    background-color: #3686A0;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+
+    .contentDiscover {
+      display: none;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      padding: 20px;
+
+      &[aria-hidden="false"] {
+        display: flex;
+      }
+
+      .content {
+        margin: 0 0 10px 0;
+
+        p {
+          font-size: 1em;
+        }
+      }
+
+      .playerAudio {
+        margin: 0 0 10px 0;
+      }
+
+      .footer {
+
+        .btnStart {
+          width: 100%;
+          height: 46px;
+          color: white;
+          border-radius: 23px;
+          font-size: 1.3em;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .contentPreview {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      min-height: 70px;
+
+      .info {
+        flex: 1;
+        padding: 10px;
+        background-color: transparent;
+
+        h1 {
+          margin: 0;
+          font-size: 1.2em;
+          text-transform: uppercase;
+          text-align: left;
+        }
+
+        ul.infoParcours {
+          border: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: row;
+          list-style: none;
+          align-items: center;
+
+          li {
+            list-style: puce;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            label {
+              padding: 0 5px;
+              font-size: 1.1em;
+            }
+          }
+        }
+
+        .spanDot {
+          font-size: 18px;
+        }
+        .icon-poi {
+          display: block;
+          width: 12px;
+          height: 12px;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+          background-image: url('../assets/imgs/parcours-list/icon_poi.svg');
+        }
+      }
+
+      .btnDownload {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+
+        .icon {
+          width: 25px;
+          height: 25px;
+          margin: 3px 0;
+
+          &.icon-download {
+            background-image: url('../assets/imgs/parcours-list/icon_download.svg');
+          }
+
+          &.icon-download-remove {
+            background-image: url('../assets/imgs/parcours-list/icon_download_remove.svg');
+          }
+        }
+
+        label {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+
+  .labelToLeft {
+    text-align: left;
+  }
+
+}
+
+.hideIt {
+  display: none;
+}

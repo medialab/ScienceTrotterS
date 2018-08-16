@@ -1,0 +1,169 @@
+player-audio {
+  width: 100%;
+  margin: 20px;
+
+  .playerAudioComponent {
+    width: 100%;
+
+    ul.actionsList {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      list-style: none;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+
+      li.actionItem {
+        margin: 10px;
+
+        &.actionItemFastLeft {
+          margin-right: 20px;
+        }
+        &.actionItemFastRight {
+          margin-left: 20px;
+        }
+
+        button.actionBtn {
+          display: block;
+          padding: 10px;
+          background-color: transparent;
+        }
+
+        button.actionBtn {
+          span.icon {
+            display: block;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+
+            &.tiny {
+              width: 30px;
+              height: 30px;
+              min-height: 30px;
+              min-width: 30px;
+            }
+
+            &.big {
+              width: 50px;
+              height: 50px;
+              min-height: 50px;
+              min-width: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .playerDuration {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 5px 0 0 0;
+
+    .durationCurrent {
+      width: 50%;
+      text-align: left;
+    }
+
+    .durationLeft {
+      width: 50%;
+      text-align: right;
+    }
+
+    .durationValue {
+      font-size: 0.8em;
+      color: #4A4961;
+    }
+  }
+
+  .icon {
+    &.icon-action-fast-left {
+      background-image: url('../assets/imgs/player-audio/icon-action-fast-left.svg');
+    }
+
+    &.icon-action-fast-right {
+      background-image: url('../assets/imgs/player-audio/icon-action-fast-right.svg');
+    }
+
+    &.icon-action-play {
+      background-image: url('../assets/imgs/player-audio/icon-action-play.svg');
+    }
+
+    &.icon-action-pause {
+      background-image: url('../assets/imgs/player-audio/icon-action-pause.svg');
+    }
+  }
+
+  #actionBtnState {
+    &[aria-pressed="false"] span {
+      background-image: url('../assets/imgs/player-audio/icon-action-play.svg');
+    }
+    &[aria-pressed="true"] span {
+      background-image: url('../assets/imgs/player-audio/icon-action-pause.svg');
+    }
+  }
+
+  .hidden__audio__player {
+    display: none;
+  }
+
+  .round__btn__list {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    justify-content: space-evenly;
+    list-style: none;
+
+    .item {
+
+      &__btn {
+        background-color: transparent;
+        font-size: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+          background-color: transparent;
+          border: 2px solid black;
+          border-radius: 50%;
+          min-width: 50px;
+          width: 50px;
+          min-height: 50px;
+          height: 50px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          ion-icon {
+            font-size: 3.2rem !important;
+          }
+        }
+
+        label {
+          display: block;
+          padding: 4px 0 0 0;
+          font-size: 1em;
+        }
+      }
+    }
+  }
+
+  .hide--item {
+    display: none;
+  }
+
+  .audio__script {
+
+    p {
+      margin: 12px 0;
+      font-size: 1em;
+    }
+  }
+}

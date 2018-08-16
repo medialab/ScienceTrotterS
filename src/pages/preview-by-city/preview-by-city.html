@@ -1,0 +1,138 @@
+<main-header [withBackButton]="true" [withMenu]="true">
+  {{ translate.fromApi(config.getLanguage(), city.title) }}
+</main-header>
+
+<ion-content id="previewByCityContent" [ngClass]="config.globalGlobalCss()" *ngIf="city !== null">
+
+  <div class='parcoursListContent'>
+    <div id='map' #map class='map'>
+      <box-map
+        [citiesCoords]="city.geoloc"
+        [pointOfInterestList]="interests"
+        [parcoursList]="parcours"
+        [selectedTarget]="(selectedTarget ? 'point-of-interest' : 'parcours')"
+      ></box-map>
+    </div>
+
+    <div [ngClass]="contentListClass">
+
+
+      <!-- DARK SELECT BOX -->
+      <div class='darkSelectBox'>
+
+        <button class="btnUpAndDown">
+          <ion-icon
+            aria-hidden="true"
+            class='openMenuItems'
+            [name]="currentOpenIcon()" (click)="openContentList()"></ion-icon>
+        </button>
+
+        <ul class="switch__target__list">
+          <!-- BTN PARCOURS -->
+          <li class="item">
+            <button class="item__btn item__btn--left" [ngClass]="selectTargetParcours"
+                    (click)="onChangeSelectedTarget({'checked': false}, true)">
+              <label>
+                {{ translate.getKey('PBC_ALT_PARCOURS') }}
+              </label>
+            </button>
+          </li>
+          <!-- BTN POINT D INTERET -->
+          <li class="item">
+            <button class="item__btn item__btn--right" [ngClass]="selectTargetPoints"
+                    (click)="onChangeSelectedTarget({'checked': true}, true)">
+              <label>
+                {{ translate.getKey('PBC_ALT_POI') }}
+              </label>
+            </button>
+          </li>
+        </ul>
+
+      </div>
+      <!-- ./ DARK SELECT BOX -->
+
+      <!-- OPTIONS ITEMS SORT -->
+      <div class='optionsItemsSort'>
+        <button class='arrowIcon left' (click)="changeOptionList('prev')" id="btnSortItemNext">
+          <ion-icon aria-hidden="true" focusable="false" name="ios-arrow-back"></ion-icon>
+        </button>
+
+        <ul class='optionsList'>
+          <li [ngClass]="optionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
+            <label class='optionName'>
+              {{ item.name() }}
+            </label>
+          </li>
+        </ul>
+
+        <button class='arrowIcon right' (click)="changeOptionList('next')" id="btnSortItemNext">
+          <ion-icon aria-hidden="true" focusable="false" name="ios-arrow-forward"></ion-icon>
+        </button>
+      </div>
+      <!-- ./ OPTIONS ITEMS SORT -->
+
+      <!-- ITEMS LIST : RENDERING PARCOURS-->
+      <ul class='list' *ngIf="selectedTarget === false">
+        <li *ngFor="let parcour of parcours">
+          <parcours-list-item
+            (click)="onClickItem()"
+            target="parcours"
+            [color]="parcour.color"
+            [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), parcour.audio))"
+            [audioScript]="translate.fromApi(config.getLanguage(), parcour.audio_script)"
+            [isOpenDiscover]="false"
+            [geoloc]="city.geoloc"
+            [curPositionUser]="curPositionUser"
+            [handler]="parcoursListItemHandler"
+            [openId]="parcour.id"
+            [sortOrder]="otpionsItems[optionsItemsSelected]"
+            [createdAt]="parcour.updated_at"
+            [cityName]="translate.fromApi(config.getLanguage(), city.title)"
+            [parcourTime]="translate.fromApi(config.getLanguage(), parcour.time)"
+            [previewTitle]="translate.fromApi(config.getLanguage(), parcour.title)"
+            [interestsList]="getInterestsByParcoursId(parcour.id)"
+            [previewDescription]="translate.fromApi(config.getLanguage(), parcour.description)">
+          </parcours-list-item>
+        </li>
+        <!-- Si aucun parcours -->
+        <li *ngIf="parcours.length === 0">
+          <p class="msgNotDataAvailable">
+            {{ translate.getKeyAndReplace('PBC_NO_DATA_AVAILABLE_PARCOURS', ':city', translate.fromApi(config.getLanguage(), city.title)) }}
+          </p>
+        </li>
+      </ul>
+      <!-- ./ ITEMS LIST P -->
+
+      <!-- ITEMS LIST : RENDERING INTERETS -->
+      <ul class='list' *ngIf="selectedTarget === true">
+        <li *ngFor="let interest of interests">
+          <parcours-list-item
+            (click)="onClickItem()"
+            target="interests"
+            color='#336699'
+            [curPositionUser]="curPositionUser"
+            [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
+            [audioScript]="translate.fromApi(config.getLanguage(), interest.audio_script)"
+            [isOpenDiscover]="false"
+            [geoloc]="interest.geoloc"
+            [handler]="parcoursListItemHandler"
+            [createdAt]="interest.updated_at"
+            [openId]="interest.id"
+            [interestsList]="getInterestsById(interest.id)"
+            [interestAddress]="translate.fromApi(config.getLanguage(), interest.address)"
+            [cityName]="translate.fromApi(config.getLanguage(), city.title)"
+            [previewTitle]="translate.fromApi(config.getLanguage(), interest.title)"
+            [previewDescription]="translate.fromApi(config.getLanguage(), interest.audio_script)">
+          </parcours-list-item>
+        </li>
+        <!-- Si aucun point d'intérêt -->
+        <li *ngIf="interests.length === 0">
+          <p class="msgNotDataAvailable">
+            {{ translate.getKeyAndReplace('PBC_NO_DATA_AVAILABLE_INTERESTS', ':city', translate.fromApi(config.getLanguage(), city.title)) }}
+          </p>
+        </li>
+      </ul>
+      <!-- ./ ITEMS LIST POI -->
+    </div>
+  </div>
+</ion-content>
