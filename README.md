@@ -14,9 +14,10 @@ https://nodejs.org/en/download/
 
 2) Dependencies 
 
-Install ionic
+Install ionic and cordova
 ```
 npm install -g ionic@3.19.1
+npm i -g cordova
 ```
 Install all the dependencies the project needs.
 ```
