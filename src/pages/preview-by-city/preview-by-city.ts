@@ -122,25 +122,6 @@ export class PreviewByCityPage {
       this.city = navParams.get('city');
       this.init();
     }
-
-    /** ONLY FOR DEV DEBUG.
-     *
-    this.city = {
-      id: "c661d0ba-f710-43d3-ac5b-79ea5e1fce8b",
-      title: {
-        fr: "Paris",
-        en: "Paris"
-      },
-      image: "cities/image/paris.jpg_1530627611",
-      geoloc: {
-        latitude: 48.8566,
-        longitude: 2.3522
-      },
-      force_lang: "fr",
-      updated_at: "2018-07-06 10:16:36"
-    };
-    this.init();
-    */
   }
 
   async init () {
@@ -154,8 +135,6 @@ export class PreviewByCityPage {
         }
 
         this.changeOptionListHandler();
-
-        // console.log('publish event');
         this.events.publish('previewByCity::initMapData', {
           'parcours': this.parcours,
           'interests': this.interests
@@ -165,11 +144,16 @@ export class PreviewByCityPage {
   }
 
   onUpdateLanguage = () => {
-    console.log('@onUpdateLanguage', Date.now());
     this.init();
+    this.updateCityData();
+  };
+
+  updateCityData () {
+    this.api.get('/public/cities/byId/' + this.city.id).subscribe(async (resp: any) => {
+      this.city = resp.data;
+    }, (onError) => {
+    });
   }
-
-
 
   focusAnElement (element: string) {
     const el: any = document.querySelector(element);
@@ -212,16 +196,15 @@ export class PreviewByCityPage {
       this.actionSortProximite()
         .then((data: any) => {
           this.events.publish('previewByCity::updateCurrentGeoLoc', data);
+        })
+        .catch(() => {
         });
     });
 
-    var connected = this.network.onConnect().subscribe(data => {
-      console.log(data)
+    const connected = this.network.onConnect().subscribe((data) => {
       this.init();
-      
-    }, error => console.error(error));
-   
-
+    }, (onError) => {
+    });
   }
 
   ionViewWillUnload () {
@@ -378,6 +361,8 @@ export class PreviewByCityPage {
         this.actionSortProximite()
           .then((data: any) => {
             this.events.publish('previewByCity::updateCurrentGeoLoc', data);
+          })
+          .catch(() => {
           });
         break;
     }
@@ -385,11 +370,30 @@ export class PreviewByCityPage {
 
   actionSortProximite () {
     return new Promise(async (success, error) => {
+      const stopLoaderTimeSec = 30;
+      let startLoaderTimeSec = 0;
+      let isDone = false;
+
       const loaderContent = '';
       const loader = this.alert.createLoader(loaderContent);
 
+      let intervalTimer = setInterval(() => {
+        if (stopLoaderTimeSec !== startLoaderTimeSec) {
+          startLoaderTimeSec += 1;
+        }
+
+        if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
+          loader.dismiss();
+          clearInterval(intervalTimer);
+          error();
+        } else if (startLoaderTimeSec === stopLoaderTimeSec) {
+          clearInterval(intervalTimer);
+        }
+      }, 1000);
+
       // Triage en fonction que la géolocalition est disponible ou non.
       await this.geoloc.getCurrentCoords().then(async (resp: any) => {
+        isDone = true;
         const {latitude, longitude} = resp;
 
         this.curPositionUser = {
@@ -410,6 +414,7 @@ export class PreviewByCityPage {
         success(resp);
       }, (err: any) => {
         this.changeOptionList('next');
+        isDone = true;
         loader.dismiss();
         error();
       });
@@ -462,7 +467,6 @@ export class PreviewByCityPage {
           });
         }
       }, (error: any) => {
-        console.log('error', error);
         res();
       });
     });
@@ -487,7 +491,6 @@ export class PreviewByCityPage {
           });
         }
       }, (error: any) => {
-        console.log('error', error);
         res();
       });
     });

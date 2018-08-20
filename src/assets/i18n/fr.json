@@ -27,15 +27,14 @@
 	"PLI_FILTER_PROXIMITE":"Autour de moi",
 	"PLI_FILTER_ALPHA":"Tout afficher",
 	"PLI_ACTION_DOWNLOAD_DATA":"hors-ligne",
-	"PLI_ACTION_DOWNLOAD_DATA_REMOVE":"hors-ligne",
-	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"Téléchargement en cours…",
+	"PLI_ACTION_DOWNLOAD_DATA_REMOVE":"Supprimer les données de téléchargement.",
+	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"téléchargement en cours…",
 	"PLI_LIST_START_PARCOURS":"démarrer le parcours",
 	"PLI_LIST_START_POI":"Démarrer le point d'intérêt",
 	"PLI_VAL_ITINERARY":"S'y rendre",
 	"PLI_BTN_END_POI":"Vu",
 	"PLI_BTN_END_POI_LAST":"Finir le parcours",
-
-
+  
 	"PLI_BTN_SEND_PB":"Signaler un problème",
 	"PLI_TAB_AUDIO_SCRIPT":"texte",
 	"PLI_TAB_GALLERY_IMAGE":"images",

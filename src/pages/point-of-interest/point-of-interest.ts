@@ -56,6 +56,7 @@ export class PointOfInterestPage {
   sortOrder: any = null;
   showScriptAudioSection: boolean = false;
   cityName: string = '';
+  cityId: string = '';
 
   cover = "";
   gallery;
@@ -95,6 +96,7 @@ export class PointOfInterestPage {
       }
 
       this.cityName = navParams.get('cityName');
+      this.cityId = this.navParams.get('cityId');
       this.curTarget = navParams.get('target');
       this.curId = navParams.get('openId');
       this.geoloc = navParams.get('geoloc');
@@ -111,13 +113,21 @@ export class PointOfInterestPage {
     });
   }
 
-  onUpdateLanguage() {
+  async onUpdateLanguage() {
     this.isOnUpdateLanguage = false;
-    this.initializeInterestsWithApi();
+    await this.initializeInterestsWithApi();
+
+    // MAJ Du titre de la page s'il s'agit d'un point d'intérêt seul
+    if (this.curTarget === 'interests' && this.interests.length > 0) {
+      this.pageName = this.interests[0].item.title[this.config.getLanguage()];
+    }
+
+    // MAJ du titre de la page s'il s'agit d'un parcours.
+    this.updateCityData();
   }
 
   ionViewWillEnter(){
-    if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours 
+    if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours
         this.playerAudioProvider.clearAll();
     }
   }
@@ -136,6 +146,17 @@ export class PointOfInterestPage {
 
   ionViewWillLeave() {
     this.isActivePage = false;
+  }
+
+  updateCityData () {
+    if (this.curTarget === 'parcours') {
+      this.api.get('/public/cities/byId/' + this.cityId).subscribe(async (resp: any) => {
+        if (resp.data.title[this.config.getLanguage()] !== 'undefined') {
+          this.pageName = resp.data.title[this.config.getLanguage()];
+        }
+      }, (onError) => {
+      });
+    }
   }
 
   /**
@@ -577,9 +598,9 @@ export class PointOfInterestPage {
       if (oPOI[this.curId]) {
         return oPOI[this.curId]['cover'];
 
-      } 
-      
-      if (oPOI[this.interests[this.activeItem].item.id]){   
+      }
+
+      if (oPOI[this.interests[this.activeItem].item.id]){
         return oPOI[this.interests[this.activeItem].item.id]['cover'];
       }
     }
@@ -607,7 +628,7 @@ export class PointOfInterestPage {
       }
 
 
-      if (oPOI[this.interests[this.activeItem].item.id]){   
+      if (oPOI[this.interests[this.activeItem].item.id]){
 
         var gallery = [];
         var i = 1;
@@ -634,7 +655,7 @@ export class PointOfInterestPage {
   }
 
   getAudio() {
-  
+
     var sPoi = localStorage.getItem("POI");
     if (sPoi != null) {
       var oPOI = JSON.parse(sPoi);
@@ -643,13 +664,13 @@ export class PointOfInterestPage {
         return oPOI[this.curId]['audio'];
       }
 
-      if (oPOI[this.interests[this.activeItem].item.id]){   
+      if (oPOI[this.interests[this.activeItem].item.id]){
         return oPOI[this.interests[this.activeItem].item.id]['audio'];
       }
     }
     return this.getData('audio', true) === '' ? '' : this.api.getAssetsUri(this.getData('audio', true));
   }
-  
+
 
 
 }

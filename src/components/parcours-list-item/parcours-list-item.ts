@@ -63,6 +63,7 @@ export class ParcoursListItemComponent {
   @Input() interestsList: Array < any > = [];
   @Input() sortOrder: any = null;
   @Input() cityName: string = '';
+  @Input() cityId: string = '';
 
   timeToObj = '';
   isShowTimeToObj: boolean = false;
@@ -149,7 +150,8 @@ export class ParcoursListItemComponent {
       'geoloc': this.geoloc,
       'curPositionUser': this.curPositionUser,
       'sortOrder': this.sortOrder,
-      'cityName': this.cityName
+      'cityName': this.cityName,
+      'cityId': this.cityId
     });
   }
 
@@ -248,7 +250,7 @@ export class ParcoursListItemComponent {
 
     loading.present();
 
-    
+
     if (this.parcourTime == "") {
       this.downloadPOI()
     } else {
@@ -256,7 +258,7 @@ export class ParcoursListItemComponent {
     }
 
     loading.dismiss();
-    
+
 
   }
 
@@ -283,7 +285,7 @@ export class ParcoursListItemComponent {
     var filename = poi['id'] + '--cover.jpeg';
     this.downloadFile(urlCover, filename, poi['id'], 'cover');
 
-    // Téléchargement de l'audio 
+    // Téléchargement de l'audio
     var urlAudio = this.api.getAssetsUri(poi['audio'][this.config.getLanguage()]);
     var filename = poi['id'] + '--' + this.config.getLanguage() + '.mp3';
     this.downloadFile(urlAudio, filename, poi['id'], 'audio');
@@ -319,7 +321,7 @@ export class ParcoursListItemComponent {
 
       oPOI[id][label] = imageURL;
 
-      // J'enregistre la date de téléchargement du POI 
+      // J'enregistre la date de téléchargement du POI
       oPOI[id]['date'] = Date.now();
 
       // Je converti en string

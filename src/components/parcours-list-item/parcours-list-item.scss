@@ -4,17 +4,16 @@ parcours-list-item {
 
   &:nth-child(odd) {
     background-color: #EAEAED;
-
-    .isDone {
-      background-color: dimgrey;
-    }
   }
 
   &:nth-child(even) {
     background-color: #F7F7F7;
 
-    .isDone {
-      background-color: dimgrey;
+  }
+
+  .isDone {
+    .contentPreview .info * {
+      color: #929090 !important;
     }
   }
 }
