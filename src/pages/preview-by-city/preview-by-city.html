@@ -20,7 +20,7 @@
       <!-- DARK SELECT BOX -->
       <div class='darkSelectBox'>
 
-        <button class="btnUpAndDown">
+        <button class="btnUpAndDown" [attr.title]="translate.getKey('PAGE_PBC_BTN_HIDE_MAP')">
           <ion-icon
             aria-hidden="true"
             class='openMenuItems'
@@ -30,7 +30,10 @@
         <ul class="switch__target__list">
           <!-- BTN PARCOURS -->
           <li class="item">
-            <button class="item__btn item__btn--left" [ngClass]="selectTargetParcours"
+            <button class="item__btn item__btn--left"
+                    [attr.title]="translate.getKey('PAGE_PBC_BTN_SHOW_PARCOURS')"
+                    [attr.aria-pressed]="!selectTargetPoints.isSelected"
+                    [ngClass]="selectTargetParcours"
                     (click)="onChangeSelectedTarget({'checked': false}, true)">
               <label>
                 {{ translate.getKey('PBC_ALT_PARCOURS') }}
@@ -39,7 +42,10 @@
           </li>
           <!-- BTN POINT D INTERET -->
           <li class="item">
-            <button class="item__btn item__btn--right" [ngClass]="selectTargetPoints"
+            <button class="item__btn item__btn--right"
+                    [attr.title]="translate.getKey('PAGE_PBC_BTN_SHOW_LANDMARKS')"
+                    [attr.aria-pressed]="selectTargetPoints.isSelected"
+                    [ngClass]="selectTargetPoints"
                     (click)="onChangeSelectedTarget({'checked': true}, true)">
               <label>
                 {{ translate.getKey('PBC_ALT_POI') }}

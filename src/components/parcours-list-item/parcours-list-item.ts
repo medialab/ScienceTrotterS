@@ -387,4 +387,12 @@ export class ParcoursListItemComponent {
     // }
   }
 
+  getDownloadBtnTitle() {
+    if (this.target === 'parcorus') {
+      return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_PARCOURS');
+    } else {
+      return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_LANDMARK');
+    }
+  }
+
 }

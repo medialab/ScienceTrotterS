@@ -41,22 +41,23 @@
 	"PLI_TAB_BIBLIOGRAPHY":"bibliographie",
 	"PLI_BTN_SHARE_REF":"Partager",
 
-  "PLI_ALERT_NO_INTERESTS_TITLE":"Erreur",
-  "PLI_ALERT_NO_INTERESTS_MESSAGE":"Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
-  "PLI_DISTANCE_PREFIX": "à",
+	"PLI_ALERT_NO_INTERESTS_TITLE":"Erreur",
+	"PLI_ALERT_NO_INTERESTS_MESSAGE":"Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
+	"PLI_DISTANCE_PREFIX": "à",
 
 	"PLI_BTN_PREV_ALT":"Point d'intérêt précèdent",
 	"PLI_BTN_NEXT_ALT":"Point d'intérêt suivant",
 
-  "PBC_ALT_POI":"Points d'intérêts",
+	"PBC_ALT_POI":"Points d'intérêts",
 	"PBC_ALT_PARCOURS":"Parcours",
 	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt n'est encore proposé à :city",
 	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours n'est proposé à :city",
 
-	"PLAYER_ACTION_STATE":"Player action state",
+	"PLAYER_ACTION_STATE":"Écouter la description audio",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",
 	"PLAYER_ACTION_VOLUME_UP":"volume +",
-	"PLAYER_ACTION_TEXT":"texte",
+	"PLAYER_ACTION_TEXT": "texte",
+	"PLAYER_ACTION_TEXT_ATTR_TITLE": "Transcription textuelle de la piste audio",
 
 	"C_BOX_MAP_USER_MARKER":"Vous êtes ici",
 
@@ -64,12 +65,26 @@
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer à nouveau la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
 
-  "MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
-  "MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
+	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
+	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
 
-  "MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
-  "MAIL_SHARE_BIBLIO_BODY": "",
+	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
+	"MAIL_SHARE_BIBLIO_BODY": "",
 
-  "MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
-  "MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]"
+	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
+	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]",
+
+	"COMP_BOX_MAP_BTN_GEOLOC": "Afficher ma position sur la carte",
+	"PAGE_PBC_BTN_HIDE_MAP": "Cacher la carte",
+	"PAGE_PBC_BTN_SHOW_LANDMARKS": "Afficher les points d'intérêts",
+	"PAGE_PBC_BTN_SHOW_PARCOURS": "Afficher les parcours",
+	"COMP_PLI_BTN_DOWNLOAD_PARCOURS": "Télécharger les données du parcours",
+	"COMP_PLI_BTN_DOWNLOAD_LANDMARK": "Télécharger les données du point d'intérêt",
+	"COMP_PLI_BTN_SHOW_PREVIEW": "Afficher plus de détails",
+
+	"PLI_BTN_INFORMATION": "Afficher les détails de ce point d'intérêt",
+	"PLI_BTN_NAVIGATION": "Itinéraire vers ce point d'intérêt",
+	"PLI_BTN_END_POI_ATTR_TITLE": "Terminer ce point d'intérêt",
+
+	"PLI_ICON_LANDMARK": "point d'intérêt"
 }

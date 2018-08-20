@@ -17,12 +17,12 @@
       {{ getData('address', true) }}
     </h2>
 
-    <button class='poi__info__btn poi__info__btn--L' [attr.alt]="translate.getKey('PLI_BTN_PREV_ALT')" *ngIf="showMoveBtn('prev')"
+    <button class='poi__info__btn poi__info__btn--L' [attr.title]="translate.getKey('PLI_BTN_PREV_ALT')" *ngIf="showMoveBtn('prev')"
       (click)="onClickMoveList('prev')">
       <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
     </button>
 
-    <button class='poi__info__btn poi__info__btn--R' [attr.alt]="translate.getKey('PLI_BTN_NEXT_ALT')" *ngIf="showMoveBtn('next')"
+    <button class='poi__info__btn poi__info__btn--R' [attr.title]="translate.getKey('PLI_BTN_NEXT_ALT')" *ngIf="showMoveBtn('next')"
       (click)="onClickMoveList('next')">
       <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
     </button>
@@ -34,7 +34,9 @@
 
     <!-- ITEM -->
     <li class="help__list__item">
-      <button id="btn_information" class="item__button" aria-expanded="false" (click)="onClickSetHelpItemActive('btn_information')">
+      <button id="btn_information" class="item__button"
+              [attr.title]="translate.getKey('PLI_BTN_INFORMATION')"
+              aria-expanded="false" (click)="onClickSetHelpItemActive('btn_information')">
         <span focusable="false" aria-hidden="true" class="icon icon-info"></span>
         <label>
           {{ sliceStr(getData('schedule', true), 30) }}
@@ -45,7 +47,9 @@
 
     <!-- ITEM -->
     <li class="help__list__item">
-      <button id="btn_navigation" class="item__button" aria-expanded="false" (click)="openMapToLocation()">
+      <button id="btn_navigation" class="item__button"
+              [attr.title]="translate.getKey('PLI_BTN_NAVIGATION')"
+              aria-expanded="false" (click)="openMapToLocation()">
         <span focusable="false" aria-hidden="true" class="icon icon-navigation"></span>
         <label>{{ translate.getKey('PLI_VAL_ITINERARY') }}</label>
       </button>
@@ -105,10 +109,13 @@
         [showAudioScriptListener]="showAudioScriptListener.bind(this)" [loadPlayer]="true"></player-audio>
     </section>
 
-    
+
 
     <section class="poi__section poi__section--isWhite section__bibliography">
-      <button class="poi__end__btn poi__end__btn--OrangeAndWhite" [ngClass]="isPOIIsDone()" (click)="btnEndPointOfInterest()">
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="isPOIIsDone()"
+              [attr.title]="translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
+              (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
     </section>
@@ -161,7 +168,10 @@
     <!-- ./ SECTION BIBLIOGRAPHY -->
 
     <section class="poi__section poi__section--isWhite section__bibliography">
-      <button class="poi__end__btn poi__end__btn--OrangeAndWhite" [ngClass]="isPOIIsDone()" (click)="btnEndPointOfInterest()">
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="isPOIIsDone()"
+              [attr.title]="translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
+              (click)="btnEndPointOfInterest()">
         {{ translate.getKey('PLI_BTN_END_POI') }}
       </button>
     </section>
