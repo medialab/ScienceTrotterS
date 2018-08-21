@@ -80,17 +80,17 @@ export class ParcoursListItemComponent {
 
 
   constructor(public localData: LocalDataProvider,
-    public translate: TranslateProvider,
-    public config: ConfigProvider,
-    public navParams: NavParams,
-    public events: Events,
-    public api: ApiProvider,
-    public navCtrl: NavController,
-    public fileTransfer: FileTransfer,
-    private file: File,
-    public network: Network,
-    public loader : LoadingController,
-    public playerAudioProvider : PlayerAudioProvider ) {
+              public translate: TranslateProvider,
+              public config: ConfigProvider,
+              public navParams: NavParams,
+              public events: Events,
+              public api: ApiProvider,
+              public navCtrl: NavController,
+              public fileTransfer: FileTransfer,
+              private file: File,
+              public network: Network,
+              public loader : LoadingController,
+              public playerAudioProvider : PlayerAudioProvider ) {
     this.fileTrans = this.fileTransfer.create();
   }
 
@@ -118,9 +118,9 @@ export class ParcoursListItemComponent {
    * @param e
    */
   handlerOnClickItemMap = ({
-    target,
-    id
-  }) => {
+                             target,
+                             id
+                           }) => {
     if (id === this.openId) {
       this.updateDiscoverStateOrOpen();
     }
@@ -247,9 +247,7 @@ export class ParcoursListItemComponent {
     let loading = this.loader.create({
       content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
     });
-
     loading.present();
-
 
     if (this.parcourTime == "") {
       this.downloadPOI()
@@ -257,9 +255,12 @@ export class ParcoursListItemComponent {
       this.downloadParcours();
     }
 
-    loading.dismiss();
-
-
+    let timerInterval = setInterval(() => {
+      if (!this.canBeDownload()) {
+        loading.dismiss();
+        clearInterval(timerInterval);
+      }
+    }, 500);
   }
 
   downloadParcours() {
@@ -314,7 +315,6 @@ export class ParcoursListItemComponent {
         oPOI = JSON.parse(sPoi);
       }
       // Je mets à jour le fichier concerné
-
       if (!oPOI[id]) {
         oPOI[id] = {};
       }
@@ -366,24 +366,22 @@ export class ParcoursListItemComponent {
       }
     }
 
-    return this.network.type != "none";
-
+    return this.network.type !== 'none';
   }
 
 
   getAudio() {
     // if (this.parcourTime) {
+    var sPoi = localStorage.getItem("Parcours");
 
-      var sPoi = localStorage.getItem("Parcours");
+    if (sPoi != null) {
+      var oPOI = JSON.parse(sPoi);
 
-      if (sPoi != null) {
-        var oPOI = JSON.parse(sPoi);
-
-        if (oPOI[this.openId]) {
-          return oPOI[this.openId]['audio'];
-        }
+      if (oPOI[this.openId]) {
+        return oPOI[this.openId]['audio'];
       }
-      return this.audioURI;
+    }
+    return this.audioURI;
     // }
   }
 
