@@ -1,13 +1,39 @@
-import {Component, ViewChild} from '@angular/core';
-import {Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {ApiProvider} from "../../providers/api";
-import {TranslateProvider} from "../../providers/translate";
-import {ConfigProvider} from "../../providers/config";
-import { Platform } from 'ionic-angular';
-import {LocalDataProvider} from "../../providers/localData";
-import {DataProvider} from "../../providers/data";
-import {AlertProvider} from "../../providers/alert";
-import {PlayerAudioProvider} from "../../providers/playerAudio";
+import {
+  Component,
+  ViewChild
+} from '@angular/core';
+import {
+  Content,
+  Events,
+  IonicPage,
+  NavController,
+  NavParams
+} from 'ionic-angular';
+import {
+  ApiProvider
+} from "../../providers/api";
+import {
+  TranslateProvider
+} from "../../providers/translate";
+import {
+  ConfigProvider
+} from "../../providers/config";
+import {
+  Platform
+} from 'ionic-angular';
+import {
+  LocalDataProvider
+} from "../../providers/localData";
+import {
+  DataProvider
+} from "../../providers/data";
+import {
+  AlertProvider
+} from "../../providers/alert";
+import {
+  PlayerAudioProvider
+} from "../../providers/playerAudio";
+import { Slides } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -16,6 +42,7 @@ import {PlayerAudioProvider} from "../../providers/playerAudio";
 })
 export class PointOfInterestPage {
   @ViewChild(Content) content: Content;
+  @ViewChild(Slides) slides: Slides;
 
   isActivePage: boolean = false;
   isOnUpdateLanguage: boolean = false;
@@ -29,11 +56,17 @@ export class PointOfInterestPage {
   sortOrder: any = null;
   showScriptAudioSection: boolean = false;
   cityName: string = '';
+  cityId: string = '';
 
-  _interests: Array<any> = new Array();
-  interests: Array<any> = new Array();
+  cover = "";
+  gallery;
+  galleryShowSlider: boolean = true;
+  audio = "";
 
-  getInterests () {
+  _interests: Array < any > = new Array();
+  interests: Array < any > = new Array();
+
+  getInterests() {
     return this._interests.filter((item: any) => {
       return item.isDone === false && (item.item.force_lang === null || item.item.force_lang === this.config.getLanguage())
     });
@@ -46,23 +79,24 @@ export class PointOfInterestPage {
     isHidden: false,
   };
 
-  constructor (public navCtrl: NavController,
-               public navParams: NavParams,
-               public api: ApiProvider,
-               public config: ConfigProvider,
-               public translate: TranslateProvider,
-               public alert: AlertProvider,
-               public events: Events,
-               public data: DataProvider,
-               public localData: LocalDataProvider,
-               public playerAudioProvider: PlayerAudioProvider,
-               public platform : Platform) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public api: ApiProvider,
+    public config: ConfigProvider,
+    public translate: TranslateProvider,
+    public alert: AlertProvider,
+    public events: Events,
+    public data: DataProvider,
+    public localData: LocalDataProvider,
+    public playerAudioProvider: PlayerAudioProvider,
+    public platform: Platform) {
     if (typeof navParams.get('interestsList') !== 'undefined') {
       if (navParams.get('sortOrder') !== null) {
         this.sortOrder = navParams.get('sortOrder');
       }
 
       this.cityName = navParams.get('cityName');
+      this.cityId = this.navParams.get('cityId');
       this.curTarget = navParams.get('target');
       this.curId = navParams.get('openId');
       this.geoloc = navParams.get('geoloc');
@@ -70,6 +104,8 @@ export class PointOfInterestPage {
       this.createdAt = navParams.get('createdAt');
       this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
       this.initInterestsList(navParams.get('interestsList'));
+
+      this.cover = this.getCoverPicture();
     }
 
     events.subscribe('config:updateLanguage', () => {
@@ -77,35 +113,64 @@ export class PointOfInterestPage {
     });
   }
 
-  onUpdateLanguage () {
+  async onUpdateLanguage() {
     this.isOnUpdateLanguage = false;
-    this.initializeInterestsWithApi();
+    await this.initializeInterestsWithApi();
+
+    // MAJ Du titre de la page s'il s'agit d'un point d'intérêt seul
+    if (this.curTarget === 'interests' && this.interests.length > 0) {
+      this.pageName = this.interests[0].item.title[this.config.getLanguage()];
+    }
+
+    // MAJ du titre de la page s'il s'agit d'un parcours.
+    this.updateCityData();
   }
 
-  ionViewDidEnter () {
+  ionViewWillEnter(){
+    if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours
+        this.playerAudioProvider.clearAll();
+    }
+  }
+
+  ionViewDidEnter() {
     this.isActivePage = true;
 
     if (this.isOnUpdateLanguage) {
       this.onUpdateLanguage();
     }
+
+    this.gallery = this.getGallery();
+    this.galleryShowSlider = this.showSliderPager();
+    this.audio = this.getAudio();
   }
 
-  ionViewWillLeave () {
+  ionViewWillLeave() {
     this.isActivePage = false;
+  }
+
+  updateCityData() {
+    if (this.curTarget === 'parcours') {
+      this.api.get('/public/cities/byId/' + this.cityId).subscribe(async (resp: any) => {
+        if (resp.data.title[this.config.getLanguage()] !== 'undefined') {
+          this.pageName = resp.data.title[this.config.getLanguage()];
+        }
+      }, (onError) => {
+      });
+    }
   }
 
   /**
    *
    * @param elementId
    */
-  scrollTo (elementId: string) {
+  scrollTo(elementId: string) {
     const yOffset = document.getElementById(elementId).offsetTop - 56;
     if (this.content.scrollTo !== null) {
       this.content.scrollTo(0, yOffset, 1000);
     }
   }
 
-  initInterestsList (interestsList: Array<any>) {
+  initInterestsList(interestsList: Array < any > ) {
     this._interests = interestsList.map((item: any) => {
       return {
         'isDone': false,
@@ -121,8 +186,8 @@ export class PointOfInterestPage {
    * @param curTarget
    * @param curId
    */
-  async initializeInterestsWithApi () {
-    console.log('@sortOrder', this.sortOrder);
+  async initializeInterestsWithApi() {
+    // console.log('@sortOrder', this.sortOrder);
 
     let showAlert = true;
     let geolocStr = '';
@@ -133,9 +198,9 @@ export class PointOfInterestPage {
       geolocStr = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
     }
 
-    let endpoint = this.curTarget === 'interests'
-      ? `/public/interests/byId/${this.curId}?lang=${this.config.getLanguage()}`
-      : `/public/interests/closest/?parcours=${this.curId}&geoloc=${geolocStr}&lang=${this.config.getLanguage()}`;
+    let endpoint = this.curTarget === 'interests' ?
+      `/public/interests/byId/${this.curId}?lang=${this.config.getLanguage()}` :
+      `/public/interests/closest/?parcours=${this.curId}&geoloc=${geolocStr}&lang=${this.config.getLanguage()}`;
 
     this.api.get(endpoint).subscribe((resp: any) => {
       if (resp.success && typeof resp.data === 'object') {
@@ -171,12 +236,12 @@ export class PointOfInterestPage {
    * @param dir
    * @returns {boolean}
    */
-  showMoveBtn (dir: string) {
+  showMoveBtn(dir: string) {
     let show = false;
 
     switch (dir) {
       case 'prev':
-        show =  this.activeItem === 0 ? false : true;
+        show = this.activeItem === 0 ? false : true;
         break;
       case 'next':
         if (this.interests.length > (this.activeItem + 1)) {
@@ -195,7 +260,7 @@ export class PointOfInterestPage {
    *
    * @param target
    */
-  setHelpItemActive (target: string) {
+  setHelpItemActive(target: string) {
     this.helpItemActive = target;
   }
 
@@ -203,15 +268,15 @@ export class PointOfInterestPage {
    *
    * @param action
    */
-  updateMainContentState (action: boolean) {
-    this.mainContentCls.isHidden = action ? false: true;
+  updateMainContentState(action: boolean) {
+    this.mainContentCls.isHidden = action ? false : true;
   }
 
   /**
    *
    * @param dir
    */
-  onClickMoveList (dir: string) {
+  onClickMoveList(dir: string) {
     this.playerAudioProvider.isPlayingAndStopThem();
 
     switch (dir) {
@@ -219,24 +284,30 @@ export class PointOfInterestPage {
         if (this.activeItem > 0) {
           this.activeItem = this.activeItem - 1;
           this.onClickSetHelpItemActive(null);
+          this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
         }
         break;
       case 'next':
         if (this.interests.length > (this.activeItem + 1)) {
           this.activeItem = this.activeItem + 1;
           this.onClickSetHelpItemActive(null);
+          this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
         } else {
           this.activeItem = 0;
         }
         break;
     }
+
+    this.gallery = this.getGallery();
+
+    this.slides.slideTo(0, 0, true);
   }
 
   /**
    *
    * @param target
    */
-  onClickSetHelpItemActive (target: string) {
+  onClickSetHelpItemActive(target: string) {
     if (target === null && this.helpItemActive !== '') {
       document.querySelector(`#${this.helpItemActive}`).setAttribute('aria-expanded', 'false');
       this.focusAnElement(`#${this.helpItemActive}`);
@@ -262,15 +333,15 @@ export class PointOfInterestPage {
    * Retourne le nombre de photo à afficher. (Il faut en afficher d'avantage sur ipad).
    * @returns {number}
    */
-  getNbPicture () {
-    if(this.platform.is('tablet')){
+  getNbPicture() {
+    if (this.platform.is('tablet')) {
       return 3;
     } else {
       return 1.5;
     }
   }
 
-  showBiblio () {
+  showBiblio() {
     const biblio = this.getData('bibliography', true);
     let isShow = false;
 
@@ -289,10 +360,10 @@ export class PointOfInterestPage {
    * @param isMainContent
    * @returns {any}
    */
-  getHelpItemActive (target: string, isMainContent: boolean = false) {
+  getHelpItemActive(target: string, isMainContent: boolean = false) {
     if (isMainContent && this.helpItemActive !== '') {
       return 'isActive';
-    }  else {
+    } else {
       return this.helpItemActive !== target ? 'isHidden' : 'isActive';
     }
   }
@@ -303,13 +374,12 @@ export class PointOfInterestPage {
    * @param translate
    * @returns {any}
    */
-  getData (key: string, translate: boolean = false) {
-    let value = "";
+  getData(key: string, translate: boolean = false) {
 
     if (typeof this.interests[this.activeItem] === 'undefined') {
       return '';
     } else {
-      if (! translate) {
+      if (!translate) {
         return this.interests[this.activeItem].item[key];
       } else {
         return this.translate.fromApi(this.config.getLanguage(), this.interests[this.activeItem].item[key]);
@@ -323,7 +393,7 @@ export class PointOfInterestPage {
    * @param length
    * @returns {string}
    */
-  sliceStr (str: string, length: number) {
+  sliceStr(str: string, length: number) {
     if (str.length > length) {
       return str.slice(0, (length - 3)) + '...';
     } else {
@@ -336,7 +406,7 @@ export class PointOfInterestPage {
    * Envoi d'un message pour signaler un problème
    * par mail.
    */
-  btnReportProblem () {
+  btnReportProblem() {
     const to = this.config.data.contact_mail;
     const subject = this.translate.getKeyAndReplaceWords('MAIL_REPORT_PROBLEM_SUBJECT', {
       'landmarkName': this.getData('title', true),
@@ -354,7 +424,7 @@ export class PointOfInterestPage {
    * TODO : dynamic data
    * Partage du point d'inrétêt courant par mail.
    */
-  btnShareRef () {
+  btnShareRef() {
     const subject = this.translate.getKeyAndReplaceWords('MAIL_SHARE_BIBLIO_SUBJECT', {
       'landmarkName': this.getData('title', true),
       'cityName': this.cityName
@@ -369,7 +439,7 @@ export class PointOfInterestPage {
     this.data.sendEmail('', subject, this.data.bbCodeToMail(body));
   }
 
-  btnEndPointOfInterest () {
+  btnEndPointOfInterest() {
     const data = {
       'uuid': this.getData('id'),
       'created_at': this.getData('updated_at'),
@@ -398,7 +468,7 @@ export class PointOfInterestPage {
       this.interests = this.getInterests();
 
       if (this.activeItem > 0) {
-        this.activeItem -=1;
+        this.activeItem -= 1;
       }
 
       this.onClickSetHelpItemActive(null);
@@ -407,38 +477,25 @@ export class PointOfInterestPage {
     this.playerAudioProvider.isPlayingAndStopThem();
   }
 
-  /**
-   *
-   * @returns {any}
-   */
-  getGalleryImages () {
-    if (typeof this.getData('gallery_image') === 'undefined') {
-      return [];
-    } else {
-      return Object
-        .values(this.getData('gallery_image'))
-        .map((img: string) => this.api.getAssetsUri(img));
-    }
-  }
-
-  focusAnElement (element: string) {
-    const el = <HTMLElement>document.querySelector(element);
+  focusAnElement(element: string) {
+    const el = < HTMLElement > document.querySelector(element);
     if (el !== null) {
       //noinspection TypeScriptUnresolvedFunction
       el.focus();
     }
   }
 
-  openMapToLocation () {
+  openMapToLocation() {
     const geoloc: any = this.getData('geoloc');
     const openMap = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`);
   }
 
-  showSliderPager () {
-    return this.getGalleryImages().length > 1;
+  showSliderPager() {
+    return this.gallery.length > 1;
+
   }
 
-  isPOIIsDone () {
+  isPOIIsDone() {
     const data = {
       'uuid': this.getData('id'),
       'created_at': this.getData('updated_at')
@@ -464,7 +521,7 @@ export class PointOfInterestPage {
      * Reteur à la page précèdente.
      */
     const okHandler = () => {
-      if (! okHandlerDone) {
+      if (!okHandlerDone) {
         okHandlerDone = true;
         this.goBackOrGoCitiesList();
       }
@@ -505,11 +562,11 @@ export class PointOfInterestPage {
       .toLowerCase();
   }
 
-  scrollToScriptAudio (hideIt: boolean = true) {
+  scrollToScriptAudio(hideIt: boolean = true) {
     if (hideIt) {
       const selectorId = 'titleAudioScript';
 
-      if (! this.showScriptAudioSection) {
+      if (!this.showScriptAudioSection) {
         this.showScriptAudioSection = true;
       }
       setTimeout(() => {
@@ -520,16 +577,100 @@ export class PointOfInterestPage {
     }
   }
 
-  showAudioScriptListener (nextState: boolean) {
-    console.log('nextState', nextState);
+  showAudioScriptListener(nextState: boolean) {
+    // console.log('nextState', nextState);
     this.scrollToScriptAudio(nextState);
   }
 
-  goBackOrGoCitiesList () {
+  goBackOrGoCitiesList() {
     if (this.navCtrl.canGoBack()) {
       this.navCtrl.pop();
     } else {
       this.navCtrl.setRoot('Cities');
     }
   }
+
+  getCoverPicture() {
+    var sPoi = localStorage.getItem("POI");
+    if (sPoi != null) {
+      var oPOI = JSON.parse(sPoi);
+
+      if (oPOI[this.curId]) {
+        return oPOI[this.curId]['cover'];
+
+      }
+
+      if (oPOI[this.interests[this.activeItem].item.id]){
+        return oPOI[this.interests[this.activeItem].item.id]['cover'];
+      }
+    }
+    return this.api.getAssetsUri(this.getData('header_image'));
+
+  }
+
+  getGallery() {
+    var sPoi = localStorage.getItem("POI");
+
+    if (sPoi != null) {
+      var oPOI = JSON.parse(sPoi);
+
+      if (oPOI[this.curId]) {
+        var gallery = [];
+        var i = 1;
+
+        while (i <= 5 && oPOI[this.curId]['gallery' + i]) {
+          gallery.push(oPOI[this.curId]['gallery' + i]);
+          i++;
+        }
+        return gallery;
+
+
+      }
+
+
+      if (oPOI[this.interests[this.activeItem].item.id]){
+
+        var gallery = [];
+        var i = 1;
+
+        while (i <= 5 && oPOI[this.interests[this.activeItem].item.id]['gallery' + i]) {
+          gallery.push(oPOI[this.interests[this.activeItem].item.id]['gallery' + i]);
+          i++;
+        }
+
+        return gallery;
+
+      }
+    }
+
+    if (typeof this.getData('gallery_image') === 'undefined') {
+      return [];
+    } else {
+      return Object
+        .values(this.getData('gallery_image'))
+        .map((img: string) => this.api.getAssetsUri(img));
+    }
+
+
+  }
+
+  getAudio() {
+
+    var sPoi = localStorage.getItem("POI");
+    if (sPoi != null) {
+      var oPOI = JSON.parse(sPoi);
+
+      if (oPOI[this.curId]) {
+        return oPOI[this.curId]['audio'];
+      }
+
+      if (oPOI[this.interests[this.activeItem].item.id]){
+        return oPOI[this.interests[this.activeItem].item.id]['audio'];
+      }
+    }
+    return this.getData('audio', true) === '' ? '' : this.api.getAssetsUri(this.getData('audio', true));
+  }
+
+
+
 }

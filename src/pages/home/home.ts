@@ -37,10 +37,6 @@ export class HomePage {
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
   }
 
-  ionViewDidLoad () {
-    console.log('home controller ionViewDidLoad');
-  }
-
   /**
    *
    * @private

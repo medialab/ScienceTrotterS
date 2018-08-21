@@ -9,14 +9,18 @@
           class="icon icon-poi"
           [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
   </div>
+
   <div class='content'>
     <div class='contentPreview'>
-      <button type="button"class='info' (click)="updateDiscoverStateOrOpen()" [attr.aria-expanded]="isOpenDiscover" [ngClass]="config.globalGlobalCss()">
+      <button type="button"class='info'
+              (click)="updateDiscoverStateOrOpen()"
+              [attr.title]="translate.getKey('COMP_PLI_BTN_SHOW_PREVIEW')"
+              [ngClass]="config.globalGlobalCss()">
         <h1>{{ previewTitle }}</h1>
         <ul class="infoParcours" *ngIf="target === 'parcours'">
           <li>
             <label class="labelToLeft">{{ interestsList.length }}</label>
-            <span aria-hidden="true" class="icon-poi" [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
+            <span aria-hidden="true" class="icon-poi" [attr.alt]="translate.getKey('PLI_ICON_LANDMARK')"></span>
           </li>
           <li>
             <label>{{ parcourTime }}</label>
@@ -36,7 +40,9 @@
         </ul>
       </button>
 
-      <button type="button" class='btnDownload' [ngClass]="config.globalGlobalCss()">
+      <button type="button" *ngIf="canBeDownload()" class='btnDownload'
+              [attr.title]="getDownloadBtnTitle()"
+              (click)="download()" [ngClass]="config.globalGlobalCss()">
         <span class='icon icon-download'></span>
         <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
         </label>
@@ -52,7 +58,7 @@
 
       <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
         <player-audio
-          [audioURI]="audioURI"
+          [audioURI]="getAudio()"
           [playerUUID]="('player__audio') + openId"
           [audioScript]="audioScript"
           [target]="target"
@@ -60,13 +66,17 @@
           [loadPlayer]="isOpenDiscover"></player-audio>
       </div>
       <div class='footer' [ngClass]="config.globalGlobalCss()">
-        <button type="button"
+        <button
+          [attr.title]="translate.getKey('PLI_LIST_START_PARCOURS')"
+          type="button"
           *ngIf="target === 'parcours' && interestsList.length > 0"
           (click)="openNext()"
           class='btnStart' [ngStyle]="{'background-color': color}">
           {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
         </button>
-        <button type="button"
+        <button
+          [attr.title]="translate.getKey('PLI_LIST_START_POI')"
+          type="button"
           *ngIf="target === 'interests'"
           (click)="openNext()"
           class='btnStart' [ngStyle]="{'background-color': color}">

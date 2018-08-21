@@ -9,16 +9,7 @@
       <h1>{{ translate.getKey('PAGE_NAME_CREDITS') }}</h1>
     </ion-card-header>
 
-    <ion-card-content>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin semper sit amet mauris a viverra. Cras auctor enim a commodo laoreet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla eu nisi justo. Nunc pretium urna ac dictum consequat. Pellentesque pretium rutrum velit, eu fermentum diam aliquet et. Vestibulum vel dolor quis urna ultrices congue. Proin convallis eros nisi, a venenatis ante tristique at. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris magna est, pharetra eu sapien ut, varius commodo elit. Suspendisse in purus id lectus vestibulum convallis.
-        <br><br>
-        Ut vitae nulla id nisi bibendum efficitur ut efficitur enim. Nulla condimentum vel justo non dignissim. Cras diam enim, vehicula in velit sit amet, condimentum sollicitudin turpis. Praesent gravida massa vitae tellus finibus tincidunt. Curabitur ipsum magna, mattis sit amet lobortis vel, commodo ut magna. Sed tincidunt erat non bibendum sollicitudin. Aliquam vel blandit lorem. Nam varius elementum metus vitae egestas. Quisque ultricies, metus ac sollicitudin tempor, felis est finibus justo, ut consequat odio augue sit amet ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-        <br><br>
-        Duis sit amet accumsan lacus, vel viverra lacus. Morbi nisl sapien, sagittis id ligula nec, fringilla laoreet tellus. Duis at ipsum scelerisque, elementum tortor congue, aliquet tellus. Pellentesque pellentesque urna enim, et commodo erat mattis vitae. Phasellus aliquet ipsum at ligula varius pellentesque. Aliquam dui ligula, pretium vel ante ut, tempor congue eros. Pellentesque egestas dignissim nunc, quis placerat diam tempus vel. Suspendisse elementum ultricies gravida. Sed quam elit, ultrices quis leo sodales, lacinia ultrices quam. Proin at posuere sem. Praesent tempor non justo vitae dignissim. Donec aliquam justo vel leo pretium, aliquam egestas est semper. Aenean rhoncus lectus et ligula fringilla ornare. Sed ornare ligula nec felis eleifend, vitae euismod justo ornare.
-        <br><br>
-        Nullam eu imperdiet nisl. Duis laoreet pellentesque ornare. Fusce tincidunt purus sit amet lobortis aliquet. Nunc nunc purus, tincidunt et euismod in, porta sed neque. Pellentesque finibus arcu eget gravida luctus. Integer quis pulvinar lectus, at sollicitudin dolor. In hac habitasse platea dictumst. Donec id metus diam. Quisque libero tortor, viverra placerat enim ut, scelerisque scelerisque dui. Suspendisse turpis enim, viverra quis arcu eu, ullamcorper varius ipsum.
-      </p>
+    <ion-card-content [innerHTML]="content">
     </ion-card-content>
   </ion-card>
 

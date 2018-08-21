@@ -24,7 +24,7 @@
         {{ translate.getKey('P_SETTING_FONT_SIZE') }}
       </h2>
       <div class="content contentCol">
-        <label class="letterOne">A</label>
+        <label class="letterOne" [attr.aria-hidden]="true">A</label>
         <ion-item class="rangeFontSize">
           <ion-range
             (ionChange)="updateFontSize()"
@@ -36,7 +36,7 @@
             color="secondary"></ion-range>
             class>
         </ion-item>
-        <label class="letterTwo" aria-hidden=“true>A</label>
+        <label class="letterTwo" [attr.aria-hidden]="true">A</label>
       </div>
     </div>
 
@@ -59,6 +59,12 @@
         </label>
       </div>
     </div>
+
+
+    <!-- DELETE MEDIA -->
+    <div class="settingItem themeBlock">
+        <button class="poi__end__btn" (click)="deleteMedia()" >{{ translate.getKey('P_SETTING_DELETE') }}</button>
+      </div>
 
     <!-- BRAND -->
     <div class="settingItem brandBlcok">

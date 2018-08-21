@@ -35,6 +35,7 @@
             aria-controls="otps__lg--fr"
             class="lg__item__btn"
             (click)="updateLanguage('fr')"
+            [attr.aria-pressed]="setLgActiveAria('fr')"
             [attr.aria-checked]="setLgActiveAria('fr')">
             <ion-icon aria-hidden="true" name="md-checkmark" *ngIf="setLgActiveAria('fr')"></ion-icon>
             <span>{{ translate.getKey('P_SETTING_FR') }}</span>
@@ -45,6 +46,7 @@
             aria-controls="otps__lg--en"
             class="lg__item__btn"
             (click)="updateLanguage('en')"
+            [attr.aria-pressed]="setLgActiveAria('en')"
             [attr.aria-checked]="setLgActiveAria('en')">
             <ion-icon aria-hidden="true" name="md-checkmark" *ngIf="setLgActiveAria('en')"></ion-icon>
             <span>{{ translate.getKey('P_SETTING_EN') }}</span>

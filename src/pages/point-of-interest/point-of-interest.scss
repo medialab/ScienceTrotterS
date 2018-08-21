@@ -37,7 +37,7 @@ $picture-size: 200px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: rosybrown;
+    background-color: #F7AB3F;
     index: -5;
   }
   &__info {
@@ -743,6 +743,7 @@ ion-slides {
 
 .isDoneBTN {
   background-color: #4d4d4d;
+  border: 1px solid #4d4d4d;
 }
 
 .hideSectionScriptAudio {

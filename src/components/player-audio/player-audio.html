@@ -6,7 +6,7 @@
     <li class="actionItem actionItemFastLeft hide--item">
       <button class="actionBtn"
               (click)="audioPlayer.actionFastLeft()"
-              [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
+              [attr.title]="translate.getKey('PLAYER_ACTION_FAST_LEFT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
       </button>
     </li>
@@ -14,7 +14,7 @@
     <!-- ACTION AUDIO STATE -->
     <li class="actionItem actionItemPause">
       <button id="actionBtnState" class="actionBtn"
-              [attr.aria-label]="translate.getKey('PLAYER_ACTION_STATE')"
+              [attr.title]="translate.getKey('PLAYER_ACTION_STATE')"
               [attr.aria-pressed]="audioPlayer.isPlaying"
               (click)="updateActionState()">
         <span aria-hidden="true" class="icon big"></span>
@@ -25,7 +25,7 @@
     <li class="actionItem actionItemFastRight hide--item">
       <button class="actionBtn"
               (click)="audioPlayer.actionFastRight()"
-              [attr.aria-label]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
+              [attr.title]="translate.getKey('PLAYER_ACTION_FAST_RIGHT')">
         <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
       </button>
     </li>
@@ -63,7 +63,7 @@
       <button
         (click)="audioPlayer.downVolume()"
         class="item__btn hideOnIOSDevices"
-        [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_DOWN')">
+        [attr.title]="translate.getKey('PLAYER_ACTION_VOLUME_DOWN')">
         <div class="icon">
           <ion-icon aria-hidden="true" name="volume-down"></ion-icon>
         </div>
@@ -76,7 +76,7 @@
       <button
         (click)="audioPlayer.upVolume()"
         class="item__btn"
-        [attr.aria-label]="translate.getKey('PLAYER_ACTION_VOLUME_UP')">
+        [attr.title]="translate.getKey('PLAYER_ACTION_VOLUME_UP')">
         <div class="icon">
           <ion-icon aria-hidden="true" name="volume-up"></ion-icon>
         </div>
@@ -89,7 +89,8 @@
       <button
         (click)="openAudioScriptPopup()"
         class="item__btn"
-        [attr.aria-label]="translate.getKey('PLAYER_ACTION_TEXT')">
+        [attr.aria-expanded]="showAudioScript"
+        [attr.title]="translate.getKey('PLAYER_ACTION_TEXT_ATTR_TITLE')">
         <div class="icon">
           <ion-icon aria-hidden="true" name="ios-paper-outline"></ion-icon>
         </div>

@@ -1,3 +1,4 @@
+import { PointOfInterestPage } from './../pages/point-of-interest/point-of-interest';
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Content, Events, MenuController, Nav, NavParams, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -17,6 +18,7 @@ import {DirectAccessPage} from "../pages/direct-access/direct-access";
 import {GeolocProvider} from "../providers/geoloc";
 import {AlertProvider} from "../providers/alert";
 import {DataProvider} from "../providers/data";
+
 
 @Component({
   templateUrl: 'app.html'
@@ -60,8 +62,10 @@ export class MyApp {
       splashScreen.hide();
       config.initialize();
 
-      // Set TTL to 12h
-      cache.setDefaultTTL(60 * 60 * 12);
+      statusBar.styleDefault();
+
+      // Set TTL to 31 days.
+      cache.setDefaultTTL(86400 * 31);
       // Keep our cached results when device is offline!
       cache.setOfflineInvalidate(false);
 
@@ -90,12 +94,14 @@ export class MyApp {
    *
    * @param {string} nextPage - Nom d'une page.
    */
-  onItemClick (event: any, nextPage: string = '') {
+  onItemClick (event: any, nextPage: string = '', componentName) {
     event.preventDefault();
-    this.menuCtrl.close();
 
-    if (nextPage !== '') {
+    if (nextPage !== '' && this.nav.getActive().name !== componentName) {
       this.nav.push(nextPage);
+      this.menuCtrl.close();
+    } else {
+      this.menuCtrl.close();
     }
   }
 
@@ -116,7 +122,11 @@ export class MyApp {
       saveToPhotoAlbum: true,
       cameraDirection: this.camera.Direction.BACK
     };
-    this.camera.getPicture(options);
+    this.camera.getPicture(options).then(() => {
+
+    }).catch(() => {
+
+    });
   }
 
   /**
@@ -145,12 +155,29 @@ export class MyApp {
   }
 
   /**
-   * TODO : sendCurrentPosition()
+   *
    */
   sendCurrentPosition () {
+    const stopLoaderTimeSec = 30;
+    let startLoaderTimeSec = 0;
+    let isDone = false;
     const loader = this.alert.createLoader();
 
+    let intervalTimer = setInterval(() => {
+      if (stopLoaderTimeSec !== startLoaderTimeSec) {
+        startLoaderTimeSec += 1;
+      }
+
+      if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
+        loader.dismiss();
+        clearInterval(intervalTimer);
+      } else if (startLoaderTimeSec === stopLoaderTimeSec) {
+        clearInterval(intervalTimer);
+      }
+    }, 1000);
+
     this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
+      isDone = true;
       loader.dismiss();
 
       const to = '';
@@ -162,6 +189,7 @@ export class MyApp {
 
       this.data.sendEmail(to, subject, body);
     }).catch((resp: any) => {
+      isDone = true;
       loader.dismiss();
     })
   }

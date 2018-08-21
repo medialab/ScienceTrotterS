@@ -30,13 +30,13 @@
       <li class="left__menu__item">
         <a href="/#/settings"
            class="left__menu__item__a"
-           (click)="onItemClick($event, 'Settings')">
+           (click)="onItemClick($event, 'Settings', 'SettingsPage')">
           <div class="left__menu__item__a__icon__block">
             <i aria-hidden="true"
                class="left__menu__item__a__icon__block__icon icon-settings"></i>
           </div>
           <div class="left__menu__item__a__title">
-            <h1>{{ translate.getKey('RIGHT_MENU_SETTINGS') }}</h1>
+            <span>{{ translate.getKey('RIGHT_MENU_SETTINGS') }}</span>
           </div>
         </a>
       </li>
@@ -50,7 +50,7 @@
                class="left__menu__item__a__icon__block__icon icon-photo"></i>
           </div>
           <div class="left__menu__item__a__title">
-            <h1>{{ translate.getKey('RIGHT_MENU_PHOTO') }}</h1>
+            <span>{{ translate.getKey('RIGHT_MENU_PHOTO') }}</span>
           </div>
         </button>
       </li>
@@ -64,7 +64,7 @@
                class="left__menu__item__a__icon__block__icon icon-send-position fixIconPos"></i>
           </div>
           <div class="left__menu__item__a__title">
-            <h1>{{ translate.getKey('RIGHT_MENU_GPS') }}</h1>
+            <span>{{ translate.getKey('RIGHT_MENU_GPS') }}</span>
           </div>
         </button>
       </li>
@@ -75,13 +75,13 @@
         <a href="/#/credits"
            (blur)="menuCtrl.close()"
            class="left__menu__item__a"
-           (click)="onItemClick($event, 'Credits')">
+           (click)="onItemClick($event, 'Credits', 'CreditsPage')">
           <div class="left__menu__item__a__icon__block">
             <i aria-hidden="true"
                class="left__menu__item__a__icon__block__icon icon-credits"></i>
           </div>
           <div class="left__menu__item__a__title">
-            <h1>{{ translate.getKey('RIGHT_MENU_CREDITS') }}</h1>
+            <span>{{ translate.getKey('RIGHT_MENU_CREDITS') }}</span>
           </div>
         </a>
       </li>
