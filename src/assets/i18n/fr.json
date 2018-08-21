@@ -34,7 +34,7 @@
 	"PLI_VAL_ITINERARY":"S'y rendre",
 	"PLI_BTN_END_POI":"Vu",
 	"PLI_BTN_END_POI_LAST":"Finir le parcours",
-  
+
 	"PLI_BTN_SEND_PB":"Signaler un problème",
 	"PLI_TAB_AUDIO_SCRIPT":"texte",
 	"PLI_TAB_GALLERY_IMAGE":"images",
@@ -86,5 +86,8 @@
 	"PLI_BTN_NAVIGATION": "Itinéraire vers ce point d'intérêt",
 	"PLI_BTN_END_POI_ATTR_TITLE": "Terminer ce point d'intérêt",
 
-	"PLI_ICON_LANDMARK": "point d'intérêt"
+	"PLI_ICON_LANDMARK": "point d'intérêt",
+
+  "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
+  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi."
 }

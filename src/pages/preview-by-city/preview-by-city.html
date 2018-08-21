@@ -61,12 +61,16 @@
       <div class="options__items__sort">
         <ul>
           <li [ngClass]="isOptionsActionSelected('alpha')">
-            <button type='button' (click)="changeOptionListAction('alpha')">
+            <button type='button' (click)="changeOptionListAction('alpha')"
+                    [attr.title]="translate.getKey('PLI_FILTER_ALPHA_TITLE')"
+                    [attr.aria-pressed]="isOptionsActionSelected('alpha').isSelected === true">
               {{ translate.getKey('PLI_FILTER_ALPHA') }}
             </button>
           </li>
           <li [ngClass]="isOptionsActionSelected('proximite')">
-            <button type='button' (click)="changeOptionListAction('proximite')">
+            <button type='button' (click)="changeOptionListAction('proximite')"
+                    [attr.title]="translate.getKey('PLI_FILTER_PROXIMITE_TITLE')"
+                    [attr.aria-pressed]="isOptionsActionSelected('proximite').isSelected === true">
               {{ translate.getKey('PLI_FILTER_PROXIMITE') }}
             </button>
           </li>
