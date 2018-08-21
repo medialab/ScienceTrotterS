@@ -122,7 +122,11 @@ export class MyApp {
       saveToPhotoAlbum: true,
       cameraDirection: this.camera.Direction.BACK
     };
-    this.camera.getPicture(options);
+    this.camera.getPicture(options).then(() => {
+
+    }).catch(() => {
+
+    });
   }
 
   /**

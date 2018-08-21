@@ -148,7 +148,7 @@ export class PointOfInterestPage {
     this.isActivePage = false;
   }
 
-  updateCityData () {
+  updateCityData() {
     if (this.curTarget === 'parcours') {
       this.api.get('/public/cities/byId/' + this.cityId).subscribe(async (resp: any) => {
         if (resp.data.title[this.config.getLanguage()] !== 'undefined') {
