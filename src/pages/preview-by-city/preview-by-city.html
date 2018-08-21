@@ -58,22 +58,19 @@
       <!-- ./ DARK SELECT BOX -->
 
       <!-- OPTIONS ITEMS SORT -->
-      <div class='optionsItemsSort'>
-        <button class='arrowIcon left' (click)="changeOptionList('prev')" id="btnSortItemNext">
-          <ion-icon aria-hidden="true" focusable="false" name="ios-arrow-back"></ion-icon>
-        </button>
-
-        <ul class='optionsList'>
-          <li [ngClass]="optionsItemClasse(item.id)" *ngFor="let item of otpionsItems">
-            <label class='optionName'>
-              {{ item.name() }}
-            </label>
+      <div class="options__items__sort">
+        <ul>
+          <li [ngClass]="isOptionsActionSelected('alpha')">
+            <button type='button' (click)="changeOptionListAction('alpha')">
+              {{ translate.getKey('PLI_FILTER_ALPHA') }}
+            </button>
+          </li>
+          <li [ngClass]="isOptionsActionSelected('proximite')">
+            <button type='button' (click)="changeOptionListAction('proximite')">
+              {{ translate.getKey('PLI_FILTER_PROXIMITE') }}
+            </button>
           </li>
         </ul>
-
-        <button class='arrowIcon right' (click)="changeOptionList('next')" id="btnSortItemNext">
-          <ion-icon aria-hidden="true" focusable="false" name="ios-arrow-forward"></ion-icon>
-        </button>
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->
 

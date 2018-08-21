@@ -34,7 +34,7 @@ page-preview-by-city {
 
     ul.list {
       width: 100%;
-      height: calc(100% - 56px - 35px);
+      height: calc(100% - 56px - 40px);
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
@@ -249,4 +249,44 @@ page-preview-by-city {
 
 .platform-android .openMenuItems {
   padding: 3px 0 0 0;
+}
+
+.options__items__sort {
+  background-color: #A0A0AC;
+  height: 40px;
+  width: 100%;
+
+  ul {
+    padding: 0 8px;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    align-items: center;
+    font-size: inherit;
+
+    li {
+      order: 2;
+      font-size: 0.7em;
+      max-width: 90px;
+
+      &.isSelected {
+        order: 1;
+        flex-grow: 1;
+        font-size: 1em;
+        max-width: inherit;
+      }
+
+      button {
+        font-size: inherit;
+        color: white;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        border: 0;
+      }
+    }
+  }
 }

@@ -93,6 +93,26 @@ export class PreviewByCityPage {
       optionsItem: true,
       isSelected: this.optionsItemsSelected === itemId
     }
+  };
+
+  changeOptionListAction(nextAction: string) {
+    const findAction = this.otpionsItems.find(item => item.action === nextAction);
+    if (typeof findAction !== 'undefined') {
+      this.optionsItemsSelected = findAction.id;
+
+      this.changeOptionListHandler();
+    }
+  }
+
+  isOptionsActionSelected(actionName: string) {
+    const classList = {
+      isSelected: false
+    };
+    const findAction = this.otpionsItems.find(item => item.action === actionName);
+    if (typeof findAction !== 'undefined') {
+      classList.isSelected = this.optionsItemsSelected === findAction.id;
+    }
+    return classList;
   }
 
   selectedTarget: boolean = false;
@@ -413,7 +433,7 @@ export class PreviewByCityPage {
 
         success(resp);
       }, (err: any) => {
-        this.changeOptionList('next');
+        this.isOptionsActionSelected('proximite');
         isDone = true;
         loader.dismiss();
         error();
