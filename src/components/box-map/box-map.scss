@@ -40,6 +40,11 @@ box-map {
         background-repeat: no-repeat;
       }
 
+      ion-icon {
+        color: white;
+        font-size: 32px;
+      }
+
       &--isLoading {
         .icon__geoloc {
           animation: spinning-circle 2s infinite linear;

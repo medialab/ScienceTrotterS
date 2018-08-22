@@ -7,6 +7,7 @@ import {ApiProvider} from "../../providers/api";
 import {ConfigProvider} from "../../providers/config";
 import { Device } from '@ionic-native/device';
 import {LocalDataProvider} from "../../providers/localData";
+import {DataProvider} from "../../providers/data";
 
 @Component({
   selector: 'player-audio',
@@ -37,6 +38,7 @@ export class PlayerAudioComponent {
   constructor (public navParams: NavParams,
                public api: ApiProvider,
                private device: Device,
+               public data: DataProvider,
                public localData: LocalDataProvider,
                public translate: TranslateProvider,
                public config: ConfigProvider,

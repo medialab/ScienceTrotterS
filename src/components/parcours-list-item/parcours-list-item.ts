@@ -15,7 +15,7 @@ import {
 import {
   Events,
   NavController,
-  NavParams
+  NavParams, Platform
 } from "ionic-angular";
 import {
   LocalDataProvider
@@ -64,6 +64,7 @@ export class ParcoursListItemComponent {
   @Input() sortOrder: any = null;
   @Input() cityName: string = '';
   @Input() cityId: string = '';
+  @Input() focusId: string = 'focusId';
 
   timeToObj = '';
   isShowTimeToObj: boolean = false;
@@ -86,6 +87,7 @@ export class ParcoursListItemComponent {
               public events: Events,
               public api: ApiProvider,
               public navCtrl: NavController,
+              public platform: Platform,
               public fileTransfer: FileTransfer,
               private file: File,
               public network: Network,
@@ -112,7 +114,6 @@ export class ParcoursListItemComponent {
     }
   }
 
-
   /**
    * @ref components/box-map
    * @param e
@@ -130,11 +131,7 @@ export class ParcoursListItemComponent {
    * Met à jour l'état du dropdown contenant les informations.
    */
   updateDiscoverStateOrOpen() {
-    if (this.target === 'interests') {
-      this.openNext();
-    } else {
-      this.isOpenDiscover = this.isOpenDiscover ? false : true;
-    }
+    this.isOpenDiscover = this.isOpenDiscover ? false : true;
   }
 
   /**
@@ -244,23 +241,25 @@ export class ParcoursListItemComponent {
   }
 
   download() {
-    let loading = this.loader.create({
-      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
-    });
-    loading.present();
+    if (this.canBeDownload()) {
+      let loading = this.loader.create({
+        content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+      });
+      loading.present();
 
-    if (this.parcourTime == "") {
-      this.downloadPOI()
-    } else {
-      this.downloadParcours();
-    }
-
-    let timerInterval = setInterval(() => {
-      if (!this.canBeDownload()) {
-        loading.dismiss();
-        clearInterval(timerInterval);
+      if (this.parcourTime == "") {
+        this.downloadPOI()
+      } else {
+        this.downloadParcours();
       }
-    }, 500);
+
+      let timerInterval = setInterval(() => {
+        if (!this.canBeDownload()) {
+          loading.dismiss();
+          clearInterval(timerInterval);
+        }
+      }, 500);
+    }
   }
 
   downloadParcours() {
@@ -338,35 +337,45 @@ export class ParcoursListItemComponent {
     });
   }
 
+  canBeDownloadCls() {
+    return {
+      isDownloaded: !this.canBeDownload()
+    };
+  }
+
   // retourne si le parcours/poi peut etre téléchargé et verifie qu'il soit a jour (le met à jour dans le cas contraire)
   canBeDownload() {
-    // On regarde si l'id du poi est dans le tableau du localstorage
-    var localStorageName = (this.parcourTime == "") ? "POI" : "Parcours";
-    var sPoi = localStorage.getItem(localStorageName);
+    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+      return false;
+    } else {
+      // On regarde si l'id du poi est dans le tableau du localstorage
+      var localStorageName = (this.parcourTime == "") ? "POI" : "Parcours";
+      var sPoi = localStorage.getItem(localStorageName);
 
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
+      if (sPoi != null) {
+        var oPOI = JSON.parse(sPoi);
 
-      if (oPOI[this.openId]) {
-        var updateDate = this.createdAt.replace(/-/g, "/");
-        var formatedDate = Date.parse(updateDate);
+        if (oPOI[this.openId]) {
+          var updateDate = this.createdAt.replace(/-/g, "/");
+          var formatedDate = Date.parse(updateDate);
 
-        if (formatedDate > oPOI[this.openId]['date']) {
-          console.log("mise à jour des données locales");
+          if (formatedDate > oPOI[this.openId]['date']) {
+            console.log("mise à jour des données locales");
 
-          if (localStorageName == "POI") {
-            this.downloadPOI();
-          } else {
-            this.downloadParcours();
+            if (localStorageName == "POI") {
+              this.downloadPOI();
+            } else {
+              this.downloadParcours();
+            }
+
           }
 
+          return false;
         }
-
-        return false;
       }
-    }
 
-    return this.network.type !== 'none';
+      return this.network.type !== 'none';
+    }
   }
 
 

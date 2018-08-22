@@ -10,6 +10,7 @@ import {TranslateProvider} from "../../providers/translate";
 import {GeolocProvider} from "../../providers/geoloc";
 import {ConfigProvider} from "../../providers/config";
 import {Events} from "ionic-angular";
+import {LocalDataProvider} from "../../providers/localData";
 
 @Component({
   selector: 'box-map',
@@ -56,6 +57,7 @@ export class BoxMapComponent {
               public configProvider: ConfigProvider,
               private dataProvider: DataProvider,
               public translate: TranslateProvider,
+              public localData: LocalDataProvider,
               private alert: AlertProvider,
               private geolocation: Geolocation,
               public events: Events) {
@@ -154,10 +156,12 @@ export class BoxMapComponent {
 
         for (const poi of data.interests) {
           if (typeof poi.api_data !== 'undefined') {
+            const colorTraceIsDone = '#929090';
+            const isTraceIsDone = this.localData.isLandmarkIsDone(poi.id, this.configProvider.getLanguage());
 
             // Création de la route.
             const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-              'color': data.color,
+              'color': (isTraceIsDone ? colorTraceIsDone : data.color),
               'weight': 5,
               'opacity': 0.65
             });
@@ -205,9 +209,14 @@ export class BoxMapComponent {
    * @param item
    * @returns {any}
    */
-  createAndAddMarker (target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true, color: string = '#1E155E') {
-    const markerURI = this.api.getRequestURI('/public/marker/get/' + color.substr(1));
-    
+  createAndAddMarker(target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true, color: string = '#1E155E', landmarkId: string = null) {
+    const colorMarkerIsDone = '929090';
+    const colorMarker = (this.localData.isLandmarkIsDone(landmarkId === null ? id : landmarkId, this.configProvider.getLanguage())
+      ? colorMarkerIsDone
+      : color.substr(1));
+
+    const markerURI = this.api.getRequestURI('/public/marker/get/' + colorMarker);
+
     const icon = leaflet.icon({
       iconUrl: markerURI,
       iconSize: [35,35],
@@ -361,7 +370,8 @@ export class BoxMapComponent {
             latitude,
             longitude,
             false,
-            parcours.color);
+            parcours.color,
+            poi.id);
 
           // Ajout du marker au groupe.
           cluster.addLayer(marker);
@@ -398,7 +408,8 @@ export class BoxMapComponent {
           item.id,
           item.title[this.configProvider.getLanguage()],
           latitude,
-          longitude);
+          longitude,
+          item.id);
 
         if (this.map !== null) {
           marker.addTo(this.map);

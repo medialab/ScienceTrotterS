@@ -12,7 +12,7 @@
 
   <div class='content'>
     <div class='contentPreview'>
-      <button type="button"class='info'
+      <button type="button"class='info' [attr.id]="focusId"
               (click)="updateDiscoverStateOrOpen()"
               [attr.title]="translate.getKey('COMP_PLI_BTN_SHOW_PREVIEW')"
               [ngClass]="config.globalGlobalCss()">
@@ -40,10 +40,13 @@
         </ul>
       </button>
 
-      <button type="button" *ngIf="canBeDownload()" class='btnDownload'
+      <button type="button" class='btnDownload'
+              [ngClass]="canBeDownloadCls()"
               [attr.title]="getDownloadBtnTitle()"
               (click)="download()" [ngClass]="config.globalGlobalCss()">
-        <span class='icon icon-download'></span>
+        <span class='icon icon-download'>
+          <ion-icon name="arrow-round-down"></ion-icon>
+        </span>
         <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
         </label>
       </button>

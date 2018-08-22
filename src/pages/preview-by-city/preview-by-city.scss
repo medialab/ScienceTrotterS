@@ -290,3 +290,73 @@ page-preview-by-city {
     }
   }
 }
+
+#previewByCityContent.day {
+
+  .btnUpAndDown {
+    background-color: white;
+
+    ion-icon {
+      color: black;
+    }
+  }
+
+  .darkSelectBox {
+    background-color: white !important;
+
+    .switch__target__list {
+      .item {
+        button {
+          color: black;
+          background-color: white;
+
+          &.isSelected {
+            background-color: #E2DFDF;
+            border-color: #E2DFDF;
+          }
+        }
+      }
+    }
+  }
+
+  .options__items__sort {
+    background-color: white;
+    border-top: 1px solid #B7B5B6;
+    border-bottom: 1px solid #B7B5B6;
+        ul {
+      li {
+        button {
+          color: black !important;
+        }
+      }
+    }
+  }
+
+  #list-parcours, #list-point-of-interest {
+    background-color: #F9F6F6 !important;
+
+    li {
+      &:nth-child(odd) {
+        parcours-list-item {
+          background-color: #F9F6F6 !important;
+        }
+      }
+
+      &:nth-child(even) {
+        parcours-list-item {
+          background-color: white !important;
+        }
+      }
+    }
+  }
+
+  box-map {
+    .btn__geoloc {
+      background-color: white;
+
+      ion-icon {
+        color: black;
+      }
+    }
+  }
+}

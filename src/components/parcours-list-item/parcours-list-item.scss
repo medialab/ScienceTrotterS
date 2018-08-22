@@ -12,6 +12,10 @@ parcours-list-item {
   }
 
   .isDone {
+    .leftIconColor {
+      background-color: #929090 !important;
+    }
+
     .contentPreview .info * {
       color: #929090 !important;
     }
@@ -164,17 +168,34 @@ parcours-list-item {
         align-items: center;
         background-color: transparent;
 
-        .icon {
-          width: 25px;
-          height: 25px;
-          margin: 3px 0;
-
-          &.icon-download {
-            background-image: url('../assets/imgs/parcours-list/icon_download.svg');
+        &.isDownloaded {
+          label {
+            color: #929090 !important;
           }
 
-          &.icon-download-remove {
-            background-image: url('../assets/imgs/parcours-list/icon_download_remove.svg');
+          .icon {
+            border-color: #929090 !important;
+          }
+
+          .icon-download {
+            ion-icon {
+              display: none;
+            }
+          }
+        }
+
+        .icon {
+          width: 30px;
+          height: 30px;
+          margin: 3px 0;
+          border: 1px solid black;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          ion-icon {
+            font-size: 16px !important;
           }
         }
 

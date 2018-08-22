@@ -100,7 +100,7 @@
   </ul>
 
   <div class="audio__script" *ngIf="showAudioScript">
-    <p [innerHTML]="audioScript"></p>
+    <p [innerHTML]="data.bbCodeToHtml(audioScript)"></p>
   </div>
 
   <audio controls [attr.id]="playerUUID" class="hidden__audio__player">

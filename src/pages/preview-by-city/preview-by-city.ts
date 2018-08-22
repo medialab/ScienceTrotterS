@@ -25,6 +25,8 @@ export class PreviewByCityPage {
     'latitude': ''
   };
 
+  lastScrollKnown: number = 0;
+
   // Variables contenant les données non trié.
   _parcours: Array<any> = new Array();
   _interests: Array<any> = new Array();
@@ -208,7 +210,7 @@ export class PreviewByCityPage {
       setTimeout(() => {this.parcoursListItemHandler = null;}, 250);
 
       // Ouverture de la liste.
-      this.openContentList();
+      this.openContentList(data);
     });
 
     // -->.
@@ -226,7 +228,7 @@ export class PreviewByCityPage {
     }, (onError) => {
     });
   }
-
+  
   ionViewWillUnload () {
     this.eventUpdateLanguage = null;
     this.events.unsubscribe('config:updateLanguage', this.onUpdateLanguage);
@@ -235,8 +237,35 @@ export class PreviewByCityPage {
     this.events.publish('previewByCity::ionViewWillLeave');
   }
 
+  ionViewDidLoad() {
+    document.querySelector('#previewByCityContent .scroll-content').addEventListener('touchstart', (event) => {
+      const curPosition = document.querySelector('#previewByCityContent .scroll-content').scrollTop;
+      this.lastScrollKnown = curPosition;
 
+      console.log('touchstart', curPosition);
+    });
 
+    document.querySelector('#previewByCityContent .scroll-content').addEventListener('touchend', (event) => {
+      console.log('touchend', event);
+      const nextPosition = document.querySelector('#previewByCityContent .scroll-content').scrollTop;
+
+      console.log('nextPosition', nextPosition, 'lastScrollKnown', this.lastScrollKnown);
+
+      setTimeout(() => {
+        if (nextPosition > this.lastScrollKnown && this.contentListClass.isOpen === false) {
+          // Ouvrir.
+          this.openContentList();
+        }
+
+        if (nextPosition < this.lastScrollKnown && this.contentListClass.isOpen === true) {
+          // Fermer.
+          this.openContentList();
+        }
+
+        this.lastScrollKnown = nextPosition;
+      }, 200);
+    });
+  }
 
   /**
    *
@@ -275,7 +304,7 @@ export class PreviewByCityPage {
   /**
    *
    */
-  openContentList() {
+  openContentList(data: any = null) {
     const duration = 570;
     const selector = '#previewByCityContent .scroll-content';
 
@@ -289,6 +318,13 @@ export class PreviewByCityPage {
 
       if (contentHeight !== null) {
         this.scrollToDiv(selector, contentHeight.offsetHeight, duration);
+
+        if (data !== null) {
+          setTimeout(() => {
+            const itemIdSelector = '#' + data.target + '-' + data.id;
+            this.focusAnElement(itemIdSelector);
+          }, 300);
+        }
       }
     }
   }
@@ -301,6 +337,10 @@ export class PreviewByCityPage {
     if (! this.contentListClass.isOpen) {
       this.openContentList();
     }
+  }
+
+  handleScroll(e: any) {
+    console.log('handleScroll');
   }
 
   /**

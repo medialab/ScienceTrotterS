@@ -723,8 +723,6 @@ footer {
       }
     }
   }
-
-
 }
 
 ion-slides {
@@ -748,4 +746,10 @@ ion-slides {
 
 .hideSectionScriptAudio {
   display: none !important;
+}
+
+#poiMainContent.night {
+  .poi__section--isWhite {
+    background-color: #D2D7D3 !important;
+  }
 }

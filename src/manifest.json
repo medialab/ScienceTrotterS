@@ -14,7 +14,7 @@
   "target": "browser",
 
   "configuration": {
-    "contact_mail": "managers@thenetgroup.net",
+    "contact_mail": "forccast.controverses@gmail.com",
     "endpoint": {
       "data": "https://api-sts.actu.com/",
       "assets": "https://api-sts.actu.com/ressources/upload/"

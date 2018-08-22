@@ -198,6 +198,19 @@ export class LocalDataProvider {
     }
   }
 
+  isLandmarkIsDone(landmarkId: string, language: string) {
+    const key = 'sts::statusPOI';
+    let data = this.getAsObject(key);
+
+    if (typeof data[language] === 'undefined') {
+      return false;
+    } else {
+      const itemId = data[language].findIndex(i => i.uuid === landmarkId);
+
+      return itemId !== -1;
+    }
+  }
+
   /**
    * Log des écoutes des audios.
    * @param target - "parcours" ou "interests"

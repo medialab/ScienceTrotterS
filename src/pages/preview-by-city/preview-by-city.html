@@ -2,7 +2,7 @@
   {{ translate.fromApi(config.getLanguage(), city.title) }}
 </main-header>
 
-<ion-content id="previewByCityContent" [ngClass]="config.globalGlobalCss()" *ngIf="city !== null">
+<ion-content id="previewByCityContent" [ngClass]="config.globalGlobalCss()" *ngIf="city !== null" (scroll)="handleScroll($event)">
 
   <div class='parcoursListContent'>
     <div id='map' #map class='map'>
@@ -79,12 +79,13 @@
       <!-- ./ OPTIONS ITEMS SORT -->
 
       <!-- ITEMS LIST : RENDERING PARCOURS-->
-      <ul class='list' *ngIf="selectedTarget === false">
+      <ul class='list' *ngIf="selectedTarget === false" id="list-parcours">
         <li *ngFor="let parcour of parcours">
           <parcours-list-item
             (click)="onClickItem()"
             target="parcours"
             [color]="parcour.color"
+            [focusId]="('parcours-' + parcour.id)"
             [audioURI]="translate.fromApi(config.getLanguage(), parcour.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), parcour.audio))"
             [audioScript]="translate.fromApi(config.getLanguage(), parcour.audio_script)"
             [isOpenDiscover]="false"
@@ -112,12 +113,13 @@
       <!-- ./ ITEMS LIST P -->
 
       <!-- ITEMS LIST : RENDERING INTERETS -->
-      <ul class='list' *ngIf="selectedTarget === true">
+      <ul class='list' *ngIf="selectedTarget === true" id="list-point-of-interest">
         <li *ngFor="let interest of interests">
           <parcours-list-item
             (click)="onClickItem()"
             target="interests"
             color='#336699'
+            [focusId]="('point-of-interest-' + interest.id)"
             [curPositionUser]="curPositionUser"
             [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
             [audioScript]="translate.fromApi(config.getLanguage(), interest.audio_script)"

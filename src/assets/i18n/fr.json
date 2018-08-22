@@ -69,7 +69,7 @@
 	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
 
 	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
-	"MAIL_SHARE_BIBLIO_BODY": "",
+	"MAIL_SHARE_BIBLIO_BODY": "Mens sana in corpore sano ! [jumpLine]",
 
 	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
 	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]",
