@@ -205,9 +205,11 @@ export class BoxMapComponent {
    * @param item
    * @returns {any}
    */
-  createAndAddMarker (target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true) {
+  createAndAddMarker (target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true, color: string = '#1E155E') {
+    const markerURI = this.api.getRequestURI('/public/marker/get/' + color.substr(1));
+    
     const icon = leaflet.icon({
-      iconUrl: 'assets/imgs/map/marker.svg',
+      iconUrl: markerURI,
       iconSize: [35,35],
       iconAnchor: [16,35],
       popupAnchor:  [0,-37]
@@ -260,7 +262,7 @@ export class BoxMapComponent {
    * @param time
    * @returns {string}
    */
-  clusterGroupTPL (bgColor: string, nb: string, time: string) {
+  clusterGroupTPL(bgColor: string, nb: string, time: string) {
     return `<div class='cluster' style='background-color: ${bgColor}'>`
       + `<div><i class="icon icon--clock"></i><span>${time}</span></div></div>`
       ;
@@ -358,7 +360,8 @@ export class BoxMapComponent {
             poi.title[this.configProvider.getLanguage()],
             latitude,
             longitude,
-            false);
+            false,
+            parcours.color);
 
           // Ajout du marker au groupe.
           cluster.addLayer(marker);

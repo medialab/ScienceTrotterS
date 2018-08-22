@@ -471,6 +471,7 @@ export class PointOfInterestPage {
         this.activeItem -= 1;
       }
 
+      this.scrollTo('poiMainContent');
       this.onClickSetHelpItemActive(null);
     }
 
