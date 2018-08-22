@@ -1,6 +1,6 @@
 import { Network } from '@ionic-native/network';
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {App, Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {App, Content, Events, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import leaflet from 'leaflet';
 import {ConfigProvider} from "../../providers/config";
@@ -98,11 +98,15 @@ export class PreviewByCityPage {
   };
 
   changeOptionListAction(nextAction: string) {
-    const findAction = this.otpionsItems.find(item => item.action === nextAction);
-    if (typeof findAction !== 'undefined') {
-      this.optionsItemsSelected = findAction.id;
+    if (nextAction === 'proximite' && this.isNetWorkAvailable() === false) {
+      return null;
+    } else {
+      const findAction = this.otpionsItems.find(item => item.action === nextAction);
+      if (typeof findAction !== 'undefined') {
+        this.optionsItemsSelected = findAction.id;
 
-      this.changeOptionListHandler();
+        this.changeOptionListHandler();
+      }
     }
   }
 
@@ -135,6 +139,7 @@ export class PreviewByCityPage {
               public navParams: NavParams,
               public geoloc: GeolocProvider,
               public config: ConfigProvider,
+              public platform: Platform,
               public alert: AlertProvider,
               public api: ApiProvider,
               public events: Events,
@@ -147,6 +152,10 @@ export class PreviewByCityPage {
   }
 
   async init () {
+    if (this.isNetWorkAvailable() === false) {
+      this.optionsItemsSelected = 1;
+    }
+
     this.loadInterests().then(() => {
       this.loadParcours().then(() => {
 
@@ -175,6 +184,14 @@ export class PreviewByCityPage {
       this.city = resp.data;
     }, (onError) => {
     });
+  }
+
+  isNetWorkAvailable() {
+    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+      return true;
+    } else {
+      return this.network.type !== 'none';
+    }
   }
 
   focusAnElement (element: string) {
@@ -228,7 +245,7 @@ export class PreviewByCityPage {
     }, (onError) => {
     });
   }
-  
+
   ionViewWillUnload () {
     this.eventUpdateLanguage = null;
     this.events.unsubscribe('config:updateLanguage', this.onUpdateLanguage);
@@ -430,7 +447,7 @@ export class PreviewByCityPage {
 
   actionSortProximite () {
     return new Promise(async (success, error) => {
-      const stopLoaderTimeSec = 30;
+      const stopLoaderTimeSec = 10;
       let startLoaderTimeSec = 0;
       let isDone = false;
 
