@@ -33,6 +33,7 @@ export class HomePage {
               public platform: Platform,
               public api: ApiProvider,
               public alert: AlertProvider) {
+    console.log('homz page');
     this._init();
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
   }

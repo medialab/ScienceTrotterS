@@ -15,6 +15,8 @@ export class MainHeaderComponent {
               public config: ConfigProvider,
               public translate: TranslateProvider) {
 
+    console.log('main header');
+
     setInterval(() => {
       this.config.getMenuState();
     }, 1000);
@@ -24,6 +26,9 @@ export class MainHeaderComponent {
    *
    */
   goBack () {
+    console.log('go back');
+
+
     if (this.navCtrl.canGoBack()) {
       this.navCtrl.pop();
     } else {

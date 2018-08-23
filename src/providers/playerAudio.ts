@@ -32,9 +32,9 @@ export class PlayerAudioProvider {
    * @returns {Promise<void>}
    */
   async isPlayingAndStopThem (curUUID: string = '') {
-    await Object.values(this.tracks).map((item: any) => {
-      if (item.isPlaying && item.uuid !== curUUID) {
-        item.updateActionState();
+    await Object.keys(this.tracks).map((itemId: any) => {
+      if (this.tracks[itemId].isPlaying && this.tracks[itemId].uuid !== curUUID) {
+        this.tracks[itemId].updateActionState();
       }
     });
 

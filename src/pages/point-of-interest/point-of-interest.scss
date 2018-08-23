@@ -25,6 +25,22 @@ page-point-of-interest {
   }
 }
 
+
+.platform-ios9 {
+  page-point-of-interest {
+    ion-content {
+      height: calc(100% - 60px) !important;
+      margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
+    }
+
+    .btn__share {
+      &__icon {
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
 $picture-size: 200px;
 
 .poi {
@@ -37,7 +53,7 @@ $picture-size: 200px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: #F7AB3F;
+    background-color: black;
     index: -5;
   }
   &__info {
@@ -46,18 +62,24 @@ $picture-size: 200px;
     text-align: center;
     padding: .7em 0em;
     z-index: 200;
-    display: grid;
-    grid-template-columns: 3.5em 1fr 3.5em;
-    grid-template-areas: "L T R" "L S R";
-    &--title {
-      grid-area: T;
-      font-size: 1.2em;
-      text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+    .infoContent {
+      flex-grow: 1;
+
+      .infoTitle {
+        font-size: 1.2em;
+        text-transform: uppercase;
+      }
+      .infoSubtitle {
+        font-size: 1em;
+      }
     }
-    &--subtitle {
-      grid-area: S;
-      font-size: 1em;
-    }
+
     .poi__marker{
       content: "";
       background: url('../assets/imgs/poi/poi_marker.svg') no-repeat bottom;
@@ -68,20 +90,24 @@ $picture-size: 200px;
       transform: translateX(-50%);
       position: absolute;
     }
-    &__btn {
-      background-color: transparent;
-      color: white;
-      font-size: 1.5em;
 
-      label {
-        cursor: pointer;
-      }
+    .btnContainer {
+      width: 35px;
+      min-width: 35px;
+      height: 100%;
 
-      &--L {
-        grid-area: L;
-      }
-      &--R {
-        grid-area: R;
+      &__btn {
+        background-color: transparent;
+        color: white;
+        font-size: 1.5em;
+        width: 35px;
+        min-width: 35px;
+        height: 100%;
+
+        label {
+          cursor: pointer;
+        }
+
       }
     }
   }
@@ -576,11 +602,13 @@ $picture-size: 200px;
 .section__gallery_image {
   .poi__section__content {
     height: auto;
+    min-height: 200px;
   }
-
+  
   ion-slide.swiper-slide {
     // left: 15%;
   }
+
   .swiper-pagination-bullet {
     $size: 18px;
     background-color: #fff;
@@ -685,7 +713,8 @@ footer {
     font-size: inherit;
 
     &__item {
-      flex-grow: 1;
+      width: 33.3333%;
+      margin: auto;
 
       .item__button {
         width: 100%;

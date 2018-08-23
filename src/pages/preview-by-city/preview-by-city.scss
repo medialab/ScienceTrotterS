@@ -1,7 +1,7 @@
 .app-root-ios {
   page-preview-by-city {
     .contentList {
-      height: calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px);
+      height: calc(100% - 70px - 40px - 56px);
       bottom: calc(0px - calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px - 30%) + 56px);
     }
   }
@@ -12,6 +12,14 @@
     .contentList {
       height: calc(100vh - #{$mainHeaderHeight} - 70px);
       bottom: calc(0px - calc(100vh - #{$mainHeaderHeight} - 70px - 30%) + 56px);
+    }
+  }
+}
+
+.platform-ios9 {
+  page-preview-by-city {
+    ul.list {
+      display: block !important;
     }
   }
 }
@@ -34,8 +42,9 @@ page-preview-by-city {
 
     ul.list {
       width: 100%;
-      height: calc(100% - 56px - 40px);
-      display: flex;
+      height: calc(100% - 56px - 40px) !important;
+
+      display: block;
       flex-direction: column;
       flex-wrap: nowrap;
       overflow-y: scroll;
@@ -48,6 +57,10 @@ page-preview-by-city {
         padding: 20px;
       }
 
+      li {
+        height: auto;
+        min-height: 40px;
+      }
     }
 
     ul.list {
@@ -76,7 +89,7 @@ page-preview-by-city {
     flex-wrap: nowrap;
     position: absolute;
     width: 100%;
-    background-color: blue;
+    background-color: white;
     transition: 0.4s ease-out;
     z-index: 999;
 
@@ -196,6 +209,8 @@ page-preview-by-city {
     .item {
       width: 50%;
       min-width: 50%;
+      height: 40px;
+      min-width: 40px;
 
       &__btn {
         width: 100%;

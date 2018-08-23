@@ -10,24 +10,29 @@
   <div class="poi__info">
     <i aria-hidden="true" class="poi__marker"></i>
 
-    <h1 class="poi__info--title">
-      {{ getData('title', true) }}
-    </h1>
-    <h2 class="poi__info--subtitle">
-      {{ getData('address', true) }}
-    </h2>
+    <div class="btnContainer">
+      <button class='btnContainer__btn' [attr.title]="translate.getKey('PLI_BTN_PREV_ALT')" *ngIf="showMoveBtn('prev')"
+              (click)="onClickMoveList('prev')">
+        <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
+      </button>
+    </div>
 
-    <button class='poi__info__btn poi__info__btn--L' [attr.title]="translate.getKey('PLI_BTN_PREV_ALT')" *ngIf="showMoveBtn('prev')"
-      (click)="onClickMoveList('prev')">
-      <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
-    </button>
+    <div class="infoContent">
+      <h1 class="infoTitle">
+        {{ getData('title', true) }}
+      </h1>
+      <h2 class="infoSubtitle">
+        {{ getData('address', true) }}
+      </h2>
+    </div>
 
-    <button class='poi__info__btn poi__info__btn--R' [attr.title]="translate.getKey('PLI_BTN_NEXT_ALT')" *ngIf="showMoveBtn('next')"
-      (click)="onClickMoveList('next')">
-      <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
-    </button>
+    <div class="btnContainer">
+      <button class='btnContainer__btn' [attr.title]="translate.getKey('PLI_BTN_NEXT_ALT')" *ngIf="showMoveBtn('next')"
+              (click)="onClickMoveList('next')">
+        <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
+      </button>
+    </div>
   </div>
-
 
   <!-- HELP LIST -->
   <ul class="help__list">
@@ -105,8 +110,8 @@
 
     <section class="poi__section poi__section--isWhite section__player__audio">
       <player-audio [target]="curTarget" [audioURI]="audio"
-        [playerUUID]="('player__audio') + getData('id')" [uuid]="getData('id')" [audioScript]="getData('audio_script', true)"
-        [showAudioScriptListener]="showAudioScriptListener.bind(this)" [loadPlayer]="true"></player-audio>
+                    [playerUUID]="('player__audio') + getData('id')" [uuid]="getData('id')" [audioScript]="getData('audio_script', true)"
+                    [showAudioScriptListener]="showAudioScriptListener.bind(this)" [loadPlayer]="true"></player-audio>
     </section>
 
 

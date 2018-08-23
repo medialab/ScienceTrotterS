@@ -330,6 +330,8 @@ export class ParcoursListItemComponent {
 
       if (this.parcourTime != "") {
         this.getAudio();
+
+
       }
 
     }, (error) => {

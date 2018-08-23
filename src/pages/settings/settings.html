@@ -2,7 +2,7 @@
   {{ translate.getKey('PAGE_NAME_SETTINGS') }}
 </main-header>
 
-<main-content>
+<ion-content class="theme main-content" [ngClass]="config.globalGlobalCss()">
 
   <div class="settingsList">
 
@@ -75,4 +75,4 @@
 
   </div>
 
-</main-content>
+</ion-content>

@@ -22,6 +22,14 @@ parcours-list-item {
   }
 }
 
+.platform-ios9 {
+  .btnDownload {
+    .icon {
+      align-self: center;
+    }
+  }
+}
+
 .parcoursListItem {
   min-height: 70px;
   height: auto;

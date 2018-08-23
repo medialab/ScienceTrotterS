@@ -53,6 +53,9 @@ export class MyApp {
                public api: ApiProvider,
                public alert: AlertProvider,
                private camera: Camera) {
+    console.log('ok');
+    console.log('app loading');
+
     /**
      * Initialisation de l'application.
      */
