@@ -43,8 +43,8 @@ export class BoxMapComponent {
   isMapRendered: boolean = false;
 
   config = {
-    'tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
-    'tmptileLayer': 'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    '_tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
+    'tileLayer': '',
     'selector': 'map_component__content',
     'minZoom': 9,
     'maxZoom': 18,
@@ -61,6 +61,7 @@ export class BoxMapComponent {
               private alert: AlertProvider,
               private geolocation: Geolocation,
               public events: Events) {
+    this.config.tileLayer = configProvider.data.map.tileLayer;
     leaflet.markercluster = leafletMarkercluster;
 
     this.events.subscribe('previewByCity::initMapData', async (data) => {
@@ -146,13 +147,17 @@ export class BoxMapComponent {
   }
 
   createParcoursTraces (parcoursId: string, longitude: any, latitude: any) {
+    console.log('#createParcoursTraces');
+
     return new Promise((resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
-      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}`).subscribe((resp: any) => {
+      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()}`).subscribe((resp: any) => {
         const {data} = resp;
         const time = data.length.time;
         const poiArray = [];
+
+        console.log('data', data);
 
         for (const poi of data.interests) {
           if (typeof poi.api_data !== 'undefined') {

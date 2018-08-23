@@ -10,6 +10,9 @@ export class ConfigProvider {
     'endpoint': {
       'data': '',
       'assets': ''
+    },
+    'map': {
+      'tileLayer': ''
     }
   };
 
