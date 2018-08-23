@@ -467,7 +467,7 @@ export class PreviewByCityPage {
           clearInterval(intervalTimer);
         }
       }, 1000);
-
+      
       // Triage en fonction que la géolocalition est disponible ou non.
       await this.geoloc.getCurrentCoords().then(async (resp: any) => {
         isDone = true;
