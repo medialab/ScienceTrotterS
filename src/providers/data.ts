@@ -64,8 +64,7 @@ export class DataProvider {
    */
   sendEmail = (to: string = '', subject: string = '', body: string = '') => {
     body = this.bbCodeMailJumpLine(body);
-
-    const tmpMail = window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system');
+    const tmpMail = window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system', 'location=no');
 
     return tmpMail;
   };

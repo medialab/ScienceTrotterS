@@ -11,7 +11,7 @@
     <i aria-hidden="true" class="poi__marker"></i>
 
     <div class="btnContainer">
-      <button class='btnContainer__btn' [attr.title]="translate.getKey('PLI_BTN_PREV_ALT')" *ngIf="showMoveBtn('prev')"
+      <button class='btnContainer__btn btnContainer__btn--left' [attr.title]="translate.getKey('PLI_BTN_PREV_ALT')" *ngIf="showMoveBtn('prev')"
               (click)="onClickMoveList('prev')">
         <ion-icon aria-hidden="true" name="ios-arrow-back"></ion-icon>
       </button>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="btnContainer">
-      <button class='btnContainer__btn' [attr.title]="translate.getKey('PLI_BTN_NEXT_ALT')" *ngIf="showMoveBtn('next')"
+      <button class='btnContainer__btn btnContainer__btn--right' [attr.title]="translate.getKey('PLI_BTN_NEXT_ALT')" *ngIf="showMoveBtn('next')"
               (click)="onClickMoveList('next')">
         <ion-icon aria-hidden="true" name="ios-arrow-forward"></ion-icon>
       </button>

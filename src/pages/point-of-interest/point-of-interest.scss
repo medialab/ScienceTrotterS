@@ -22,6 +22,15 @@ page-point-of-interest {
       height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}));
       margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
     }
+
+    .btnContainer {
+      &__btn {
+        &--right {
+          padding: 10px;
+        }
+      }
+    }
+    
   }
 }
 
@@ -103,6 +112,12 @@ $picture-size: 200px;
         width: 35px;
         min-width: 35px;
         height: 100%;
+
+        &--left {
+        }
+
+        &--right {
+        }
 
         label {
           cursor: pointer;
@@ -604,7 +619,7 @@ $picture-size: 200px;
     height: auto;
     min-height: 200px;
   }
-  
+
   ion-slide.swiper-slide {
     // left: 15%;
   }

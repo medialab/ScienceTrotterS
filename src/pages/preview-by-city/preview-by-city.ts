@@ -75,6 +75,10 @@ export class PreviewByCityPage {
     isOpen: false
   };
 
+  mapClassNames = {
+    isClose: false
+  };
+
   // Tri par défaut sélectionné qui est par proximité.
   optionsItemsSelected: number = 1;
   otpionsItems = [
@@ -258,33 +262,6 @@ export class PreviewByCityPage {
   }
 
   ionViewDidLoad() {
-    document.querySelector('#previewByCityContent .scroll-content').addEventListener('touchstart', (event) => {
-      const curPosition = document.querySelector('#previewByCityContent .scroll-content').scrollTop;
-      this.lastScrollKnown = curPosition;
-
-      console.log('touchstart', curPosition);
-    });
-
-    document.querySelector('#previewByCityContent .scroll-content').addEventListener('touchend', (event) => {
-      console.log('touchend', event);
-      const nextPosition = document.querySelector('#previewByCityContent .scroll-content').scrollTop;
-
-      console.log('nextPosition', nextPosition, 'lastScrollKnown', this.lastScrollKnown);
-
-      setTimeout(() => {
-        if (nextPosition > this.lastScrollKnown && this.contentListClass.isOpen === false) {
-          // Ouvrir.
-          this.openContentList();
-        }
-
-        if (nextPosition < this.lastScrollKnown && this.contentListClass.isOpen === true) {
-          // Fermer.
-          this.openContentList();
-        }
-
-        this.lastScrollKnown = nextPosition;
-      }, 200);
-    });
   }
 
   /**
@@ -330,9 +307,11 @@ export class PreviewByCityPage {
 
     if (this.contentListClass.isOpen) {
       this.contentListClass.isOpen = false;
+      this.mapClassNames.isClose = false;
       this.scrollToDiv(selector, 0, duration);
     } else {
       this.contentListClass.isOpen = true;
+      this.mapClassNames.isClose = true;
       //noinspection TypeScriptUnresolvedFunction
       const contentHeight: any = document.querySelector('#previewByCityContent .scroll-content');
 

@@ -29,6 +29,8 @@ box-map {
       display: flex;
       justify-content: center;
       align-items: center;
+      top: calc(100% - 70px);
+      transition: top 0.4s ease-out;
 
       .icon__geoloc {
         display: block;
@@ -38,6 +40,7 @@ box-map {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        transition: 0.4s ease-out;
       }
 
       ion-icon {

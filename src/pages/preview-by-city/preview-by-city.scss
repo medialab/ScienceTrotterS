@@ -3,6 +3,20 @@
     .contentList {
       height: calc(100% - 70px - 40px - 56px);
       bottom: calc(0px - calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px - 30%) + 56px);
+
+      &.isOpen {
+        bottom: 0;
+      }
+    }
+
+    .map {
+      height: calc(100% - 30% - 26px);
+
+      &.isClose {
+        .btn__geoloc {
+          top: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding} + 26px);
+        }
+      }
     }
   }
 }
@@ -12,6 +26,20 @@
     .contentList {
       height: calc(100vh - #{$mainHeaderHeight} - 70px);
       bottom: calc(0px - calc(100vh - #{$mainHeaderHeight} - 70px - 30%) + 56px);
+
+      &.isOpen {
+        bottom: 0;
+      }
+    }
+
+    .map {
+      height: calc(100% - 56px - 30%);
+
+      &.isClose {
+        .btn__geoloc {
+          top: 46px;
+        }
+      }
     }
   }
 }
@@ -33,11 +61,13 @@ page-preview-by-city {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    overflow-y: hidden;
 
     .map {
       width: 100%;
-      height: calc(100% - 56px - 30%);
       background-color: black;
+      position: relative;
+      transition: top 0.4s ease-out;
     }
 
     ul.list {
@@ -81,6 +111,7 @@ page-preview-by-city {
   }
 
   .contentList.isOpen {
+
   }
 
   .contentList {

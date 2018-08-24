@@ -500,7 +500,12 @@ export class PointOfInterestPage {
 
   openMapToLocation() {
     const geoloc: any = this.getData('geoloc');
-    const openMap = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`);
+
+    if (this.platform.is('ios')) {
+      const openMapIOS = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`, '_system', 'location=no');
+    } else if (this.platform.is('android')) {
+      const openMapANDROID = window.open(`geo:${geoloc.latitude},${geoloc.longitude}?q=${geoloc.latitude},${geoloc.longitude}`, '_system', 'location=no');
+    }
   }
 
   showSliderPager() {
