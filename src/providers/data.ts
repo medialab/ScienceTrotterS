@@ -32,6 +32,11 @@ export class DataProvider {
     t = this.deblaie(/(\[\/u\])/g,t);
     t = this.remplaceTag(/\[u\](.+)\[\/u\]/g,'<u>$1</u>',t);
     t = this.remblaie(t);
+
+    const replaceKeyBR = /\[br\]/g;
+    const replaceValueBR = '<br />';
+    t = t.replace(replaceKeyBR, replaceValueBR);
+
     // Return result.
     return t;
   };
