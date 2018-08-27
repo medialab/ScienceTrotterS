@@ -14,7 +14,7 @@
   "target": "browser",
 
   "configuration": {
-    "contact_mail": "forccast.controverses@gmail.com",
+    "contact_mail": "forccast.controverses@sciencespo.fr",
     "endpoint": {
       "data": "https://api-sts.actu.com/",
       "assets": "https://api-sts.actu.com/ressources/upload/"

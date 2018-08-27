@@ -5,13 +5,13 @@
 	"RIGHT_MENU_SETTINGS":"Settings",
 	"RIGHT_MENU_PHOTO":"Photo",
 	"RIGHT_MENU_GPS":"My location",
-	"RIGHT_MENU_CREDITS":"Credits",
+	"RIGHT_MENU_CREDITS":"General Terms and Conditions of Use",
 
 	"COMP_MH_GO_BACK":"Back",
 
 	"PAGE_NAME_HOME":"Select your city",
 	"PAGE_NAME_SETTINGS":"Settings",
-	"PAGE_NAME_CREDITS":"Credits",
+	"PAGE_NAME_CREDITS":"General Terms and Conditions of Use",
 	"PAGE_NAME_PARCOURS_LIST":"Thematic route",
 
 	"P_SETTING_LANGUAGE":"Language",
@@ -21,7 +21,7 @@
 	"P_SETTING_THEME":"Screen mode",
 	"P_SETTING_THEME_DAY":"Day",
 	"P_SETTING_THEME_NIGHT":"Night",
-	"P_SETTING_DELETE":"Delete media",
+	"P_SETTING_DELETE":"empty the cache",
   "P_SETTING_DELETE_LOADER": "Delete in progress...",
 
 	"PLI_FILTER_PROXIMITE":"Nearby",
@@ -62,8 +62,8 @@
 	"C_BOX_MAP_USER_MARKER":"Your are here",
 
 	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Error",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"To offer you the closest tour, Science Trotters wants to activate geolocation in smaller all data will be erased when you close the application",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"To offer you the closest tour, Science Trotters wants to activate geolocation again in smaller all data will be erased when you close the application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"To offer you the closest tour, Science Trotters wants to activate geolocation. All data will be erased when you close the application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"To offer you the closest tour, Science Trotters wants to activate geolocation again. All data will be erased when you close the application",
 
 	"MAIL_REPORT_PROBLEM_SUBJECT": "Landmark problem :landmarkName :cityName",
 	"MAIL_REPORT_PROBLEM_BODY": "Hello,[jumpLine]I have encountered the following problem at landmark :landmarkName of :cityName :",
