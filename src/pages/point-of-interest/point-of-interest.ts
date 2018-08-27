@@ -34,6 +34,7 @@ import {
   PlayerAudioProvider
 } from "../../providers/playerAudio";
 import { Slides } from 'ionic-angular';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @IonicPage()
 @Component({
@@ -79,7 +80,8 @@ export class PointOfInterestPage {
     isHidden: false,
   };
 
-  constructor(public navCtrl: NavController,
+  constructor(private _DomSanitizationService: DomSanitizer,
+    public navCtrl: NavController,
     public navParams: NavParams,
     public api: ApiProvider,
     public config: ConfigProvider,
@@ -137,6 +139,7 @@ export class PointOfInterestPage {
   }
 
   ionViewWillEnter(){
+    // ?.
     if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours
         this.playerAudioProvider.clearAll();
     }
@@ -288,9 +291,11 @@ export class PointOfInterestPage {
   onClickMoveList(dir: string) {
     this.playerAudioProvider.isPlayingAndStopThem();
 
+
     switch (dir) {
       case 'prev':
         if (this.activeItem > 0) {
+          this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = this.activeItem - 1;
           this.onClickSetHelpItemActive(null);
           this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
@@ -298,10 +303,12 @@ export class PointOfInterestPage {
         break;
       case 'next':
         if (this.interests.length > (this.activeItem + 1)) {
+          this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = this.activeItem + 1;
           this.onClickSetHelpItemActive(null);
           this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
         } else {
+          this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = 0;
         }
         break;
@@ -672,20 +679,23 @@ export class PointOfInterestPage {
   }
 
   getAudio() {
+    const audioURI = this.localData.getLandmarkAudio(this.getData('id'));
 
-    var sPoi = localStorage.getItem("POI");
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.curId]) {
-        return oPOI[this.curId]['audio'];
-      }
-
-      if (oPOI[this.interests[this.activeItem].item.id]){
-        return oPOI[this.interests[this.activeItem].item.id]['audio'];
-      }
+    if (audioURI === '') {
+      return this.api.getAssetsUri(this.getData('audio', true));
+    } else {
+      return audioURI;
     }
-    return this.getData('audio', true) === '' ? '' : this.api.getAssetsUri(this.getData('audio', true));
+  }
+
+  showGallery() {
+    const resp = this.localData.isLandmarkDownloaded(this.getData('id'));
+
+    return resp.isDownloaded === true || resp.isNetworkOff === false;
+  }
+
+  getThisCoverImg() {
+    return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.getCoverPicture()})`);
   }
 
 

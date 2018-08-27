@@ -38,6 +38,7 @@ import {
   Network
 } from '@ionic-native/network';
 import { LoadingController, Loading } from 'ionic-angular';
+import {DataProvider} from "../../providers/data";
 
 
 @Component({
@@ -86,6 +87,7 @@ export class ParcoursListItemComponent {
               public navParams: NavParams,
               public events: Events,
               public api: ApiProvider,
+              public data: DataProvider,
               public navCtrl: NavController,
               public platform: Platform,
               public fileTransfer: FileTransfer,
@@ -100,6 +102,8 @@ export class ParcoursListItemComponent {
   }
 
   ngOnChanges() {
+
+
     if (typeof this.geoloc !== 'undefined' && this.curPositionUser.longitude !== '' && this.curPositionUser.latitude !== '') {
       this.isShowTimeToObj = true;
       this.calculGeoLocDistance();
@@ -241,7 +245,7 @@ export class ParcoursListItemComponent {
   }
 
   download() {
-    if (!this.canBeDownload().isDownloaded) {
+    if (!this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
       let loading = this.loader.create({
         content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
       });
@@ -254,7 +258,9 @@ export class ParcoursListItemComponent {
       }
 
       let timerInterval = setInterval(() => {
-        if (this.canBeDownload().isDownloaded) {
+        console.log('timer is downloaded', this.localData.isDownloaded(this.openId, this.target));
+
+        if (this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
           loading.dismiss();
           clearInterval(timerInterval);
         }
@@ -263,9 +269,12 @@ export class ParcoursListItemComponent {
   }
 
   downloadParcours() {
-
     var id = this.openId;
     var audioURL = this.audioURI;
+
+    console.log('@downloadParcours');
+    console.log('audio url');
+
     var filename = id + ".mp3"
 
     // // Téléchargement de l'audio du parc
@@ -277,9 +286,7 @@ export class ParcoursListItemComponent {
 
   }
 
-
   downloadPOI(poi = this.interestsList[0]) {
-
     //Téléchargement de la cover
     var urlCover = this.api.getAssetsUri(poi['header_image']);
     var filename = poi['id'] + '--cover.jpeg';
@@ -304,7 +311,7 @@ export class ParcoursListItemComponent {
   downloadFile(url, filename, id, label, localStorageName = "POI") {
     this.fileTrans.download(url, this.file.dataDirectory + filename).then((entry) => {
       // Téléchargement réussi : entry.toURL()
-      var imageURL = normalizeURL(entry.toURL());
+      var imageURL = entry.toInternalURL();
       // Je récupère le local storage
       var sPoi = localStorage.getItem(localStorageName);
 
@@ -340,9 +347,12 @@ export class ParcoursListItemComponent {
   }
 
   canBeDownloadCls() {
-    const resp = this.canBeDownload();
+    const resp = this.localData.isDownloaded(this.openId, this.target);
 
-    return resp;
+    return {
+      'isDownloaded': resp.isDownloaded,
+      'isNetworkOff': resp.isNetworkOff && resp.isDownloaded === false
+    };
   }
 
   // retourne si le parcours/poi peut etre téléchargé et verifie qu'il soit a jour (le met à jour dans le cas contraire)
@@ -362,6 +372,7 @@ export class ParcoursListItemComponent {
       if (sPoi != null) {
         var oPOI = JSON.parse(sPoi);
 
+
         if (oPOI[this.openId]) {
           var updateDate = this.createdAt.replace(/-/g, "/");
           var formatedDate = Date.parse(updateDate);
@@ -376,29 +387,24 @@ export class ParcoursListItemComponent {
         }
       }
 
-      resp.isNetworkOff = this.network.type !== 'none';
+      resp.isNetworkOff = this.network.type === 'none';
     }
 
     return resp;
   }
 
   getAudio() {
-    // if (this.parcourTime) {
-    var sPoi = localStorage.getItem("Parcours");
+    const audioURI = this.localData.getAudio(this.openId);
 
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.openId]) {
-        return oPOI[this.openId]['audio'];
-      }
+    if (audioURI === '') {
+      return this.audioURI;
+    } else {
+      return audioURI;
     }
-    return this.audioURI;
-    // }
   }
 
   getDownloadBtnTitle() {
-    if (this.target === 'parcorus') {
+    if (this.target === 'parcours') {
       return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_PARCOURS');
     } else {
       return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_LANDMARK');

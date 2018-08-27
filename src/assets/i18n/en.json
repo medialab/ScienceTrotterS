@@ -89,5 +89,7 @@
 	"PLI_ICON_LANDMARK": "landmark",
 
   "PLI_FILTER_ALPHA_TITLE": "Filter the list ordered alphabetically.",
-  "PLI_FILTER_PROXIMITE_TITLE": "Filter the list by nearby criteria."
+  "PLI_FILTER_PROXIMITE_TITLE": "Filter the list by nearby criteria.",
+
+  "GLOBAL_NEED_NETWORK_FOR_DATA": "Internet connection required"
 }

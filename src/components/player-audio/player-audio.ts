@@ -8,6 +8,7 @@ import {ConfigProvider} from "../../providers/config";
 import { Device } from '@ionic-native/device';
 import {LocalDataProvider} from "../../providers/localData";
 import {DataProvider} from "../../providers/data";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'player-audio',
@@ -38,6 +39,7 @@ export class PlayerAudioComponent {
   constructor (public navParams: NavParams,
                public api: ApiProvider,
                private device: Device,
+               private _DomSanitizationService: DomSanitizer,
                public data: DataProvider,
                public localData: LocalDataProvider,
                public translate: TranslateProvider,
@@ -57,7 +59,6 @@ export class PlayerAudioComponent {
       const audioPlayer = new PlayerAudio(
         this.playerUUID,
         this.audioURI
-
       );
 
       audioPlayer.init();
@@ -134,6 +135,18 @@ export class PlayerAudioComponent {
 
     if (this.showAudioScriptListener !== null) {
       this.showAudioScriptListener(this.showAudioScript);
+    }
+  }
+
+  isNotAvailable() {
+    const resp = this.localData.isDownloaded(this.uuid, this.target);
+
+    if (resp.isDownloaded === false && resp.isNetworkOff === true) {
+      return true;
+    } else if (resp.isDownloaded === true) {
+      return false;
+    } else {
+      return resp.isNetworkOff;
     }
   }
 }

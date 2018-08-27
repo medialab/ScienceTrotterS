@@ -60,6 +60,7 @@ export class MyApp {
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      statusBar.backgroundColorByHexString('#f8f8f8');
       this.globalListener();
 
       splashScreen.hide();
@@ -161,7 +162,16 @@ export class MyApp {
    *
    */
   sendCurrentPosition () {
-    const stopLoaderTimeSec = 30;
+    console.log('#sendCurrentPosition');
+    this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
+      console.log('success');
+    }).catch((resp: any) => {
+      console.log('error', resp);
+    });
+
+
+    /**
+    const stopLoaderTimeSec = 10;
     let startLoaderTimeSec = 0;
     let isDone = false;
     const loader = this.alert.createLoader();
@@ -195,6 +205,7 @@ export class MyApp {
       isDone = true;
       loader.dismiss();
     })
+     */
   }
 
   /**

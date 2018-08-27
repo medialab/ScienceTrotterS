@@ -9,6 +9,12 @@ export class PlayerAudioProvider {
   clearAll () {
     this.tracks = [];
   }
+  
+  clearOne(uuid: string) {
+    if (typeof this.tracks[uuid] !== 'undefined') {
+      delete this.tracks[uuid];
+    }
+  }
 
   add (track: any, uuid: string) {
     if (typeof this.tracks[uuid] === 'undefined') {

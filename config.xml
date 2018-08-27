@@ -65,9 +65,8 @@
             <string>We want your location to get your current position and help you with your road</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
-          <string>We want your location to get your current position and help you with your road</string>
+            <string>We want your location to get your current position and help you with your road</string>
         </edit-config>
-
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />

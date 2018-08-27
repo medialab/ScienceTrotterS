@@ -54,8 +54,7 @@
 
     <div class="contentDiscover" [attr.aria-hidden]="! isOpenDiscover">
       <div class='content' [ngClass]="config.globalGlobalCss()" *ngIf="target === 'parcours'">
-        <p>
-          {{ previewDescription }}
+        <p [innerHTML]="data.bbCodeToHtml(previewDescription)">
         </p>
       </div>
 

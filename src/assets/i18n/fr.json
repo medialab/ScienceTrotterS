@@ -89,5 +89,7 @@
 	"PLI_ICON_LANDMARK": "point d'intérêt",
 
   "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
-  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi."
+  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
+
+  "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire"
 }

@@ -3,8 +3,8 @@
 </main-header>
 
 <ion-content [ngClass]="config.globalGlobalCss()" id="poiMainContent">
-  <div alt="" class="poi__header" [style.backgroundImage]="'url(' + getCoverPicture() + ')'">
-    <!-- [style.backgroundImage]="'url(' + api.getAssetsUri(getData('header_image')) + ')'"> -->
+  <div alt="" class="poi__header" [style.background-image]="getThisCoverImg()">
+    <!-- <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(getCoverPicture())' /> -->
   </div>
 
   <div class="poi__info">
@@ -109,9 +109,13 @@
   <div class="poi__main__content" [ngClass]="mainContentCls">
 
     <section class="poi__section poi__section--isWhite section__player__audio">
-      <player-audio [target]="curTarget" [audioURI]="audio"
-                    [playerUUID]="('player__audio') + getData('id')" [uuid]="getData('id')" [audioScript]="getData('audio_script', true)"
-                    [showAudioScriptListener]="showAudioScriptListener.bind(this)" [loadPlayer]="true"></player-audio>
+      <player-audio target="landmarks"
+                    [audioURI]="audio"
+                    [playerUUID]="('player__audio') + getData('id')"
+                    [uuid]="getData('id')"
+                    [audioScript]="getData('audio_script', true)"
+                    [showAudioScriptListener]="showAudioScriptListener.bind(this)"
+                    [loadPlayer]="true"></player-audio>
     </section>
 
 
@@ -136,14 +140,19 @@
     <!-- SECTION GALLERY -->
     <section class="poi__section poi__section--isWhite section__gallery_image">
       <h3 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALLERY_IMAGE') }}</h3>
-      <div class="poi__section__content">
 
+      <div class="poi__section__content" *ngIf="showGallery() == true">
         <ion-slides class="image-slider poi-slider" loop="false" [pager]="galleryShowSlider">
           <ion-slide *ngFor="let img of gallery">
-            <img [attr.src]="img" class="thumb-img" imageViewer />
+            <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(img)' class="thumb-img" imageViewer />
           </ion-slide>
         </ion-slides>
+      </div>
 
+      <div class="showGalleryNoNetwork" *ngIf="showGallery() == false">
+        <p>
+          {{ translate.getKey('GLOBAL_NEED_NETWORK_FOR_DATA') }}
+        </p>
       </div>
     </section>
     <!-- ./ SECTION GALLERY -->
