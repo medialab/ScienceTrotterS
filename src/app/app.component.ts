@@ -53,20 +53,17 @@ export class MyApp {
                public api: ApiProvider,
                public alert: AlertProvider,
                private camera: Camera) {
-    console.log('ok');
-    console.log('app loading');
-
     /**
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      statusBar.styleDefault();
+      //statusBar.overlaysWebView(false);
       statusBar.backgroundColorByHexString('#f8f8f8');
       this.globalListener();
 
       splashScreen.hide();
       config.initialize();
-
-      statusBar.styleDefault();
 
       // Set TTL to 31 days.
       cache.setDefaultTTL(86400 * 31);
@@ -175,6 +172,13 @@ export class MyApp {
       if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
         loader.dismiss();
         clearInterval(intervalTimer);
+        
+        // --> Show alert.
+        this.alert.create(
+          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
+          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED')
+        );
+        // <-- Show alert.
       } else if (startLoaderTimeSec === stopLoaderTimeSec) {
         clearInterval(intervalTimer);
       }

@@ -1,6 +1,6 @@
 import { Network } from '@ionic-native/network';
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {App, Content, Events, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {App, Content, Events, IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import leaflet from 'leaflet';
 import {ConfigProvider} from "../../providers/config";
@@ -37,6 +37,8 @@ export class PreviewByCityPage {
 
   parcoursListItemHandler: any = null;
   eventUpdateLanguage: any = null;
+
+  isLoadingAlert: boolean = false;
 
   /**
    * Filtre les parcours suivant les critères.
@@ -142,6 +144,7 @@ export class PreviewByCityPage {
               public navCtrl: NavController,
               public navParams: NavParams,
               public geoloc: GeolocProvider,
+              private toastCtrl: ToastController,
               public config: ConfigProvider,
               public platform: Platform,
               public alert: AlertProvider,
@@ -158,7 +161,25 @@ export class PreviewByCityPage {
     }
   }
 
+  debugLoad(msg: string = '') {
+    /**
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+    */
+  }
+
   async init () {
+    this.debugLoad('#init');
+
     if (this.isNetWorkAvailable() === false) {
       this.optionsItemsSelected = 1;
     }
@@ -221,6 +242,7 @@ export class PreviewByCityPage {
    *
    */
   ionViewDidEnter() {
+    this.debugLoad('#ionViewDidEnter');
     const eventName = 'boxMap::onClickItemMap';
 
     if (this.eventUpdateLanguage === null) {
@@ -247,10 +269,12 @@ export class PreviewByCityPage {
         });
     });
 
+    /**
     const connected = this.network.onConnect().subscribe((data) => {
-      this.init();
+    // HANDLE NETWORK ON CONNECT.
     }, (onError) => {
     });
+     */
   }
 
   ionViewWillUnload () {

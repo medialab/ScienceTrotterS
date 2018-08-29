@@ -65,6 +65,7 @@ export class ParcoursListItemComponent {
   @Input() sortOrder: any = null;
   @Input() cityName: string = '';
   @Input() cityId: string = '';
+  @Input() schedule: string = '';
   @Input() focusId: string = 'focusId';
 
   timeToObj = '';

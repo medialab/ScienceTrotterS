@@ -125,6 +125,7 @@
             [handler]="parcoursListItemHandler"
             [createdAt]="interest.updated_at"
             [openId]="interest.id"
+            [schedule]="translate.fromApi(config.getLanguage(), interest.schedule)"
             [interestsList]="getInterestsById(interest.id)"
             [interestAddress]="translate.fromApi(config.getLanguage(), interest.address)"
             [cityName]="translate.fromApi(config.getLanguage(), city.title)"

@@ -13,7 +13,9 @@ parcours-list-item {
 
   .isDone {
     .leftIconColor {
-      background-color: #929090 !important;
+      .roundIcon {
+        background-color: #929090 !important;
+      }
     }
 
     .contentPreview .info * {
@@ -35,15 +37,68 @@ parcours-list-item {
   height: auto;
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
 
-  .leftIconColor {
+  .contentDiscover {
+    display: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 20px;
+
+    &[aria-hidden="false"] {
+      display: flex;
+    }
+
+    .content {
+      margin: 0 auto 10px auto;
+
+      p {
+        font-size: 1em;
+      }
+    }
+
+    .playerAudio {
+      margin: 0 0 10px 0;
+    }
+
+    .footer {
+
+      .btnStart {
+        width: 100%;
+        height: 46px;
+        color: white;
+        border-radius: 23px;
+        font-size: 1.3em;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .mainContent {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .mainContent > .leftIconColor {
     width: 45px;
     min-width: 45px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+
+    .roundIcon {
+      margin: 0px 0px 0px 5px;
+      background-color: red;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     .icon {
       background-repeat: no-repeat;
@@ -80,41 +135,6 @@ parcours-list-item {
     flex-grow: 1;
     max-width: calc(100% - 45px);
 
-    .contentDiscover {
-      display: none;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      padding: 20px;
-
-      &[aria-hidden="false"] {
-        display: flex;
-      }
-
-      .content {
-        margin: 0 auto 10px auto;
-
-        p {
-          font-size: 1em;
-        }
-      }
-
-      .playerAudio {
-        margin: 0 0 10px 0;
-      }
-
-      .footer {
-
-        .btnStart {
-          width: 100%;
-          height: 46px;
-          color: white;
-          border-radius: 23px;
-          font-size: 1.3em;
-          font-weight: bold;
-        }
-      }
-    }
-
     .contentPreview {
       display: flex;
       flex-direction: row;
@@ -137,9 +157,10 @@ parcours-list-item {
 
         ul.infoParcours {
           border: 0;
-          padding: 0;
+          padding: 4px 0;
           display: flex;
           flex-direction: row;
+          flex-wrap: wrap;
           list-style: none;
           align-items: center;
 
@@ -233,4 +254,14 @@ parcours-list-item {
 
 .hideIt {
   display: none;
+}
+
+.spanWithDotInside {
+  font-size: 16px;
+}
+
+.infoParcours.infoParcoursLandmarks {
+  li {
+    min-height: 0px !important;
+  }
 }
