@@ -73,11 +73,12 @@ parcours-list-item {
     background-color: #3686A0;
   }
 
-  .content {
+  .contentRight {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     flex-grow: 1;
+    max-width: calc(100% - 45px);
 
     .contentDiscover {
       display: none;
@@ -90,7 +91,7 @@ parcours-list-item {
       }
 
       .content {
-        margin: 0 0 10px 0;
+        margin: 0 auto 10px auto;
 
         p {
           font-size: 1em;
@@ -124,11 +125,14 @@ parcours-list-item {
         flex: 1;
         padding: 10px;
         background-color: transparent;
+        width: calc(100% - 70px);
+        font-size: inherit;
 
         h1 {
           margin: 0;
           font-size: 1.2em;
           text-align: left;
+          hyphens: manual;
         }
 
         ul.infoParcours {
@@ -148,6 +152,7 @@ parcours-list-item {
             label {
               padding: 0 5px;
               font-size: 1.1em;
+              word-break: break-word;
             }
           }
         }
@@ -174,6 +179,9 @@ parcours-list-item {
         justify-content: center;
         align-items: center;
         background-color: transparent;
+        width: 70px;
+        max-width: 70px;
+        font-size: inherit;
 
         &.isDownloaded {
           label {
@@ -211,7 +219,7 @@ parcours-list-item {
         }
 
         label {
-          font-size: 1em;
+          font-size: 0.8em;
         }
       }
     }

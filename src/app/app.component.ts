@@ -162,15 +162,6 @@ export class MyApp {
    *
    */
   sendCurrentPosition () {
-    console.log('#sendCurrentPosition');
-    this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
-      console.log('success');
-    }).catch((resp: any) => {
-      console.log('error', resp);
-    });
-
-
-    /**
     const stopLoaderTimeSec = 10;
     let startLoaderTimeSec = 0;
     let isDone = false;
@@ -204,8 +195,7 @@ export class MyApp {
     }).catch((resp: any) => {
       isDone = true;
       loader.dismiss();
-    })
-     */
+    });
   }
 
   /**

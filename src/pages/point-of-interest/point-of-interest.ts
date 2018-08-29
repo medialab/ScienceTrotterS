@@ -697,7 +697,5 @@ export class PointOfInterestPage {
   getThisCoverImg() {
     return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.getCoverPicture()})`);
   }
-
-
-
+  
 }

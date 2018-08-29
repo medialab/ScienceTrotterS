@@ -10,12 +10,11 @@
           [attr.alt]="translate.getKey('PBC_ALT_POI')"></span>
   </div>
 
-  <div class='content'>
-    <div class='contentPreview'>
+  <div class='contentRight'>
+    <div class='contentPreview' [ngClass]="config.globalGlobalCss()">
       <button type="button"class='info' [attr.id]="focusId"
               (click)="updateDiscoverStateOrOpen()"
-              [attr.title]="translate.getKey('COMP_PLI_BTN_SHOW_PREVIEW')"
-              [ngClass]="config.globalGlobalCss()">
+              [attr.title]="translate.getKey('COMP_PLI_BTN_SHOW_PREVIEW')">
         <h1>{{ previewTitle }}</h1>
         <ul class="infoParcours" *ngIf="target === 'parcours'">
           <li>
