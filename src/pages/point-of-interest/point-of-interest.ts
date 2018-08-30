@@ -7,7 +7,7 @@ import {
   Events,
   IonicPage,
   NavController,
-  NavParams
+  NavParams, ToastController
 } from 'ionic-angular';
 import {
   ApiProvider
@@ -87,6 +87,7 @@ export class PointOfInterestPage {
     public config: ConfigProvider,
     public translate: TranslateProvider,
     public alert: AlertProvider,
+              private toastCtrl: ToastController,
     public events: Events,
     public data: DataProvider,
     public localData: LocalDataProvider,
@@ -682,8 +683,10 @@ export class PointOfInterestPage {
     const audioURI = this.localData.getLandmarkAudio(this.getData('id'));
 
     if (audioURI === '') {
+      this.debugLoad('audio uri is empty');
       return this.api.getAssetsUri(this.getData('audio', true));
     } else {
+      this.debugLoad('audio uri found ' + audioURI);
       return audioURI;
     }
   }
@@ -697,5 +700,20 @@ export class PointOfInterestPage {
   getThisCoverImg() {
     return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.getCoverPicture()})`);
   }
-  
+
+  debugLoad(msg: string = '') {
+    /**
+     let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'top'
+    });
+
+     toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+     toast.present();
+     */
+  }
 }

@@ -51,7 +51,6 @@ export class PlayerAudioComponent {
     this.initData();
   }
 
-
   initData () {
     if (this.loadPlayer && this.audioURI !== '' && (this.configAudio.audioURI === '' || this.audioURI !== this.configAudio.audioURI)) {
       this.configAudio.audioURI = this.audioURI;
