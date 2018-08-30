@@ -159,46 +159,16 @@ export class MyApp {
    *
    */
   sendCurrentPosition () {
-    const stopLoaderTimeSec = 7;
-    let startLoaderTimeSec = 0;
-    let isDone = false;
-    const loader = this.alert.createLoader();
-
-    let intervalTimer = setInterval(() => {
-      if (stopLoaderTimeSec !== startLoaderTimeSec) {
-        startLoaderTimeSec += 1;
-      }
-
-      if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
-        loader.dismiss();
-        clearInterval(intervalTimer);
-
-        // --> Show alert.
-        this.alert.create(
-          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
-          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED')
-        );
-        // <-- Show alert.
-      } else if (startLoaderTimeSec === stopLoaderTimeSec) {
-        clearInterval(intervalTimer);
-      }
-    }, 1000);
-
-    this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
-      isDone = true;
-      loader.dismiss();
-
+    this.geoloc.getCurrentCoords('ALERT_MSG_MY_LOCATION').then(({latitude, longitude}) => {
       const to = '';
       const subject = this.translate.getKey('MAIL_SEND_POSITION_SUBJECT');
       const body = this.translate.getKeyAndReplaceWords('MAIL_SEND_POSITION_BODY', {
         'latitude': latitude,
         'longitude': longitude
       });
-
       this.data.sendEmail(to, subject, body);
-    }).catch((resp: any) => {
-      isDone = true;
-      loader.dismiss();
+    }).catch(() => {
+      // Nothing to do.
     });
   }
 

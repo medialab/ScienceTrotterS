@@ -43,6 +43,7 @@ import {FileTransfer} from '@ionic-native/file-transfer';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
 import {Device} from "@ionic-native/device";
 import {DirectAccessPage} from "../pages/direct-access/direct-access";
+import {Diagnostic} from "@ionic-native/diagnostic";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -165,6 +166,7 @@ const linksConfig = {
     UniqueDeviceID,
     Media,
     PlayerAudioProvider,
+    Diagnostic,
     GeolocProvider,
     FileTransfer,
     Network

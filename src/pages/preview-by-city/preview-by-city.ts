@@ -435,31 +435,8 @@ export class PreviewByCityPage {
 
   actionSortProximite () {
     return new Promise(async (success, error) => {
-      const stopLoaderTimeSec = 7;
-      let startLoaderTimeSec = 0;
-      let isDone = false;
-
-      const loaderContent = '';
-      const loader = this.alert.createLoader(loaderContent);
-
-      let intervalTimer = setInterval(() => {
-        if (stopLoaderTimeSec !== startLoaderTimeSec) {
-          startLoaderTimeSec += 1;
-        }
-
-        if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
-          this.changeOptionListAction('alpha');
-          loader.dismiss();
-          clearInterval(intervalTimer);
-          error();
-        } else if (startLoaderTimeSec === stopLoaderTimeSec) {
-          clearInterval(intervalTimer);
-        }
-      }, 1000);
-
       // Triage en fonction que la géolocalition est disponible ou non.
-      await this.geoloc.getCurrentCoords().then(async (resp: any) => {
-        isDone = true;
+       this.geoloc.getCurrentCoords().then(async (resp: any) => {
         const {latitude, longitude} = resp;
 
         this.curPositionUser = {
@@ -475,13 +452,9 @@ export class PreviewByCityPage {
           await this.loadInterests(`${latitude};${longitude}`);
         }
 
-        loader.dismiss();
-
         success(resp);
       }, (err: any) => {
         this.changeOptionListAction('alpha');
-        isDone = true;
-        loader.dismiss();
         error();
       });
     });

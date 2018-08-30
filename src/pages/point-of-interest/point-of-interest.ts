@@ -509,45 +509,15 @@ export class PointOfInterestPage {
   }
 
   openMapToLocation() {
-    const stopLoaderTimeSec = 7;
-    let startLoaderTimeSec = 0;
-    let isDone = false;
-    const loader = this.alert.createLoader();
-
-    let intervalTimer = setInterval(() => {
-      if (stopLoaderTimeSec !== startLoaderTimeSec) {
-        startLoaderTimeSec += 1;
-      }
-
-      if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
-        loader.dismiss();
-        clearInterval(intervalTimer);
-
-        // --> Show alert.
-        this.alert.create(
-          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
-          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED')
-        );
-        // <-- Show alert.
-      } else if (startLoaderTimeSec === stopLoaderTimeSec) {
-        clearInterval(intervalTimer);
-      }
-    }, 1000);
-
-    this.geolocProvider.getCurrentCoords().then(({latitude, longitude}) => {
-      isDone = true;
-      loader.dismiss();
-
+    this.geolocProvider.getCurrentCoords('ALERT_MSG_MAP_GO').then(({latitude, longitude}) => {
       const _geoloc: any = this.getData('geoloc');
       if (this.platform.is('ios')) {
         const openMapIOS = window.open(`http://maps.apple.com/?daddr=${_geoloc.latitude},${_geoloc.longitude}`, '_system', 'location=no');
       } else if (this.platform.is('android')) {
         const openMapANDROID = window.open(`geo:${_geoloc.latitude},${_geoloc.longitude}?q=${_geoloc.latitude},${_geoloc.longitude}`, '_system', 'location=no');
       }
-
     }, (onError) => {
-      isDone = true;
-      loader.dismiss();
+      // Nothing to do.
     });
   }
 
@@ -718,10 +688,8 @@ export class PointOfInterestPage {
     const audioURI = this.localData.getLandmarkAudio(this.getData('id'));
 
     if (audioURI === '') {
-      this.debugLoad('audio uri is empty');
       return this.api.getAssetsUri(this.getData('audio', true));
     } else {
-      this.debugLoad('audio uri found ' + audioURI);
       return audioURI;
     }
   }
@@ -736,19 +704,4 @@ export class PointOfInterestPage {
     return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.getCoverPicture()})`);
   }
 
-  debugLoad(msg: string = '') {
-    /*
-     let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 3000,
-      position: 'top'
-    });
-
-     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-
-     toast.present();
-     */
-  }
 }

@@ -91,5 +91,8 @@
   "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
   "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
 
-  "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire"
+  "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
+
+  "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+  "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application."
 }

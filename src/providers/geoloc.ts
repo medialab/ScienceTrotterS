@@ -2,9 +2,18 @@ import {AlertProvider} from "./alert";
 import {TranslateProvider} from "./translate";
 import {Geolocation} from '@ionic-native/geolocation';
 import {Injectable} from "@angular/core";
+import {Diagnostic} from "@ionic-native/diagnostic";
+import {Platform} from "ionic-angular";
 
 @Injectable()
 export class GeolocProvider {
+
+  opts: object = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 5000
+  };
+
   /**
    * Constructeur.
    *
@@ -14,7 +23,37 @@ export class GeolocProvider {
    */
   constructor(private geolocation: Geolocation,
               public alert: AlertProvider,
+              public platform: Platform,
+              public diagnostic: Diagnostic,
               public translate: TranslateProvider) {
+  }
+
+  /**
+   * Détection de si la géolocalisation du téléphone est activée ou désactivée.
+   * @returns TRUE ou FALSE
+   */
+  async isLocationEnabled() {
+    const resp = await this.diagnostic.isLocationEnabled().then((isAvailable: boolean) => {
+      return isAvailable;
+    }).catch((onError: any) => {
+      return false;
+    });
+
+    return resp;
+  }
+
+  /**
+   * Détection de si la géolocalisatio est autorisée à être utilisé par l'application.
+   * * @returns TRUE ou FALSE
+   */
+  async isLocationAuthorized() {
+    const resp = await this.diagnostic.isLocationAuthorized().then((isAvailable: boolean) => {
+      return isAvailable
+    }).catch((onError: any) => {
+      return false;
+    });
+
+    return resp;
   }
 
   /**
@@ -23,48 +62,88 @@ export class GeolocProvider {
    *
    * @returns {Promise<T>}
    */
-  getCurrentCoords () {
-    return new Promise((resolve, reject) => {
-      const otps = {
-        'enableHighAccuracy': true
-      };
+  checkGPSStatus() {
+    return new Promise(async (resolve, reject) => {
+      const isLocationEnabled: boolean = await this.isLocationEnabled();
+      let isLocationAuthorized: boolean = await this.isLocationAuthorized();
 
-      this.geolocation.getCurrentPosition(otps).then((resp: any) => {
-        /**
-         * coords {
-         *  longitude
-         *  longitude
-         * }
-         */
-        resolve(resp.coords);
-      }).catch((err: any) => {
-        // -> Alert error.
-        let bodyKey = '';
+      // Si le GPS de l'appareil est OFF.
+      if (!isLocationEnabled) {
+        reject('isLocationEnabled');
+      } else if (!isLocationAuthorized) {
+        // Si le GPS n'est pas authorized.
+        const isAccepted = await this.diagnostic.requestLocationAuthorization();
+        isLocationAuthorized = await this.isLocationAuthorized();
 
-        switch (err.message) {
-          // La géolocalisation est bloquée pour cette app.
-          case 'Illegal Access':
-            bodyKey = 'PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED';
-            break;
-          // La géolocalisation est désactivée.
-          default:
-            bodyKey = 'PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED';
-            break;
+        if (!isLocationAuthorized) {
+          reject('isLocationAuthorized');
+        } else {
+          resolve(true);
         }
+      } else {
+        resolve(true);
+      }
+    });
+  }
 
-        this.alert.create(
-          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
-          this.translate.getKey(bodyKey)
-        );
+  getCurrentCoords(errorMessageCode: string = '') {
+    return new Promise((resolve, reject) => {
+      let _loader = this.alert.createLoader();
 
+      this.checkGPSStatus().then((onSuccess: boolean) => {
         /**
-         * err {
-         *  code,
-         *  message
-         * }
+         * Retrieve the user localisation.
          */
-        reject(err)
+        // --> START.
+        this.platform.ready().then(() => {
+          this.geolocation.getCurrentPosition(this.opts).then((resp: any) => {
+            /**
+             * RESOLVE THE RESULT.
+             */
+            _loader.dismiss();
+            resolve(resp.coords);
+          }).catch(() => {
+            this.throwError('', errorMessageCode);
+            _loader.dismiss();
+            reject(false);
+          })
+        }).catch(() => {
+          this.throwError('', errorMessageCode);
+          _loader.dismiss();
+          reject(false);
+        });
+        // <-- END.
+      }).catch((errorCode: string) => {
+        this.throwError(errorCode, errorMessageCode);
+        _loader.dismiss();
+        reject(false);
       });
     });
+  }
+
+  throwError(errorCode: string = '', errorMessageCode: string = '') {
+    let bodyKey = '';
+
+    switch (true) {
+      // La géolocalisation est bloquée pour cette app.
+      case errorMessageCode === '' && errorCode === 'isLocationEnabled':
+        bodyKey = 'PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED';
+        break;
+      case errorMessageCode === '' && errorCode === 'isLocationAuthorized':
+        bodyKey = 'PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED';
+        break;
+      // La géolocalisation est désactivée.
+      default:
+        bodyKey = errorMessageCode;
+        break;
+    }
+
+    /**
+     * Prompt alert to user.
+     */
+    this.alert.create(
+      this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
+      this.translate.getKey(bodyKey)
+    );
   }
 }
