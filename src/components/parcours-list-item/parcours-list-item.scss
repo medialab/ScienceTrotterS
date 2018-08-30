@@ -153,11 +153,12 @@ parcours-list-item {
           font-size: 1.2em;
           text-align: left;
           hyphens: manual;
+          padding: 5px 0px;
         }
 
         ul.infoParcours {
           border: 0;
-          padding: 4px 0;
+          padding: 0px;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
@@ -257,7 +258,8 @@ parcours-list-item {
 }
 
 .spanWithDotInside {
-  font-size: 16px;
+  font-size: 32px;
+  padding: 0 0 0 4px;
 }
 
 .infoParcours.infoParcoursLandmarks {
