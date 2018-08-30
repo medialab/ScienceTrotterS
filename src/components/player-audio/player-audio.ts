@@ -29,7 +29,7 @@ export class PlayerAudioComponent {
     'loadPlayer': false,
     'audioURI': '',
     'target': '',
-    'uuid': '',
+    'uuid': ''
   };
 
   get audioPlayer () {
@@ -54,7 +54,8 @@ export class PlayerAudioComponent {
   initData () {
     if (this.loadPlayer && this.audioURI !== '' && (this.configAudio.audioURI === '' || this.audioURI !== this.configAudio.audioURI)) {
       this.configAudio.audioURI = this.audioURI;
-
+      this.playerAudioProvider.clearOne(this.playerUUID);
+      
       const audioPlayer = new PlayerAudio(
         this.playerUUID,
         this.audioURI
@@ -148,4 +149,5 @@ export class PlayerAudioComponent {
       return resp.isNetworkOff;
     }
   }
+
 }

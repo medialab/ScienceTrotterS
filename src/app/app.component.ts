@@ -159,7 +159,7 @@ export class MyApp {
    *
    */
   sendCurrentPosition () {
-    const stopLoaderTimeSec = 10;
+    const stopLoaderTimeSec = 7;
     let startLoaderTimeSec = 0;
     let isDone = false;
     const loader = this.alert.createLoader();
@@ -172,7 +172,7 @@ export class MyApp {
       if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
         loader.dismiss();
         clearInterval(intervalTimer);
-        
+
         // --> Show alert.
         this.alert.create(
           this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),

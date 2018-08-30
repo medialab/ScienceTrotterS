@@ -311,8 +311,15 @@ export class ParcoursListItemComponent {
 
   downloadFile(url, filename, id, label, localStorageName = "POI") {
     this.fileTrans.download(url, this.file.dataDirectory + filename).then((entry) => {
-      // Téléchargement réussi : entry.toURL()
-      var imageURL = entry.toInternalURL();
+      let imageURL = '';
+
+      if (this.platform.is('android')) {
+        imageURL = entry.toInternalURL();
+      }
+      if (this.platform.is('ios')) {
+        imageURL = normalizeURL(entry.toURL()).replace('file:///', '/');
+      }
+
       // Je récupère le local storage
       var sPoi = localStorage.getItem(localStorageName);
 

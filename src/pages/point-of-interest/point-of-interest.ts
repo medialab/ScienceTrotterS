@@ -35,6 +35,7 @@ import {
 } from "../../providers/playerAudio";
 import { Slides } from 'ionic-angular';
 import {DomSanitizer} from "@angular/platform-browser";
+import {GeolocProvider} from "../../providers/geoloc";
 
 @IonicPage()
 @Component({
@@ -87,6 +88,7 @@ export class PointOfInterestPage {
     public config: ConfigProvider,
     public translate: TranslateProvider,
     public alert: AlertProvider,
+              public geolocProvider: GeolocProvider,
               private toastCtrl: ToastController,
     public events: Events,
     public data: DataProvider,
@@ -507,13 +509,46 @@ export class PointOfInterestPage {
   }
 
   openMapToLocation() {
-    const geoloc: any = this.getData('geoloc');
+    const stopLoaderTimeSec = 7;
+    let startLoaderTimeSec = 0;
+    let isDone = false;
+    const loader = this.alert.createLoader();
 
-    if (this.platform.is('ios')) {
-      const openMapIOS = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`, '_system', 'location=no');
-    } else if (this.platform.is('android')) {
-      const openMapANDROID = window.open(`geo:${geoloc.latitude},${geoloc.longitude}?q=${geoloc.latitude},${geoloc.longitude}`, '_system', 'location=no');
-    }
+    let intervalTimer = setInterval(() => {
+      if (stopLoaderTimeSec !== startLoaderTimeSec) {
+        startLoaderTimeSec += 1;
+      }
+
+      if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
+        loader.dismiss();
+        clearInterval(intervalTimer);
+
+        // --> Show alert.
+        this.alert.create(
+          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
+          this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED')
+        );
+        // <-- Show alert.
+      } else if (startLoaderTimeSec === stopLoaderTimeSec) {
+        clearInterval(intervalTimer);
+      }
+    }, 1000);
+
+    this.geolocProvider.getCurrentCoords().then(({latitude, longitude}) => {
+      isDone = true;
+      loader.dismiss();
+
+      const _geoloc: any = this.getData('geoloc');
+      if (this.platform.is('ios')) {
+        const openMapIOS = window.open(`http://maps.apple.com/?daddr=${_geoloc.latitude},${_geoloc.longitude}`, '_system', 'location=no');
+      } else if (this.platform.is('android')) {
+        const openMapANDROID = window.open(`geo:${_geoloc.latitude},${_geoloc.longitude}?q=${_geoloc.latitude},${_geoloc.longitude}`, '_system', 'location=no');
+      }
+
+    }, (onError) => {
+      isDone = true;
+      loader.dismiss();
+    });
   }
 
   showSliderPager() {
@@ -702,7 +737,7 @@ export class PointOfInterestPage {
   }
 
   debugLoad(msg: string = '') {
-    /**
+    /*
      let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
