@@ -685,6 +685,8 @@ $picture-size: 200px;
           p {
             margin: 0;
             font-size: 1.2em;
+            word-break: break-all;
+            white-space: pre-wrap;
           }
         }
       }
