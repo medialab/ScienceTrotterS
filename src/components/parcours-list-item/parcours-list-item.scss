@@ -205,6 +205,16 @@ parcours-list-item {
         max-width: 70px;
         font-size: inherit;
 
+        .icon-download {
+          &.stateTrue {
+            display: none;
+          }
+
+          &.stateFalse {
+            display: flex;
+          }
+        }
+
         &.isDownloaded {
           label {
             color: #929090 !important;
@@ -215,7 +225,11 @@ parcours-list-item {
           }
 
           .icon-download {
-            ion-icon {
+            &.stateTrue {
+              display: flex;
+            }
+
+            &.stateFalse {
               display: none;
             }
           }

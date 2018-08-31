@@ -677,8 +677,8 @@ export class PointOfInterestPage {
       return [];
     } else {
       return Object
-        .values(this.getData('gallery_image'))
-        .map((img: string) => this.api.getAssetsUri(img));
+          .keys(this.getData('gallery_image'))
+          .map((itemId: any) => this.api.getAssetsUri(this.getData('gallery_image')[itemId]));
     }
 
 

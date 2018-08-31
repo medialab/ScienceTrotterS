@@ -63,7 +63,7 @@
 
 	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Erreur",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer à nouveau la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 
 	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
 	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
@@ -94,5 +94,6 @@
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
 
   "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
-  "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application."
+  "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+  "ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
 }

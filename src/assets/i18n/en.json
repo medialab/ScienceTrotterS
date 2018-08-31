@@ -63,7 +63,7 @@
 
 	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Error",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"To offer you the closest tour, Science Trotters wants to activate geolocation. All data will be erased when you close the application",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"To offer you the closest tour, Science Trotters wants to activate geolocation again. All data will be erased when you close the application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"To offer you the closest tour, Science Trotters wants to activate geolocation. All data will be erased when you close the application",
 
 	"MAIL_REPORT_PROBLEM_SUBJECT": "Landmark problem :landmarkName :cityName",
 	"MAIL_REPORT_PROBLEM_BODY": "Hello,[jumpLine]I have encountered the following problem at landmark :landmarkName of :cityName :",
@@ -94,5 +94,6 @@
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Internet connection required",
 
   "ALERT_MSG_MY_LOCATION": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",
-  "ALERT_MSG_MAP_GO": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application."
+  "ALERT_MSG_MAP_GO": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",
+  "ALERT_BTN_GEOLOC": "our geolocation must be activated in order to use this function. All data will be erased when you close the application."
 }

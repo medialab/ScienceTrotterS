@@ -32,6 +32,9 @@ export class DataProvider {
     t = this.deblaie(/(\[\/u\])/g,t);
     t = this.remplaceTag(/\[u\](.+)\[\/u\]/g,'<u>$1</u>',t);
     t = this.remblaie(t);
+    // Handle quotes
+    t = this.remplaceTag(/«(.+)»/g,'<q>$1</q>',t);
+    t = this.remblaie(t);
 
     const replaceKeyBR = /\[br\]/g;
     const replaceValueBR = '<br />';
@@ -40,6 +43,8 @@ export class DataProvider {
     // Return result.
     return t;
   };
+
+
 
   bbCodeToMail = (t: string) => {
     // Process.

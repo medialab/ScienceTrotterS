@@ -103,15 +103,10 @@ export class PreviewByCityPage {
   };
 
   changeOptionListAction(nextAction: string) {
-    if (nextAction === 'proximite' && this.isNetWorkAvailable() === false) {
-      return null;
-    } else {
-      const findAction = this.otpionsItems.find(item => item.action === nextAction);
-      if (typeof findAction !== 'undefined') {
-        this.optionsItemsSelected = findAction.id;
-
-        this.changeOptionListHandler();
-      }
+    const findAction = this.otpionsItems.find(item => item.action === nextAction);
+    if (typeof findAction !== 'undefined') {
+      this.optionsItemsSelected = findAction.id;
+      this.changeOptionListHandler();
     }
   }
 
@@ -241,9 +236,8 @@ export class PreviewByCityPage {
 
     // -->.
     this.events.subscribe('boxMap::updateCurrentGeoLoc', () => {
-      this.actionSortProximite()
+      this.actionSortProximite('ALERT_BTN_GEOLOC')
         .then((data: any) => {
-          console.log('succes update geo loc');
           this.events.publish('previewByCity::updateCurrentGeoLoc', data);
         })
         .catch(() => {
@@ -433,10 +427,10 @@ export class PreviewByCityPage {
     }
   }
 
-  actionSortProximite () {
+  actionSortProximite (msgAlertError: string = '') {
     return new Promise(async (success, error) => {
       // Triage en fonction que la géolocalition est disponible ou non.
-       this.geoloc.getCurrentCoords().then(async (resp: any) => {
+       this.geoloc.getCurrentCoords(msgAlertError).then(async (resp: any) => {
         const {latitude, longitude} = resp;
 
         this.curPositionUser = {
@@ -562,10 +556,18 @@ export class PreviewByCityPage {
    * @returns {string}
    */
   minifyString(str: string) {
-    return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
+    let _str = str;
+
+    try {
+      _str = (str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase());
+    } catch (e) {
+
+    }
+
+    return _str;
   }
 
 }

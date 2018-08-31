@@ -4,13 +4,7 @@
 
 <ion-content class="theme main-content" [ngClass]="config.globalGlobalCss()">
 
-  <ion-card>
-    <ion-card-header>
-      <h1>{{ translate.getKey('PAGE_NAME_CREDITS') }}</h1>
-    </ion-card-header>
-
-    <ion-card-content [innerHTML]="content">
-    </ion-card-content>
-  </ion-card>
+  <h1 class="titleCredits">{{ translate.getKey('PAGE_NAME_CREDITS') }}</h1>
+  <div padding [innerHTML]="content"></div>
 
 </ion-content>

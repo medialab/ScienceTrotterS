@@ -3,7 +3,7 @@ import {TranslateProvider} from "./translate";
 import {Geolocation} from '@ionic-native/geolocation';
 import {Injectable} from "@angular/core";
 import {Diagnostic} from "@ionic-native/diagnostic";
-import {Platform} from "ionic-angular";
+import {Platform, ToastController} from "ionic-angular";
 
 @Injectable()
 export class GeolocProvider {
@@ -24,8 +24,23 @@ export class GeolocProvider {
   constructor(private geolocation: Geolocation,
               public alert: AlertProvider,
               public platform: Platform,
+              private toastCtrl: ToastController,
               public diagnostic: Diagnostic,
               public translate: TranslateProvider) {
+  }
+
+  debugLoad(msg: string = '') {
+    /**
+     let toast = this.toastCtrl.create({
+     message: msg,
+     duration: 3000,
+     position: 'top'
+     });
+     toast.onDidDismiss(() => {
+     console.log('Dismissed toast');
+     });
+     toast.present();
+     */
   }
 
   /**
@@ -56,6 +71,16 @@ export class GeolocProvider {
     return resp;
   }
 
+  async getLocationAuthorizationStatus() {
+    const authorizationStatus: string =  await this.diagnostic.getLocationAuthorizationStatus().then((status: string) => {
+      return status;
+    }).catch((onError) => {
+      return 'denied';
+    });
+
+    return authorizationStatus;
+  }
+
   /**
    * Récupère la position GPS actuellement de la personne
    * et retourne une Promise.
@@ -72,14 +97,20 @@ export class GeolocProvider {
         reject('isLocationEnabled');
       } else if (!isLocationAuthorized) {
         // Si le GPS n'est pas authorized.
-        const isAccepted = await this.diagnostic.requestLocationAuthorization();
-        isLocationAuthorized = await this.isLocationAuthorized();
-
-        if (!isLocationAuthorized) {
+        const authorizationStatus = await this.getLocationAuthorizationStatus();
+        // CHECK: quand l'utilisateur refuse il doit aller dans ses paramètres pour
+        // Activer la géolocalisation.
+        if (authorizationStatus !== 'not_determined' && this.platform.is('ios')) {
           reject('isLocationAuthorized');
         } else {
-          resolve(true);
+          isLocationAuthorized = await this.isLocationAuthorized();
+          if (!isLocationAuthorized) {
+            reject('isLocationAuthorized');
+          } else {
+            resolve(true);
+          }
         }
+
       } else {
         resolve(true);
       }

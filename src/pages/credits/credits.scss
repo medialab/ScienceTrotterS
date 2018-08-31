@@ -3,12 +3,16 @@ page-credits {
   .box {
     background-color: #fff;
     box-shadow: 0 3px 6px rgba(105,105,105, 0.16);
-    padding: 20px;
+    padding: 10px 20px;
     width: calc( 50% - 20px );
   }
 
   .box-large {
     width: 100%;
+  }
+
+  .titleCredits {
+    padding: 5px 20px 0px 20px;
   }
 
   h3 {

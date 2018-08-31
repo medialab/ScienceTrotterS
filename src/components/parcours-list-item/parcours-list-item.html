@@ -63,9 +63,12 @@
                 [ngClass]="canBeDownloadCls()"
                 [attr.title]="getDownloadBtnTitle()"
                 (click)="download()" [ngClass]="config.globalGlobalCss()">
-        <span class='icon icon-download'>
-          <ion-icon name="arrow-round-down"></ion-icon>
-        </span>
+          <span class='icon icon-download stateFalse'>
+            <ion-icon name="arrow-round-down"></ion-icon>
+          </span>
+          <span class='icon icon-download stateTrue'>
+            <ion-icon name="checkmark"></ion-icon>
+          </span>
           <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
           </label>
         </button>
