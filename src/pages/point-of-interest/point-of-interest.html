@@ -141,8 +141,8 @@
     <section class="poi__section poi__section--isWhite section__gallery_image">
       <h3 id="titleGalery" class="poi__section__title">{{ translate.getKey('PLI_TAB_GALLERY_IMAGE') }}</h3>
 
-      <div class="poi__section__content" *ngIf="showGallery() == true">
-        <ion-slides class="image-slider poi-slider" loop="false" [pager]="galleryShowSlider">
+      <div class="poi__section__content poi__section__content__gallery" *ngIf="showGallery() == true">
+        <ion-slides class="image-slider poi-slider" loop="false" [pager]="true">
           <ion-slide *ngFor="let img of gallery">
             <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(img)' class="thumb-img" imageViewer />
           </ion-slide>

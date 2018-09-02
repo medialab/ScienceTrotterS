@@ -82,19 +82,19 @@ export class PointOfInterestPage {
   };
 
   constructor(private _DomSanitizationService: DomSanitizer,
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public api: ApiProvider,
-    public config: ConfigProvider,
-    public translate: TranslateProvider,
-    public alert: AlertProvider,
+              public navCtrl: NavController,
+              public navParams: NavParams,
+              public api: ApiProvider,
+              public config: ConfigProvider,
+              public translate: TranslateProvider,
+              public alert: AlertProvider,
               public geolocProvider: GeolocProvider,
               private toastCtrl: ToastController,
-    public events: Events,
-    public data: DataProvider,
-    public localData: LocalDataProvider,
-    public playerAudioProvider: PlayerAudioProvider,
-    public platform: Platform) {
+              public events: Events,
+              public data: DataProvider,
+              public localData: LocalDataProvider,
+              public playerAudioProvider: PlayerAudioProvider,
+              public platform: Platform) {
     if (typeof navParams.get('interestsList') !== 'undefined') {
       if (navParams.get('sortOrder') !== null) {
         this.sortOrder = navParams.get('sortOrder');

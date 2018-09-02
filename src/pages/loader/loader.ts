@@ -8,7 +8,4 @@ import {IonicPage} from 'ionic-angular';
 })
 export class LoaderPage {
 
-  constructor() {
-    console.log('loader page');
-  }
 }

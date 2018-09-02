@@ -651,13 +651,17 @@ $picture-size: 200px;
 }
 
 .section__gallery_image {
-  .poi__section__content {
-    height: auto;
-    min-height: 200px;
-  }
 
-  ion-slide.swiper-slide {
-    // left: 15%;
+  .poi__section__content__gallery {
+    height: 45vh;
+
+    .swiper-wrapper {
+      align-items: center;
+    }
+
+    .thumb-img {
+      padding: 10px;
+    }
   }
 
   .swiper-pagination-bullet {
@@ -670,9 +674,6 @@ $picture-size: 200px;
     &-active {
       background-color: black;
     }
-  }
-  .thumb-img {
-    padding: 10px;
   }
 }
 
