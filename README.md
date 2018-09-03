@@ -59,4 +59,8 @@ ionic cordova build ios
 ## License
 This project is licensed under the GPLv2 License - see the [GPLv2-LICENSE.md](https://github.com/medialab/ScienceTrotterS_mobile/GPLv2-LICENSE.md) file for details
 
+7) Push application on stores (AppStore and GooglePlay)
+
+[https://ionicframework.com/docs/v1/guide/publishing.html](https://ionicframework.com/docs/v1/guide/publishing.html)
+
 
