@@ -21,6 +21,9 @@ ion-app {
   font-family: 'montserratregular', sans-serif !important;
 }
 
+.ion-page {
+  background-color: white !important;
+}
 
 .app-root-ios {
   .hideOnIOSDevices {
@@ -32,6 +35,10 @@ ion-app.ios {
   .hideOnIOSDevices {
     display: none !important;
   }
+}
+
+[nav-view-transition="ios"][nav-view-direction="forward"], [nav-view-transition="ios"][nav-view-direction="back"] {
+  background-color: transparent;
 }
 
 /*
@@ -75,12 +82,17 @@ ion-header {
   }
 }
 
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
 /**
   RIGHT NAV BAR
  */
 .rightNavBar {
   .menu-inner {
-    width: 150px;
+    width: 170px;
     background-color: black;
   }
 
@@ -161,6 +173,7 @@ ion-header {
         span {
           font-size: 1.2em;
           margin: 0;
+          hyphens: manual;
         }
       }
     }
@@ -189,3 +202,30 @@ ion-header {
   *
   *
   */
+
+
+.app-root-md {
+  .main-content {
+    left: 0;
+    top: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% - #{$mainHeaderHeight});
+    contain: layout size style;
+    margin: #{$mainHeaderHeight} 0 0 0;
+  }
+}
+
+.app-root-ios {
+  .main-content {
+    left: 0;
+    top: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding})) !important;
+    contain: layout size style;
+    margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
+  }
+}

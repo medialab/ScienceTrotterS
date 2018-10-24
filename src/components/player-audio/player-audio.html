@@ -100,11 +100,17 @@
   </ul>
 
   <div class="audio__script" *ngIf="showAudioScript">
-    <p [innerHTML]="audioScript"></p>
+    <p [innerHTML]="data.bbCodeToHtml(audioScript)"></p>
   </div>
 
   <audio controls [attr.id]="playerUUID" class="hidden__audio__player">
-    <source [attr.src]="audioURI" />
+    <source [attr.src]="_DomSanitizationService.bypassSecurityTrustUrl(audioURI)" />
   </audio>
+
+  <div class='playerAudioNeedNetwork' *ngIf="isNotAvailable()">
+    <p>
+      {{ translate.getKey('GLOBAL_NEED_NETWORK_FOR_DATA') }}
+    </p>
+  </div>
 
 </div>

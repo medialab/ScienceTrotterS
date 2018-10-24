@@ -2,7 +2,7 @@
   {{ translate.getKey('PAGE_NAME_HOME') }}
 </main-header>
 
-<main-content>
+<ion-content class="theme main-content" [ngClass]="config.globalGlobalCss()">
 
   <h2 class="main__title">
     {{ translate.getKey('PAGE_NAME_HOME') }}
@@ -73,4 +73,4 @@
   </ul>
   <!-- ./ LIST ALL CITIES -->
 
-</main-content>
+</ion-content>

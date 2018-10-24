@@ -14,7 +14,6 @@ export class MainHeaderComponent {
   constructor (public navCtrl: NavController,
               public config: ConfigProvider,
               public translate: TranslateProvider) {
-
     setInterval(() => {
       this.config.getMenuState();
     }, 1000);

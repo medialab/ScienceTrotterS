@@ -9,6 +9,12 @@ export class PlayerAudioProvider {
   clearAll () {
     this.tracks = [];
   }
+  
+  clearOne(uuid: string) {
+    if (typeof this.tracks[uuid] !== 'undefined') {
+      delete this.tracks[uuid];
+    }
+  }
 
   add (track: any, uuid: string) {
     if (typeof this.tracks[uuid] === 'undefined') {
@@ -32,9 +38,9 @@ export class PlayerAudioProvider {
    * @returns {Promise<void>}
    */
   async isPlayingAndStopThem (curUUID: string = '') {
-    await Object.values(this.tracks).map((item: any) => {
-      if (item.isPlaying && item.uuid !== curUUID) {
-        item.updateActionState();
+    await Object.keys(this.tracks).map((itemId: any) => {
+      if (this.tracks[itemId].isPlaying && this.tracks[itemId].uuid !== curUUID) {
+        this.tracks[itemId].updateActionState();
       }
     });
 

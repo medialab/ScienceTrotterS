@@ -5,13 +5,13 @@
 	"RIGHT_MENU_SETTINGS":"Paramètres",
 	"RIGHT_MENU_PHOTO":"Photo",
 	"RIGHT_MENU_GPS":"Ma position",
-	"RIGHT_MENU_CREDITS":"Crédits",
+	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
 
 	"COMP_MH_GO_BACK":"Retour",
 
 	"PAGE_NAME_HOME":"Sélectionnez votre ville",
 	"PAGE_NAME_SETTINGS":"Paramètres",
-	"PAGE_NAME_CREDITS":"Crédits",
+	"PAGE_NAME_CREDITS":"Conditions générales d'utilisation",
 	"PAGE_NAME_PARCOURS_LIST":"Parcours thématique",
 
 	"P_SETTING_LANGUAGE":"Langue",
@@ -21,7 +21,7 @@
 	"P_SETTING_THEME":"Mode d'affichage",
 	"P_SETTING_THEME_DAY":"Jour",
 	"P_SETTING_THEME_NIGHT":"Nuit",
-	"P_SETTING_DELETE":"Supprimer les médias",
+	"P_SETTING_DELETE":"supprimer le cache",
 	"P_SETTING_DELETE_LOADER":"Suppression en cours…",
 
 	"PLI_FILTER_PROXIMITE":"Autour de moi",
@@ -62,14 +62,14 @@
 	"C_BOX_MAP_USER_MARKER":"Vous êtes ici",
 
 	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Erreur",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
-	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer à nouveau la géolocalisation en plus petit toutes les données seront effacées à la fermeture de l'application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 
 	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
 	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
 
 	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
-	"MAIL_SHARE_BIBLIO_BODY": "",
+	"MAIL_SHARE_BIBLIO_BODY": "Mens sana in corpore sano ! [jumpLine]",
 
 	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
 	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]",
@@ -89,5 +89,11 @@
 	"PLI_ICON_LANDMARK": "point d'intérêt",
 
   "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
-  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi."
+  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
+
+  "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
+
+  "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+  "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+  "ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
 }

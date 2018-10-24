@@ -10,6 +10,7 @@ import {TranslateProvider} from "../../providers/translate";
 import {GeolocProvider} from "../../providers/geoloc";
 import {ConfigProvider} from "../../providers/config";
 import {Events} from "ionic-angular";
+import {LocalDataProvider} from "../../providers/localData";
 
 @Component({
   selector: 'box-map',
@@ -42,8 +43,8 @@ export class BoxMapComponent {
   isMapRendered: boolean = false;
 
   config = {
-    'tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
-    'tmptileLayer': 'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    '_tileLayer': 'https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
+    'tileLayer': '',
     'selector': 'map_component__content',
     'minZoom': 9,
     'maxZoom': 18,
@@ -56,9 +57,11 @@ export class BoxMapComponent {
               public configProvider: ConfigProvider,
               private dataProvider: DataProvider,
               public translate: TranslateProvider,
+              public localData: LocalDataProvider,
               private alert: AlertProvider,
               private geolocation: Geolocation,
               public events: Events) {
+    this.config.tileLayer = configProvider.data.map.tileLayer;
     leaflet.markercluster = leafletMarkercluster;
 
     this.events.subscribe('previewByCity::initMapData', async (data) => {
@@ -144,20 +147,26 @@ export class BoxMapComponent {
   }
 
   createParcoursTraces (parcoursId: string, longitude: any, latitude: any) {
+    console.log('#createParcoursTraces');
+
     return new Promise((resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
-      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}`).subscribe((resp: any) => {
+      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()}`).subscribe((resp: any) => {
         const {data} = resp;
         const time = data.length.time;
         const poiArray = [];
 
+        console.log('data', data);
+
         for (const poi of data.interests) {
           if (typeof poi.api_data !== 'undefined') {
+            const colorTraceIsDone = '#929090';
+            const isTraceIsDone = this.localData.isLandmarkIsDone(poi.id, this.configProvider.getLanguage());
 
             // Création de la route.
             const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-              'color': data.color,
+              'color': (isTraceIsDone ? colorTraceIsDone : data.color),
               'weight': 5,
               'opacity': 0.65
             });
@@ -205,9 +214,16 @@ export class BoxMapComponent {
    * @param item
    * @returns {any}
    */
-  createAndAddMarker (target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true) {
+  createAndAddMarker(target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true, color: string = '#1E155E', landmarkId: string = null) {
+    const colorMarkerIsDone = '929090';
+    const colorMarker = (this.localData.isLandmarkIsDone(landmarkId === null ? id : landmarkId, this.configProvider.getLanguage())
+      ? colorMarkerIsDone
+      : color.substr(1));
+
+    const markerURI = this.api.getRequestURI('/public/marker/get/' + colorMarker);
+
     const icon = leaflet.icon({
-      iconUrl: 'assets/imgs/map/marker.svg',
+      iconUrl: markerURI,
       iconSize: [35,35],
       iconAnchor: [16,35],
       popupAnchor:  [0,-37]
@@ -260,7 +276,7 @@ export class BoxMapComponent {
    * @param time
    * @returns {string}
    */
-  clusterGroupTPL (bgColor: string, nb: string, time: string) {
+  clusterGroupTPL(bgColor: string, nb: string, time: string) {
     return `<div class='cluster' style='background-color: ${bgColor}'>`
       + `<div><i class="icon icon--clock"></i><span>${time}</span></div></div>`
       ;
@@ -358,7 +374,9 @@ export class BoxMapComponent {
             poi.title[this.configProvider.getLanguage()],
             latitude,
             longitude,
-            false);
+            false,
+            parcours.color,
+            poi.id);
 
           // Ajout du marker au groupe.
           cluster.addLayer(marker);
@@ -395,7 +413,8 @@ export class BoxMapComponent {
           item.id,
           item.title[this.configProvider.getLanguage()],
           latitude,
-          longitude);
+          longitude,
+          item.id);
 
         if (this.map !== null) {
           marker.addTo(this.map);

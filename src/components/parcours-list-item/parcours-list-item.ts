@@ -15,7 +15,7 @@ import {
 import {
   Events,
   NavController,
-  NavParams
+  NavParams, Platform
 } from "ionic-angular";
 import {
   LocalDataProvider
@@ -38,6 +38,7 @@ import {
   Network
 } from '@ionic-native/network';
 import { LoadingController, Loading } from 'ionic-angular';
+import {DataProvider} from "../../providers/data";
 
 
 @Component({
@@ -64,6 +65,8 @@ export class ParcoursListItemComponent {
   @Input() sortOrder: any = null;
   @Input() cityName: string = '';
   @Input() cityId: string = '';
+  @Input() schedule: string = '';
+  @Input() focusId: string = 'focusId';
 
   timeToObj = '';
   isShowTimeToObj: boolean = false;
@@ -85,7 +88,9 @@ export class ParcoursListItemComponent {
               public navParams: NavParams,
               public events: Events,
               public api: ApiProvider,
+              public data: DataProvider,
               public navCtrl: NavController,
+              public platform: Platform,
               public fileTransfer: FileTransfer,
               private file: File,
               public network: Network,
@@ -95,10 +100,11 @@ export class ParcoursListItemComponent {
   }
 
   ionViewWillEnter(){
-    // this.playerAudioProvider.clearAll();
   }
 
   ngOnChanges() {
+
+
     if (typeof this.geoloc !== 'undefined' && this.curPositionUser.longitude !== '' && this.curPositionUser.latitude !== '') {
       this.isShowTimeToObj = true;
       this.calculGeoLocDistance();
@@ -112,16 +118,12 @@ export class ParcoursListItemComponent {
     }
   }
 
-
   /**
    * @ref components/box-map
    * @param e
    */
-  handlerOnClickItemMap = ({
-                             target,
-                             id
-                           }) => {
-    if (id === this.openId) {
+  handlerOnClickItemMap = ({ target, id }) => {
+    if (id === this.openId && this.target === 'parcours') {
       this.updateDiscoverStateOrOpen();
     }
   };
@@ -130,10 +132,10 @@ export class ParcoursListItemComponent {
    * Met à jour l'état du dropdown contenant les informations.
    */
   updateDiscoverStateOrOpen() {
-    if (this.target === 'interests') {
-      this.openNext();
-    } else {
+    if (this.target === 'parcours') {
       this.isOpenDiscover = this.isOpenDiscover ? false : true;
+    } else {
+      this.openNext()
     }
   }
 
@@ -244,29 +246,36 @@ export class ParcoursListItemComponent {
   }
 
   download() {
-    let loading = this.loader.create({
-      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
-    });
-    loading.present();
+    if (!this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
+      let loading = this.loader.create({
+        content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+      });
+      loading.present();
 
-    if (this.parcourTime == "") {
-      this.downloadPOI()
-    } else {
-      this.downloadParcours();
-    }
-
-    let timerInterval = setInterval(() => {
-      if (!this.canBeDownload()) {
-        loading.dismiss();
-        clearInterval(timerInterval);
+      if (this.parcourTime == "") {
+        this.downloadPOI()
+      } else {
+        this.downloadParcours();
       }
-    }, 500);
+
+      let timerInterval = setInterval(() => {
+        console.log('timer is downloaded', this.localData.isDownloaded(this.openId, this.target));
+
+        if (this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
+          loading.dismiss();
+          clearInterval(timerInterval);
+        }
+      }, 500);
+    }
   }
 
   downloadParcours() {
-
     var id = this.openId;
     var audioURL = this.audioURI;
+
+    console.log('@downloadParcours');
+    console.log('audio url');
+
     var filename = id + ".mp3"
 
     // // Téléchargement de l'audio du parc
@@ -278,9 +287,7 @@ export class ParcoursListItemComponent {
 
   }
 
-
   downloadPOI(poi = this.interestsList[0]) {
-
     //Téléchargement de la cover
     var urlCover = this.api.getAssetsUri(poi['header_image']);
     var filename = poi['id'] + '--cover.jpeg';
@@ -304,8 +311,15 @@ export class ParcoursListItemComponent {
 
   downloadFile(url, filename, id, label, localStorageName = "POI") {
     this.fileTrans.download(url, this.file.dataDirectory + filename).then((entry) => {
-      // Téléchargement réussi : entry.toURL()
-      var imageURL = normalizeURL(entry.toURL());
+      let imageURL = '';
+
+      if (this.platform.is('android')) {
+        imageURL = entry.toInternalURL();
+      }
+      if (this.platform.is('ios')) {
+        imageURL = normalizeURL(entry.toURL()).replace('file:///', '/');
+      }
+
       // Je récupère le local storage
       var sPoi = localStorage.getItem(localStorageName);
 
@@ -331,6 +345,8 @@ export class ParcoursListItemComponent {
 
       if (this.parcourTime != "") {
         this.getAudio();
+
+
       }
 
     }, (error) => {
@@ -338,55 +354,65 @@ export class ParcoursListItemComponent {
     });
   }
 
-  // retourne si le parcours/poi peut etre téléchargé et verifie qu'il soit a jour (le met à jour dans le cas contraire)
-  canBeDownload() {
-    // On regarde si l'id du poi est dans le tableau du localstorage
-    var localStorageName = (this.parcourTime == "") ? "POI" : "Parcours";
-    var sPoi = localStorage.getItem(localStorageName);
+  canBeDownloadCls() {
+    const resp = this.localData.isDownloaded(this.openId, this.target);
 
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.openId]) {
-        var updateDate = this.createdAt.replace(/-/g, "/");
-        var formatedDate = Date.parse(updateDate);
-
-        if (formatedDate > oPOI[this.openId]['date']) {
-          console.log("mise à jour des données locales");
-
-          if (localStorageName == "POI") {
-            this.downloadPOI();
-          } else {
-            this.downloadParcours();
-          }
-
-        }
-
-        return false;
-      }
-    }
-
-    return this.network.type !== 'none';
+    return {
+      'isDownloaded': resp.isDownloaded,
+      'isNetworkOff': resp.isNetworkOff && resp.isDownloaded === false
+    };
   }
 
+  // retourne si le parcours/poi peut etre téléchargé et verifie qu'il soit a jour (le met à jour dans le cas contraire)
+  canBeDownload() {
+    const resp = {
+      'isDownloaded': false,
+      'isNetworkOff': false
+    };
+
+    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+      resp.isNetworkOff = true;
+    } else {
+      // On regarde si l'id du poi est dans le tableau du localstorage
+      var localStorageName = (this.parcourTime == "") ? "POI" : "Parcours";
+      var sPoi = localStorage.getItem(localStorageName);
+
+      if (sPoi != null) {
+        var oPOI = JSON.parse(sPoi);
+
+
+        if (oPOI[this.openId]) {
+          var updateDate = this.createdAt.replace(/-/g, "/");
+          var formatedDate = Date.parse(updateDate);
+
+          if (formatedDate > oPOI[this.openId]['date']) {
+            if (localStorageName == "POI") {
+              this.downloadPOI();
+            } else {
+              this.downloadParcours();
+            }
+          }
+        }
+      }
+
+      resp.isNetworkOff = this.network.type === 'none';
+    }
+
+    return resp;
+  }
 
   getAudio() {
-    // if (this.parcourTime) {
-    var sPoi = localStorage.getItem("Parcours");
+    const audioURI = this.localData.getAudio(this.openId);
 
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.openId]) {
-        return oPOI[this.openId]['audio'];
-      }
+    if (audioURI === '') {
+      return this.audioURI;
+    } else {
+      return audioURI;
     }
-    return this.audioURI;
-    // }
   }
 
   getDownloadBtnTitle() {
-    if (this.target === 'parcorus') {
+    if (this.target === 'parcours') {
       return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_PARCOURS');
     } else {
       return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_LANDMARK');

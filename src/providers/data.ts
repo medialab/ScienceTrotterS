@@ -32,9 +32,19 @@ export class DataProvider {
     t = this.deblaie(/(\[\/u\])/g,t);
     t = this.remplaceTag(/\[u\](.+)\[\/u\]/g,'<u>$1</u>',t);
     t = this.remblaie(t);
+    // Handle quotes
+    t = this.remplaceTag(/«(.+)»/g,'<q>$1</q>',t);
+    t = this.remblaie(t);
+
+    const replaceKeyBR = /\[br\]/g;
+    const replaceValueBR = '<br />';
+    t = t.replace(replaceKeyBR, replaceValueBR);
+
     // Return result.
     return t;
   };
+
+
 
   bbCodeToMail = (t: string) => {
     // Process.
@@ -64,8 +74,7 @@ export class DataProvider {
    */
   sendEmail = (to: string = '', subject: string = '', body: string = '') => {
     body = this.bbCodeMailJumpLine(body);
-
-    const tmpMail = window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system');
+    const tmpMail = window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system', 'location=no');
 
     return tmpMail;
   };
