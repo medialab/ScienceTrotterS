@@ -57,12 +57,13 @@ export class MyApp {
      * Initialisation de l'application.
      */
     platform.ready().then(() => {
+      statusBar.styleDefault();
+      //statusBar.overlaysWebView(false);
+      statusBar.backgroundColorByHexString('#f8f8f8');
       this.globalListener();
 
       splashScreen.hide();
       config.initialize();
-
-      statusBar.styleDefault();
 
       // Set TTL to 31 days.
       cache.setDefaultTTL(86400 * 31);
@@ -158,40 +159,17 @@ export class MyApp {
    *
    */
   sendCurrentPosition () {
-    const stopLoaderTimeSec = 30;
-    let startLoaderTimeSec = 0;
-    let isDone = false;
-    const loader = this.alert.createLoader();
-
-    let intervalTimer = setInterval(() => {
-      if (stopLoaderTimeSec !== startLoaderTimeSec) {
-        startLoaderTimeSec += 1;
-      }
-
-      if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
-        loader.dismiss();
-        clearInterval(intervalTimer);
-      } else if (startLoaderTimeSec === stopLoaderTimeSec) {
-        clearInterval(intervalTimer);
-      }
-    }, 1000);
-
-    this.geoloc.getCurrentCoords().then(({latitude, longitude}) => {
-      isDone = true;
-      loader.dismiss();
-
+    this.geoloc.getCurrentCoords('ALERT_MSG_MY_LOCATION').then(({latitude, longitude}) => {
       const to = '';
       const subject = this.translate.getKey('MAIL_SEND_POSITION_SUBJECT');
       const body = this.translate.getKeyAndReplaceWords('MAIL_SEND_POSITION_BODY', {
         'latitude': latitude,
         'longitude': longitude
       });
-
       this.data.sendEmail(to, subject, body);
-    }).catch((resp: any) => {
-      isDone = true;
-      loader.dismiss();
-    })
+    }).catch(() => {
+      // Nothing to do.
+    });
   }
 
   /**

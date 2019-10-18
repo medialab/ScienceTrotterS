@@ -7,7 +7,7 @@ import {
   Events,
   IonicPage,
   NavController,
-  NavParams
+  NavParams, ToastController
 } from 'ionic-angular';
 import {
   ApiProvider
@@ -34,6 +34,8 @@ import {
   PlayerAudioProvider
 } from "../../providers/playerAudio";
 import { Slides } from 'ionic-angular';
+import {DomSanitizer} from "@angular/platform-browser";
+import {GeolocProvider} from "../../providers/geoloc";
 
 @IonicPage()
 @Component({
@@ -79,17 +81,20 @@ export class PointOfInterestPage {
     isHidden: false,
   };
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public api: ApiProvider,
-    public config: ConfigProvider,
-    public translate: TranslateProvider,
-    public alert: AlertProvider,
-    public events: Events,
-    public data: DataProvider,
-    public localData: LocalDataProvider,
-    public playerAudioProvider: PlayerAudioProvider,
-    public platform: Platform) {
+  constructor(private _DomSanitizationService: DomSanitizer,
+              public navCtrl: NavController,
+              public navParams: NavParams,
+              public api: ApiProvider,
+              public config: ConfigProvider,
+              public translate: TranslateProvider,
+              public alert: AlertProvider,
+              public geolocProvider: GeolocProvider,
+              private toastCtrl: ToastController,
+              public events: Events,
+              public data: DataProvider,
+              public localData: LocalDataProvider,
+              public playerAudioProvider: PlayerAudioProvider,
+              public platform: Platform) {
     if (typeof navParams.get('interestsList') !== 'undefined') {
       if (navParams.get('sortOrder') !== null) {
         this.sortOrder = navParams.get('sortOrder');
@@ -115,18 +120,29 @@ export class PointOfInterestPage {
 
   async onUpdateLanguage() {
     this.isOnUpdateLanguage = false;
-    await this.initializeInterestsWithApi();
 
-    // MAJ Du titre de la page s'il s'agit d'un point d'intérêt seul
-    if (this.curTarget === 'interests' && this.interests.length > 0) {
-      this.pageName = this.interests[0].item.title[this.config.getLanguage()];
+    console.log('before');
+
+    await this.initializeInterestsWithApi().catch((() => {
+      console.log('catch msg');
+      this.noInterestsAlertOnLangChange();
+    }));
+
+    console.log('after');
+
+    if (true) {
+      // MAJ Du titre de la page s'il s'agit d'un point d'intérêt seul
+      if (this.curTarget === 'interests' && this.interests.length > 0) {
+        this.pageName = this.interests[0].item.title[this.config.getLanguage()];
+      }
+
+      // MAJ du titre de la page s'il s'agit d'un parcours.
+      this.updateCityData();
     }
-
-    // MAJ du titre de la page s'il s'agit d'un parcours.
-    this.updateCityData();
   }
 
   ionViewWillEnter(){
+    // ?.
     if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours
         this.playerAudioProvider.clearAll();
     }
@@ -186,48 +202,47 @@ export class PointOfInterestPage {
    * @param curTarget
    * @param curId
    */
-  async initializeInterestsWithApi() {
-    // console.log('@sortOrder', this.sortOrder);
+   initializeInterestsWithApi() {
+     return new Promise((resolve, reject) => {
+      let showAlert = true;
+      let geolocStr = '';
 
-    let showAlert = true;
-    let geolocStr = '';
+      if (this.curPositionUser.latitude === '' && this.curPositionUser.longitude === '') {
+        geolocStr = `${this.geoloc.latitude};${this.geoloc.longitude}`;
+      } else {
+        geolocStr = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
+      }
 
-    if (this.curPositionUser.latitude === '' && this.curPositionUser.longitude === '') {
-      geolocStr = `${this.geoloc.latitude};${this.geoloc.longitude}`;
-    } else {
-      geolocStr = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
-    }
+      let endpoint = this.curTarget === 'interests' ?
+        `/public/interests/byId/${this.curId}?lang=${this.config.getLanguage()}` :
+        `/public/interests/closest/?parcours=${this.curId}&geoloc=${geolocStr}&lang=${this.config.getLanguage()}`;
 
-    let endpoint = this.curTarget === 'interests' ?
-      `/public/interests/byId/${this.curId}?lang=${this.config.getLanguage()}` :
-      `/public/interests/closest/?parcours=${this.curId}&geoloc=${geolocStr}&lang=${this.config.getLanguage()}`;
+      this.api.get(endpoint).subscribe((resp: any) => {
+        if (resp.success && typeof resp.data === 'object') {
+          showAlert = false;
 
-    this.api.get(endpoint).subscribe((resp: any) => {
-      if (resp.success && typeof resp.data === 'object') {
-        showAlert = false;
+          // Gestion du tri alphabétique.
+          if (this.sortOrder !== null && this.sortOrder.action === 'alpha') {
+            resp.data = resp.data.sort(this.sort_alpha);
+          }
 
-        // Gestion du tri alphabétique.
-        if (this.sortOrder !== null && this.sortOrder.action === 'alpha') {
-          resp.data = resp.data.sort(this.sort_alpha);
+          this.initInterestsList(resp.data);
+        } else {
+          this.initInterestsList([]);
+          reject();
         }
 
-        this._interests = resp.data.map((item: any) => {
-          return {
-            'isDone': false,
-            'item': item
-          };
-        });
-      } else {
-        this._interests = [];
-      }
-
-      this.interests = this.getInterests();
-    }, (error: any) => {
-      console.log('error fetchPOI', error);
-    }, () => {
-      if (showAlert) {
-        this.noInterestsAlertOnLangChange();
-      }
+        this.interests = this.getInterests();
+      }, (error: any) => {
+        this.initInterestsList([]);
+        reject();
+      }, () => {
+        if (showAlert) {
+          reject();
+        } else {
+          resolve();
+        }
+      });
     });
   }
 
@@ -279,9 +294,11 @@ export class PointOfInterestPage {
   onClickMoveList(dir: string) {
     this.playerAudioProvider.isPlayingAndStopThem();
 
+
     switch (dir) {
       case 'prev':
         if (this.activeItem > 0) {
+          this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = this.activeItem - 1;
           this.onClickSetHelpItemActive(null);
           this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
@@ -289,10 +306,12 @@ export class PointOfInterestPage {
         break;
       case 'next':
         if (this.interests.length > (this.activeItem + 1)) {
+          this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = this.activeItem + 1;
           this.onClickSetHelpItemActive(null);
           this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
         } else {
+          this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = 0;
         }
         break;
@@ -430,7 +449,8 @@ export class PointOfInterestPage {
       'cityName': this.cityName
     });
 
-    let body = '';
+    const preBody = this.translate.getKey('MAIL_SHARE_BIBLIO_BODY');
+    let body = preBody;
 
     for (let itemDesc of this.getData('bibliography', true)) {
       body += itemDesc + '[jumpLine]';
@@ -440,41 +460,44 @@ export class PointOfInterestPage {
   }
 
   btnEndPointOfInterest() {
-    const data = {
-      'uuid': this.getData('id'),
-      'created_at': this.getData('updated_at'),
-      'name': this.getData('title', true)
-    };
+    if (this.isPOIIsDone().isDoneBTN === false) {
+      const data = {
+        'uuid': this.getData('id'),
+        'created_at': this.getData('updated_at'),
+        'name': this.getData('title', true)
+      };
 
-    // Par défaut on enregistre le POI comme étant terminé.
-    this.localData.addPOIDone(data, this.config.getLanguage());
+      // Par défaut on enregistre le POI comme étant terminé.
+      this.localData.addPOIDone(data, this.config.getLanguage());
 
-    if (this.interests.length === 1) {
-      // --> Ajout de l'item courant dans la liste des parocurs ou point d'intérêt done.
+      if (this.interests.length === 1) {
+        // --> Ajout de l'item courant dans la liste des parocurs ou point d'intérêt done.
 
-      if (this.curTarget === 'parcours') {
-        data.uuid = this.curId;
-        data.created_at = this.createdAt;
-        this.localData.addParcoursDone(data, this.config.getLanguage());
+        if (this.curTarget === 'parcours') {
+          data.uuid = this.curId;
+          data.created_at = this.createdAt;
+          this.localData.addParcoursDone(data, this.config.getLanguage());
+        }
+
+        // --> On retourne à la page précèdente (liste poi ou parcours).
+        this.goBackOrGoCitiesList();
+
+      } else {
+        // Enregistrement du point d'intérêt éffectué dans la liste courante.
+        this._interests[this.activeItem].isDone = true;
+        this._interests = this.getInterests();
+        this.interests = this.getInterests();
+
+        if (this.activeItem > 0) {
+          this.activeItem -= 1;
+        }
+
+        this.scrollTo('poiMainContent');
+        this.onClickSetHelpItemActive(null);
       }
 
-      // --> On retourne à la page précèdente (liste poi ou parcours).
-      this.goBackOrGoCitiesList();
-
-    } else {
-      // Enregistrement du point d'intérêt éffectué dans la liste courante.
-      this._interests[this.activeItem].isDone = true;
-      this._interests = this.getInterests();
-      this.interests = this.getInterests();
-
-      if (this.activeItem > 0) {
-        this.activeItem -= 1;
-      }
-
-      this.onClickSetHelpItemActive(null);
+      this.playerAudioProvider.isPlayingAndStopThem();
     }
-
-    this.playerAudioProvider.isPlayingAndStopThem();
   }
 
   focusAnElement(element: string) {
@@ -486,8 +509,16 @@ export class PointOfInterestPage {
   }
 
   openMapToLocation() {
-    const geoloc: any = this.getData('geoloc');
-    const openMap = window.open(`http://maps.apple.com/?daddr=${geoloc.latitude},${geoloc.longitude}`);
+    this.geolocProvider.getCurrentCoords('ALERT_MSG_MAP_GO').then(({latitude, longitude}) => {
+      const _geoloc: any = this.getData('geoloc');
+      if (this.platform.is('ios')) {
+        const openMapIOS = window.open(`http://maps.apple.com/?daddr=${_geoloc.latitude},${_geoloc.longitude}`, '_system', 'location=no');
+      } else if (this.platform.is('android')) {
+        const openMapANDROID = window.open(`geo:${_geoloc.latitude},${_geoloc.longitude}?q=${_geoloc.latitude},${_geoloc.longitude}`, '_system', 'location=no');
+      }
+    }, (onError) => {
+      // Nothing to do.
+    });
   }
 
   showSliderPager() {
@@ -578,7 +609,6 @@ export class PointOfInterestPage {
   }
 
   showAudioScriptListener(nextState: boolean) {
-    // console.log('nextState', nextState);
     this.scrollToScriptAudio(nextState);
   }
 
@@ -647,30 +677,31 @@ export class PointOfInterestPage {
       return [];
     } else {
       return Object
-        .values(this.getData('gallery_image'))
-        .map((img: string) => this.api.getAssetsUri(img));
+          .keys(this.getData('gallery_image'))
+          .map((itemId: any) => this.api.getAssetsUri(this.getData('gallery_image')[itemId]));
     }
 
 
   }
 
   getAudio() {
+    const audioURI = this.localData.getLandmarkAudio(this.getData('id'));
 
-    var sPoi = localStorage.getItem("POI");
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.curId]) {
-        return oPOI[this.curId]['audio'];
-      }
-
-      if (oPOI[this.interests[this.activeItem].item.id]){
-        return oPOI[this.interests[this.activeItem].item.id]['audio'];
-      }
+    if (audioURI === '') {
+      return this.api.getAssetsUri(this.getData('audio', true));
+    } else {
+      return audioURI;
     }
-    return this.getData('audio', true) === '' ? '' : this.api.getAssetsUri(this.getData('audio', true));
   }
 
+  showGallery() {
+    const resp = this.localData.isLandmarkDownloaded(this.getData('id'));
 
+    return resp.isDownloaded === true || resp.isNetworkOff === false;
+  }
+
+  getThisCoverImg() {
+    return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.getCoverPicture()})`);
+  }
 
 }

@@ -14,10 +14,13 @@
   "target": "browser",
 
   "configuration": {
-    "contact_mail": "managers@thenetgroup.net",
+    "contact_mail": "forccast.controverses@sciencespo.fr",
     "endpoint": {
       "data": "https://api-sts.actu.com/",
       "assets": "https://api-sts.actu.com/ressources/upload/"
+    },
+    "map": {
+      "tileLayer": "https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
     }
   }
 }

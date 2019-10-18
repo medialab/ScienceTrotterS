@@ -1,8 +1,7 @@
 import { Network } from '@ionic-native/network';
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {App, Content, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {App, Content, Events, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
-import leaflet from 'leaflet';
 import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
 import {GeolocProvider} from "../../providers/geoloc";
@@ -25,6 +24,8 @@ export class PreviewByCityPage {
     'latitude': ''
   };
 
+  lastScrollKnown: number = 0;
+
   // Variables contenant les données non trié.
   _parcours: Array<any> = new Array();
   _interests: Array<any> = new Array();
@@ -35,6 +36,8 @@ export class PreviewByCityPage {
 
   parcoursListItemHandler: any = null;
   eventUpdateLanguage: any = null;
+
+  isLoadingAlert: boolean = false;
 
   /**
    * Filtre les parcours suivant les critères.
@@ -73,6 +76,10 @@ export class PreviewByCityPage {
     isOpen: false
   };
 
+  mapClassNames = {
+    isClose: false
+  };
+
   // Tri par défaut sélectionné qui est par proximité.
   optionsItemsSelected: number = 1;
   otpionsItems = [
@@ -99,7 +106,6 @@ export class PreviewByCityPage {
     const findAction = this.otpionsItems.find(item => item.action === nextAction);
     if (typeof findAction !== 'undefined') {
       this.optionsItemsSelected = findAction.id;
-
       this.changeOptionListHandler();
     }
   }
@@ -133,11 +139,15 @@ export class PreviewByCityPage {
               public navParams: NavParams,
               public geoloc: GeolocProvider,
               public config: ConfigProvider,
+              public platform: Platform,
               public alert: AlertProvider,
               public api: ApiProvider,
               public events: Events,
               public translate: TranslateProvider,
               public network: Network) {
+
+    console.log('preview by city page');
+
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
       this.init();
@@ -145,6 +155,11 @@ export class PreviewByCityPage {
   }
 
   async init () {
+
+    if (this.isNetWorkAvailable() === false) {
+      this.optionsItemsSelected = 1;
+    }
+
     this.loadInterests().then(() => {
       this.loadParcours().then(() => {
 
@@ -173,6 +188,14 @@ export class PreviewByCityPage {
       this.city = resp.data;
     }, (onError) => {
     });
+  }
+
+  isNetWorkAvailable() {
+    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+      return true;
+    } else {
+      return this.network.type !== 'none';
+    }
   }
 
   focusAnElement (element: string) {
@@ -208,23 +231,26 @@ export class PreviewByCityPage {
       setTimeout(() => {this.parcoursListItemHandler = null;}, 250);
 
       // Ouverture de la liste.
-      this.openContentList();
+      this.openContentList(data);
     });
 
     // -->.
     this.events.subscribe('boxMap::updateCurrentGeoLoc', () => {
-      this.actionSortProximite()
+      this.actionSortProximite('ALERT_BTN_GEOLOC')
         .then((data: any) => {
           this.events.publish('previewByCity::updateCurrentGeoLoc', data);
         })
         .catch(() => {
+          console.log('error');
         });
     });
 
+    /**
     const connected = this.network.onConnect().subscribe((data) => {
-      this.init();
+    // HANDLE NETWORK ON CONNECT.
     }, (onError) => {
     });
+     */
   }
 
   ionViewWillUnload () {
@@ -235,8 +261,8 @@ export class PreviewByCityPage {
     this.events.publish('previewByCity::ionViewWillLeave');
   }
 
-
-
+  ionViewDidLoad() {
+  }
 
   /**
    *
@@ -275,20 +301,29 @@ export class PreviewByCityPage {
   /**
    *
    */
-  openContentList() {
+  openContentList(data: any = null) {
     const duration = 570;
     const selector = '#previewByCityContent .scroll-content';
 
     if (this.contentListClass.isOpen) {
       this.contentListClass.isOpen = false;
+      this.mapClassNames.isClose = false;
       this.scrollToDiv(selector, 0, duration);
     } else {
       this.contentListClass.isOpen = true;
+      this.mapClassNames.isClose = true;
       //noinspection TypeScriptUnresolvedFunction
       const contentHeight: any = document.querySelector('#previewByCityContent .scroll-content');
 
       if (contentHeight !== null) {
         this.scrollToDiv(selector, contentHeight.offsetHeight, duration);
+
+        if (data !== null) {
+          setTimeout(() => {
+            const itemIdSelector = '#' + data.target + '-' + data.id;
+            this.focusAnElement(itemIdSelector);
+          }, 300);
+        }
       }
     }
   }
@@ -301,6 +336,10 @@ export class PreviewByCityPage {
     if (! this.contentListClass.isOpen) {
       this.openContentList();
     }
+  }
+
+  handleScroll(e: any) {
+    console.log('handleScroll');
   }
 
   /**
@@ -388,32 +427,10 @@ export class PreviewByCityPage {
     }
   }
 
-  actionSortProximite () {
+  actionSortProximite (msgAlertError: string = '') {
     return new Promise(async (success, error) => {
-      const stopLoaderTimeSec = 30;
-      let startLoaderTimeSec = 0;
-      let isDone = false;
-
-      const loaderContent = '';
-      const loader = this.alert.createLoader(loaderContent);
-
-      let intervalTimer = setInterval(() => {
-        if (stopLoaderTimeSec !== startLoaderTimeSec) {
-          startLoaderTimeSec += 1;
-        }
-
-        if (startLoaderTimeSec === stopLoaderTimeSec && isDone === false) {
-          loader.dismiss();
-          clearInterval(intervalTimer);
-          error();
-        } else if (startLoaderTimeSec === stopLoaderTimeSec) {
-          clearInterval(intervalTimer);
-        }
-      }, 1000);
-
       // Triage en fonction que la géolocalition est disponible ou non.
-      await this.geoloc.getCurrentCoords().then(async (resp: any) => {
-        isDone = true;
+       this.geoloc.getCurrentCoords(msgAlertError).then(async (resp: any) => {
         const {latitude, longitude} = resp;
 
         this.curPositionUser = {
@@ -429,13 +446,9 @@ export class PreviewByCityPage {
           await this.loadInterests(`${latitude};${longitude}`);
         }
 
-        loader.dismiss();
-
         success(resp);
       }, (err: any) => {
-        this.isOptionsActionSelected('proximite');
-        isDone = true;
-        loader.dismiss();
+        this.changeOptionListAction('alpha');
         error();
       });
     });
@@ -543,10 +556,18 @@ export class PreviewByCityPage {
    * @returns {string}
    */
   minifyString(str: string) {
-    return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
+    let _str = str;
+
+    try {
+      _str = (str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase());
+    } catch (e) {
+
+    }
+
+    return _str;
   }
 
 }

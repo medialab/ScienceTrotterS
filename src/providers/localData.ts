@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
+import {Platform} from "ionic-angular";
+import {Network} from "@ionic-native/network";
+import {
+  normalizeURL
+} from '../../node_modules/ionic-angular/util/util';
 
 @Injectable()
 export class LocalDataProvider {
+
+  constructor(public platform: Platform,
+              public network: Network) {
+  }
+
   /**
    * Ajout d'une donnée au localStorage.
    * @param key
@@ -198,6 +208,19 @@ export class LocalDataProvider {
     }
   }
 
+  isLandmarkIsDone(landmarkId: string, language: string) {
+    const key = 'sts::statusPOI';
+    let data = this.getAsObject(key);
+
+    if (typeof data[language] === 'undefined') {
+      return false;
+    } else {
+      const itemId = data[language].findIndex(i => i.uuid === landmarkId);
+
+      return itemId !== -1;
+    }
+  }
+
   /**
    * Log des écoutes des audios.
    * @param target - "parcours" ou "interests"
@@ -225,5 +248,105 @@ export class LocalDataProvider {
     } else {
       return true;
     }
+  }
+
+  isLandmarkDownloaded(landmarkId: string) {
+    const resp = {
+      'isDownloaded': false,
+      'isNetworkOff': false
+    };
+    let dataJson = [];
+    const localStorageName = 'POI';
+    const data = localStorage.getItem(localStorageName);
+
+    if (data !== null) {
+      try {
+        dataJson = JSON.parse(data);
+      } catch (e) {
+        // Already been catched ahead in instance.
+      } finally {
+        resp.isDownloaded = typeof dataJson[landmarkId] !== 'undefined';
+      }
+    }
+    // We need this check in devMode
+    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+    } else {
+      resp.isNetworkOff = this.network.type === 'none';
+    }
+
+    return resp;
+  }
+
+  isParcoursDownloaded(parcoursId: string) {
+    const resp = {
+      'isDownloaded': false,
+      'isNetworkOff': false
+    };
+    let dataJson = [];
+    const localStorageName = 'Parcours';
+    const data = localStorage.getItem(localStorageName);
+
+    if (data !== null) {
+      try {
+        dataJson = JSON.parse(data);
+      } catch (e) {
+        // Already been catched ahead in instance.
+      } finally {
+        resp.isDownloaded = typeof dataJson[parcoursId] !== 'undefined';
+      }
+    }
+    // We need this check in devMode
+    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+    } else {
+      resp.isNetworkOff = this.network.type === 'none';
+    }
+
+    return resp;
+  }
+  
+  isDownloaded(targetId: string, target: string) {
+    if (target.toLowerCase() === 'parcours') {
+      return this.isParcoursDownloaded(targetId)
+    } else {
+      return this.isLandmarkDownloaded(targetId);
+    }
+  }
+
+  getAudio(targetId: string) {
+    let audioURI = '';
+
+    const data = localStorage.getItem('Parcours');
+    let dataJson = [];
+
+    if (data !== null) {
+      try {
+        dataJson = JSON.parse(data);
+      } catch (e) {
+        // Already been catched ahead in instance.
+      } finally {
+        audioURI = typeof dataJson[targetId] === 'undefined' ? '' : dataJson[targetId]['audio'];
+      }
+    }
+
+    return audioURI;
+  }
+
+  getLandmarkAudio(targetId: string) {
+    let audioURI = '';
+
+    const data = localStorage.getItem('POI');
+    let dataJson = [];
+
+    if (data !== null) {
+      try {
+        dataJson = JSON.parse(data);
+      } catch (e) {
+        // Already been catched ahead in instance.
+      } finally {
+        audioURI = typeof dataJson[targetId] === 'undefined' ? '' : dataJson[targetId]['audio'];
+      }
+    }
+
+    return audioURI;
   }
 }

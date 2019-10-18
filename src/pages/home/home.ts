@@ -6,6 +6,7 @@ import {ApiProvider} from "../../providers/api";
 import {City} from "../../models/City";
 import {DataProvider} from "../../providers/data";
 import {AlertProvider} from "../../providers/alert";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'page-home',
@@ -16,6 +17,8 @@ export class HomePage {
   activeLg: string = "activeLg";
   listCities: Array<City> = new Array();
   platformValues: string = '';
+
+  audioURI = 'cdvfile://localhost/files/6725fdc7-70b5-4138-91e4-2bcb04c79849.mp3';
 
   get currentLanguage () {
     return this.config.getLanguage();

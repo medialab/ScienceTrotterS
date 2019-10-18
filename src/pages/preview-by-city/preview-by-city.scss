@@ -1,8 +1,22 @@
 .app-root-ios {
   page-preview-by-city {
     .contentList {
-      height: calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px);
+      height: calc(100% - 70px - 40px - 56px);
       bottom: calc(0px - calc(100vh - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) - 70px - 30%) + 56px);
+
+      &.isOpen {
+        bottom: 0;
+      }
+    }
+
+    .map {
+      height: calc(100% - 30% - 26px);
+
+      &.isClose {
+        .btn__geoloc {
+          top: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding} + 26px);
+        }
+      }
     }
   }
 }
@@ -12,6 +26,28 @@
     .contentList {
       height: calc(100vh - #{$mainHeaderHeight} - 70px);
       bottom: calc(0px - calc(100vh - #{$mainHeaderHeight} - 70px - 30%) + 56px);
+
+      &.isOpen {
+        bottom: 0;
+      }
+    }
+
+    .map {
+      height: calc(100% - 56px - 30%);
+
+      &.isClose {
+        .btn__geoloc {
+          top: 46px;
+        }
+      }
+    }
+  }
+}
+
+.platform-ios9 {
+  page-preview-by-city {
+    ul.list {
+      display: block !important;
     }
   }
 }
@@ -25,17 +61,20 @@ page-preview-by-city {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    overflow-y: hidden;
 
     .map {
       width: 100%;
-      height: calc(100% - 56px - 30%);
       background-color: black;
+      position: relative;
+      transition: top 0.4s ease-out;
     }
 
     ul.list {
       width: 100%;
-      height: calc(100% - 56px - 40px);
-      display: flex;
+      height: calc(100% - 56px - 40px) !important;
+
+      display: block;
       flex-direction: column;
       flex-wrap: nowrap;
       overflow-y: scroll;
@@ -48,6 +87,9 @@ page-preview-by-city {
         padding: 20px;
       }
 
+      li {
+        height: auto;
+      }
     }
 
     ul.list {
@@ -68,6 +110,7 @@ page-preview-by-city {
   }
 
   .contentList.isOpen {
+
   }
 
   .contentList {
@@ -76,7 +119,7 @@ page-preview-by-city {
     flex-wrap: nowrap;
     position: absolute;
     width: 100%;
-    background-color: blue;
+    background-color: white;
     transition: 0.4s ease-out;
     z-index: 999;
 
@@ -196,6 +239,8 @@ page-preview-by-city {
     .item {
       width: 50%;
       min-width: 50%;
+      height: 40px;
+      min-width: 40px;
 
       &__btn {
         width: 100%;
@@ -225,6 +270,7 @@ page-preview-by-city {
 
         label {
           font-size: 1.2em !important;
+          line-height: 0px;
         }
       }
     }
@@ -281,11 +327,80 @@ page-preview-by-city {
       button {
         font-size: inherit;
         color: white;
-        text-transform: uppercase;
         display: flex;
         align-items: center;
         background-color: transparent;
         border: 0;
+      }
+    }
+  }
+}
+
+#previewByCityContent.day {
+
+  .btnUpAndDown {
+    background-color: white;
+
+    ion-icon {
+      color: black;
+    }
+  }
+
+  .darkSelectBox {
+    background-color: white !important;
+
+    .switch__target__list {
+      .item {
+        button {
+          color: black;
+          background-color: white;
+
+          &.isSelected {
+            background-color: #E2DFDF;
+            border-color: #E2DFDF;
+          }
+        }
+      }
+    }
+  }
+
+  .options__items__sort {
+    background-color: white;
+    border-top: 1px solid #B7B5B6;
+    border-bottom: 1px solid #B7B5B6;
+        ul {
+      li {
+        button {
+          color: black !important;
+        }
+      }
+    }
+  }
+
+  #list-parcours, #list-point-of-interest {
+    background-color: #F9F6F6 !important;
+
+    li {
+      &:nth-child(odd) {
+        parcours-list-item {
+          background-color: #F9F6F6 !important;
+        }
+      }
+
+      &:nth-child(even) {
+        parcours-list-item {
+          background-color: white !important;
+        }
+      }
+    }
+  }
+
+  box-map {
+    .btn__geoloc {
+      background-color: white;
+
+      ion-icon {
+        color: black;
       }
     }
   }

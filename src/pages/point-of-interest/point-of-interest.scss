@@ -1,5 +1,37 @@
 
 page-point-of-interest {
+
+  q {
+    quotes: "«\00A0" "\00A0»";
+    margin: 0;
+    padding: 0;
+
+    &::before {
+      content: open-quote;
+    }
+    &::after {
+      content: close-quote;
+    }
+  }
+
+  .showGalleryNoNetwork {
+    width: 100%;
+    height: 35vh;
+    background-color: rgba(218, 223, 225, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+      padding: 14px;
+      font-size: 1.5em;
+      background-color: gray;
+      opacity: 0.7;
+      max-width: 180px;
+      text-align: center;
+    }
+  }
+
   player-audio {
     .audio__script {
       display: none !important;
@@ -22,6 +54,31 @@ page-point-of-interest {
       height: calc(100% - calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}));
       margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
     }
+
+    .btnContainer {
+      &__btn {
+        &--right {
+          padding: 10px;
+        }
+      }
+    }
+
+  }
+}
+
+
+.platform-ios9 {
+  page-point-of-interest {
+    ion-content {
+      height: calc(100% - 60px) !important;
+      margin: calc(#{$mainHeaderHeight} + #{$cordova-ios-statusbar-padding}) 0 0 0;
+    }
+
+    .btn__share {
+      &__icon {
+        margin: 0 auto;
+      }
+    }
   }
 }
 
@@ -37,8 +94,9 @@ $picture-size: 200px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: #F7AB3F;
+    background-color: black;
     index: -5;
+
   }
   &__info {
     background-color: #F7AB3F;
@@ -46,18 +104,26 @@ $picture-size: 200px;
     text-align: center;
     padding: .7em 0em;
     z-index: 200;
-    display: grid;
-    grid-template-columns: 3.5em 1fr 3.5em;
-    grid-template-areas: "L T R" "L S R";
-    &--title {
-      grid-area: T;
-      font-size: 1.2em;
-      text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+    .infoContent {
+      flex-grow: 1;
+
+      .infoTitle {
+        font-size: 1.2em;
+        text-transform: uppercase;
+        word-break: break-word;
+      }
+      .infoSubtitle {
+        font-size: 1em;
+        word-break: break-word;
+      }
     }
-    &--subtitle {
-      grid-area: S;
-      font-size: 1em;
-    }
+
     .poi__marker{
       content: "";
       background: url('../assets/imgs/poi/poi_marker.svg') no-repeat bottom;
@@ -68,20 +134,30 @@ $picture-size: 200px;
       transform: translateX(-50%);
       position: absolute;
     }
-    &__btn {
-      background-color: transparent;
-      color: white;
-      font-size: 1.5em;
 
-      label {
-        cursor: pointer;
-      }
+    .btnContainer {
+      width: 35px;
+      min-width: 35px;
+      height: 100%;
 
-      &--L {
-        grid-area: L;
-      }
-      &--R {
-        grid-area: R;
+      &__btn {
+        background-color: transparent;
+        color: white;
+        font-size: 1.5em;
+        width: 35px;
+        min-width: 35px;
+        height: 100%;
+
+        &--left {
+        }
+
+        &--right {
+        }
+
+        label {
+          cursor: pointer;
+        }
+
       }
     }
   }
@@ -203,6 +279,7 @@ $picture-size: 200px;
   border-bottom: 1px solid #707070;
   flex-wrap: nowrap;
   justify-content: center;
+  overflow: hidden;
 
   &__item {
     height: 100%;
@@ -529,7 +606,6 @@ $picture-size: 200px;
 }
 
 .poi-slider {
-
 }
 
 .poi__main__content {
@@ -567,6 +643,7 @@ $picture-size: 200px;
 
       .pJustified {
         text-align: justify;
+        hyphens: auto;
         font-size: 1.2em;
       }
     }
@@ -574,13 +651,19 @@ $picture-size: 200px;
 }
 
 .section__gallery_image {
-  .poi__section__content {
-    height: auto;
+
+  .poi__section__content__gallery {
+    height: 45vh;
+
+    .swiper-wrapper {
+      align-items: center;
+    }
+
+    .thumb-img {
+      padding: 10px;
+    }
   }
 
-  ion-slide.swiper-slide {
-    // left: 15%;
-  }
   .swiper-pagination-bullet {
     $size: 18px;
     background-color: #fff;
@@ -591,9 +674,6 @@ $picture-size: 200px;
     &-active {
       background-color: black;
     }
-  }
-  .thumb-img {
-    padding: 10px;
   }
 }
 
@@ -612,11 +692,14 @@ $picture-size: 200px;
         list-style: none;
 
         &__item {
-          padding: 2px 0;
+          padding: 6px 0;
 
           p {
             margin: 0;
             font-size: 1.2em;
+            text-align: justify;
+            quotes: "«\00A0" "\00A0»";
+
           }
         }
       }
@@ -685,7 +768,8 @@ footer {
     font-size: inherit;
 
     &__item {
-      flex-grow: 1;
+      width: 33.3333%;
+      margin: auto;
 
       .item__button {
         width: 100%;
@@ -723,8 +807,6 @@ footer {
       }
     }
   }
-
-
 }
 
 ion-slides {
@@ -748,4 +830,10 @@ ion-slides {
 
 .hideSectionScriptAudio {
   display: none !important;
+}
+
+#poiMainContent.night {
+  .poi__section--isWhite {
+    background-color: #D2D7D3 !important;
+  }
 }

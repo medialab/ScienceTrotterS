@@ -10,6 +10,9 @@ export class ConfigProvider {
     'endpoint': {
       'data': '',
       'assets': ''
+    },
+    'map': {
+      'tileLayer': ''
     }
   };
 
@@ -211,6 +214,6 @@ export class ConfigProvider {
 
     this.updateLanguage(_language === null ? this.parameters.language : _language);
     this.updateFontSize(_fontSize === null ? this.parameters.fontSize : _fontSize);
-    this.updateFontSize(_theme === null ? this.parameters.theme : _theme);
+    this.updateTheme(_theme === null ? this.parameters.theme : _theme);
   }
 }
