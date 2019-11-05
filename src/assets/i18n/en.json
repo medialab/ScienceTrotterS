@@ -33,6 +33,7 @@
 	"PLI_LIST_START_POI":"start point of interest",
 	"PLI_VAL_ITINERARY":"Go",
 	"PLI_BTN_END_POI":"Completed",
+	"PLI_BTN_END_POI_DONE":"Reset",
 	"PLI_BTN_END_POI_LAST":"Tour completed",
 
 	"PLI_BTN_SEND_PB":"Report an issue",
@@ -85,6 +86,7 @@
 	"PLI_BTN_INFORMATION": "Show more about this landmark",
 	"PLI_BTN_NAVIGATION": "itinerary to this landmark",
 	"PLI_BTN_END_POI_ATTR_TITLE": "End this landmark",
+	"PLI_BTN_END_POI_ATTR_TITLE_DONE" : "Reset this landmark",
 
 	"PLI_ICON_LANDMARK": "landmark",
 

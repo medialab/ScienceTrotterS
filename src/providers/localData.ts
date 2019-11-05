@@ -146,35 +146,37 @@ export class LocalDataProvider {
    * @param language
    * @returns {any}
    */
-  addPOIDone ({uuid, created_at}, language: string) {
+  updatePOIDone ({uuid, created_at, done}, language: string) {
     const key = 'sts::statusPOI';
     let data: any = this.getAsObject(key);
 
-    if (typeof data[language] !== 'undefined') {
-      const itemId = data[language].findIndex(i => i.uuid === uuid);
-
-      if (itemId === -1) {
+    if (typeof data[language] === 'undefined') {
+      data[language] = [];
+    }
+    // look for the POI
+    const itemIndex = data[language].findIndex(o => o && o.uuid === uuid)
+    if (itemIndex === -1) {
+      // not found
+      if (done) {
         // SAVE DU POI.
         data[language].push({
           'uuid': uuid,
           'created_at': created_at
         });
-      } else {
+      }
+    } else {
+      // found
+      if (done) {
         // MAJ DU POI
-        data[language][itemId] = {
+        data[language][itemIndex] = {
           'uuid': uuid,
           'created_at': created_at
         };
       }
-
-    } else {
-      data[language] = [];
-      data[language].push({
-        'uuid': uuid,
-        'created_at': created_at
-      });
+      else {
+        data[language] = data[language].filter(i => i && i.uuid !== uuid)
+      }
     }
-
     this.addAsArray(key, data);
     return data;
   }
@@ -192,16 +194,15 @@ export class LocalDataProvider {
     if (typeof data[language] === 'undefined') {
       return false;
     } else {
-      const itemId = data[language].findIndex(i => i.uuid === uuid);
-
-      if (itemId === -1) {
+      const itemIndex = data[language].findIndex(o => o && o.uuid === uuid)
+      if ( !data[language][itemIndex]) {
         return false;
       } else {
-        if (data[language][itemId].created_at === created_at) {
+        if (data[language][itemIndex].created_at === created_at) {
           return true;
         } else {
-          data[language].splice(itemId, 1);
-          this.addAsArray(key, data);
+          // data[language].splice(itemId, 1);
+          // this.addAsArray(key, data);
           return false;
         }
       }
