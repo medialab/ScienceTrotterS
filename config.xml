@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="forccast.sts" version="0.6.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="forccast.sts" version="0.6.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Science Trotters</name>
     <description>Science Trotters.</description>
     <author email="managers@thenetgroup.net" href="http://www.thenetgroup.net/">The Net Group</author>
