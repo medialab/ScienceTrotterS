@@ -269,18 +269,6 @@ export class BoxMapComponent {
     this.events.publish(this.onClickItemMapEventName, data);
   };
 
-  /**
-   * Creation du HTML du cluster.
-   * @param bgColor
-   * @param nb
-   * @param time
-   * @returns {string}
-   */
-  clusterGroupTPL(bgColor: string, nb: string, time: string) {
-    return `<div class='cluster' style='background-color: ${bgColor}'>`
-      + `<div><i class="icon icon--clock"></i><span>${time}</span></div></div>`
-      ;
-  }
 
   /**
    * Création d'un cluster.
@@ -290,12 +278,12 @@ export class BoxMapComponent {
    * @returns {leaflet.markerClusterGroup}
    */
   createCluster (bgColor: string, nb: string, time: string) {
-    const _clusterGroupTPL = this.clusterGroupTPL(bgColor, nb, time);
 
     const cluster = new leaflet.markerClusterGroup({
       iconCreateFunction: function(cl) {
         return new leaflet.DivIcon({
-          html: _clusterGroupTPL
+          html: `<div class='cluster' style='background-color: ${bgColor}'>`
+          + `<span>${cl.getChildCount() }</span></div>`
         });
       },
       disableClusteringAtZoom: 15

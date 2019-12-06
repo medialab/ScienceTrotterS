@@ -123,9 +123,9 @@
     <section class="poi__section poi__section--isWhite section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
               [ngClass]="isPOIIsDone()"
-              [attr.title]="translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
-              (click)="btnEndPointOfInterest()">
-        {{ translate.getKey('PLI_BTN_END_POI') }}
+              [attr.title]="isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_ATTR_TITLE_DONE') : translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
+              (click)="btnTogglePointOfInterest()">
+        {{isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_DONE') : translate.getKey('PLI_BTN_END_POI') }}
       </button>
     </section>
 
@@ -184,9 +184,9 @@
     <section class="poi__section poi__section--isWhite section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
               [ngClass]="isPOIIsDone()"
-              [attr.title]="translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
-              (click)="btnEndPointOfInterest()">
-        {{ translate.getKey('PLI_BTN_END_POI') }}
+              [attr.title]="isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_ATTR_TITLE_DONE') : translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
+              (click)="btnTogglePointOfInterest()">
+        {{isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_DONE') : translate.getKey('PLI_BTN_END_POI') }}
       </button>
     </section>
 

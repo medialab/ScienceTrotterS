@@ -459,16 +459,18 @@ export class PointOfInterestPage {
     this.data.sendEmail('', subject, this.data.bbCodeToMail(body));
   }
 
-  btnEndPointOfInterest() {
-    if (this.isPOIIsDone().isDoneBTN === false) {
-      const data = {
-        'uuid': this.getData('id'),
-        'created_at': this.getData('updated_at'),
-        'name': this.getData('title', true)
+  btnTogglePointOfInterest() {
+    const data = {
+      'uuid': this.getData('id'),
+      'created_at': this.getData('updated_at'),
+      'name': this.getData('title', true),
+      'done': true
       };
+    if (this.isPOIIsDone().isDoneBTN === false) {
+      data.done = true;
 
       // Par défaut on enregistre le POI comme étant terminé.
-      this.localData.addPOIDone(data, this.config.getLanguage());
+      this.localData.updatePOIDone(data, this.config.getLanguage());
 
       if (this.interests.length === 1) {
         // --> Ajout de l'item courant dans la liste des parocurs ou point d'intérêt done.
@@ -480,7 +482,7 @@ export class PointOfInterestPage {
         }
 
         // --> On retourne à la page précèdente (liste poi ou parcours).
-        this.goBackOrGoCitiesList();
+        //this.goBackOrGoCitiesList();
 
       } else {
         // Enregistrement du point d'intérêt éffectué dans la liste courante.
@@ -497,6 +499,19 @@ export class PointOfInterestPage {
       }
 
       this.playerAudioProvider.isPlayingAndStopThem();
+    }
+    else {
+      data.done = false;
+      // Par défaut on enregistre le POI comme étant terminé.
+      this.localData.updatePOIDone(data, this.config.getLanguage());
+      // Enregistrement du point d'intérêt éffectué dans la liste courante.
+      this._interests[this.activeItem].isDone = false;
+      this._interests = this.getInterests();
+      this.interests = this.getInterests();
+
+
+      this.scrollTo('poiMainContent');
+
     }
   }
 

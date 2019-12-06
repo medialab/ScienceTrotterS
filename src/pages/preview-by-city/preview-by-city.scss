@@ -72,7 +72,7 @@ page-preview-by-city {
 
     ul.list {
       width: 100%;
-      height: calc(100% - 56px - 40px) !important;
+      height: 30% !important;
 
       display: block;
       flex-direction: column;
@@ -109,8 +109,8 @@ page-preview-by-city {
     }
   }
 
-  .contentList.isOpen {
-
+  .contentList.isOpen ul.list{
+    height: calc(100% - 56px - 40px) !important;
   }
 
   .contentList {

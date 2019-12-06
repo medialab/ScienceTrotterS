@@ -51,28 +51,23 @@ export class SettingsPage {
     });
 
     loading.present();
-
-    var sPath = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$1" );
-    var sDirectory = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$2" );
-
-    
-    this.file.removeRecursively( sPath  ,  sDirectory).then(entry =>{
-      
-      localStorage.setItem('POI', "{}");
-      localStorage.setItem('Parcours', '{}');
+    if (this.file && this.file.dataDirectory) {
+      // only if mobile empty downloaded files
+      var sPath = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$1" );
+      var sDirectory = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$2" );
 
       
-      loading.dismiss();
+      this.file.removeRecursively( sPath  ,  sDirectory)
+      .catch(err =>{
+        console.log(err);
+      });
+    }
+    localStorage.setItem('POI', "{}");
+    localStorage.setItem('Parcours', '{}');
+    localStorage.setItem('sts::statusPOI', '{}');
+    // reset vu to à voir items
 
-      
-
-    })
-    .catch(err =>{
-      console.log(err);
-      loading.dismiss();
-    });
-
-
+    loading.dismiss();
   }
 
   goBack() {
