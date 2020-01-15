@@ -142,7 +142,7 @@ export class GeolocProvider {
     return new Promise((resolve, reject) => {
       let _loader = this.alert.createLoader();
 
-      this.checkGPSStatus().then((onSuccess: boolean) => {
+      //this.checkGPSStatus().then((onSuccess: boolean) => {
         /**
          * Retrieve the user localisation.
          */
@@ -165,11 +165,11 @@ export class GeolocProvider {
           reject(false);
         });
         // <-- END.
-      }).catch((errorCode: string) => {
-        this.throwError(errorCode, errorMessageCode);
-        _loader.dismiss();
-        reject(false);
-      });
+      // }).catch((errorCode: string) => {
+      //   this.throwError(errorCode, errorMessageCode);
+      //   _loader.dismiss();
+      //   reject(false);
+      // });
     });
   }
 
