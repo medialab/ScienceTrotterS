@@ -257,14 +257,20 @@ export class ParcoursListItemComponent {
       } else {
         this.downloadParcours();
       }
-
+      let max_waiting_loop = 60;
       let timerInterval = setInterval(() => {
         console.log('timer is downloaded', this.localData.isDownloaded(this.openId, this.target));
-
+        max_waiting_loop-=1;
         if (this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
           loading.dismiss();
           clearInterval(timerInterval);
         }
+        if (max_waiting_loop === 0) {
+          loading.dismiss();
+          clearInterval(timerInterval);
+          console.log('error, can\'t download');  
+        }
+
       }, 500);
     }
   }
@@ -313,7 +319,7 @@ export class ParcoursListItemComponent {
     this.fileTrans.download(url, this.file.dataDirectory + filename).then((entry) => {
       let imageURL = '';
 
-      if (this.platform.is('android')) {
+      if (this.platform.is('android')||this.platform.is('browser')) {
         imageURL = entry.toInternalURL();
       }
       if (this.platform.is('ios')) {
@@ -350,7 +356,7 @@ export class ParcoursListItemComponent {
       }
 
     }, (error) => {
-      console.log(error)
+      console.log('error in download file:', error)
     });
   }
 
@@ -370,9 +376,9 @@ export class ParcoursListItemComponent {
       'isNetworkOff': false
     };
 
-    if (this.platform.is('mobileweb') || this.platform.is('core')) {
-      resp.isNetworkOff = true;
-    } else {
+    // if (this.platform.is('mobileweb') || this.platform.is('core')) {
+    //   resp.isNetworkOff = true;
+    // } else {
       // On regarde si l'id du poi est dans le tableau du localstorage
       var localStorageName = (this.parcourTime == "") ? "POI" : "Parcours";
       var sPoi = localStorage.getItem(localStorageName);
@@ -396,7 +402,7 @@ export class ParcoursListItemComponent {
       }
 
       resp.isNetworkOff = this.network.type === 'none';
-    }
+    //}
 
     return resp;
   }
