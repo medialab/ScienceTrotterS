@@ -186,16 +186,19 @@ export class GeolocProvider {
         break;
       // La géolocalisation est désactivée.
       default:
-        bodyKey = errorMessageCode;
+        bodyKey = undefined;
         break;
     }
 
     /**
      * Prompt alert to user.
      */
-    this.alert.create(
-      this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
-      this.translate.getKey(bodyKey)
-    );
+    if (bodyKey)
+      this.alert.create(
+        this.translate.getKey('PV_GEOLOC_ASKGEO_ERROR_TITLE'),
+        this.translate.getKey(bodyKey)
+      );
+    else
+        console.log(errorMessageCode);
   }
 }
