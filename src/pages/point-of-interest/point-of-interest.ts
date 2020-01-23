@@ -421,7 +421,6 @@ export class PointOfInterestPage {
   }
 
   /**
-   * TODO : dynamic data
    * Envoi d'un message pour signaler un problème
    * par mail.
    */
@@ -440,7 +439,6 @@ export class PointOfInterestPage {
   }
 
   /**
-   * TODO : dynamic data
    * Partage du point d'inrétêt courant par mail.
    */
   btnShareRef() {
@@ -449,11 +447,12 @@ export class PointOfInterestPage {
       'cityName': this.cityName
     });
 
-    const preBody = this.translate.getKey('MAIL_SHARE_BIBLIO_BODY');
-    let body = preBody;
+    //const preBody = this.translate.getKey('MAIL_SHARE_BIBLIO_BODY');
+    let body = `[b]${subject}[/b][jumpLine]`;
 
     for (let itemDesc of this.getData('bibliography', true)) {
-      body += itemDesc + '[jumpLine]';
+      console.log(itemDesc)
+      body += itemDesc.replace(' & ',' et ') + '[jumpLine]';
     }
 
     this.data.sendEmail('', subject, this.data.bbCodeToMail(body));

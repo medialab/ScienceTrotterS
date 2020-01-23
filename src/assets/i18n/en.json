@@ -70,7 +70,7 @@
 	"MAIL_REPORT_PROBLEM_BODY": "Hello,[jumpLine]I have encountered the following problem at landmark :landmarkName of :cityName :",
 
 	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliography - :landmarkName",
-	"MAIL_SHARE_BIBLIO_BODY": "Mens sana in corpore sano! [jumpLine]",
+	"MAIL_SHARE_BIBLIO_BODY": "we don't use that one [jumpLine]",
 
 	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Registered landmark",
 	"MAIL_SEND_POSITION_BODY": "I have identified a landmark at the following coordinates :[jumpLine]:latitude,:longitude[jumpLine]It concerns :[jumpLine]",
