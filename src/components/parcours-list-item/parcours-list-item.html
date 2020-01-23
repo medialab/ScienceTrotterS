@@ -58,8 +58,9 @@
             </li>
           </ul>
         </button>
-
-        <button type="button" class='btnDownload'
+      
+        <button *ngIf="isOfflineMode"
+                type="button" class='btnDownload'
                 [ngClass]="canBeDownloadCls()"
                 [attr.title]="getDownloadBtnTitle()"
                 (click)="download()" [ngClass]="config.globalGlobalCss()">
@@ -72,6 +73,7 @@
           <label [innerHTML]="translate.getKey('PLI_ACTION_DOWNLOAD_DATA')">
           </label>
         </button>
+
       </div>
 
     </div>

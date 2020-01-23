@@ -71,7 +71,7 @@ export class ParcoursListItemComponent {
   timeToObj = '';
   isShowTimeToObj: boolean = false;
   fileTrans: FileTransferObject;
-
+  isOfflineMode: boolean = false;
 
   @Input()
   set isOpenDiscover(nextState: boolean) {
@@ -97,6 +97,7 @@ export class ParcoursListItemComponent {
               public loader : LoadingController,
               public playerAudioProvider : PlayerAudioProvider ) {
     this.fileTrans = this.fileTransfer.create();
+    this.isOfflineMode = this.config.data.enableOfflineMode;
   }
 
   ionViewWillEnter(){

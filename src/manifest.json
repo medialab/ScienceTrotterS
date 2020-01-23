@@ -21,6 +21,7 @@
     },
     "map": {
       "tileLayer": "https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-    }
+    },
+    "enableOfflineMode": false 
   }
 }
