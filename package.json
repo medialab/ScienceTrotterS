@@ -10,7 +10,7 @@
     "build": "ionic cordova platform add browser && ionic cordova build browser --prod",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic cordova run browser"
   },
   "dependencies": {
     "@angular/animations": "5.2.9",
