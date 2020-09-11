@@ -97,7 +97,8 @@ export class ParcoursListItemComponent {
               public loader : LoadingController,
               public playerAudioProvider : PlayerAudioProvider ) {
     this.fileTrans = this.fileTransfer.create();
-    this.isOfflineMode = this.config.data.enableOfflineMode;
+    // disable offlinemode if non-mobile platform
+    this.isOfflineMode = this.config.data.enableOfflineMode && this.platform.is('mobile');
   }
 
   ionViewWillEnter(){
@@ -269,7 +270,7 @@ export class ParcoursListItemComponent {
         if (max_waiting_loop === 0) {
           loading.dismiss();
           clearInterval(timerInterval);
-          console.log('error, can\'t download');  
+          console.log('error, can\'t download');
         }
 
       }, 500);
