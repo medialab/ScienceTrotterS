@@ -270,7 +270,7 @@ export class LocalDataProvider {
       }
     }
     // We need this check in devMode
-    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+    if (!this.platform.is('mobile') || this.platform.is('core')) {
     } else {
       resp.isNetworkOff = this.network.type === 'none';
     }
@@ -297,14 +297,14 @@ export class LocalDataProvider {
       }
     }
     // We need this check in devMode
-    if (this.platform.is('mobileweb') || this.platform.is('core')) {
+    if (!this.platform.is('mobile') || this.platform.is('core')) {
     } else {
       resp.isNetworkOff = this.network.type === 'none';
     }
 
     return resp;
   }
-  
+
   isDownloaded(targetId: string, target: string) {
     if (target.toLowerCase() === 'parcours') {
       return this.isParcoursDownloaded(targetId)

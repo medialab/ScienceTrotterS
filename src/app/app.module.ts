@@ -40,6 +40,7 @@ import {GeolocProvider} from "../providers/geoloc";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LocalDataProvider} from "../providers/localData";
 import {FileTransfer} from '@ionic-native/file-transfer';
+import {IonicStorageModule} from '@ionic/storage';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
 import {Device} from "@ionic-native/device";
 import {DirectAccessPage} from "../pages/direct-access/direct-access";
@@ -118,6 +119,10 @@ const linksConfig = {
     IonicImageViewerModule,
     BrowserModule,
     HttpClientModule,
+    IonicStorageModule.forRoot({
+      name: 'STS',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
