@@ -39,6 +39,7 @@ import {CarouselComponent} from "../components/carousel/carousel";
 import {GeolocProvider} from "../providers/geoloc";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LocalDataProvider} from "../providers/localData";
+import { NetworkService } from './../providers/network';
 import {FileTransfer} from '@ionic-native/file-transfer';
 import {IonicStorageModule} from '@ionic/storage';
 import {UniqueDeviceID} from "@ionic-native/unique-device-id";
@@ -174,7 +175,8 @@ const linksConfig = {
     Diagnostic,
     GeolocProvider,
     FileTransfer,
-    Network
+    Network,
+    NetworkService
   ]
 })
 
