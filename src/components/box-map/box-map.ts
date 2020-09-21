@@ -152,7 +152,9 @@ export class BoxMapComponent {
     return new Promise((resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
-      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()}`).subscribe((resp: any) => {
+      // this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()`) // remove tmsp for cache
+      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}`)
+      .subscribe((resp: any) => {
         const {data} = resp;
         const time = data.length.time;
         const poiArray = [];

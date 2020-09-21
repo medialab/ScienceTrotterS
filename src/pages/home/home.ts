@@ -5,8 +5,10 @@ import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
 import {City} from "../../models/City";
 import {DataProvider} from "../../providers/data";
+import { OfflineStorageProvider } from './../../providers/offlineStorage';
 import {AlertProvider} from "../../providers/alert";
 import { DomSanitizer } from '@angular/platform-browser';
+import { ConnectionStatus, NetworkService } from './../../providers/network';
 
 @Component({
   selector: 'page-home',
@@ -35,6 +37,8 @@ export class HomePage {
               public translate: TranslateProvider,
               public platform: Platform,
               public api: ApiProvider,
+              private offlineStorage: OfflineStorageProvider,
+              public networkService: NetworkService,
               public alert: AlertProvider) {
     this._init();
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
@@ -92,6 +96,10 @@ export class HomePage {
     this.config.updateLanguage(nextValue);
   }
 
+  isNetworkOff() {
+    return this.networkService.getCurrentNetworkStatus() === ConnectionStatus.Offline ? true : false
+  }
+
   /**
    *
    * @param city
@@ -99,10 +107,29 @@ export class HomePage {
   openParcoursList(event: any, city: any) {
     event.preventDefault();
 
-    this.navCtrl.push('PreviewByCity', {
-      'city': city,
-      'uuid': city.id
-    });
+    if(this.isNetworkOff()) {
+
+      // check if POIs of the city is cached in storage
+      const interestsPath = `/public/interests/byCityId/${city.id}?lang=${this.config.getLanguage()}`;
+      const url = this.api.getRequestURI(interestsPath);
+      this.offlineStorage.getRequest(url).then((res) => {
+        if (res) {
+          this.navCtrl.push('PreviewByCity', {
+            'city': city,
+            'uuid': city.id
+          });
+        } else {
+          this.networkService.alertIsNetworkOff()
+        }
+      }).catch((err) => {
+        this.networkService.alertIsNetworkOff()
+      })
+    } else {
+      this.navCtrl.push('PreviewByCity', {
+        'city': city,
+        'uuid': city.id
+      });
+    }
   }
 
   /**

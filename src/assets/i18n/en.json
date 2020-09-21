@@ -93,6 +93,7 @@
   "PLI_FILTER_ALPHA_TITLE": "Filter the list ordered alphabetically.",
   "PLI_FILTER_PROXIMITE_TITLE": "Filter the list by nearby criteria.",
 
+	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet is not connected",
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Internet connection required",
 
   "ALERT_MSG_MY_LOCATION": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",

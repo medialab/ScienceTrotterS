@@ -39,6 +39,7 @@ import {CarouselComponent} from "../components/carousel/carousel";
 import {GeolocProvider} from "../providers/geoloc";
 import {NativeAudio} from "@ionic-native/native-audio";
 import {LocalDataProvider} from "../providers/localData";
+import { OfflineStorageProvider } from './../providers/offlineStorage';
 import { NetworkService } from './../providers/network';
 import {FileTransfer} from '@ionic-native/file-transfer';
 import {IonicStorageModule} from '@ionic/storage';
@@ -163,6 +164,7 @@ const linksConfig = {
     ApiProvider,
     AlertProvider,
     LocalDataProvider,
+    OfflineStorageProvider,
     Camera,
     File,
     Geolocation,

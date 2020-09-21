@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network/'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastController, Platform } from 'ionic-angular';
+import {AlertProvider} from "./alert";
+import { TranslateProvider} from "./translate";
 
 export enum ConnectionStatus {
   Online,
@@ -13,7 +15,12 @@ export class NetworkService {
 
   private status: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Offline);
 
-  constructor(private network: Network, private toastController: ToastController, private plt: Platform) {
+  constructor(
+    private network: Network,
+    private toastController: ToastController,
+    private alert: AlertProvider,
+    public translate: TranslateProvider,
+    private plt: Platform) {
     this.plt.ready().then(() => {
       this.initializeNetworkEvents();
       let status = (this.plt.is('mobile') && this.network && this.network.type !== 'none') || !this.plt.is('mobile') || this.plt.is('core') ? ConnectionStatus.Online : ConnectionStatus.Offline;
@@ -54,5 +61,14 @@ export class NetworkService {
 
   public getCurrentNetworkStatus(): ConnectionStatus {
     return this.status.getValue();
+  }
+
+  public alertIsNetworkOff() {
+    const title = this.translate.getKey('GLOBAL_NETWORK_IS_NOT_AVAILABLE');
+    const message = this.translate.getKey('GLOBAL_NEED_NETWORK_FOR_DATA');
+    this.alert.create(
+      title,
+      message
+    )
   }
 }

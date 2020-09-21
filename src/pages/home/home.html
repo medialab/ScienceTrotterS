@@ -63,7 +63,7 @@
         alt=""
     >
       <a class="list__cities__item__a"
-         href="/#/parcours_list/{{ city.id }}"
+         href="/#/preview_by_city/{{ city.id }}"
          (click)="openParcoursList($event, city)">
         <label class="list__cities__item__a__label">
           {{ translate.fromApi(config.getLanguage(), city.title) }}
