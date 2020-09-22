@@ -1,4 +1,3 @@
-import { Network } from '@ionic-native/network';
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {App, Content, Events, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
@@ -6,6 +5,7 @@ import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
 import {GeolocProvider} from "../../providers/geoloc";
 import {AlertProvider} from "../../providers/alert";
+import { ConnectionStatus, NetworkService } from './../../providers/network';
 
 @IonicPage()
 @Component({
@@ -144,9 +144,7 @@ export class PreviewByCityPage {
               public api: ApiProvider,
               public events: Events,
               public translate: TranslateProvider,
-              public network: Network) {
-
-    console.log('preview by city page');
+              private networkService: NetworkService) {
 
     if (typeof navParams.get('city') !== 'undefined') {
       this.city = navParams.get('city');
@@ -155,8 +153,7 @@ export class PreviewByCityPage {
   }
 
   async init () {
-
-    if (this.isNetWorkAvailable() === false) {
+    if (this.isNetWorkOff()) {
       this.optionsItemsSelected = 1;
     }
 
@@ -190,12 +187,8 @@ export class PreviewByCityPage {
     });
   }
 
-  isNetWorkAvailable() {
-    if (this.platform.is('mobileweb') || this.platform.is('core')) {
-      return true;
-    } else {
-      return this.network.type !== 'none';
-    }
+  isNetWorkOff() {
+    return this.networkService.getCurrentNetworkStatus() === ConnectionStatus.Offline ? true : false
   }
 
   focusAnElement (element: string) {
@@ -511,7 +504,7 @@ export class PreviewByCityPage {
    async loadInterests(closest: string = '') {
      const path = closest === ''
        ? `/public/interests/byCityId/${this.city.id}?lang=${this.config.getLanguage()}`
-       : `public/interests/closest/?city=${this.city.id}&geoloc=${closest}&lang=${this.config.getLanguage()}`;
+       : `/public/interests/closest/?city=${this.city.id}&geoloc=${closest}&lang=${this.config.getLanguage()}`;
 
     return new Promise((res) => {
       this.api.get(path).subscribe(async (resp: any) => {

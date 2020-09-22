@@ -1,8 +1,5 @@
 import { PlayerAudioProvider } from './../../providers/playerAudio';
 import {
-  HttpClient
-} from '@angular/common/http';
-import {
   ApiProvider
 } from './../../providers/api';
 import {
@@ -23,20 +20,8 @@ import {
 import {
   ConfigProvider
 } from "../../providers/config";
-import {
-  FileTransfer,
-  FileUploadOptions,
-  FileTransferObject
-} from '@ionic-native/file-transfer';
-import {
-  File
-} from '@ionic-native/file';
-import {
-  normalizeURL
-} from '../../../node_modules/ionic-angular/util/util';
-import {
-  Network
-} from '@ionic-native/network';
+
+import { ConnectionStatus, NetworkService } from './../../providers/network';
 import { LoadingController, Loading } from 'ionic-angular';
 import {DataProvider} from "../../providers/data";
 
@@ -67,11 +52,11 @@ export class ParcoursListItemComponent {
   @Input() cityId: string = '';
   @Input() schedule: string = '';
   @Input() focusId: string = 'focusId';
+  @Input() isDownloaded: boolean = false;
 
   timeToObj = '';
   isShowTimeToObj: boolean = false;
-  fileTrans: FileTransferObject;
-  isOfflineMode: boolean = false;
+  isItemDownloadable: boolean = true;
 
   @Input()
   set isOpenDiscover(nextState: boolean) {
@@ -91,22 +76,22 @@ export class ParcoursListItemComponent {
               public data: DataProvider,
               public navCtrl: NavController,
               public platform: Platform,
-              public fileTransfer: FileTransfer,
-              private file: File,
-              public network: Network,
+              public networkService: NetworkService,
               public loader : LoadingController,
               public playerAudioProvider : PlayerAudioProvider ) {
-    this.fileTrans = this.fileTransfer.create();
-    // disable offlinemode if non-mobile platform
-    this.isOfflineMode = this.config.data.enableOfflineMode && this.platform.is('mobile');
+
+    this.isItemDownloadable = !this.config.data.enableOfflineMode || (this.isNetWorkOff() && !this.isDownloaded) ? false : true;
+    this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
+      this.isItemDownloadable = (status === ConnectionStatus.Offline && !this.isDownloaded) || !this.config.data.enableOfflineMode? false : true
+    });
+
   }
 
   ionViewWillEnter(){
   }
 
-  ngOnChanges() {
-
-
+  ngOnChanges(changes) {
+    console.log("onchanges", changes)
     if (typeof this.geoloc !== 'undefined' && this.curPositionUser.longitude !== '' && this.curPositionUser.latitude !== '') {
       this.isShowTimeToObj = true;
       this.calculGeoLocDistance();
@@ -134,6 +119,10 @@ export class ParcoursListItemComponent {
    * Met à jour l'état du dropdown contenant les informations.
    */
   updateDiscoverStateOrOpen() {
+    if(this.isNetWorkOff() && !this.isDownloaded) {
+      this.networkService.alertIsNetworkOff();
+      return;
+    }
     if (this.target === 'parcours') {
       this.isOpenDiscover = this.isOpenDiscover ? false : true;
     } else {
@@ -145,6 +134,10 @@ export class ParcoursListItemComponent {
    * Ouvre la page "PointOfInterest"
    */
   openNext() {
+  if(this.isNetWorkOff() && !this.isDownloaded) {
+      this.networkService.alertIsNetworkOff();
+      return;
+    }
     this.navCtrl.push('PointOfInterest', {
       'target': this.target,
       'openId': this.openId,
@@ -247,176 +240,33 @@ export class ParcoursListItemComponent {
     }
   }
 
+  isNetWorkOff() {
+    return this.networkService.getCurrentNetworkStatus() === ConnectionStatus.Offline ? true : false
+  }
+
   download() {
-    if (!this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
-      let loading = this.loader.create({
-        content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
-      });
-      loading.present();
-
-      if (this.parcourTime == "") {
-        this.downloadPOI()
-      } else {
-        this.downloadParcours();
-      }
-      let max_waiting_loop = 60;
-      let timerInterval = setInterval(() => {
-        console.log('timer is downloaded', this.localData.isDownloaded(this.openId, this.target));
-        max_waiting_loop-=1;
-        if (this.localData.isDownloaded(this.openId, this.target).isDownloaded) {
-          loading.dismiss();
-          clearInterval(timerInterval);
-        }
-        if (max_waiting_loop === 0) {
-          loading.dismiss();
-          clearInterval(timerInterval);
-          console.log('error, can\'t download');
-        }
-
-      }, 500);
+    if(this.isNetWorkOff()) {
+      this.networkService.alertIsNetworkOff();
+      return;
+    }
+    if (this.parcourTime == "") {
+      this.downloadPOI()
+    } else {
+      this.downloadParcours();
     }
   }
 
+
   downloadParcours() {
-    var id = this.openId;
-    var audioURL = this.audioURI;
-
-    console.log('@downloadParcours');
-    console.log('audio url');
-
-    var filename = id + ".mp3"
-
-    // // Téléchargement de l'audio du parc
-    this.downloadFile(audioURL, filename, id, "audio", "Parcours");
-
-    for (let poi of this.interestsList) {
-      this.downloadPOI(poi);
-    }
-
+    console.log("todo downloadParcours")
   }
 
   downloadPOI(poi = this.interestsList[0]) {
-    //Téléchargement de la cover
-    var urlCover = this.api.getAssetsUri(poi['header_image']);
-    var filename = poi['id'] + '--cover.jpeg';
-    this.downloadFile(urlCover, filename, poi['id'], 'cover');
-
-    // Téléchargement de l'audio
-    var urlAudio = this.api.getAssetsUri(poi['audio'][this.config.getLanguage()]);
-    var filename = poi['id'] + '--' + this.config.getLanguage() + '.mp3';
-    this.downloadFile(urlAudio, filename, poi['id'], 'audio');
-
-    // Téléchargement des images de la galerie pour ce POI
-    var gallery = poi['gallery_image'];
-    var i = 1;
-    for (let key of Object.keys(gallery)) {
-      var urlImage = this.api.getAssetsUri(gallery[key]);
-      var filename = poi['id'] + '--' + i + '.jpeg';
-      this.downloadFile(urlImage, filename, poi['id'], 'gallery' + i);
-      i++;
-    }
-  }
-
-  downloadFile(url, filename, id, label, localStorageName = "POI") {
-    this.fileTrans.download(url, this.file.dataDirectory + filename).then((entry) => {
-      let imageURL = '';
-
-      if (this.platform.is('android')||this.platform.is('browser')) {
-        imageURL = entry.toInternalURL();
-      }
-      if (this.platform.is('ios')) {
-        imageURL = normalizeURL(entry.toURL()).replace('file:///', '/');
-      }
-
-      // Je récupère le local storage
-      var sPoi = localStorage.getItem(localStorageName);
-
-      // Je le converti en objet
-      var oPOI = {};
-      if (sPoi != null) {
-        oPOI = JSON.parse(sPoi);
-      }
-      // Je mets à jour le fichier concerné
-      if (!oPOI[id]) {
-        oPOI[id] = {};
-      }
-
-      oPOI[id][label] = imageURL;
-
-      // J'enregistre la date de téléchargement du POI
-      oPOI[id]['date'] = Date.now();
-
-      // Je converti en string
-      sPoi = JSON.stringify(oPOI);
-      // Je stocke dans local storage
-      localStorage.setItem(localStorageName, sPoi);
-
-      if (this.parcourTime != "") {
-        this.getAudio();
-
-
-      }
-
-    }, (error) => {
-      console.log('error in download file:', error)
-    });
+    console.log("todo downloadPOI")
   }
 
   canBeDownloadCls() {
-    const resp = this.localData.isDownloaded(this.openId, this.target);
-
-    return {
-      'isDownloaded': resp.isDownloaded,
-      'isNetworkOff': resp.isNetworkOff && resp.isDownloaded === false
-    };
-  }
-
-  // retourne si le parcours/poi peut etre téléchargé et verifie qu'il soit a jour (le met à jour dans le cas contraire)
-  canBeDownload() {
-    const resp = {
-      'isDownloaded': false,
-      'isNetworkOff': false
-    };
-
-    // if (this.platform.is('mobileweb') || this.platform.is('core')) {
-    //   resp.isNetworkOff = true;
-    // } else {
-      // On regarde si l'id du poi est dans le tableau du localstorage
-      var localStorageName = (this.parcourTime == "") ? "POI" : "Parcours";
-      var sPoi = localStorage.getItem(localStorageName);
-
-      if (sPoi != null) {
-        var oPOI = JSON.parse(sPoi);
-
-
-        if (oPOI[this.openId]) {
-          var updateDate = this.createdAt.replace(/-/g, "/");
-          var formatedDate = Date.parse(updateDate);
-
-          if (formatedDate > oPOI[this.openId]['date']) {
-            if (localStorageName == "POI") {
-              this.downloadPOI();
-            } else {
-              this.downloadParcours();
-            }
-          }
-        }
-      }
-
-      resp.isNetworkOff = this.network.type === 'none';
-    //}
-
-    return resp;
-  }
-
-  getAudio() {
-    const audioURI = this.localData.getAudio(this.openId);
-
-    if (audioURI === '') {
-      return this.audioURI;
-    } else {
-      return audioURI;
-    }
+    return this.isDownloaded ? 'isDownloaded': ''
   }
 
   getDownloadBtnTitle() {

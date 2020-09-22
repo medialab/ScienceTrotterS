@@ -58,8 +58,8 @@
             </li>
           </ul>
         </button>
-      
-        <button *ngIf="isOfflineMode"
+
+        <button *ngIf="isItemDownloadable"
                 type="button" class='btnDownload'
                 [ngClass]="canBeDownloadCls()"
                 [attr.title]="getDownloadBtnTitle()"
@@ -89,7 +89,7 @@
 
     <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
       <player-audio
-        [audioURI]="getAudio()"
+        [audioURI]="audioURI"
         [playerUUID]="('player__audio') + openId"
         [audioScript]="audioScript"
         [target]="target"

@@ -13,7 +13,7 @@ export enum ConnectionStatus {
 @Injectable()
 export class NetworkService {
 
-  private status: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Offline);
+  private status: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Online);
 
   constructor(
     private network: Network,
@@ -55,9 +55,9 @@ export class NetworkService {
     toast.present()
   }
 
-  // public onNetworkChange(): Observable<ConnectionStatus> {
-  //   return this.status.asObservable();
-  // }
+  public onNetworkChange(): Observable<ConnectionStatus> {
+    return this.status.asObservable();
+  }
 
   public getCurrentNetworkStatus(): ConnectionStatus {
     return this.status.getValue();
