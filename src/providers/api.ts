@@ -31,7 +31,18 @@ export class ApiProvider {
     const request = this.http.get(httpURI);
     return withCache ? this.getRequestAsCache(httpURI, request, target) : request;
   }
-  
+
+  /**
+   * get image/audio blob from server.
+   *
+   * @param url
+   * @returns {Observable<T>}
+   */
+
+  getFile(url: string) {
+    return this.http.get(url,{ responseType: 'blob' })
+  }
+
   /**
    * Middlleware d'une requête HTTP pour la gestion du cache.
    *

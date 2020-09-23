@@ -7,6 +7,7 @@ import {ApiProvider} from "../../providers/api";
 import {GeolocProvider} from "../../providers/geoloc";
 import {AlertProvider} from "../../providers/alert";
 import { ConnectionStatus, NetworkService } from './../../providers/network';
+import { OfflineStorageProvider } from './../../providers/offlineStorage';
 
 @IonicPage()
 @Component({
@@ -40,10 +41,14 @@ export class PreviewByCityPage {
 
   isLoadingAlert: boolean = false;
 
-
+  downloadedList: object = {};
   isNetworkOff: boolean = false;
-  subscription: Subscription;
+  networkSubscription: Subscription;
+  downloadSubscription: Subscription;
 
+  isDownloaded(target: string, id: string) {
+    return this.downloadedList[target] && this.downloadedList[target][id] || false
+  }
   /**
    * Filtre les parcours suivant les critères.
    * @returns {any[]}
@@ -149,6 +154,7 @@ export class PreviewByCityPage {
               public api: ApiProvider,
               public events: Events,
               public translate: TranslateProvider,
+              private offlineStorage: OfflineStorageProvider,
               private networkService: NetworkService) {
 
     if (typeof navParams.get('city') !== 'undefined') {
@@ -158,11 +164,13 @@ export class PreviewByCityPage {
   }
 
   ngOnInit() {
-    this.subscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
+    this.downloadSubscription = this.offlineStorage.getDownloaded().subscribe(downloaded => this.downloadedList = downloaded[this.city.id] || {})
+    this.networkSubscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
   }
 
   ngOnDestory() {
-    this.subscription.unsubscribe()
+    this.downloadSubscription.unsubscribe()
+    this.networkSubscription.unsubscribe()
   }
 
   async init () {

@@ -1,4 +1,7 @@
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { OfflineStorageProvider } from './../../providers/offlineStorage';
 import { Subscription } from 'rxjs/Subscription';
+import { tap, map } from 'rxjs/operators';
 import { PlayerAudioProvider } from './../../providers/playerAudio';
 import {
   ApiProvider
@@ -81,6 +84,7 @@ export class ParcoursListItemComponent {
               public navCtrl: NavController,
               public platform: Platform,
               public networkService: NetworkService,
+              private offlineStorage: OfflineStorageProvider,
               public loader : LoadingController,
               public playerAudioProvider : PlayerAudioProvider ) {
 
@@ -261,13 +265,45 @@ export class ParcoursListItemComponent {
     }
   }
 
-
   downloadParcours() {
     console.log("todo downloadParcours")
+
   }
 
-  downloadPOI(poi = this.interestsList[0]) {
-    console.log("todo downloadPOI")
+  downloadPOI() {
+    const poi = this.interestsList[0];
+
+    //Téléchargement de la cover
+    const coverUrl = this.api.getAssetsUri(poi['header_image']);
+
+    // Téléchargement de l'audio
+    const audioUrl = this.api.getAssetsUri(poi['audio'][this.config.getLanguage()]);
+
+    // Téléchargement des images de la galerie pour ce POI
+    var gallery = poi['gallery_image'];
+
+    const galleryRequest = Object.keys(gallery)
+    .map((key, i) =>  {
+      const url = this.api.getAssetsUri(gallery[key]);
+      return this.api.getFile(url)
+        .pipe(tap(res => this.offlineStorage.setRequest(url, res)))
+    });
+
+    // show loader
+    let loading = this.loader.create({
+      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+    });
+    loading.present();
+
+    forkJoin([
+      this.api.getFile(coverUrl).pipe(tap(res => this.offlineStorage.setRequest(coverUrl, res))),
+      this.api.getFile(audioUrl).pipe(tap(res => this.offlineStorage.setRequest(audioUrl, res))),
+      ...galleryRequest
+    ]).subscribe(() => {
+      this.offlineStorage.updateDownloaded(this.cityId, 'POIs', poi['id']);
+      // hide loader
+      loading.dismiss();
+    });
   }
 
   canBeDownloadCls() {
