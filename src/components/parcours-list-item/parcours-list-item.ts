@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { PlayerAudioProvider } from './../../providers/playerAudio';
 import {
   ApiProvider
@@ -56,8 +57,11 @@ export class ParcoursListItemComponent {
 
   timeToObj = '';
   isShowTimeToObj: boolean = false;
-  isItemDownloadable: boolean = true;
 
+  isItemDownloadable: boolean = true;
+  isNetworkOff: boolean = false;
+
+  subscription: Subscription;
   @Input()
   set isOpenDiscover(nextState: boolean) {
     this._isOpenDiscover = nextState;
@@ -80,18 +84,23 @@ export class ParcoursListItemComponent {
               public loader : LoadingController,
               public playerAudioProvider : PlayerAudioProvider ) {
 
-    this.isItemDownloadable = !this.config.data.enableOfflineMode || (this.isNetWorkOff() && !this.isDownloaded) ? false : true;
-    this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
-      this.isItemDownloadable = (status === ConnectionStatus.Offline && !this.isDownloaded) || !this.config.data.enableOfflineMode? false : true
-    });
+  }
 
+  ngOnInit() {
+    this.subscription = this.networkService.getStatus().subscribe((status)=> {
+      this.isNetworkOff = status === ConnectionStatus.Offline;
+      this.isItemDownloadable = !this.config.data.enableOfflineMode || (this.isNetworkOff && !this.isDownloaded) ? false : true;
+    })
+  }
+
+  ngOnDestory() {
+    this.subscription.unsubscribe()
   }
 
   ionViewWillEnter(){
   }
 
-  ngOnChanges(changes) {
-    console.log("onchanges", changes)
+  ngOnChanges() {
     if (typeof this.geoloc !== 'undefined' && this.curPositionUser.longitude !== '' && this.curPositionUser.latitude !== '') {
       this.isShowTimeToObj = true;
       this.calculGeoLocDistance();
@@ -119,7 +128,7 @@ export class ParcoursListItemComponent {
    * Met à jour l'état du dropdown contenant les informations.
    */
   updateDiscoverStateOrOpen() {
-    if(this.isNetWorkOff() && !this.isDownloaded) {
+    if(this.isNetworkOff && !this.isDownloaded) {
       this.networkService.alertIsNetworkOff();
       return;
     }
@@ -134,7 +143,7 @@ export class ParcoursListItemComponent {
    * Ouvre la page "PointOfInterest"
    */
   openNext() {
-  if(this.isNetWorkOff() && !this.isDownloaded) {
+  if(this.isNetworkOff && !this.isDownloaded) {
       this.networkService.alertIsNetworkOff();
       return;
     }
@@ -240,12 +249,8 @@ export class ParcoursListItemComponent {
     }
   }
 
-  isNetWorkOff() {
-    return this.networkService.getCurrentNetworkStatus() === ConnectionStatus.Offline ? true : false
-  }
-
   download() {
-    if(this.isNetWorkOff()) {
+    if(this.isNetworkOff) {
       this.networkService.alertIsNetworkOff();
       return;
     }

@@ -9,6 +9,7 @@ import { OfflineStorageProvider } from './../../providers/offlineStorage';
 import {AlertProvider} from "../../providers/alert";
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConnectionStatus, NetworkService } from './../../providers/network';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'page-home',
@@ -21,6 +22,9 @@ export class HomePage {
   platformValues: string = '';
 
   audioURI = 'cdvfile://localhost/files/6725fdc7-70b5-4138-91e4-2bcb04c79849.mp3';
+
+  isNetworkOff: boolean = false;
+  subscription: Subscription;
 
   get currentLanguage () {
     return this.config.getLanguage();
@@ -44,6 +48,13 @@ export class HomePage {
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
   }
 
+  ngOnInit() {
+    this.subscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
+  }
+
+  ngOnDestory() {
+    this.subscription.unsubscribe()
+  }
   /**
    *
    * @private
@@ -96,10 +107,6 @@ export class HomePage {
     this.config.updateLanguage(nextValue);
   }
 
-  isNetworkOff() {
-    return this.networkService.getCurrentNetworkStatus() === ConnectionStatus.Offline ? true : false
-  }
-
   /**
    *
    * @param city
@@ -107,7 +114,7 @@ export class HomePage {
   openParcoursList(event: any, city: any) {
     event.preventDefault();
 
-    if(this.isNetworkOff()) {
+    if(this.isNetworkOff) {
 
       // check if POIs of the city is cached in storage
       const interestsPath = `/public/interests/byCityId/${city.id}?lang=${this.config.getLanguage()}`;

@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {App, Content, Events, IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
@@ -38,6 +39,10 @@ export class PreviewByCityPage {
   eventUpdateLanguage: any = null;
 
   isLoadingAlert: boolean = false;
+
+
+  isNetworkOff: boolean = false;
+  subscription: Subscription;
 
   /**
    * Filtre les parcours suivant les critères.
@@ -152,8 +157,16 @@ export class PreviewByCityPage {
     }
   }
 
+  ngOnInit() {
+    this.subscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
+  }
+
+  ngOnDestory() {
+    this.subscription.unsubscribe()
+  }
+
   async init () {
-    if (this.isNetWorkOff()) {
+    if (this.isNetworkOff) {
       this.optionsItemsSelected = 1;
     }
 
@@ -185,10 +198,6 @@ export class PreviewByCityPage {
       this.city = resp.data;
     }, (onError) => {
     });
-  }
-
-  isNetWorkOff() {
-    return this.networkService.getCurrentNetworkStatus() === ConnectionStatus.Offline ? true : false
   }
 
   focusAnElement (element: string) {

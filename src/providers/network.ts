@@ -55,12 +55,8 @@ export class NetworkService {
     toast.present()
   }
 
-  public onNetworkChange(): Observable<ConnectionStatus> {
+  public getStatus():  Observable<ConnectionStatus> {
     return this.status.asObservable();
-  }
-
-  public getCurrentNetworkStatus(): ConnectionStatus {
-    return this.status.getValue();
   }
 
   public alertIsNetworkOff() {
