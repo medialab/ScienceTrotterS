@@ -1,7 +1,7 @@
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OfflineStorageProvider } from './../../providers/offlineStorage';
 import { Subscription } from 'rxjs/Subscription';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { PlayerAudioProvider } from './../../providers/playerAudio';
 import {
   ApiProvider
@@ -266,12 +266,21 @@ export class ParcoursListItemComponent {
   }
 
   downloadParcours() {
-    console.log("todo downloadParcours")
+    // show loader
+    let loading = this.loader.create({
+      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+    });
 
+    loading.present();
+
+    const interestsRequest = this.interestsList.map((poi) => this.savePOI(poi));
+    forkJoin(interestsRequest).subscribe(() => {
+      loading.dismiss();
+      this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId);
+    })
   }
 
-  downloadPOI() {
-    const poi = this.interestsList[0];
+  savePOI(poi: object) {
 
     //Téléchargement de la cover
     const coverUrl = this.api.getAssetsUri(poi['header_image']);
@@ -289,18 +298,26 @@ export class ParcoursListItemComponent {
         .pipe(tap(res => this.offlineStorage.setRequest(url, res)))
     });
 
+    return forkJoin([
+      this.api.getFile(coverUrl).pipe(tap(res => this.offlineStorage.setRequest(coverUrl, res))),
+      this.api.getFile(audioUrl).pipe(tap(res => this.offlineStorage.setRequest(audioUrl, res))),
+      ...galleryRequest
+    ]).pipe(tap(() => {
+      this.offlineStorage.updateDownloaded(this.cityId, 'POIs', poi['id']);
+    }))
+  }
+
+  downloadPOI() {
+    const poi = this.interestsList[0];
+
     // show loader
     let loading = this.loader.create({
       content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
     });
     loading.present();
 
-    forkJoin([
-      this.api.getFile(coverUrl).pipe(tap(res => this.offlineStorage.setRequest(coverUrl, res))),
-      this.api.getFile(audioUrl).pipe(tap(res => this.offlineStorage.setRequest(audioUrl, res))),
-      ...galleryRequest
-    ]).subscribe(() => {
-      this.offlineStorage.updateDownloaded(this.cityId, 'POIs', poi['id']);
+    this.savePOI(poi)
+    .subscribe(() => {
       // hide loader
       loading.dismiss();
     });
