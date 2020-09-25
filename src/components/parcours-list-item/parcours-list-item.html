@@ -81,7 +81,7 @@
 
 
   <!-- CONTENT DISCOVER -->
-  <div class="contentDiscover" [attr.aria-hidden]="! isOpenDiscover">
+  <div class="contentDiscover" *ngIf="target === 'parcours' && isOpenDiscover">
     <div class='content' [ngClass]="config.globalGlobalCss()" *ngIf="target === 'parcours'">
       <p [innerHTML]="data.bbCodeToHtml(previewDescription)">
       </p>
@@ -89,6 +89,8 @@
 
     <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
       <player-audio
+        [isNetworkOff]="isNetworkOff"
+        [isDownloaded]="isDownloaded"
         [audioURI]="audioURI"
         [playerUUID]="('player__audio') + openId"
         [audioScript]="audioScript"

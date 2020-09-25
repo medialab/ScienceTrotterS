@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { set } from 'lodash'
+import { set, get } from 'lodash'
 
 @Injectable()
 export class OfflineStorageProvider {
@@ -23,6 +23,10 @@ export class OfflineStorageProvider {
 
   getDownloaded() {
     return this.downloaded.asObservable()
+  }
+
+  isDownloaded(city: string, target: string, id: string) {
+    return get(this.downloaded.getValue(), [city, target, id], false)
   }
 
   updateDownloaded(city: string, target: string, id: string) {

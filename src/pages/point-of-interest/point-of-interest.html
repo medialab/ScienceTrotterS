@@ -3,7 +3,7 @@
 </main-header>
 
 <ion-content [ngClass]="config.globalGlobalCss()" id="poiMainContent">
-  <div alt="" class="poi__header" [style.background-image]="getThisCoverImg()">
+  <div alt="" class="poi__header" [style.background-image]="getCoverImage()">
     <!-- <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(getCoverPicture())' /> -->
   </div>
 
@@ -110,7 +110,7 @@
 
     <section class="poi__section poi__section--isWhite section__player__audio">
       <player-audio target="landmarks"
-                    [audioURI]="audio"
+                    [audioURI]="audioUrl"
                     [playerUUID]="('player__audio') + getData('id')"
                     [uuid]="getData('id')"
                     [audioScript]="getData('audio_script', true)"

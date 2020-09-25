@@ -104,7 +104,7 @@
   </div>
 
   <audio controls [attr.id]="playerUUID" class="hidden__audio__player">
-    <source [attr.src]="_DomSanitizationService.bypassSecurityTrustUrl(audioURI)" />
+    <source [attr.src]="getAudioUrl()" />
   </audio>
 
   <div class='playerAudioNeedNetwork' *ngIf="isNotAvailable()">

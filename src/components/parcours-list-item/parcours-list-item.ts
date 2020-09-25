@@ -1,7 +1,7 @@
-import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OfflineStorageProvider } from './../../providers/offlineStorage';
 import { Subscription } from 'rxjs/Subscription';
 import { tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 import { PlayerAudioProvider } from './../../providers/playerAudio';
 import {
   ApiProvider
@@ -147,13 +147,14 @@ export class ParcoursListItemComponent {
    * Ouvre la page "PointOfInterest"
    */
   openNext() {
-  if(this.isNetworkOff && !this.isDownloaded) {
+    if (this.isNetworkOff && !this.isDownloaded) {
       this.networkService.alertIsNetworkOff();
       return;
     }
+
     this.navCtrl.push('PointOfInterest', {
-      'target': this.target,
-      'openId': this.openId,
+      'target': 'interests',
+      'openId': this.target === 'parcours' ? this.interestsList[0].id: this.openId,
       'pageName': this.previewTitle,
       'createdAt': this.createdAt,
       'interestsList': this.interestsList,
@@ -274,7 +275,9 @@ export class ParcoursListItemComponent {
     loading.present();
 
     const interestsRequest = this.interestsList.map((poi) => this.savePOI(poi));
-    forkJoin(interestsRequest).subscribe(() => {
+    forkJoin([
+      this.api.getFile(this.audioURI).pipe(tap(res => this.offlineStorage.setRequest(this.audioURI, res))),
+      ...interestsRequest]).subscribe(() => {
       loading.dismiss();
       this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId);
     })

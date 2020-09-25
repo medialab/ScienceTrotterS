@@ -1,3 +1,5 @@
+import { OfflineStorageProvider } from './../../providers/offlineStorage';
+import { NetworkService } from './../../providers/network';
 import { Component, Input } from '@angular/core';
 import { TranslateProvider } from "../../providers/translate";
 import {PlayerAudioProvider} from "../../providers/playerAudio";
@@ -22,7 +24,13 @@ export class PlayerAudioComponent {
   @Input() uuid: string = '';
   @Input() audioScript: string = '';
   @Input() showAudioScriptListener: any = null;
+  @Input() isNetworkOff: boolean = false;
+  @Input() isDownloaded: boolean = false;
+
+
   showAudioScript: boolean = false;
+
+  offlineAudioUrl: string='';
 
   configAudio: any = {
     'playerUUID': '',
@@ -44,6 +52,8 @@ export class PlayerAudioComponent {
                public localData: LocalDataProvider,
                public translate: TranslateProvider,
                public config: ConfigProvider,
+               private networkService: NetworkService,
+               private offlineStorage: OfflineStorageProvider,
                public playerAudioProvider: PlayerAudioProvider) {
   }
 
@@ -52,10 +62,15 @@ export class PlayerAudioComponent {
   }
 
   initData () {
+    if(this.isDownloaded && this.isNetworkOff) {
+      this.offlineStorage.getRequest(this.audioURI).then((blob) => {
+        this.offlineAudioUrl = ((window as any).URL ? (window as any).URL : (window as any).webkitURL).createObjectURL(blob);
+      })
+    }
     if (this.loadPlayer && this.audioURI !== '' && (this.configAudio.audioURI === '' || this.audioURI !== this.configAudio.audioURI)) {
       this.configAudio.audioURI = this.audioURI;
       this.playerAudioProvider.clearOne(this.playerUUID);
-      
+
       const audioPlayer = new PlayerAudio(
         this.playerUUID,
         this.audioURI
@@ -68,6 +83,14 @@ export class PlayerAudioComponent {
 
   _audioPlayer () {
     return this.playerAudioProvider.get(this.playerUUID);
+  }
+
+  getAudioUrl () {
+    if (this.isNetworkOff && this.isDownloaded) {
+      return this._DomSanitizationService.bypassSecurityTrustUrl(this.offlineAudioUrl);
+    } else {
+      return this._DomSanitizationService.bypassSecurityTrustUrl(this.audioURI);
+    }
   }
 
   onModelDurationChange (nextDuration: any) {
@@ -139,14 +162,12 @@ export class PlayerAudioComponent {
   }
 
   isNotAvailable() {
-    const resp = this.localData.isDownloaded(this.uuid, this.target);
-
-    if (resp.isDownloaded === false && resp.isNetworkOff === true) {
+    if (this.isDownloaded === false && this.isNetworkOff === true) {
       return true;
-    } else if (resp.isDownloaded === true) {
+    } else if (this.isDownloaded === true) {
       return false;
     } else {
-      return resp.isNetworkOff;
+      return this.isNetworkOff;
     }
   }
 

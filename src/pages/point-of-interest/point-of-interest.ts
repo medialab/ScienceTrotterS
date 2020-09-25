@@ -1,3 +1,7 @@
+import { NetworkService, ConnectionStatus } from './../../providers/network';
+import { OfflineStorageProvider } from './../../providers/offlineStorage';
+
+import { forkJoin } from 'rxjs/observable/forkJoin';
 import {
   Component,
   ViewChild
@@ -33,7 +37,7 @@ import {
 import {
   PlayerAudioProvider
 } from "../../providers/playerAudio";
-import { Slides } from 'ionic-angular';
+import { Slides, LoadingController } from 'ionic-angular';
 import {DomSanitizer} from "@angular/platform-browser";
 import {GeolocProvider} from "../../providers/geoloc";
 
@@ -60,10 +64,10 @@ export class PointOfInterestPage {
   cityName: string = '';
   cityId: string = '';
 
-  cover = "";
+  coverUrl = "";
   gallery;
   galleryShowSlider: boolean = true;
-  audio = "";
+  audioUrl = "";
 
   _interests: Array < any > = new Array();
   interests: Array < any > = new Array();
@@ -81,6 +85,9 @@ export class PointOfInterestPage {
     isHidden: false,
   };
 
+  isNetworkOff: boolean = false;
+  isDownloaded: boolean = false;
+
   constructor(private _DomSanitizationService: DomSanitizer,
               public navCtrl: NavController,
               public navParams: NavParams,
@@ -90,10 +97,13 @@ export class PointOfInterestPage {
               public alert: AlertProvider,
               public geolocProvider: GeolocProvider,
               private toastCtrl: ToastController,
+              public loader: LoadingController,
               public events: Events,
               public data: DataProvider,
               public localData: LocalDataProvider,
               public playerAudioProvider: PlayerAudioProvider,
+              private offlineStorage: OfflineStorageProvider,
+              private networkService: NetworkService,
               public platform: Platform) {
     if (typeof navParams.get('interestsList') !== 'undefined') {
       if (navParams.get('sortOrder') !== null) {
@@ -108,14 +118,54 @@ export class PointOfInterestPage {
       this.curPositionUser = navParams.get('curPositionUser');
       this.createdAt = navParams.get('createdAt');
       this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
+
+      this.isNetworkOff = this.networkService.getStatusValue() === ConnectionStatus.Offline;
+      this.isDownloaded = this.offlineStorage.isDownloaded(this.cityId, 'POIs', this.curId);
+
       this.initInterestsList(navParams.get('interestsList'));
 
-      this.cover = this.getCoverPicture();
+      // this.coverUrl = this.getCoverPicture();
+      this.initMediaData()
     }
 
     events.subscribe('config:updateLanguage', () => {
       this.isOnUpdateLanguage = true;
     });
+  }
+
+  initMediaData() {
+    const coverUrl = this.api.getAssetsUri(this.getData('header_image'));
+    const audioUrl = this.api.getAssetsUri(this.getData('audio', true));
+    const galleryList = this.getData('gallery_image')
+    const gallery = Object
+          .keys(galleryList)
+          .map((itemId: any) => this.api.getAssetsUri(galleryList[itemId]));
+
+    if (this.isDownloaded) {
+      let loading = this.loader.create({
+        content : "loading media files"
+      });
+      loading.present()
+
+      const galleryRequest = gallery.map((url) => this.api.getFile(url));
+      return forkJoin([
+        this.api.getFile(coverUrl),
+        this.api.getFile(audioUrl),
+        ...galleryRequest
+      ]).subscribe((blobs) => {
+        const mediaUrls = blobs.map((blob) => ((window as any).URL ? (window as any).URL : (window as any).webkitURL).createObjectURL(blob));
+        this.coverUrl = mediaUrls[0];
+        this.audioUrl = mediaUrls[1];
+        this.gallery = mediaUrls.slice(2);
+
+        loading.dismiss()
+      })
+    } else {
+      this.coverUrl = coverUrl;
+      this.audioUrl = audioUrl;
+      this.gallery = gallery;
+      this.galleryShowSlider = gallery.length > 1;
+    }
   }
 
   async onUpdateLanguage() {
@@ -154,10 +204,6 @@ export class PointOfInterestPage {
     if (this.isOnUpdateLanguage) {
       this.onUpdateLanguage();
     }
-
-    this.gallery = this.getGallery();
-    this.galleryShowSlider = this.showSliderPager();
-    this.audio = this.getAudio();
   }
 
   ionViewWillLeave() {
@@ -294,14 +340,13 @@ export class PointOfInterestPage {
   onClickMoveList(dir: string) {
     this.playerAudioProvider.isPlayingAndStopThem();
 
-
     switch (dir) {
       case 'prev':
         if (this.activeItem > 0) {
           this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = this.activeItem - 1;
           this.onClickSetHelpItemActive(null);
-          this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
+          // this.audioUrl = this.getAudio(); // nécéssaire pour mettre à jour l'audio
         }
         break;
       case 'next':
@@ -309,7 +354,7 @@ export class PointOfInterestPage {
           this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = this.activeItem + 1;
           this.onClickSetHelpItemActive(null);
-          this.audio = this.getAudio(); // nécéssaire pour mettre à jour l'audio
+          // this.audioUrl = this.getAudio(); // nécéssaire pour mettre à jour l'audio
         } else {
           this.playerAudioProvider.clearOne('player__audio' + this.getData('id'));
           this.activeItem = 0;
@@ -317,7 +362,8 @@ export class PointOfInterestPage {
         break;
     }
 
-    this.gallery = this.getGallery();
+    // this.gallery = this.getGallery();
+    this.initMediaData()
 
     this.slides.slideTo(0, 0, true);
   }
@@ -634,59 +680,11 @@ export class PointOfInterestPage {
     }
   }
 
-  getCoverPicture() {
-    var sPoi = localStorage.getItem("POI");
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.curId]) {
-        return oPOI[this.curId]['cover'];
-
-      }
-
-      if (oPOI[this.interests[this.activeItem].item.id]){
-        return oPOI[this.interests[this.activeItem].item.id]['cover'];
-      }
-    }
-    return this.api.getAssetsUri(this.getData('header_image'));
-
+  getCoverImage() {
+    return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.coverUrl})`);
   }
 
   getGallery() {
-    var sPoi = localStorage.getItem("POI");
-
-    if (sPoi != null) {
-      var oPOI = JSON.parse(sPoi);
-
-      if (oPOI[this.curId]) {
-        var gallery = [];
-        var i = 1;
-
-        while (i <= 5 && oPOI[this.curId]['gallery' + i]) {
-          gallery.push(oPOI[this.curId]['gallery' + i]);
-          i++;
-        }
-        return gallery;
-
-
-      }
-
-
-      if (oPOI[this.interests[this.activeItem].item.id]){
-
-        var gallery = [];
-        var i = 1;
-
-        while (i <= 5 && oPOI[this.interests[this.activeItem].item.id]['gallery' + i]) {
-          gallery.push(oPOI[this.interests[this.activeItem].item.id]['gallery' + i]);
-          i++;
-        }
-
-        return gallery;
-
-      }
-    }
-
     if (typeof this.getData('gallery_image') === 'undefined') {
       return [];
     } else {
@@ -694,28 +692,14 @@ export class PointOfInterestPage {
           .keys(this.getData('gallery_image'))
           .map((itemId: any) => this.api.getAssetsUri(this.getData('gallery_image')[itemId]));
     }
-
-
   }
 
   getAudio() {
-    const audioURI = this.localData.getLandmarkAudio(this.getData('id'));
-
-    if (audioURI === '') {
-      return this.api.getAssetsUri(this.getData('audio', true));
-    } else {
-      return audioURI;
-    }
+    const uri = this.getData('audio', true)
+    return this.api.getAssetsUri(uri);
   }
 
   showGallery() {
-    const resp = this.localData.isLandmarkDownloaded(this.getData('id'));
-
-    return resp.isDownloaded === true || resp.isNetworkOff === false;
+    return this.isDownloaded || !this.isNetworkOff;
   }
-
-  getThisCoverImg() {
-    return this._DomSanitizationService.bypassSecurityTrustStyle(`url(${this.getCoverPicture()})`);
-  }
-
 }

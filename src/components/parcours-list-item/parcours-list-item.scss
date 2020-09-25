@@ -41,14 +41,10 @@ parcours-list-item {
   flex-wrap: nowrap;
 
   .contentDiscover {
-    display: none;
+    display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     padding: 20px;
-
-    &[aria-hidden="false"] {
-      display: flex;
-    }
 
     .content {
       margin: 0 auto 10px auto;
