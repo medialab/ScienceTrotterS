@@ -19,10 +19,12 @@ import { Subscription } from 'rxjs/Subscription';
 export class HomePage {
   activeLg: string = "activeLg";
   listCities: Array<City> = new Array();
-  platformValues: string = '';
+  isAndroid: boolean = false;
+  isIOS: boolean = false;
 
   audioURI = 'cdvfile://localhost/files/6725fdc7-70b5-4138-91e4-2bcb04c79849.mp3';
 
+  deferredPrompt = null;
   isNetworkOff: boolean = false;
   subscription: Subscription;
 
@@ -46,10 +48,21 @@ export class HomePage {
               public alert: AlertProvider) {
     this._init();
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
+    this.platform.ready().then(() => {
+      this.isAndroid = this.platform.is('android');
+      this.isIOS = this.platform.is('ios');
+    });
   }
 
   ngOnInit() {
     this.subscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // console.log('beforeinstallprompt Event fired');
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      this.deferredPrompt = e;
+    });
   }
 
   ngOnDestory() {
@@ -153,5 +166,23 @@ export class HomePage {
     const selectedItem = event.target[event.target.selectedIndex];
 
     this.updateLanguage(selectedItem.value);
+  }
+
+  showInstallBanner() {
+    if (this.deferredPrompt !== undefined && this.deferredPrompt !== null) {
+      // Show the prompt
+      this.deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      this.deferredPrompt.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        // We no longer need the prompt.  Clear it up.
+        this.deferredPrompt = null;
+      });
+    }
   }
 }

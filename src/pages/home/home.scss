@@ -130,6 +130,14 @@ page-home {
       }
     }
   }
+
+  .install__banner {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    bottom: 5px;
+    justify-content: center;
+  }
 }
 
 

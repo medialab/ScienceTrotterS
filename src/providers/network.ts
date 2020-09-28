@@ -27,7 +27,7 @@ export class NetworkService {
   }
 
   public initializeNetworkEvents() {
-    let status
+    let status;
     if (this.network && this.network.type) {
       status = (this.plt.is('mobile') && this.network && this.network.type)
       || !this.plt.is('mobile')
