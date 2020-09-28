@@ -23,23 +23,43 @@ export class NetworkService {
     private plt: Platform) {
     this.plt.ready().then(() => {
       this.initializeNetworkEvents();
-      let status = (this.plt.is('mobile') && this.network && this.network.type !== 'none') || !this.plt.is('mobile') || this.plt.is('core') ? ConnectionStatus.Online : ConnectionStatus.Offline;
-      this.status.next(status);
     });
   }
 
   public initializeNetworkEvents() {
-    this.network.onDisconnect().subscribe(() => {
-      if (this.status.getValue() === ConnectionStatus.Online) {
-        this.updateNetworkStatus(ConnectionStatus.Offline);
-      }
-    });
+    let status
+    if (this.network && this.network.type) {
+      status = (this.plt.is('mobile') && this.network && this.network.type)
+      || !this.plt.is('mobile')
+      || this.plt.is('core') ? ConnectionStatus.Online : ConnectionStatus.Offline;
 
-    this.network.onConnect().subscribe(() => {
-      if (this.status.getValue() === ConnectionStatus.Offline) {
-        this.updateNetworkStatus(ConnectionStatus.Online);
-      }
-    });
+      // cordova platform
+      this.network.onDisconnect().subscribe(() => {
+        if (this.status.getValue() === ConnectionStatus.Online) {
+          this.updateNetworkStatus(ConnectionStatus.Offline);
+        }
+      });
+
+      this.network.onConnect().subscribe(() => {
+        if (this.status.getValue() === ConnectionStatus.Offline) {
+          this.updateNetworkStatus(ConnectionStatus.Online);
+        }
+      });
+    } else if (window && navigator) {
+      // pwa mode
+      status = navigator.onLine ? ConnectionStatus.Online : ConnectionStatus.Offline;
+      Observable.fromEvent(window, "offline").subscribe(() => {
+        if (this.status.getValue() === ConnectionStatus.Online) {
+          this.updateNetworkStatus(ConnectionStatus.Offline);
+        }
+      });
+      Observable.fromEvent(window, "online").subscribe(() => {
+        if (this.status.getValue() === ConnectionStatus.Offline) {
+          this.updateNetworkStatus(ConnectionStatus.Online);
+        }
+      });
+    }
+    this.status.next(status);
   }
 
   private async updateNetworkStatus(status: ConnectionStatus) {
