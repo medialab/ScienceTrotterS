@@ -254,18 +254,25 @@ export class ParcoursListItemComponent {
     }
   }
 
-  download() {
+  downloadItem() {
     if(this.isNetworkOff) {
       this.networkService.alertIsNetworkOff();
       return;
     }
     if (this.parcourTime == "") {
-      this.downloadPOI()
+      this.actionPOI('download');
     } else {
       this.downloadParcours();
     }
   }
 
+  clearItem() {
+    if (this.parcourTime == "") {
+      this.actionPOI('clear');
+    } else {
+      this.clearParcours();
+    }
+  }
   downloadParcours() {
     // show loader
     let loading = this.loader.create({
@@ -279,7 +286,23 @@ export class ParcoursListItemComponent {
       this.api.getFile(this.audioURI).pipe(tap(res => this.offlineStorage.setRequest(this.audioURI, res))),
       ...interestsRequest]).subscribe(() => {
       loading.dismiss();
-      this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId);
+      this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId, true);
+    })
+  }
+
+  clearParcours() {
+    let loading = this.loader.create({
+      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE')
+    });
+
+    loading.present();
+
+    const interestsRequest = this.interestsList.map((poi) => this.clearPOI(poi));
+    forkJoin([
+      this.offlineStorage.clearRequest(this.audioURI),
+      ...interestsRequest]).subscribe(() => {
+      loading.dismiss();
+      this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId, false);
     })
   }
 
@@ -306,24 +329,58 @@ export class ParcoursListItemComponent {
       this.api.getFile(audioUrl).pipe(tap(res => this.offlineStorage.setRequest(audioUrl, res))),
       ...galleryRequest
     ]).pipe(tap(() => {
-      this.offlineStorage.updateDownloaded(this.cityId, 'POIs', poi['id']);
+      this.offlineStorage.updateDownloaded(this.cityId, 'interests', poi['id'], true);
     }))
   }
 
-  downloadPOI() {
+  clearPOI(poi: object) {
+    //Téléchargement de la cover
+    const coverUrl = this.api.getAssetsUri(poi['header_image']);
+
+    // Téléchargement de l'audio
+    const audioUrl = this.api.getAssetsUri(poi['audio'][this.config.getLanguage()]);
+
+    // Téléchargement des images de la galerie pour ce POI
+    var gallery = poi['gallery_image'];
+
+    const galleryRequest = Object.keys(gallery)
+    .map((key, i) =>  {
+      const url = this.api.getAssetsUri(gallery[key]);
+      return this.offlineStorage.clearRequest(url);
+    });
+
+    return forkJoin([
+      this.offlineStorage.clearRequest(coverUrl),
+      this.offlineStorage.clearRequest(audioUrl),
+      ...galleryRequest
+    ]).pipe(tap(() => {
+      this.offlineStorage.updateDownloaded(this.cityId, 'interests', poi['id'], false);
+    }))
+  }
+
+  actionPOI(action: string) {
     const poi = this.interestsList[0];
 
     // show loader
     let loading = this.loader.create({
-      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+      content : action=== 'download' ?
+        this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER'):
+        this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE')
     });
     loading.present();
-
-    this.savePOI(poi)
-    .subscribe(() => {
-      // hide loader
-      loading.dismiss();
-    });
+    if(action === 'download') {
+      this.savePOI(poi)
+      .subscribe(() => {
+        // hide loader
+        loading.dismiss();
+      });
+    } else {
+      this.clearPOI(poi)
+      .subscribe(() => {
+        // hide loader
+        loading.dismiss();
+      });
+    }
   }
 
   canBeDownloadCls() {
@@ -332,9 +389,9 @@ export class ParcoursListItemComponent {
 
   getDownloadBtnTitle() {
     if (this.target === 'parcours') {
-      return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_PARCOURS');
+      return this.isDownloaded ? this.translate.getKey('COMP_PLI_BTN_CLEAR_PARCOURS') : this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_PARCOURS');
     } else {
-      return this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_LANDMARK');
+      return this.isDownloaded ? this.translate.getKey('COMP_PLI_BTN_CLEAR_LANDMARK') : this.translate.getKey('COMP_PLI_BTN_DOWNLOAD_LANDMARK');
     }
   }
 

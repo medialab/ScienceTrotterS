@@ -80,7 +80,9 @@
 	"PAGE_PBC_BTN_SHOW_LANDMARKS": "Afficher les points d'intérêts",
 	"PAGE_PBC_BTN_SHOW_PARCOURS": "Afficher les parcours",
 	"COMP_PLI_BTN_DOWNLOAD_PARCOURS": "Télécharger les données du parcours",
+	"COMP_PLI_BTN_CLEAR_PARCOURS": "Supprimer les données du parcours",
 	"COMP_PLI_BTN_DOWNLOAD_LANDMARK": "Télécharger les données du point d'intérêt",
+	"COMP_PLI_BTN_CLEAR_LANDMARK": "Supprimer les données du point d'intérêt",
 	"COMP_PLI_BTN_SHOW_PREVIEW": "Afficher plus de détails",
 
 	"PLI_BTN_INFORMATION": "Afficher les détails de ce point d'intérêt",
@@ -93,7 +95,7 @@
   "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
   "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
 
-	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet is not connected",
+	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet n'est pas connecté",
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
 
   "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",

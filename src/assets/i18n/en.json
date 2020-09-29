@@ -80,7 +80,9 @@
 	"PAGE_PBC_BTN_SHOW_LANDMARKS": "Show landmarks",
 	"PAGE_PBC_BTN_SHOW_PARCOURS": "Show tours",
 	"COMP_PLI_BTN_DOWNLOAD_PARCOURS": "Download tour data",
+	"COMP_PLI_BTN_CLEAR_PARCOURS": "Clear tour data",
 	"COMP_PLI_BTN_DOWNLOAD_LANDMARK": "Download landmark data",
+	"COMP_PLI_BTN_CLEAR_LANDMARK": "Clear landmark data",
 	"COMP_PLI_BTN_SHOW_PREVIEW": "Show preview",
 
 	"PLI_BTN_INFORMATION": "Show more about this landmark",

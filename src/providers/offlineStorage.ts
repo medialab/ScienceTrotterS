@@ -29,9 +29,9 @@ export class OfflineStorageProvider {
     return get(this.downloaded.getValue(), [city, target, id], false)
   }
 
-  updateDownloaded(city: string, target: string, id: string) {
+  updateDownloaded(city: string, target: string, id: string, isDownladed: boolean) {
     const downloaded = this.downloaded.getValue()
-    set(downloaded, [city, target, id], true)
+    set(downloaded, [city, target, id], isDownladed)
     this.downloaded.next(downloaded)
     this.storage.set('downloaded', downloaded)
   }
@@ -42,5 +42,9 @@ export class OfflineStorageProvider {
 
   setRequest(url: string, blob: Blob) {
     return this.storage.set(url, blob)
+  }
+
+  clearRequest(url: string) {
+    return this.storage.remove(url);
   }
 }

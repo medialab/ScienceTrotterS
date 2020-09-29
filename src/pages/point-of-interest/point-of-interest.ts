@@ -120,7 +120,7 @@ export class PointOfInterestPage {
       this.pageName = navParams.get('pageName') ? navParams.get('pageName') : "";
 
       this.isNetworkOff = this.networkService.getStatusValue() === ConnectionStatus.Offline;
-      this.isDownloaded = this.offlineStorage.isDownloaded(this.cityId, 'POIs', this.curId);
+      this.isDownloaded = this.offlineStorage.isDownloaded(this.cityId, 'interests', this.curId);
 
       this.initInterestsList(navParams.get('interestsList'));
 

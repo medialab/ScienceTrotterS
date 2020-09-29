@@ -122,7 +122,7 @@
             [audioURI]="translate.fromApi(config.getLanguage(), interest.audio) === '' ? '' : api.getAssetsUri(translate.fromApi(config.getLanguage(), interest.audio))"
             [audioScript]="translate.fromApi(config.getLanguage(), interest.audio_script)"
             [isOpenDiscover]="false"
-            [isDownloaded]="isDownloaded('POIs', interest.id)"
+            [isDownloaded]="isDownloaded('interests', interest.id)"
             [geoloc]="interest.geoloc"
             [handler]="parcoursListItemHandler"
             [createdAt]="interest.updated_at"
