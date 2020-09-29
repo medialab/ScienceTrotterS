@@ -22,6 +22,8 @@ export class HomePage {
   isAndroid: boolean = false;
   isIOS: boolean = false;
 
+  isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator['standalone'];
+
   audioURI = 'cdvfile://localhost/files/6725fdc7-70b5-4138-91e4-2bcb04c79849.mp3';
 
   deferredPrompt = null;
