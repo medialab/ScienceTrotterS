@@ -72,8 +72,4 @@
     </li>
   </ul>
   <!-- ./ LIST ALL CITIES -->
-  <div class="install__banner">
-    <button ion-button color="light" *ngIf ="isAndroid && deferredPrompt !== null" (click)="showInstallBanner()">Install</button>
-    <button ion-button color="light" *ngIf ="isIOS && !this.isInStandaloneMode()">Add to home screen</button>
-  </div>
 </ion-content>

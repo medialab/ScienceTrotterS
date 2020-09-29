@@ -72,6 +72,14 @@ export class LocalDataProvider {
     }
   }
 
+  setInstallToastShown() {
+    this.add('install-toast', 'shown')
+  }
+
+  getInstallToastShown() {
+    return this.get('install-toast')
+  }
+
   /**
    * Ajout d'un parcours à la liste de ceux complétés.
    * @param uuid
@@ -251,103 +259,103 @@ export class LocalDataProvider {
     }
   }
 
-  isLandmarkDownloaded(landmarkId: string) {
-    const resp = {
-      'isDownloaded': false,
-      'isNetworkOff': false
-    };
-    let dataJson = [];
-    const localStorageName = 'POI';
-    const data = localStorage.getItem(localStorageName);
+  // isLandmarkDownloaded(landmarkId: string) {
+  //   const resp = {
+  //     'isDownloaded': false,
+  //     'isNetworkOff': false
+  //   };
+  //   let dataJson = [];
+  //   const localStorageName = 'POI';
+  //   const data = localStorage.getItem(localStorageName);
 
-    if (data !== null) {
-      try {
-        dataJson = JSON.parse(data);
-      } catch (e) {
-        // Already been catched ahead in instance.
-      } finally {
-        resp.isDownloaded = typeof dataJson[landmarkId] !== 'undefined';
-      }
-    }
-    // We need this check in devMode
-    if (!this.platform.is('mobile') || this.platform.is('core')) {
-    } else {
-      resp.isNetworkOff = this.network.type === 'none';
-    }
+  //   if (data !== null) {
+  //     try {
+  //       dataJson = JSON.parse(data);
+  //     } catch (e) {
+  //       // Already been catched ahead in instance.
+  //     } finally {
+  //       resp.isDownloaded = typeof dataJson[landmarkId] !== 'undefined';
+  //     }
+  //   }
+  //   // We need this check in devMode
+  //   if (!this.platform.is('mobile') || this.platform.is('core')) {
+  //   } else {
+  //     resp.isNetworkOff = this.network.type === 'none';
+  //   }
 
-    return resp;
-  }
+  //   return resp;
+  // }
 
-  isParcoursDownloaded(parcoursId: string) {
-    const resp = {
-      'isDownloaded': false,
-      'isNetworkOff': false
-    };
-    let dataJson = [];
-    const localStorageName = 'Parcours';
-    const data = localStorage.getItem(localStorageName);
+  // isParcoursDownloaded(parcoursId: string) {
+  //   const resp = {
+  //     'isDownloaded': false,
+  //     'isNetworkOff': false
+  //   };
+  //   let dataJson = [];
+  //   const localStorageName = 'Parcours';
+  //   const data = localStorage.getItem(localStorageName);
 
-    if (data !== null) {
-      try {
-        dataJson = JSON.parse(data);
-      } catch (e) {
-        // Already been catched ahead in instance.
-      } finally {
-        resp.isDownloaded = typeof dataJson[parcoursId] !== 'undefined';
-      }
-    }
-    // We need this check in devMode
-    if (!this.platform.is('mobile') || this.platform.is('core')) {
-    } else {
-      resp.isNetworkOff = this.network.type === 'none';
-    }
+  //   if (data !== null) {
+  //     try {
+  //       dataJson = JSON.parse(data);
+  //     } catch (e) {
+  //       // Already been catched ahead in instance.
+  //     } finally {
+  //       resp.isDownloaded = typeof dataJson[parcoursId] !== 'undefined';
+  //     }
+  //   }
+  //   // We need this check in devMode
+  //   if (!this.platform.is('mobile') || this.platform.is('core')) {
+  //   } else {
+  //     resp.isNetworkOff = this.network.type === 'none';
+  //   }
 
-    return resp;
-  }
+  //   return resp;
+  // }
 
-  isDownloaded(targetId: string, target: string) {
-    if (target.toLowerCase() === 'parcours') {
-      return this.isParcoursDownloaded(targetId)
-    } else {
-      return this.isLandmarkDownloaded(targetId);
-    }
-  }
+  // isDownloaded(targetId: string, target: string) {
+  //   if (target.toLowerCase() === 'parcours') {
+  //     return this.isParcoursDownloaded(targetId)
+  //   } else {
+  //     return this.isLandmarkDownloaded(targetId);
+  //   }
+  // }
 
-  getAudio(targetId: string) {
-    let audioURI = '';
+  // getAudio(targetId: string) {
+  //   let audioURI = '';
 
-    const data = localStorage.getItem('Parcours');
-    let dataJson = [];
+  //   const data = localStorage.getItem('Parcours');
+  //   let dataJson = [];
 
-    if (data !== null) {
-      try {
-        dataJson = JSON.parse(data);
-      } catch (e) {
-        // Already been catched ahead in instance.
-      } finally {
-        audioURI = typeof dataJson[targetId] === 'undefined' ? '' : dataJson[targetId]['audio'];
-      }
-    }
+  //   if (data !== null) {
+  //     try {
+  //       dataJson = JSON.parse(data);
+  //     } catch (e) {
+  //       // Already been catched ahead in instance.
+  //     } finally {
+  //       audioURI = typeof dataJson[targetId] === 'undefined' ? '' : dataJson[targetId]['audio'];
+  //     }
+  //   }
 
-    return audioURI;
-  }
+  //   return audioURI;
+  // }
 
-  getLandmarkAudio(targetId: string) {
-    let audioURI = '';
+  // getLandmarkAudio(targetId: string) {
+  //   let audioURI = '';
 
-    const data = localStorage.getItem('POI');
-    let dataJson = [];
+  //   const data = localStorage.getItem('POI');
+  //   let dataJson = [];
 
-    if (data !== null) {
-      try {
-        dataJson = JSON.parse(data);
-      } catch (e) {
-        // Already been catched ahead in instance.
-      } finally {
-        audioURI = typeof dataJson[targetId] === 'undefined' ? '' : dataJson[targetId]['audio'];
-      }
-    }
+  //   if (data !== null) {
+  //     try {
+  //       dataJson = JSON.parse(data);
+  //     } catch (e) {
+  //       // Already been catched ahead in instance.
+  //     } finally {
+  //       audioURI = typeof dataJson[targetId] === 'undefined' ? '' : dataJson[targetId]['audio'];
+  //     }
+  //   }
 
-    return audioURI;
-  }
+  //   return audioURI;
+  // }
 }

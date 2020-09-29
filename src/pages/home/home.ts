@@ -1,5 +1,6 @@
+import { LocalDataProvider } from './../../providers/localData';
 import { Component } from '@angular/core';
-import {Events, NavController, Platform} from 'ionic-angular';
+import { Events, NavController, Platform, ToastController} from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
 import {ApiProvider} from "../../providers/api";
@@ -21,6 +22,7 @@ export class HomePage {
   listCities: Array<City> = new Array();
   isAndroid: boolean = false;
   isIOS: boolean = false;
+  isInstallToastShown: boolean = false;
 
   isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator['standalone'];
 
@@ -44,26 +46,41 @@ export class HomePage {
               public events: Events,
               public translate: TranslateProvider,
               public platform: Platform,
+              private toastCtrl: ToastController,
               public api: ApiProvider,
               private offlineStorage: OfflineStorageProvider,
               public networkService: NetworkService,
+              public localData: LocalDataProvider,
+              private domSanitizer: DomSanitizer,
               public alert: AlertProvider) {
     this._init();
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
-    this.platform.ready().then(() => {
-      this.isAndroid = this.platform.is('android');
-      this.isIOS = this.platform.is('ios');
-    });
+
   }
 
   ngOnInit() {
     this.subscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
+    this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
+
+    // PWA - Android install banner
     window.addEventListener('beforeinstallprompt', (e) => {
-      // console.log('beforeinstallprompt Event fired');
+      console.log('beforeinstallprompt Event fired');
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
       this.deferredPrompt = e;
+      if (!this.isInstallToastShown) {
+        this.showInstallToast();
+      }
+    });
+
+    this.platform.ready().then(() => {
+      this.isAndroid = this.platform.is('android');
+      this.isIOS = this.platform.is('ios');
+      // PWA - iOS install banner
+      if (this.isIOS && !this.isInStandaloneMode() && !this.isInstallToastShown) {
+        this.showInstallToast();
+      }
     });
   }
 
@@ -168,6 +185,26 @@ export class HomePage {
     const selectedItem = event.target[event.target.selectedIndex];
 
     this.updateLanguage(selectedItem.value);
+  }
+
+  showInstallToast() {
+
+    let toast = this.toastCtrl.create({
+      showCloseButton: true,
+      closeButtonText: this.isIOS ? 'OK': 'Install',
+      position: 'bottom',
+      message: this.isIOS ? `To install the app, tap "Share" icon below and select "Add to Home Screen"`: "Install the app on your phone"
+    });
+
+    toast.onDidDismiss((data, role) => {
+      if(role === 'close' && this.isAndroid) {
+        this.showInstallBanner();
+      }
+    });
+
+    toast.present();
+    this.isInstallToastShown = true;
+    this.localData.setInstallToastShown();
   }
 
   showInstallBanner() {
