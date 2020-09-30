@@ -20,15 +20,9 @@ import { Subscription } from 'rxjs/Subscription';
 export class HomePage {
   activeLg: string = "activeLg";
   listCities: Array<City> = new Array();
-  isAndroid: boolean = false;
-  isIOS: boolean = false;
-  isInstallToastShown: boolean = false;
-
-  isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator['standalone'];
 
   audioURI = 'cdvfile://localhost/files/6725fdc7-70b5-4138-91e4-2bcb04c79849.mp3';
 
-  deferredPrompt = null;
   isNetworkOff: boolean = false;
   subscription: Subscription;
 
@@ -56,32 +50,6 @@ export class HomePage {
     this._init();
     this.events.subscribe('config:updateLanguage', this._init.bind(this));
 
-  }
-
-  ngOnInit() {
-    this.subscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
-    this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
-
-    // PWA - Android install banner
-    window.addEventListener('beforeinstallprompt', (e) => {
-      console.log('beforeinstallprompt Event fired');
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      this.deferredPrompt = e;
-      if (!this.isInstallToastShown) {
-        this.showInstallToast();
-      }
-    });
-
-    this.platform.ready().then(() => {
-      this.isAndroid = this.platform.is('android');
-      this.isIOS = this.platform.is('ios');
-      // PWA - iOS install banner
-      if (this.isIOS && !this.isInStandaloneMode() && !this.isInstallToastShown) {
-        this.showInstallToast();
-      }
-    });
   }
 
   ngOnDestory() {
@@ -187,41 +155,4 @@ export class HomePage {
     this.updateLanguage(selectedItem.value);
   }
 
-  showInstallToast() {
-
-    let toast = this.toastCtrl.create({
-      showCloseButton: true,
-      closeButtonText: this.isIOS ? 'OK': 'Install',
-      position: 'bottom',
-      message: this.isIOS ? `To install the app, tap "Share" icon below and select "Add to Home Screen"`: "Install the app on your phone"
-    });
-
-    toast.onDidDismiss((data, role) => {
-      if(role === 'close' && this.isAndroid) {
-        this.showInstallBanner();
-      }
-    });
-
-    toast.present();
-    this.isInstallToastShown = true;
-    this.localData.setInstallToastShown();
-  }
-
-  showInstallBanner() {
-    if (this.deferredPrompt !== undefined && this.deferredPrompt !== null) {
-      // Show the prompt
-      this.deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      this.deferredPrompt.userChoice
-      .then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-        // We no longer need the prompt.  Clear it up.
-        this.deferredPrompt = null;
-      });
-    }
-  }
 }

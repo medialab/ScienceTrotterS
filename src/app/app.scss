@@ -139,6 +139,10 @@ blockquote {
   padding: 0;
   list-style: none;
 
+  ion-icon {
+    font-size: 3em;
+  }
+
   &__item {
     display: flex;
     flex-direction: column;

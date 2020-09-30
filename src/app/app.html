@@ -12,7 +12,7 @@
   [ngClass]="config.globalGlobalCss()">
   <ion-header menuToggle>
     <ion-toolbar>
-      
+
       <button #btnClose ion-button menuToggle right class="menuBtnRight" [attr.aria-expanded]="config.getMenuState()">
         <ion-icon aria-hidden=“true“ name="close"></ion-icon>
         <label class="headerTitle">
@@ -84,6 +84,19 @@
             <span>{{ translate.getKey('RIGHT_MENU_CREDITS') }}</span>
           </div>
         </a>
+      </li>
+      <!-- MENU ITEM -->
+
+      <!-- MENU ITEM -->
+      <li class="left__menu__item">
+        <button class="left__menu__item__a" (click)="isAndroid ? showInstallBanner() : showInstallToast()">
+          <div class="left__menu__item__a__icon__block">
+            <ion-icon name="download"></ion-icon>
+          </div>
+          <div class="left__menu__item__a__title">
+            <span>{{ translate.getKey('RIGHT_MENU_INSTALL') }}</span>
+          </div>
+        </button>
       </li>
       <!-- MENU ITEM -->
 

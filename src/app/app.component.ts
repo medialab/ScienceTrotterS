@@ -1,6 +1,8 @@
+import { NetworkService } from './../providers/network';
+import { LocalDataProvider } from './../providers/localData';
 import { PointOfInterestPage } from './../pages/point-of-interest/point-of-interest';
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {Content, Events, MenuController, Nav, NavParams, Platform} from 'ionic-angular';
+import { Content, Events, MenuController, Nav, NavParams, Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -32,6 +34,15 @@ export class MyApp {
    */
   rootPage:any = LoaderPage;
 
+  isAndroid: boolean = false;
+  isIOS: boolean = false;
+  isInstallToastShown: boolean = false;
+  deferredPrompt = null;
+
+
+  isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator['standalone'];
+
+
   @ViewChild('btnClose') btnClose: Content;
 
   /**
@@ -50,6 +61,8 @@ export class MyApp {
                public geoloc: GeolocProvider,
                public cache: CacheService,
                public data: DataProvider,
+               private localData: LocalDataProvider,
+               private toastCtrl: ToastController,
                public api: ApiProvider,
                public alert: AlertProvider,
                private camera: Camera) {
@@ -78,7 +91,63 @@ export class MyApp {
           this.handleDirectAccess('');
         }
       });
+      this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
+
+      this.isAndroid = this.platform.is('android');
+      this.isIOS = this.platform.is('ios');
+      // PWA - iOS install banner
+      if (this.isIOS && !this.isInStandaloneMode() && !this.isInstallToastShown) {
+        this.showInstallToast();
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('beforeinstallprompt Event fired');
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        this.deferredPrompt = e;
+        if (!this.isInstallToastShown) {
+          this.showInstallToast();
+        }
+      });
     });
+  }
+
+  showInstallToast() {
+    let toast = this.toastCtrl.create({
+      showCloseButton: true,
+      closeButtonText: this.isIOS ? 'OK': 'Install',
+      position: 'bottom',
+      message: this.isIOS ? `To install the app, tap "Share" icon below and select "Add to Home Screen"`: "Install the app on your phone"
+    });
+
+    toast.onDidDismiss((data, role) => {
+      if(role === 'close' && this.isAndroid) {
+        this.showInstallBanner();
+      }
+    });
+
+    toast.present();
+    this.isInstallToastShown = true;
+    this.localData.setInstallToastShown();
+  }
+
+  showInstallBanner() {
+    if (this.deferredPrompt !== undefined && this.deferredPrompt !== null) {
+      // Show the prompt
+      this.deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      this.deferredPrompt.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        // We no longer need the prompt.  Clear it up.
+        this.deferredPrompt = null;
+      });
+    }
   }
 
   handleDirectAccess (activePageName: string) {
