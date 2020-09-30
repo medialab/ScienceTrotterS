@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
+import { CacheService } from "ionic-cache";
+
 import { normalizeURL} from '../../../node_modules/ionic-angular/util/util';
 import { UrlSerializer } from '../../../node_modules/ionic-angular/navigation/url-serializer';
 
@@ -19,6 +21,7 @@ export class SettingsPage {
               public config: ConfigProvider,
               public translate: TranslateProvider,
               public file : File,
+              private cache: CacheService,
               public loader : LoadingController) {
 
   }
@@ -51,19 +54,20 @@ export class SettingsPage {
     });
 
     loading.present();
-    if (this.file && this.file.dataDirectory) {
-      // only if mobile empty downloaded files
-      var sPath = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$1" );
-      var sDirectory = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$2" );
+    // comment out native app code
+    // if (this.file && this.file.dataDirectory) {
+    //   // only if mobile empty downloaded files
+    //   var sPath = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$1" );
+    //   var sDirectory = this.file.dataDirectory.replace( /(.+)\/(\w+)/, "$2" );
 
-      
-      this.file.removeRecursively( sPath  ,  sDirectory)
-      .catch(err =>{
-        console.log(err);
-      });
-    }
-    localStorage.setItem('POI', "{}");
-    localStorage.setItem('Parcours', '{}');
+
+    //   this.file.removeRecursively(sPath,sDirectory)
+    //   .catch(err =>{
+    //     console.log(err);
+    //   });
+    // }
+    this.cache.clearAll();
+
     localStorage.setItem('sts::statusPOI', '{}');
     // reset vu to à voir items
 

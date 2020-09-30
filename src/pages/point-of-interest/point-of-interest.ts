@@ -191,12 +191,12 @@ export class PointOfInterestPage {
     }
   }
 
-  ionViewWillEnter(){
-    // ?.
-    if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours
-        this.playerAudioProvider.clearAll();
-    }
-  }
+  // comment out clearAll() it is called after new playerAudio added
+  // ionViewWillEnter(){
+  //   if(!(this.showMoveBtn("next") || this.showMoveBtn("prev"))){ //permet de savoir si nous somme dans un parcours
+  //     this.playerAudioProvider.clearAll();
+  //   }
+  // }
 
   ionViewDidEnter() {
     this.isActivePage = true;
