@@ -127,13 +127,13 @@ export class MyApp {
       if(role === 'close' && this.isAndroid) {
         this.showInstallBanner();
       }
-      if (role === 'close' && this.isIOS && ('share' in window.navigator) && window.navigator['share']) {
+      if (role === 'close' && this.isIOS && ('share' in navigator) && navigator['share']) {
         let shareData = {
           title: 'sts',
           text: 'sts',
           url: window.location.href,
         }
-        window.navigator.share(shareData)
+        navigator.share(shareData)
       }
     });
 
