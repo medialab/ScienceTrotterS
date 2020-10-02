@@ -91,13 +91,15 @@ export class MyApp {
           this.handleDirectAccess('');
         }
       });
-      this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
 
       this.isAndroid = this.platform.is('android');
       this.isIOS = this.platform.is('ios');
       // PWA - iOS install banner
-      if (this.isIOS && !this.isInStandaloneMode() && !this.isInstallToastShown) {
-        this.showInstallToast();
+      if (this.isIOS && !this.isInStandaloneMode()) {
+        this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
+        if (!this.isInstallToastShown) {
+          this.showInstallToast();
+        }
       }
 
       window.addEventListener('beforeinstallprompt', (e) => {
@@ -125,24 +127,32 @@ export class MyApp {
       if(role === 'close' && this.isAndroid) {
         this.showInstallBanner();
       }
+      if (role === 'close' && this.isIOS && ('share' in window.navigator) && window.navigator['share']) {
+        let shareData = {
+          title: 'sts',
+          text: 'sts',
+          url: window.location.href,
+        }
+        window.navigator.share(shareData)
+      }
     });
 
     toast.present();
     this.isInstallToastShown = true;
-    this.localData.setInstallToastShown();
+    if (this.isIOS) {
+      this.localData.setInstallToastShown();
+    }
   }
 
   showInstallBanner() {
+    // Show the prompt(android)
     if (this.deferredPrompt !== undefined && this.deferredPrompt !== null) {
-      // Show the prompt
       this.deferredPrompt.prompt();
       // Wait for the user to respond to the prompt
       this.deferredPrompt.userChoice
       .then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
+          this.localData.setInstallToastShown();
         }
         // We no longer need the prompt.  Clear it up.
         this.deferredPrompt = null;
