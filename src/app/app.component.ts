@@ -92,35 +92,40 @@ export class MyApp {
         }
       });
 
-      this.isAndroid = this.platform.is('android');
-      this.isIOS = this.platform.is('ios');
-      // PWA - iOS install banner
-      if (this.isIOS && !this.isInStandaloneMode()) {
-        this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
-        if (!this.isInstallToastShown) {
-          this.showInstallToast();
+      this.events.subscribe('config:updateLanguage', () => {
+        this.isAndroid = this.platform.is('android');
+        this.isIOS = this.platform.is('ios');
+        // PWA - iOS install banner
+        if (this.isIOS && !this.isInStandaloneMode()) {
+          this.isInstallToastShown = this.localData.getInstallToastShown() !== undefined && this.localData.getInstallToastShown() !== null;
+          if (!this.isInstallToastShown) {
+            this.showInstallToast();
+          }
         }
-      }
 
-      window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('beforeinstallprompt Event fired');
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        this.deferredPrompt = e;
-        if (!this.isInstallToastShown) {
-          this.showInstallToast();
-        }
-      });
+        window.addEventListener('beforeinstallprompt', (e) => {
+          console.log('beforeinstallprompt Event fired');
+          // Prevent Chrome 67 and earlier from automatically showing the prompt
+          e.preventDefault();
+          // Stash the event so it can be triggered later.
+          this.deferredPrompt = e;
+          if (!this.isInstallToastShown) {
+            this.showInstallToast();
+          }
+        });
+      })
     });
   }
 
   showInstallToast() {
+    const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+    const messageIOS = isSafari ? this.translate.getKey("TOAST_MSG_INSTALL_SAFARI") : this.translate.getKey("TOAST_MSG_INSTALL_NON_SAFARI");
+    console.log(messageIOS);
     let toast = this.toastCtrl.create({
       showCloseButton: true,
       closeButtonText: this.isIOS ? 'OK': 'Install',
       position: 'bottom',
-      message: this.isIOS ? `To install the app, tap "Share" icon below and select "Add to Home Screen"`: "Install the app on your phone"
+      message: this.isIOS ? messageIOS : this.translate.getKey("TOAST_MSG_INSTALL_ANDROID")
     });
 
     toast.onDidDismiss((data, role) => {
@@ -133,7 +138,7 @@ export class MyApp {
           text: 'sts',
           url: window.location.href,
         }
-        navigator.share(shareData)
+        navigator['share'](shareData);
       }
     });
 

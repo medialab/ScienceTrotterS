@@ -8,6 +8,10 @@
 	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
 	"RIGHT_MENU_INSTALL": "Install App",
 
+	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
+	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap 'Share' icon below and select 'Add to Home Screen'",
+	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
+
 	"COMP_MH_GO_BACK":"Retour",
 
 	"PAGE_NAME_HOME":"Sélectionnez votre ville",

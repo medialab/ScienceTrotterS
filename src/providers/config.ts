@@ -106,14 +106,16 @@ export class ConfigProvider {
     if (nextValue === '') {
       this.parameters.language = this.parameters.language === 'fr' ? 'en' : 'fr';
 
-      this.translate.setLanguage(this.parameters.language);
-      this.events.publish('config:updateLanguage');
+      this.translate.setLanguage(this.parameters.language).then(() => {
+        this.events.publish('config:updateLanguage');
+      })
 
     } else if (this.availableLanguage.indexOf(nextValue) !== -1) {
       this.parameters.language = nextValue;
 
-      this.translate.setLanguage(this.parameters.language);
-      this.events.publish('config:updateLanguage');
+      this.translate.setLanguage(this.parameters.language).then(() => {
+        this.events.publish('config:updateLanguage');
+      })
     }
   }
 

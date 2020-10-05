@@ -92,25 +92,31 @@ export class TranslateProvider {
    *
    * @param {string} nextLanguage
    */
-  setLanguage (nextLanguage: string = '') {
-    let _findLanguage: string = nextLanguage === ''
+
+  setLanguage(nextLanguage: string = '') {
+    return new Promise((resolve, reject) => {
+      let _findLanguage: string = nextLanguage === ''
       ? this._translate.getBrowserLang()
       : nextLanguage;
 
-    if (this.availableLanguage.indexOf(_findLanguage) == -1) {
-      _findLanguage = this.defaultLanguage;
-    }
+      if (this.availableLanguage.indexOf(_findLanguage) == -1) {
+        _findLanguage = this.defaultLanguage;
+      }
 
-    this._translate.getTranslation(_findLanguage).subscribe(obj => {
-      this.setCurrentLanguage(_findLanguage);
-      this.setData(obj);
+      this._translate.getTranslation(_findLanguage).subscribe(obj => {
+        this.setCurrentLanguage(_findLanguage);
+        this.setData(obj);
 
-      document.querySelector('html').lang = _findLanguage;
-      localStorage.setItem('config::langue', _findLanguage);
-      localStorage.setItem('translate:data', JSON.stringify(obj));
-    }, err => {
-      // ==> Handle language file not found.
-      console.log('error translate file');
+        document.querySelector('html').lang = _findLanguage;
+        localStorage.setItem('config::langue', _findLanguage);
+        localStorage.setItem('translate:data', JSON.stringify(obj));
+
+        resolve(obj);
+      }, err => {
+        // ==> Handle language file not found.
+        console.log('error translate file');
+        reject(err);
+      });
     });
   }
 
