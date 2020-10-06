@@ -120,7 +120,6 @@ export class MyApp {
   showInstallToast() {
     const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
     const messageIOS = isSafari ? this.translate.getKey("TOAST_MSG_INSTALL_SAFARI") : this.translate.getKey("TOAST_MSG_INSTALL_NON_SAFARI");
-    console.log(messageIOS);
     let toast = this.toastCtrl.create({
       showCloseButton: true,
       closeButtonText: this.isIOS ? 'OK': 'Install',
@@ -131,14 +130,6 @@ export class MyApp {
     toast.onDidDismiss((data, role) => {
       if(role === 'close' && this.isAndroid) {
         this.showInstallBanner();
-      }
-      if (role === 'close' && this.isIOS && ('share' in navigator) && navigator['share']) {
-        let shareData = {
-          title: 'sts',
-          text: 'sts',
-          url: window.location.href,
-        }
-        navigator['share'](shareData);
       }
     });
 
