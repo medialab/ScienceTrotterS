@@ -164,7 +164,7 @@ export class PreviewByCityPage {
   }
 
   ngOnInit() {
-    this.downloadSubscription = this.offlineStorage.getDownloaded().subscribe(downloaded => this.downloadedList = downloaded[this.city.id] || {})
+    this.downloadSubscription = this.offlineStorage.getDownloaded().subscribe(downloaded => this.downloadedList = downloaded && downloaded[this.city.id] || {})
     this.networkSubscription = this.networkService.getStatus().subscribe(status => this.isNetworkOff = status === ConnectionStatus.Offline)
   }
 

@@ -276,7 +276,8 @@ export class ParcoursListItemComponent {
   downloadParcours() {
     // show loader
     let loading = this.loader.create({
-      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER'),
+      duration: 10000
     });
 
     loading.present();
@@ -292,7 +293,8 @@ export class ParcoursListItemComponent {
 
   clearParcours() {
     let loading = this.loader.create({
-      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE')
+      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE'),
+      duration: 10000
     });
 
     loading.present();
@@ -365,7 +367,8 @@ export class ParcoursListItemComponent {
     let loading = this.loader.create({
       content : action=== 'download' ?
         this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER'):
-        this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE')
+        this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE'),
+      duration: 10000
     });
     loading.present();
     if(action === 'download') {
@@ -374,7 +377,8 @@ export class ParcoursListItemComponent {
         // hide loader
         loading.dismiss();
       });
-    } else {
+    }
+    if(action === 'clear') {
       this.clearPOI(poi)
       .subscribe(() => {
         // hide loader

@@ -47,4 +47,17 @@ export class OfflineStorageProvider {
   clearRequest(url: string) {
     return this.storage.remove(url);
   }
+
+  clearAll() {
+    return new Promise((resolve, reject) => {
+      this.storage.forEach((value, key) => {
+        this.storage.remove(key);
+      })
+      .then(() => {
+        this.downloaded.next({});
+        resolve();
+      })
+      .catch((err) => reject(err));
+    })
+  }
 }

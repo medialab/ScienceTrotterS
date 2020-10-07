@@ -5,6 +5,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {TranslateProvider} from "../../providers/translate";
 import {ConfigProvider} from "../../providers/config";
 import { CacheService } from "ionic-cache";
+import { OfflineStorageProvider } from './../../providers/offlineStorage';
 
 import { normalizeURL} from '../../../node_modules/ionic-angular/util/util';
 import { UrlSerializer } from '../../../node_modules/ionic-angular/navigation/url-serializer';
@@ -22,6 +23,7 @@ export class SettingsPage {
               public translate: TranslateProvider,
               public file : File,
               private cache: CacheService,
+              private offlineStorage: OfflineStorageProvider,
               public loader : LoadingController) {
 
   }
@@ -50,10 +52,15 @@ export class SettingsPage {
   deleteMedia(){
 
     let loading = this.loader.create({
-      content : this.translate.getKey('P_SETTING_DELETE_LOADER')
+      content : this.translate.getKey('P_SETTING_DELETE_LOADER'),
+      duration: 10000
     });
 
+    // reset vu to à voir items
     loading.present();
+    this.offlineStorage.clearAll().then(() => loading.dismiss());
+    localStorage.setItem('sts::statusPOI', '{}');
+
     // comment out native app code
     // if (this.file && this.file.dataDirectory) {
     //   // only if mobile empty downloaded files
@@ -66,12 +73,6 @@ export class SettingsPage {
     //     console.log(err);
     //   });
     // }
-    this.cache.clearAll();
-
-    localStorage.setItem('sts::statusPOI', '{}');
-    // reset vu to à voir items
-
-    loading.dismiss();
   }
 
   goBack() {
