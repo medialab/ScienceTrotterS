@@ -131,6 +131,14 @@ export class MyApp {
       if(role === 'close' && this.isAndroid) {
         this.showInstallBanner();
       }
+      if (role === 'close' && this.isIOS && ('share' in navigator) && navigator['share']) {
+        let shareData = {
+          title: 'sts',
+          text: 'sts',
+          url: window.location.href,
+        }
+        navigator['share'](shareData);
+      }
     });
 
     toast.present();
