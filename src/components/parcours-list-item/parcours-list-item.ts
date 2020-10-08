@@ -255,6 +255,7 @@ export class ParcoursListItemComponent {
   }
 
   downloadItem() {
+    if (this.isDownloaded) return;
     if(this.isNetworkOff) {
       this.networkService.alertIsNetworkOff();
       return;
@@ -276,8 +277,7 @@ export class ParcoursListItemComponent {
   downloadParcours() {
     // show loader
     let loading = this.loader.create({
-      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER'),
-      duration: 10000
+      content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
     });
 
     loading.present();
@@ -285,10 +285,16 @@ export class ParcoursListItemComponent {
     const interestsRequest = this.interestsList.map((poi) => this.savePOI(poi));
     forkJoin([
       this.api.getFile(this.audioURI).pipe(tap(res => this.offlineStorage.setRequest(this.audioURI, res))),
-      ...interestsRequest]).subscribe(() => {
-      loading.dismiss();
-      this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId, true);
-    })
+      ...interestsRequest]).subscribe(
+        () => {
+          loading.dismiss();
+          this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.openId, true);
+        },
+        (error) => {
+          loading.dismiss();
+          this.offlineStorage.alertStorageWarning();
+        }
+      )
   }
 
   clearParcours() {
@@ -367,8 +373,7 @@ export class ParcoursListItemComponent {
     let loading = this.loader.create({
       content : action=== 'download' ?
         this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER'):
-        this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE'),
-      duration: 10000
+        this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_REMOVE')
     });
     loading.present();
     if(action === 'download') {
@@ -376,6 +381,10 @@ export class ParcoursListItemComponent {
       .subscribe(() => {
         // hide loader
         loading.dismiss();
+      },
+      (error) => {
+        loading.dismiss();
+        this.offlineStorage.alertStorageWarning();
       });
     }
     if(action === 'clear') {

@@ -17,7 +17,7 @@ export class NetworkService {
 
   constructor(
     private network: Network,
-    private toastController: ToastController,
+    private toastCtrl: ToastController,
     private alert: AlertProvider,
     public translate: TranslateProvider,
     private plt: Platform) {
@@ -65,9 +65,9 @@ export class NetworkService {
   private async updateNetworkStatus(status: ConnectionStatus) {
     this.status.next(status);
 
-    let connection = status == ConnectionStatus.Offline ? 'Offline' : 'Online';
-    let toast = this.toastController.create({
-      message: `You are now ${connection}`,
+    let connection = status == ConnectionStatus.Offline ? 'offline' : 'online';
+    let toast = this.toastCtrl.create({
+      message: this.translate.getKeyAndReplaceWords('TOAST_MSG_NETWORK', { connection }),
       duration: 3000,
       position: 'bottom'
     });

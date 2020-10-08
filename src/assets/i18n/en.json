@@ -8,9 +8,12 @@
 	"RIGHT_MENU_CREDITS":"General Terms and Conditions of Use",
 	"RIGHT_MENU_INSTALL": "Install App",
 
+	"TOAST_BTN_INSTALL_ANDROID": "Install",
+	"TOAST_BTN_INSTALL_IOS": "Ok",
 	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
 	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap 'Share' icon below and select 'Add to Home Screen'",
 	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
+	"TOAST_MSG_NETWORK": "You are :connection",
 
 	"COMP_MH_GO_BACK":"Back",
 
@@ -46,6 +49,8 @@
 	"PLI_TAB_GALLERY_IMAGE":"image",
 	"PLI_TAB_BIBLIOGRAPHY":"bibliography",
 	"PLI_BTN_SHARE_REF":"Share",
+
+	"PLI_MEDIA_DATA_LOADER": "Loading media files",
 
 	"PLI_ALERT_NO_INTERESTS_TITLE": "Error",
 	"PLI_ALERT_NO_INTERESTS_MESSAGE": "No landmarks available.",
@@ -102,6 +107,9 @@
 
 	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet is not connected",
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Internet connection required",
+
+	"ALERT_STORAGE_WARNING_TITLE": "Data could not be downloaded",
+	"ALERT_STORAGE_WARNING_MSG": "Please remove your downloaded data first.",
 
   "ALERT_MSG_MY_LOCATION": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",
   "ALERT_MSG_MAP_GO": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",

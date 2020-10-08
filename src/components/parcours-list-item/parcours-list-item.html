@@ -63,7 +63,7 @@
                 type="button" class='btnDownload'
                 [ngClass]="canBeDownloadCls()"
                 [attr.title]="getDownloadBtnTitle()"
-                (click)="isDownloaded ? clearItem() : downloadItem()" [ngClass]="config.globalGlobalCss()">
+                (click)="downloadItem()" [ngClass]="config.globalGlobalCss()">
           <span class='icon icon-download stateFalse'>
             <ion-icon name="arrow-round-down"></ion-icon>
           </span>

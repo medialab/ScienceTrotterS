@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { set, get } from 'lodash'
+import {AlertProvider} from "./alert";
 
+import { TranslateProvider } from './translate';
 @Injectable()
 export class OfflineStorageProvider {
   private downloaded: BehaviorSubject<{}> = new BehaviorSubject({});
 
   constructor(
-    private storage: Storage
+    private storage: Storage,
+    private translate: TranslateProvider,
+    private alert: AlertProvider
   ) {
     this.initDownloaded()
   }
@@ -59,5 +63,22 @@ export class OfflineStorageProvider {
       })
       .catch((err) => reject(err));
     })
+  }
+
+  public alertStorageWarning() {
+    if ('storage' in navigator && 'estimate' in navigator["storage"]) {
+      navigator["storage"].estimate().then(({usage, quota}) => {
+        const spaceInMb = Math.round(quota / (1024 * 1024)) - Math.round(usage / (1024 * 1024));
+
+        const details = `Only ${spaceInMb} MB left. `;
+        const title = this.translate.getKey('ALERT_STORAGE_WARNING_TITLE');
+        const message = details + this.translate.getKey('ALERT_STORAGE_WARNING_MSG');
+
+        this.alert.create(
+          title,
+          message
+        );
+      });
+    }
   }
 }

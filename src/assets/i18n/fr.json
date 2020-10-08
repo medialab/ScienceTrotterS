@@ -8,9 +8,12 @@
 	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
 	"RIGHT_MENU_INSTALL": "Install App",
 
+	"TOAST_BTN_INSTALL_ANDROID": "Install",
+	"TOAST_BTN_INSTALL_IOS": "Ok",
 	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
 	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap 'Share' icon below and select 'Add to Home Screen'",
 	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
+	"TOAST_MSG_NETWORK": "You are :connection",
 
 	"COMP_MH_GO_BACK":"Retour",
 
@@ -46,6 +49,8 @@
 	"PLI_TAB_GALLERY_IMAGE":"images",
 	"PLI_TAB_BIBLIOGRAPHY":"bibliographie",
 	"PLI_BTN_SHARE_REF":"Partager",
+
+	"PLI_MEDIA_DATA_LOADER": "Loading media files",
 
 	"PLI_ALERT_NO_INTERESTS_TITLE":"Erreur",
 	"PLI_ALERT_NO_INTERESTS_MESSAGE":"Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
@@ -101,7 +106,10 @@
   "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
 
 	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet n'est pas connecté",
-  "GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
+	"GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
+
+	"ALERT_STORAGE_WARNING_TITLE": "Data could not be downloaded",
+	"ALERT_STORAGE_WARNING_MSG": "Please remove your downloaded data first.",
 
   "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
   "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",

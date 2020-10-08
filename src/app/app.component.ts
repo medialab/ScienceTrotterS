@@ -78,8 +78,8 @@ export class MyApp {
       splashScreen.hide();
       config.initialize();
 
-      // Set TTL to 31 days.
-      cache.setDefaultTTL(86400 * 31);
+      // Set TTL to 1 days.
+      cache.setDefaultTTL(86400);
       // Keep our cached results when device is offline!
       cache.setOfflineInvalidate(false);
 
@@ -122,7 +122,7 @@ export class MyApp {
     const messageIOS = isSafari ? this.translate.getKey("TOAST_MSG_INSTALL_SAFARI") : this.translate.getKey("TOAST_MSG_INSTALL_NON_SAFARI");
     let toast = this.toastCtrl.create({
       showCloseButton: true,
-      closeButtonText: this.isIOS ? 'OK': 'Install',
+      closeButtonText: this.isIOS ? this.translate.getKey("TOAST_BTN_INSTALL_IOS"): this.translate.getKey("TOAST_BTN_INSTALL_ANDROID"),
       position: 'bottom',
       message: this.isIOS ? messageIOS : this.translate.getKey("TOAST_MSG_INSTALL_ANDROID")
     });
@@ -132,11 +132,12 @@ export class MyApp {
         this.showInstallBanner();
       }
       if (role === 'close' && this.isIOS && ('share' in navigator) && navigator['share']) {
-        let shareData = {
+        const shareData = {
           title: 'sts',
           text: 'sts',
           url: window.location.href,
         }
+        console.log(shareData);
         navigator['share'](shareData);
       }
     });

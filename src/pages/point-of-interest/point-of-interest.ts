@@ -143,7 +143,7 @@ export class PointOfInterestPage {
 
     if (this.isDownloaded) {
       let loading = this.loader.create({
-        content : "loading media files",
+        content : this.translate.getKey('PLI_MEDIA_DATA_LOADER'),
         duration: 10000
       });
       loading.present()
