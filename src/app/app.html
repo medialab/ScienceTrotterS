@@ -88,7 +88,7 @@
       <!-- MENU ITEM -->
 
       <!-- MENU ITEM -->
-      <li class="left__menu__item">
+      <li class="left__menu__item" *ngIf="(!isInStandaloneMode() && isIOS) || (isAndroid && deferredPrompt !==null)">
         <button class="left__menu__item__a" (click)="isAndroid ? showInstallBanner() : showInstallToast()">
           <div class="left__menu__item__a__icon__block">
             <ion-icon name="download"></ion-icon>

@@ -37,11 +37,14 @@ export class MyApp {
   isAndroid: boolean = false;
   isIOS: boolean = false;
   isInstallToastShown: boolean = false;
+  isAppInstalled: boolean=false;
   deferredPrompt = null;
 
 
-  isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator['standalone'];
-
+  isInStandaloneMode = () => {
+    return (this.isIOS && ('standalone' in window.navigator) && window.navigator['standalone']) ||
+    (this.isAndroid && window.matchMedia('(display-mode: standalone)').matches);
+  }
 
   @ViewChild('btnClose') btnClose: Content;
 
@@ -108,7 +111,9 @@ export class MyApp {
           // Prevent Chrome 67 and earlier from automatically showing the prompt
           e.preventDefault();
           // Stash the event so it can be triggered later.
-          this.deferredPrompt = e;
+          if (!this.isAppInstalled) {
+            this.deferredPrompt = e;
+          }
           if (!this.isInstallToastShown) {
             this.showInstallToast();
           }
@@ -158,8 +163,9 @@ export class MyApp {
       .then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
           this.localData.setInstallToastShown();
+          this.isAppInstalled = true;
         }
-        // We no longer need the prompt.  Clear it up.
+        // We no longer need the prompt. Clear it up.
         this.deferredPrompt = null;
       });
     }
