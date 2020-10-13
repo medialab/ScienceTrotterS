@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import { CacheModule } from "ionic-cache";
+import { IonicStorageModule } from '@ionic/storage';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -35,8 +37,14 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: 'STS',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
+    CacheModule.forRoot(),
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+  ],
   providers: [
     StatusBar,
     SplashScreen,

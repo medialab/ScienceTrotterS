@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
+import { CacheService } from 'ionic-cache';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,8 +16,10 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cache: CacheService
   ) {
+    // Config translateModule
     translate.addLangs(['en', 'fr'])
     if (localStorage.getItem('locale')) {
       const browserLang = localStorage.getItem('locale');
@@ -24,6 +28,10 @@ export class AppComponent {
       localStorage.setItem('locale', 'fr');
       translate.setDefaultLang('fr');
     }
+
+    // config cache
+    cache.setDefaultTTL(60 * 60 * 24); //set default cache TTL for 1 day
+
     this.initializeApp();
   }
 

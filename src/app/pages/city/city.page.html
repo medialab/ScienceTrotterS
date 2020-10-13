@@ -1,8 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>city</ion-title>
-  </ion-toolbar>
-</ion-header>
+<main-header [withMenu]="true" [withBackButton] = "true">
+  {{ city && city.title[translate.currentLang] }}
+</main-header>
 
 <ion-content>
 

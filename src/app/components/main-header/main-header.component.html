@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start" *ngIf="withBackButton">
       <!-- <ion-back-button></ion-back-button> -->
-      <ion-button fill="clear" color="dark">
+      <ion-button fill="clear" color="dark" (click)="goBack()">
         <span class="header-btn">
           <ion-icon name="chevron-back-outline"></ion-icon>
           <label>

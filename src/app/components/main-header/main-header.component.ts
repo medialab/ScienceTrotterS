@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'main-header',
   templateUrl: './main-header.component.html',
@@ -9,19 +9,12 @@ export class MainHeaderComponent implements OnInit {
   @Input() withMenu: boolean = false;
   @Input() withBackButton: boolean = false;
 
-  constructor() {
-
-  }
-
+  constructor(
+    private location: Location
+  ) {}
   ngOnInit() {}
 
   goBack () {
-    console.log('goback');
-    // if (this.navCtrl.canGoBack()) {
-    //   this.navCtrl.pop();
-    // } else {
-    //   this.navCtrl.setRoot('Cities');
-    // }
+    this.location.back();
   }
-
 }
