@@ -1,0 +1,117 @@
+{
+	"APP_NAME":"Science Trotters",
+
+	"RIGHT_MENU_CLOSE":"Fermer",
+	"RIGHT_MENU_SETTINGS":"Paramètres",
+	"RIGHT_MENU_PHOTO":"Photo",
+	"RIGHT_MENU_GPS":"Ma position",
+	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
+	"RIGHT_MENU_INSTALL": "Install App",
+
+	"TOAST_BTN_INSTALL_ANDROID": "Install",
+	"TOAST_BTN_INSTALL_IOS": "Ok",
+	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
+	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap 'Share' icon below and select 'Add to Home Screen'",
+	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
+	"TOAST_MSG_NETWORK": "You are :connection",
+
+	"COMP_MH_GO_BACK":"Retour",
+
+	"PAGE_NAME_HOME":"Sélectionnez votre ville",
+	"PAGE_NAME_SETTINGS":"Paramètres",
+	"PAGE_NAME_CREDITS":"Conditions générales d'utilisation",
+	"PAGE_NAME_PARCOURS_LIST":"Parcours thématique",
+
+	"P_SETTING_LANGUAGE":"Langue",
+	"P_SETTING_FR":"Français",
+	"P_SETTING_EN":"English",
+	"P_SETTING_FONT_SIZE":"Taille du texte",
+	"P_SETTING_THEME":"Mode d'affichage",
+	"P_SETTING_THEME_DAY":"Jour",
+	"P_SETTING_THEME_NIGHT":"Nuit",
+	"P_SETTING_DELETE":"supprimer le cache",
+	"P_SETTING_DELETE_LOADER":"Suppression en cours…",
+
+	"PLI_FILTER_PROXIMITE":"Autour de moi",
+	"PLI_FILTER_ALPHA":"Tout afficher",
+	"PLI_ACTION_DOWNLOAD_DATA":"hors-ligne",
+	"PLI_ACTION_DOWNLOAD_DATA_REMOVE":"Supprimer les données de téléchargement.",
+	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"téléchargement en cours…",
+	"PLI_LIST_START_PARCOURS":"démarrer le parcours",
+	"PLI_LIST_START_POI":"Démarrer le point d'intérêt",
+	"PLI_VAL_ITINERARY":"S'y rendre",
+	"PLI_BTN_END_POI":"Vu",
+	"PLI_BTN_END_POI_DONE":"Réactiver",
+	"PLI_BTN_END_POI_LAST":"Finir le parcours",
+
+	"PLI_BTN_SEND_PB":"Signaler un problème",
+	"PLI_TAB_AUDIO_SCRIPT":"texte",
+	"PLI_TAB_GALLERY_IMAGE":"images",
+	"PLI_TAB_BIBLIOGRAPHY":"bibliographie",
+	"PLI_BTN_SHARE_REF":"Partager",
+
+	"PLI_MEDIA_DATA_LOADER": "Loading media files",
+
+	"PLI_ALERT_NO_INTERESTS_TITLE":"Erreur",
+	"PLI_ALERT_NO_INTERESTS_MESSAGE":"Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
+	"PLI_DISTANCE_PREFIX": "à",
+
+	"PLI_BTN_PREV_ALT":"Point d'intérêt précèdent",
+	"PLI_BTN_NEXT_ALT":"Point d'intérêt suivant",
+
+	"PBC_ALT_POI":"Points d'intérêts",
+	"PBC_ALT_PARCOURS":"Parcours",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt n'est encore proposé à :city",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours n'est proposé à :city",
+
+	"PLAYER_ACTION_STATE":"Écouter la description audio",
+	"PLAYER_ACTION_VOLUME_DOWN":"volume -",
+	"PLAYER_ACTION_VOLUME_UP":"volume +",
+	"PLAYER_ACTION_TEXT": "texte",
+	"PLAYER_ACTION_TEXT_ATTR_TITLE": "Transcription textuelle de la piste audio",
+
+	"C_BOX_MAP_USER_MARKER":"Vous êtes ici",
+
+	"PV_GEOLOC_ASKGEO_ERROR_TITLE":"Erreur",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
+	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
+
+	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
+	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
+
+	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
+	"MAIL_SHARE_BIBLIO_BODY": "non utilisé [jumpLine]",
+
+	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
+	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]",
+
+	"COMP_BOX_MAP_BTN_GEOLOC": "Afficher ma position sur la carte",
+	"PAGE_PBC_BTN_HIDE_MAP": "Cacher la carte",
+	"PAGE_PBC_BTN_SHOW_LANDMARKS": "Afficher les points d'intérêts",
+	"PAGE_PBC_BTN_SHOW_PARCOURS": "Afficher les parcours",
+	"COMP_PLI_BTN_DOWNLOAD_PARCOURS": "Télécharger les données du parcours",
+	"COMP_PLI_BTN_CLEAR_PARCOURS": "Supprimer les données du parcours",
+	"COMP_PLI_BTN_DOWNLOAD_LANDMARK": "Télécharger les données du point d'intérêt",
+	"COMP_PLI_BTN_CLEAR_LANDMARK": "Supprimer les données du point d'intérêt",
+	"COMP_PLI_BTN_SHOW_PREVIEW": "Afficher plus de détails",
+
+	"PLI_BTN_INFORMATION": "Afficher les détails de ce point d'intérêt",
+	"PLI_BTN_NAVIGATION": "Itinéraire vers ce point d'intérêt",
+	"PLI_BTN_END_POI_ATTR_TITLE": "Terminer ce point d'intérêt",
+	"PLI_BTN_END_POI_ATTR_TITLE_DONE": "Réactiver ce point d'intérêt",
+
+	"PLI_ICON_LANDMARK": "point d'intérêt",
+
+  "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
+  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
+
+	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet n'est pas connecté",
+	"GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
+
+	"ALERT_STORAGE_WARNING_TITLE": "Data could not be downloaded",
+	"ALERT_STORAGE_WARNING_MSG": "Please remove your downloaded data first.",
+
+  "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+  "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+  "ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
+}

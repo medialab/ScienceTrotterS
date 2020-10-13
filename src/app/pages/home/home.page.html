@@ -1,0 +1,95 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      TITLE
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong>Ready to create an app?</strong>
+    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  </div>
+</ion-content> -->
+
+<main-header [withMenu]="true">
+  {{ 'PAGE_NAME_HOME' | translate }}
+</main-header>
+<ion-content class="theme main-content">
+
+  <h2 class="main__title">
+    {{'PAGE_NAME_HOME' | translate }}
+  </h2>
+
+  <!-- LIST ALL CITIES -->
+  <ul class="list__cities">
+
+    <!-- SELECT LANGUAGE TOGGLE -->
+    <li class="list__cities__item list__cities__item__select__lg">
+
+      <!-- HIDDEN SELECT LG -->
+      <!-- <select id="hiddenSelectLg"
+              [(ngModel)]="currentLanguage"
+              (change)="hiddenSelectLgOnChange($event)">
+        <option
+          id="otps__lg--fr"
+          [attr.aria-selected]="setLgActiveAria('fr')"
+          value="fr">{{ 'P_SETTING_FR' | translate }}</option>
+        <option
+          id="otps__lg--en"
+          [attr.aria-selected]="setLgActiveAria('en')"
+          value="en">{{ 'P_SETTING_EN' | translate }}</option>
+      </select> -->
+      <!-- .\ HIDDEN SELECT LG -->
+
+      <ul class="ul__select__lg">
+        <li class="lg__item">
+          <button
+            aria-controls="otps__lg--fr"
+            class="lg__item__btn"
+            (click)="updateLanguage('fr')"
+            [attr.aria-pressed]="getCurrentLang() === 'fr'"
+            [attr.aria-checked]="getCurrentLang() === 'fr'">
+            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="getCurrentLang() === 'fr'"></ion-icon>
+            <span>{{ 'P_SETTING_FR' | translate }}</span>
+          </button>
+        </li>
+        <li class="lg__item">
+          <button
+            aria-controls="otps__lg--en"
+            class="lg__item__btn"
+            (click)="updateLanguage('en')"
+            [attr.aria-pressed]="getCurrentLang() === 'en'"
+            [attr.aria-checked]="getCurrentLang() === 'en'">
+            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="getCurrentLang() === 'en'"></ion-icon>
+            <span>{{ 'P_SETTING_EN' | translate }}</span>
+          </button>
+        </li>
+      </ul>
+
+    </li>
+    <!-- .\ SELECT LANGUAGE TOGGLE -->
+
+    <!-- <li class="list__cities__item"
+        *ngFor="let city of getListCities()"
+        [style.backgroundImage]="'url(' + api.getAssetsUri(city.image) + ')'"
+        alt=""
+    >
+      <a class="list__cities__item__a"
+         href="/#/preview_by_city/{{ city.id }}"
+         (click)="openParcoursList($event, city)">
+        <label class="list__cities__item__a__label">
+          {{ translate.fromApi(config.getLanguage(), city.title) }}
+        </label>
+      </a>
+    </li> -->
+  </ul>
+  <!-- ./ LIST ALL CITIES -->
+</ion-content>
