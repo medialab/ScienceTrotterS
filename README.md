@@ -2,9 +2,9 @@
 
 ## Build With
 
-* Ionic `3.19.1` - HTML5 mobile developement framework.
-* Node JS `8.6.0` - JavaScript runtime.
-* NPM `5.03` - Packages manager and CLI tools.
+* Ionic `5.0.0` - HTML5 mobile developement framework.
+* Node JS `12.19.0` - JavaScript runtime.
+* NPM `6.14.4` - Packages manager and CLI tools.
 
 ## Getting Started
 
@@ -12,12 +12,11 @@
 First of all you need an installation of Node JS.
 https://nodejs.org/en/download/
 
-2) Dependencies 
+2) Dependencies
 
-Install ionic and cordova
+Install ionic CLI
 ```
-npm install -g ionic@3.19.1
-npm i -g cordova
+npm install -g @ionic/cli
 ```
 Install all the dependencies the project needs.
 ```
@@ -28,47 +27,36 @@ npm install
 This application use the following API as data gateway.
 https://github.com/medialab/ScienceTrotterS_API
 
-* Change API url endpoint.
+Change API url endpoint.
 ```
-# src/manifest.json
-{
-  ...
-  'endpoint_data': '[your_custom_url]' # api data uri
-  'endpoint_assets': '[your_custom_url]' # api assets uri
-  'target:' '[your_target_platform]' # android or ios
-  ...
+# src/environments
+
+endpoint: {
+  data: '[your_api_url]' # api data uri
+  assets: '[your_assets_url]' # api assets uri
 }
 ```
 
 4) Running a live browser server
 
 ```
-# With default port : 8100
+# With default port: 8100
 ionic serve
 # With custom port
 ionic serve --port 8091
 ```
 
-5) Build Android Application
+5) Build PWA
 ```
-ionic cordova build android
+ionic build --prod
 ```
-6) Build Ios Application
-```
-ionic cordova build ios
-```
-
 
 Découvrir le guide de publication ionic
 ```
-https://ionicframework.com/docs/v1/guide/publishing.html
+https://ionicframework.com
 ```
 
 ## License
 This project is licensed under the GPLv2 License - see the [GPLv2-LICENSE.md](https://github.com/medialab/ScienceTrotterS_mobile/GPLv2-LICENSE.md) file for details
-
-7) Push application on stores (AppStore and GooglePlay)
-
-[https://ionicframework.com/docs/v1/guide/publishing.html](https://ionicframework.com/docs/v1/guide/publishing.html)
 
 
