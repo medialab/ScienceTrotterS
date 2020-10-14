@@ -1,6 +1,13 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+@font-face {
+  font-family: 'montserratregular';
+  src: url('../assets/fonts/montserrat/montserrat-regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
@@ -74,19 +81,6 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
-
-  // @font-face {
-  //   font-family: 'montserratregular';
-  //   src: url('../assets/fonts/montserrat/montserrat-regular.eot');
-  //   src: url('../assets/fonts/montserrat/montserrat-regular.eot?#iefix') format('embedded-opentype'),
-  //   url('../assets/fonts/montserrat/montserrat-regular.woff2') format('woff2'),
-  //   url('../assets/fonts/montserrat/montserrat-regular.woff') format('woff'),
-  //   url('../assets/fonts/montserrat/montserrat-regular.ttf') format('truetype'),
-  //   url('../assets/fonts/montserrat/montserrat-regular.svg#montserratregular') format('svg');
-  //   font-weight: normal;
-  //   font-style: normal;
-  // }
-
   /* Set the font family of the entire app */
   --ion-font-family: 'montserratregular', sans-serif;
 }

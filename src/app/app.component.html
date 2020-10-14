@@ -22,14 +22,16 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item lines="none">
-          <span class="menu-item">
-            <ion-icon name="settings-sharp"></ion-icon>
-            <ion-label class="ion-text-wrap">
-              {{ 'RIGHT_MENU_SETTINGS' | translate }}
-            </ion-label>
-          </span>
-        </ion-item>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/settings">
+            <span class="menu-item">
+              <ion-icon name="settings-sharp"></ion-icon>
+              <ion-label class="ion-text-wrap">
+                {{ 'RIGHT_MENU_SETTINGS' | translate }}
+              </ion-label>
+            </span>
+          </ion-item>
+        </ion-menu-toggle>
         <ion-item lines="none">
           <span class="menu-item">
             <ion-icon name="camera"></ion-icon>
@@ -46,14 +48,16 @@
             </ion-label>
           </span>
         </ion-item>
-        <ion-item lines="none">
-          <span class="menu-item" >
-            <ion-icon name="information-circle-sharp"></ion-icon>
-            <ion-label class="ion-text-wrap">
-              {{ 'RIGHT_MENU_CREDITS' | translate }}
-            </ion-label>
-          </span>
-        </ion-item>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="/terms-conditions">
+            <span class="menu-item" >
+              <ion-icon name="information-circle-sharp"></ion-icon>
+              <ion-label class="ion-text-wrap">
+                {{ 'RIGHT_MENU_CREDITS' | translate }}
+              </ion-label>
+            </span>
+          </ion-item>
+        </ion-menu-toggle>
         <ion-item lines="none">
           <span class="menu-item">
             <ion-icon name="download-sharp"></ion-icon>

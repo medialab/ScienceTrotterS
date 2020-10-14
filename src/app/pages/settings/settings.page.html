@@ -1,9 +1,77 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>settings</ion-title>
-  </ion-toolbar>
-</ion-header>
+<main-header [withBackButton]="true">
+  {{ 'PAGE_NAME_SETTINGS' | translate }}
+</main-header>
 
-<ion-content>
+<ion-content class="theme main-content">
+  <div class="settingsList">
 
+    <!-- SETTING LANGUAGE -->
+    <div class="settingItem languageBlock">
+      <h2 class="title">
+        {{ 'P_SETTING_LANGUAGE' | translate }}
+      </h2>
+      <div class="content contentCol">
+        <label>{{ 'P_SETTING_FR' | translate }}</label>
+        <ion-toggle [(ngModel)]="translate.currentLang"></ion-toggle>
+        <label>{{ 'P_SETTING_EN' | translate }}</label>
+      </div>
+    </div>
+
+    <!-- SETTING FONT SIZE -->
+    <div class="settingItem fontSizeBlock">
+      <h2 class="title">
+        {{ 'P_SETTING_FONT_SIZE' | translate }}
+      </h2>
+      <div class="content contentCol">
+        <label class="letterOne" [attr.aria-hidden]="true">A</label>
+        <ion-item class="rangeFontSize">
+          <ion-range
+            (ionChange)="updateFontSize()"
+            [(ngModel)]="fontSize"
+            min="0"
+            max="8"
+            step="1"
+            snaps="true"
+            color="secondary">
+          </ion-range>
+        </ion-item>
+        <label class="letterTwo" [attr.aria-hidden]="true">A</label>
+      </div>
+    </div>
+
+    <!-- SETTING THEME -->
+    <!-- <div class="settingItem themeBlock">
+      <h2 class="title">
+        {{ 'P_SETTING_THEME' | translate }}
+      </h2>
+      <div class="content contentCol">
+        <label class="orderIconTextCol">
+          <ion-icon aria-hidden="true" name="sunny" class="labelIcon"></ion-icon>
+          <span>{{ 'P_SETTING_THEME_DAY' | translate }}</span>
+        </label>
+        <ion-toggle
+          (ionChange)="updateTheme()"
+          checked="{{ listenerTheme() }}"></ion-toggle>
+        <label class="orderIconTextCol">
+          <ion-icon aria-hidden="true" name="moon" class="labelIcon"></ion-icon>
+          <span>{{ 'P_SETTING_THEME_NIGHT' | translate }}</span>
+        </label>
+      </div>
+    </div> -->
+
+
+    <!-- DELETE MEDIA -->
+    <div class="settingItem themeBlock">
+      <button class="poi__end__btn" (click)="deleteMedia()" >
+        {{ 'P_SETTING_DELETE' | translate }}
+      </button>
+    </div>
+
+    <!-- BRAND -->
+    <div class="settingItem brandBlcok">
+      <div class="st-settings">
+        <div class="img-st"></div>
+      </div>
+    </div>
+  </div>
 </ion-content>
