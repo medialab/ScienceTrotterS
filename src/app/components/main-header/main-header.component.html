@@ -15,15 +15,22 @@
       <ng-content></ng-content>
     </ion-title>
     <ion-buttons slot="end" *ngIf="withMenu">
-      <!-- <ion-menu-button autoHide="false"></ion-menu-button> -->
-      <ion-button fill="clear" color="dark">
+      <ion-menu-button>
+        <span class="header-btn" >
+          <ion-icon name="menu-outline"></ion-icon>
+          <label>
+            MENU
+          </label>
+        </span>
+      </ion-menu-button>
+      <!-- <ion-button fill="clear" color="dark">
         <span class="header-btn" >
           <ion-icon name="menu-outline"></ion-icon>
           <label class="backLabel">
             MENU
           </label>
         </span>
-      </ion-button>
+      </ion-button> -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

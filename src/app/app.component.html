@@ -1,3 +1,69 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu
+    contentId="main-content"
+    menuId="first"
+    side="end"
+    type="overlay">
+    <ion-header mode="md">
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-menu-toggle>
+            <ion-button>
+              <span class="header-btn">
+                <ion-icon name="close-outline"></ion-icon>
+                <label>
+                  {{ 'RIGHT_MENU_CLOSE' | translate }}
+                </label>
+              </span>
+            </ion-button>
+          </ion-menu-toggle>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item lines="none">
+          <span class="menu-item">
+            <ion-icon name="settings-sharp"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              {{ 'RIGHT_MENU_SETTINGS' | translate }}
+            </ion-label>
+          </span>
+        </ion-item>
+        <ion-item lines="none">
+          <span class="menu-item">
+            <ion-icon name="camera"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              {{ 'RIGHT_MENU_PHOTO' | translate }}
+            </ion-label>
+          </span>
+        </ion-item>
+        <ion-item lines="none">
+          <span class="menu-item">
+            <ion-icon name="location-sharp"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              {{ 'RIGHT_MENU_GPS' | translate }}
+            </ion-label>
+          </span>
+        </ion-item>
+        <ion-item lines="none">
+          <span class="menu-item" >
+            <ion-icon name="information-circle-sharp"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              {{ 'RIGHT_MENU_CREDITS' | translate }}
+            </ion-label>
+          </span>
+        </ion-item>
+        <ion-item lines="none">
+          <span class="menu-item">
+            <ion-icon name="download-sharp"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              {{ 'RIGHT_MENU_INSTALL' | translate }}
+            </ion-label>
+          </span>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

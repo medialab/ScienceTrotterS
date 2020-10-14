@@ -1,0 +1,38 @@
+:host {
+  ion-menu {
+    --width: 45%;
+
+    --ion-background-color: black;
+    --ion-text-color: var(--ion-color-primary-contrast);
+  }
+  .header-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    ion-icon {
+      font-size: 1.5rem;
+    }
+    label {
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+  }
+  .menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 20px;
+
+    ion-icon {
+      font-size: 2.5em;
+    }
+    ion-label {
+      padding-top: 10px;
+      font-size: 1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  }
+}
