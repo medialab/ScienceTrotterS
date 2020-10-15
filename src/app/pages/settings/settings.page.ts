@@ -23,7 +23,7 @@ export class SettingsPage implements OnInit {
   */
   updateLanguage() {
     const language = this.isEnglish ? 'en':'fr';
-    localStorage.setItem('locale', language);
+    localStorage.setItem('config::locale', language);
     this.translate.use(language);
   }
 

@@ -24,12 +24,13 @@ export class HomePage {
   }
 
   updateLanguage(language: string) {
-    localStorage.setItem('locale', language);
+    localStorage.setItem('config::locale', language);
     this.translate.use(language);
   }
 
   initCities() {
-    this.api.get('/public/cities/list?lang=' + this.translate.currentLang).subscribe((resp: any) => {
+    this.api.get('/public/cities/list?lang=' + this.translate.currentLang)
+    .subscribe((resp: any) => {
       if (resp.success) {
         this.listCities = resp.data;
       }

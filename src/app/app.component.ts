@@ -58,12 +58,13 @@ export class AppComponent {
   ) {
     // Config translateModule
     translate.addLangs(['en', 'fr'])
-    if (localStorage.getItem('locale')) {
-      const browserLang = localStorage.getItem('locale');
+    if (localStorage.getItem('config::locale')) {
+      const browserLang = localStorage.getItem('config::locale');
       translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
     } else {
-      localStorage.setItem('locale', 'fr');
+      localStorage.setItem('config::locale', 'fr');
       translate.setDefaultLang('fr');
+      translate.use('fr');
     }
 
     // config cache
