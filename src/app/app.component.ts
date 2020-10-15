@@ -1,3 +1,4 @@
+import { ConfigService } from './services/config.service';
 import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
@@ -52,7 +53,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private translate: TranslateService,
-    private cache: CacheService
+    private cache: CacheService,
+    private config: ConfigService
   ) {
     // Config translateModule
     translate.addLangs(['en', 'fr'])

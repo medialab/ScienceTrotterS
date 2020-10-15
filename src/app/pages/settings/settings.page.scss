@@ -1,92 +1,34 @@
 :host {
+  ion-list-header, ion-item, ion-label {
+    font-size: 1em;
+  }
 
-  .settingsList {
+  ion-icon {
+    font-size: 3em;
+  }
+
+  .label-sm {
+    font-size: 10px !important;
+  }
+  .label-lg {
+    font-size: 18px !important;
+  }
+
+  .icon-label {
     display: flex;
     flex-direction: column;
-    margin: 50px 0;
-
-    .settingItem {
-      display: flex;
-      flex-direction: column;
-      margin: 0 0 30px 0;
-
-      .title {
-        color: black;
-        padding: 5px;
-        font-size: 1em;
-      }
-
-      .content.contentCol {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .content {
-        padding: 10px 0;
-        border-top: 1px solid #BDC3C7;
-        border-bottom: 1px solid #BDC3C7;
-        background-color: white;
-
-        label {
-          font-size: 1em;
-          padding: 0 15px;
-        }
-      }
-
-    }
+    align-items: center;
   }
 
-  .settingItem.fontSizeBlock {
-    .letterOne {
-      font-size: 0.8em !important;
+  .brand-image {
+    display: flex;
+    justify-content: center;
+    .img-st {
+      background-image: url('../../../assets/imgs/icon_svg/st_settings.svg');
+      background-repeat: no-repeat;
+      width: 80%;
+      height: 50px;
     }
-    .letterTwo {
-      font-size: 1.5em !important;
-    }
-    .rangeFontSize {
-      padding: 0 !important;
-
-      .item-inner {
-        border-bottom: none !important;
-        padding: 0 !important;
-      }
-    }
-  }
-
-  .settingItem.themeBlock {
-    .labelIcon {
-      font-size: 3em;
-    }
-    .orderIconTextCol {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-
-      span {
-        font-size: 1em;
-        padding: 7px 0 5px 0;
-      }
-    }
-  }
-
-  .settingItem.brandBlcok {
-    .brandName {
-      color: black;
-      font-size: 1.2em;
-      letter-spacing: 2px;
-      font-weight:bold;
-      display: block;
-      text-align: center;
-      padding: 10px 0;
-      text-transform: uppercase;
-    }
-  }
-
-  .st-settings {
-    margin: 15px 10% 0 10%;
-    padding: 10%;
   }
 
 }

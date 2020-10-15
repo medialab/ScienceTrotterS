@@ -2,76 +2,75 @@
   {{ 'PAGE_NAME_SETTINGS' | translate }}
 </main-header>
 
-<ion-content class="theme main-content">
-  <div class="settingsList">
+<main-content>
+  <!-- SETTING LANGUAGE -->
+  <ion-list class="ion-padding-bottom">
+    <ion-list-header lines="full">
+      {{ 'P_SETTING_LANGUAGE' | translate }}
+    </ion-list-header>
+    <ion-item class="ion-text-center" lines="full">
+      <ion-label>{{ 'P_SETTING_FR' | translate }}</ion-label>
+      <ion-toggle [(ngModel)]="isEnglish" (ionChange)="updateLanguage()"></ion-toggle>
+      <ion-label>{{ 'P_SETTING_EN' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
 
-    <!-- SETTING LANGUAGE -->
-    <div class="settingItem languageBlock">
-      <h2 class="title">
-        {{ 'P_SETTING_LANGUAGE' | translate }}
-      </h2>
-      <div class="content contentCol">
-        <label>{{ 'P_SETTING_FR' | translate }}</label>
-        <ion-toggle [(ngModel)]="translate.currentLang"></ion-toggle>
-        <label>{{ 'P_SETTING_EN' | translate }}</label>
-      </div>
-    </div>
+  <!-- SETTING THEME -->
+  <ion-list class="ion-padding-bottom">
+    <ion-list-header lines="full">
+      {{ 'P_SETTING_FONT_SIZE' | translate }}
+    </ion-list-header>
+    <ion-item>
+      <ion-range
+        (ionChange)="config.updateFontSize()"
+        [(ngModel)]="config.parameters.fontSize"
+        min="0"
+        max="8"
+        step="1"
+        snaps
+        color="success">
+        <ion-label slot="start" class="label-sm">A</ion-label>
+        <ion-label slot="end" class="label-lg">A</ion-label>
+      </ion-range>
+    </ion-item>
+  </ion-list>
 
-    <!-- SETTING FONT SIZE -->
-    <div class="settingItem fontSizeBlock">
-      <h2 class="title">
-        {{ 'P_SETTING_FONT_SIZE' | translate }}
-      </h2>
-      <div class="content contentCol">
-        <label class="letterOne" [attr.aria-hidden]="true">A</label>
-        <ion-item class="rangeFontSize">
-          <ion-range
-            (ionChange)="updateFontSize()"
-            [(ngModel)]="fontSize"
-            min="0"
-            max="8"
-            step="1"
-            snaps="true"
-            color="secondary">
-          </ion-range>
-        </ion-item>
-        <label class="letterTwo" [attr.aria-hidden]="true">A</label>
-      </div>
-    </div>
+  <ion-list class="ion-padding-bottom">
+    <ion-list-header lines="full">
+      {{ 'P_SETTING_THEME' | translate }}
+    </ion-list-header>
 
-    <!-- SETTING THEME -->
-    <!-- <div class="settingItem themeBlock">
-      <h2 class="title">
-        {{ 'P_SETTING_THEME' | translate }}
-      </h2>
-      <div class="content contentCol">
-        <label class="orderIconTextCol">
-          <ion-icon aria-hidden="true" name="sunny" class="labelIcon"></ion-icon>
-          <span>{{ 'P_SETTING_THEME_DAY' | translate }}</span>
+    <ion-item class="ion-text-center" lines="full">
+      <ion-label class="icon-label">
+        <ion-icon name="sunny" color="dark"></ion-icon>
+        <label>
+          {{ 'P_SETTING_THEME_DAY' | translate }}
         </label>
-        <ion-toggle
-          (ionChange)="updateTheme()"
-          checked="{{ listenerTheme() }}"></ion-toggle>
-        <label class="orderIconTextCol">
-          <ion-icon aria-hidden="true" name="moon" class="labelIcon"></ion-icon>
-          <span>{{ 'P_SETTING_THEME_NIGHT' | translate }}</span>
+      </ion-label>
+      <ion-toggle></ion-toggle>
+      <ion-label class="icon-label">
+        <ion-icon name="moon" color="dark"></ion-icon>
+        <label>
+          {{ 'P_SETTING_THEME_NIGHT' | translate }}
         </label>
-      </div>
-    </div> -->
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
+  <ion-list class="ion-padding-bottom">
+    <ion-item class="ion-text-center" lines="none">
+      <ion-label>
+        <button class="sts-button" (click)="deleteMedia()" >{{ 'P_SETTING_DELETE' | translate }}</button>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-    <!-- DELETE MEDIA -->
-    <div class="settingItem themeBlock">
-      <button class="poi__end__btn" (click)="deleteMedia()" >
-        {{ 'P_SETTING_DELETE' | translate }}
-      </button>
-    </div>
-
-    <!-- BRAND -->
-    <div class="settingItem brandBlcok">
-      <div class="st-settings">
+  <!-- BRAND -->
+  <ion-list class="ion-align-self-end">
+    <ion-item class="ion-text-center" lines="none">
+      <ion-label class="brand-image">
         <div class="img-st"></div>
-      </div>
-    </div>
-  </div>
-</ion-content>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</main-content>

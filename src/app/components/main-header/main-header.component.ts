@@ -1,3 +1,4 @@
+import { ConfigService } from './../../services/config.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 @Component({
@@ -10,7 +11,8 @@ export class MainHeaderComponent implements OnInit {
   @Input() withBackButton: boolean = false;
 
   constructor(
-    private location: Location
+    private location: Location,
+    private config: ConfigService
   ) {}
   ngOnInit() {}
 

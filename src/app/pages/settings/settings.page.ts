@@ -1,5 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
+import { ConfigService } from './../../services/config.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,25 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  fontSize = '4'
-
+  isEnglish = false;
   constructor(
-    private translate: TranslateService
-  ) { }
-
-  ngOnInit() {
-  }
+    private translate: TranslateService,
+    private config: ConfigService
+    ) {
+      this.isEnglish = this.translate.currentLang === 'en';
+    }
+    ngOnInit() {
+    }
 
   /**
   * Mise a jour de la langue à la modification de l'état du toggle.
   */
   updateLanguage() {
-  }
-
-  /**
-  * Mise a jour de la taille de la police.
-  */
-  updateFontSize() {
+    const language = this.isEnglish ? 'en':'fr';
+    localStorage.setItem('locale', language);
+    this.translate.use(language);
   }
 
   /**
