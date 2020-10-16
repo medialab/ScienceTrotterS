@@ -1,0 +1,262 @@
+:host {
+  display: block;
+  font-size: initial;
+  .isDone {
+    .leftIconColor {
+      .roundIcon {
+        background-color: #929090 !important;
+      }
+    }
+
+    .contentPreview .info * {
+      color: #929090 !important;
+    }
+  }
+
+  .parcoursListItem {
+    min-height: 70px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .contentDiscover {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      padding: 20px;
+
+      .content {
+        margin: 0 auto 10px auto;
+
+        p {
+          font-size: 1em;
+        }
+      }
+
+      .playerAudio {
+        margin: 0 0 10px 0;
+      }
+
+      .footer {
+
+        .btnStart {
+          width: 100%;
+          height: 46px;
+          color: white;
+          border-radius: 23px;
+          font-size: 1.3em;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .mainContent {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    .mainContent > .leftIconColor {
+      width: 45px;
+      min-width: 45px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .roundIcon {
+        margin: 0px 0px 0px 5px;
+        background-color: #336699;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 25px;
+        height: 25px;
+        margin: 22.5px 0;
+
+        &.icon-parcours {
+          background-image: url('../../../assets/imgs/parcours-list/icon_parcours.svg');
+        }
+        &.icon-poi {
+          background-image: url('../../../assets/imgs/parcours-list/icon_poi_white.svg');
+        }
+      }
+    }
+
+    .leftIconColor.blue {
+      background-color: #336699;
+    }
+    .leftIconColor.red {
+      background-color: #5F4B8B;
+    }
+    .leftIconColor.yellow {
+      background-color: #3686A0;
+    }
+
+    .contentRight {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      flex-grow: 1;
+      max-width: calc(100% - 45px);
+
+      .contentPreview {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        min-height: 70px;
+
+        .info {
+          flex: 1;
+          padding: 10px;
+          background-color: transparent;
+          width: calc(100% - 70px);
+          font-size: inherit;
+
+          h1 {
+            margin: 0;
+            font-size: 1.2em;
+            text-align: left;
+            hyphens: manual;
+            padding: 5px 0px;
+          }
+
+          ul.infoParcours {
+            border: 0;
+            padding: 0px;
+            margin: 0px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            list-style: none;
+            align-items: center;
+
+            li {
+              list-style: puce;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+
+              label {
+                padding: 0 5px;
+                font-size: 1.1em;
+                word-break: break-word;
+              }
+            }
+          }
+
+          .spanDot {
+            font-size: 18px;
+          }
+          .icon-poi {
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            background-image: url('../../../assets/imgs/parcours-list/icon_poi.svg');
+          }
+        }
+
+        .btnDownload {
+          width: auto;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          justify-content: center;
+          align-items: center;
+          background-color: transparent;
+          width: 70px;
+          max-width: 70px;
+          font-size: inherit;
+
+          .icon-download {
+            &.stateTrue {
+              display: none;
+            }
+
+            &.stateFalse {
+              display: flex;
+            }
+          }
+
+          &.isDownloaded {
+            label {
+              color: #929090 !important;
+            }
+
+            .icon {
+              border-color: #929090 !important;
+            }
+
+            .icon-download {
+              &.stateTrue {
+                display: flex;
+              }
+
+              &.stateFalse {
+                display: none;
+              }
+            }
+          }
+
+          &.isNetworkOff {
+            display: none;
+          }
+
+          .icon {
+            width: 30px;
+            height: 30px;
+            margin: 3px 0;
+            border: 1px solid black;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            ion-icon {
+              font-size: 16px !important;
+            }
+          }
+
+          label {
+            font-size: 0.8em;
+          }
+        }
+      }
+    }
+
+    .labelToLeft {
+      text-align: left;
+    }
+
+  }
+
+  .hideIt {
+    display: none;
+  }
+
+  .spanWithDotInside {
+    font-size: 32px;
+    padding: 0 0 0 4px;
+  }
+
+  .infoParcours.infoParcoursLandmarks {
+    li {
+      min-height: 0px !important;
+    }
+  }
+}

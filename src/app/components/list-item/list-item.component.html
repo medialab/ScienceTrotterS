@@ -1,0 +1,127 @@
+<!-- <ion-item class="ion-no-padding" lines="full">
+
+</ion-item> -->
+
+<div class='parcoursListItem' id="search-content" [ngClass]="isDone()">
+
+  <div class="mainContent">
+    <div class='leftIconColor'>
+
+      <div class="roundIcon" [ngStyle]="{'background-color': item.color}">
+        <span *ngIf="target === 'parcours'"
+          aria-hidden="true"
+          class="icon icon-parcours"
+          [attr.alt]="'PBC_ALT_PARCOURS' | translate">
+        </span>
+        <span *ngIf="target === 'places'"
+          aria-hidden="true"
+          class="icon icon-poi"
+          [attr.alt]="'PBC_ALT_POI' | translate">
+        </span>
+      </div>
+    </div>
+
+    <div class='contentRight'>
+      <div class='contentPreview' [ngClass]="config.getFontSizeClass()">
+        <button type="button"class='info' [attr.id]="focusId"
+                (click)="updateDiscoverStateOrOpen()"
+                [attr.title]="'COMP_PLI_BTN_SHOW_PREVIEW' | translate">
+          <h1>{{ item.title[translate.currentLang] }}</h1>
+          <ul class="infoParcours" *ngIf="target === 'parcours'">
+            <li>
+              <label class="labelToLeft">{{ placesList.length }}</label>
+              <span aria-hidden="true" class="icon-poi" [attr.alt]="PLI_ICON_LANDMARK | translate"></span>
+            </li>
+            <li>
+              <span class="spanWithDotInside">&#xB7;</span>
+              <label>
+                {{ item.time[translate.currentLang] }}
+              </label>
+            </li>
+            <li *ngIf="isShowTimeToObj">
+              <span class="spanWithDotInside">&#xB7;</span>
+              <label>
+                {{ timeToObj }}
+              </label>
+            </li>
+          </ul>
+
+          <ul class="infoParcours" *ngIf="target === 'places'">
+            <li>
+              <label class="labelToLeft">{{ item.address[translate.currentLang] }}</label>
+            </li>
+          </ul>
+
+          <ul class="infoParcours infoParcoursLandmarks" *ngIf="target === 'places'">
+            <li>
+              <label class="labelToLeft">{{ item.schedule[translate.currentLang] }}</label>
+            </li>
+            <li *ngIf="isShowTimeToObj">
+              <span class="spanWithDotInside">&#xB7;</span>
+              <label>
+                {{ timeToObj }}
+              </label>
+            </li>
+          </ul>
+        </button>
+
+        <!-- <button *ngIf="isItemDownloadable"
+                type="button" class='btnDownload'
+                [ngClass]="canBeDownloadCls()"
+                [attr.title]="getDownloadBtnTitle()"
+                (click)="downloadItem()">
+          <span class='icon icon-download stateFalse'>
+            <ion-icon name="arrow-round-down"></ion-icon>
+          </span>
+          <span class='icon icon-download stateTrue'>
+            <ion-icon name="checkmark"></ion-icon>
+          </span>
+          <label [innerHTML]="'PLI_ACTION_DOWNLOAD_DATA' | translate">
+          </label>
+        </button> -->
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- CONTENT DISCOVER -->
+  <!-- <div class="contentDiscover" *ngIf="target === 'parcours' && isOpenDiscover">
+    <div class='content' [ngClass]="config.globalGlobalCss()" *ngIf="target === 'parcours'">
+      <p [innerHTML]="data.bbCodeToHtml(previewDescription)">
+      </p>
+    </div>
+
+    <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
+      <player-audio
+        [isNetworkOff]="isNetworkOff"
+        [isDownloaded]="isDownloaded"
+        [audioURI]="audioURI"
+        [playerUUID]="('player__audio') + openId"
+        [audioScript]="audioScript"
+        [target]="target"
+        [uuid]="openId"
+        [loadPlayer]="isOpenDiscover"></player-audio>
+    </div>
+    <div class='footer' [ngClass]="config.globalGlobalCss()">
+      <button
+        [attr.title]="translate.getKey('PLI_LIST_START_PARCOURS')"
+        type="button"
+        *ngIf="target === 'parcours' && placesList.length > 0"
+        (click)="openNext()"
+        class='btnStart' [ngStyle]="{'background-color': color}">
+        {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
+      </button>
+      <button
+        [attr.title]="translate.getKey('PLI_LIST_START_POI')"
+        type="button"
+        *ngIf="target === 'places'"
+        (click)="openNext()"
+        class='btnStart' [ngStyle]="{'background-color': color}">
+        {{ translate.getKey('PLI_LIST_START_POI') }}
+      </button>
+    </div>
+  </div> -->
+
+</div>
+

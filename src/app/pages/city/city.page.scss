@@ -137,7 +137,18 @@
     }
 
     ion-list {
+      padding: 0;
       overflow-y: scroll;
+      ion-item {
+        padding: 0;
+        &:nth-child(odd) {
+          --background: #EAEAED;
+        }
+
+        &:nth-child(even) {
+          --background: #F7F7F7;
+        }
+      }
     }
 
     // &.isOpen ul.list{

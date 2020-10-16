@@ -3,7 +3,7 @@
 </main-header>
 
 <main-content>
-  <div class='city-page-content'>
+  <div class="city-page-content" *ngIf="city">
     <!-- <div id='map' #map class='map' [ngClass]="{'isClose': isListOpen}">
       <box-map
         [citiesCoords]="city.geoloc"
@@ -76,19 +76,43 @@
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->
       <ion-list *ngIf="isParcoursSelected">
-        <ion-item *ngFor="let parcour of parcours" lines="full">
-          <!-- <list-item></list-item> -->
+        <ion-item class="ion-no-padding" *ngFor="let parcour of parcours" lines="full">
+          <list-item
+            target="parcours"
+            [item]="parcour"
+            [focusId]="('parcours-' + parcour.id)"
+            [isDownloaded]="false"
+            [geoloc]="city.geoloc"
+            [curPositionUser]="curPositionUser"
+            [handler]="listItemHandler"
+            [sortOrder]="optionsItems[optionsItemsSelected]"
+            [cityName]="city.title[translate.currentLang]"
+            [cityId]="city.id"
+            [placesList]="getPlacesByParcoursId(parcour.id)">
+          </list-item>
         </ion-item>
         <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
-          {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city && city.title[translate.currentLang]} }}
+          {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city.title[translate.currentLang]} }}
         </p>
       </ion-list>
       <ion-list *ngIf="isPlacesSelected">
-        <ion-item *ngFor="let place of places" lines="full">
-          <!-- <list-item></list-item> -->
+        <ion-item class="ion-no-padding" *ngFor="let place of places" lines="full">
+          <list-item
+            target="places"
+            [item]="place"
+            [focusId]="('place-' + place.id)"
+            [isDownloaded]="false"
+            [geoloc]="city.geoloc"
+            [curPositionUser]="curPositionUser"
+            [handler]="listItemHandler"
+            [sortOrder]="optionsItems[optionsItemsSelected]"
+            [cityName]="city.title[translate.currentLang]"
+            [cityId]="city.id"
+            [placesList]="getPlacesById(place.id)">
+          </list-item>
         </ion-item>
         <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
-          {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city && city.title[translate.currentLang]} }}
+          {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city.title[translate.currentLang]} }}
         </p>
       </ion-list>
     </div>

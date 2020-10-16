@@ -20,6 +20,8 @@ export class CityPage implements OnInit {
     'longitude': '',
     'latitude': ''
   };
+  // TODO: click list-item callback
+  listItemHandler: any = null;
 
   isListOpen = false;
   selectedTarget: boolean = false;
@@ -28,7 +30,7 @@ export class CityPage implements OnInit {
 
   // Tri par défaut sélectionné qui est par proximité.
   optionsItemsSelected: number = 1;
-  otpionsItems = [
+  optionsItems = [
     {
       id: 0,
       action: 'alpha'
@@ -95,6 +97,28 @@ export class CityPage implements OnInit {
       ? `/public/parcours/byCityId/${cityId}?lang=${this.translate.currentLang}`
       : `/public/parcours/closest/?city=${cityId}&geoloc=${closest}&lang=${this.translate.currentLang}`;
     return this.api.get(path);
+  }
+
+  /**
+   * Return les points d'intérêt relié à un id de parcours
+   * @param parcourId - id du parcours
+   * @returns {any[]}
+   */
+  getPlacesByParcoursId(parcoursId: string) {
+    return this.places.filter(place => {
+      return place.parcours_id === parcoursId
+    });
+  }
+
+   /**
+   * Return un point d'intérêt relié à son id.
+   * @param placeId
+   * @returns {any[]}
+   */
+  getPlacesById(placeId: string) {
+    return this.places.filter(place => {
+      return place.id === placeId
+    });
   }
 
   focusAnElement (element: string) {
@@ -175,7 +199,7 @@ export class CityPage implements OnInit {
   }
 
   changeOptionListAction(nextAction: string) {
-    const findAction = this.otpionsItems.find(item => item.action === nextAction);
+    const findAction = this.optionsItems.find(item => item.action === nextAction);
     if (typeof findAction !== 'undefined') {
       this.optionsItemsSelected = findAction.id;
       if (findAction.action === 'alpha') {
@@ -192,7 +216,7 @@ export class CityPage implements OnInit {
 
   isOptionsActionSelected(actionName: string) {
     let isSelected = false;
-    const findAction = this.otpionsItems.find(item => item.action === actionName);
+    const findAction = this.optionsItems.find(item => item.action === actionName);
     if (typeof findAction !== 'undefined') {
       isSelected = this.optionsItemsSelected === findAction.id;
     }
