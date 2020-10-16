@@ -83,6 +83,11 @@
   --ion-color-light-tint: #f5f6f9;
   /* Set the font family of the entire app */
   --ion-font-family: 'montserratregular', sans-serif;
+  button {
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {

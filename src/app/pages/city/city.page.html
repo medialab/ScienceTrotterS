@@ -3,5 +3,94 @@
 </main-header>
 
 <main-content>
+  <div class='city-page-content'>
+    <!-- <div id='map' #map class='map' [ngClass]="{'isClose': isListOpen}">
+      <box-map
+        [citiesCoords]="city.geoloc"
+        [pointOfInterestList]="places"
+        [parcoursList]="parcours"
+        [selectedTarget]="(selectedTarget ? 'point-of-interest' : 'parcours')"
+      ></box-map>
+    </div> -->
 
+    <div class="content-list" [ngClass]="{'isOpen': isListOpen }">
+      <!-- DARK SELECT BOX -->
+      <div class='select-box'>
+
+        <button class="btnUpAndDown" [attr.title]="'PAGE_PBC_BTN_HIDE_MAP' | translate">
+          <ion-icon
+            aria-hidden="true"
+            class='openMenuItems'
+            [name]="isListOpen ? 'chevron-down': 'chevron-up'" (click)="openContentList()">
+          </ion-icon>
+        </button>
+
+        <ul class="switch__target__list">
+          <!-- BTN PARCOURS -->
+          <li class="item">
+            <button class="item__btn item__btn--left"
+                    [attr.title]="'PAGE_PBC_BTN_SHOW_PARCOURS' | translate"
+                    [attr.aria-pressed]="isParcoursSelected"
+                    [ngClass]="{'isSelected': isParcoursSelected}"
+                    (click)="onChangeSelectedTarget('parcours', true)">
+              <label>
+                {{ 'PBC_ALT_PARCOURS' | translate}}
+              </label>
+            </button>
+          </li>
+          <!-- BTN POINT D INTERET -->
+          <li class="item">
+            <button class="item__btn item__btn--right"
+                    [attr.title]="'PAGE_PBC_BTN_SHOW_LANDMARK' | translate"
+                    [attr.aria-pressed]="isPlacesSelected"
+                    [ngClass]="{'isSelected': isPlacesSelected}"
+                    (click)="onChangeSelectedTarget('places', true)">
+              <label>
+                {{ 'PBC_ALT_POI' | translate }}
+              </label>
+            </button>
+          </li>
+        </ul>
+
+      </div>
+      <!-- ./ DARK SELECT BOX -->
+
+      <!-- OPTIONS ITEMS SORT -->
+      <div class="options__items__sort">
+        <ul>
+          <li [ngClass]="{'isSelected': isOptionsActionSelected('alpha')}">
+            <button type='button' (click)="changeOptionListAction('alpha')"
+                    [attr.title]=" 'PLI_FILTER_ALPHA_TITLE' | translate "
+                    [attr.aria-pressed]="isOptionsActionSelected('alpha')">
+              {{'PLI_FILTER_ALPHA' | translate}}
+            </button>
+          </li>
+          <li [ngClass]="{'isSelected': isOptionsActionSelected('proximite')}">
+            <button type='button' (click)="changeOptionListAction('proximite')"
+                    [attr.title]=" 'PLI_FILTER_PROXIMITE_TITLE' | translate "
+                    [attr.aria-pressed]="isOptionsActionSelected('proximite')">
+              {{ 'PLI_FILTER_PROXIMITE' | translate }}
+            </button>
+          </li>
+        </ul>
+      </div>
+      <!-- ./ OPTIONS ITEMS SORT -->
+      <ion-list *ngIf="isParcoursSelected">
+        <ion-item *ngFor="let parcour of parcours" lines="full">
+          <!-- <list-item></list-item> -->
+        </ion-item>
+        <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
+          {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city && city.title[translate.currentLang]} }}
+        </p>
+      </ion-list>
+      <ion-list *ngIf="isPlacesSelected">
+        <ion-item *ngFor="let place of places" lines="full">
+          <!-- <list-item></list-item> -->
+        </ion-item>
+        <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
+          {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city && city.title[translate.currentLang]} }}
+        </p>
+      </ion-list>
+    </div>
+  </div>
 </main-content>

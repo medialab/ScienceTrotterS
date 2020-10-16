@@ -2,6 +2,7 @@ import { MainContentComponent } from './main-content/main-content.component';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { MainHeaderComponent } from './main-header/main-header.component';
+import { ListItemComponent } from './list-item/list-item.component';
 
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations:[
     MainHeaderComponent,
-    MainContentComponent
+    MainContentComponent,
+    ListItemComponent
   ],
   imports: [
     IonicModule,
@@ -19,7 +21,8 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   exports:[
     MainHeaderComponent,
-    MainContentComponent
+    MainContentComponent,
+    ListItemComponent
   ]
 })
 

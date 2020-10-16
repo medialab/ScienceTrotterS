@@ -61,8 +61,8 @@
 
 	"PBC_ALT_POI":"Landmark",
 	"PBC_ALT_PARCOURS":"Tour",
-	"PBC_NO_DATA_AVAILABLE_INTERESTS":"To date, no landmark is offered in :city",
-	"PBC_NO_DATA_AVAILABLE_PARCOURS":"To date, no tour is offered in :city",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"To date, no landmark is offered in {{ city }}",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"To date, no tour is offered in {{ city }}",
 
 	"PLAYER_ACTION_STATE":"Listen the audio script",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",

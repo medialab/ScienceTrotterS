@@ -61,8 +61,8 @@
 
 	"PBC_ALT_POI":"Points d'intérêts",
 	"PBC_ALT_PARCOURS":"Parcours",
-	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt n'est encore proposé à :city",
-	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours n'est proposé à :city",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt n'est encore proposé à {{ city }}",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours n'est proposé à {{ city }}",
 
 	"PLAYER_ACTION_STATE":"Écouter la description audio",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",
@@ -76,8 +76,8 @@
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 
-	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName :cityName",
-	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de :cityName :",
+	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName {{ city }}Name",
+	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de {{ city }}Name :",
 
 	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
 	"MAIL_SHARE_BIBLIO_BODY": "non utilisé [jumpLine]",
