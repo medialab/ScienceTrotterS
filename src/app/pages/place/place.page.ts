@@ -18,7 +18,7 @@ export class PlacePage implements OnInit {
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id) {
-      this.api.get(`/public/interests/byId/${id}?lang= ${this.translate.currentLang}`)
+      this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`)
         .subscribe((resp: any) => {
           if (resp.success) {
             this.place = resp.data;

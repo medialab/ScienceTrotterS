@@ -85,10 +85,9 @@
 
 
   <!-- CONTENT DISCOVER -->
-  <div class="contentDiscover" [ngClass]="config.getFontSizeClass()"  *ngIf="target === 'parcours' && isOpenDiscover()">
+  <div class="contentDiscover" [ngClass]="config.getFontSizeClass()"  *ngIf="target === 'parcours' && isOpenDiscover">
     <div class='content'>
-      <!-- <p [innerHTML]="data.bbCodeToHtml(previewDescription)">
-      </p> -->
+      <p>{{ item.description[translate.currentLang] }}</p>
     </div>
 
     <div class='playerAudio'>
@@ -108,7 +107,7 @@
         type="button"
         *ngIf="placesList.length > 0"
         (click)="navigateToPlace()"
-        class='btnStart' [ngStyle]="{'background-color': color}">
+        class='btnStart' [ngStyle]="{'background-color': item.color}">
         {{ 'PLI_LIST_START_PARCOURS' | translate }}
       </button>
     </div>

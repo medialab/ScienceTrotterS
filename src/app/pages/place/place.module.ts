@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PlacePageRoutingModule } from './place-routing.module';
 
+import { ComponentsModule } from './../../components/components.module';
 import { PlacePage } from './place.page';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -14,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     TranslateModule,
     FormsModule,
+    ComponentsModule,
     IonicModule,
     PlacePageRoutingModule
   ],

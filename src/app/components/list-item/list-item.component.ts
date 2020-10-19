@@ -35,6 +35,7 @@ export class ListItemComponent implements OnInit, OnChanges {
   isShowTimeToObj: boolean = false;
   timeToObj = '';
 
+  isOpenDiscover: boolean = false;
   constructor(
     private translate: TranslateService,
     private router: Router,
@@ -44,7 +45,7 @@ export class ListItemComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (typeof this.geoloc !== 'undefined' && this.curPositionUser.longitude !== '' && this.curPositionUser.latitude !== '') {
       this.isShowTimeToObj = true;
       this.calculGeoLocDistance();
@@ -53,11 +54,10 @@ export class ListItemComponent implements OnInit, OnChanges {
     }
 
     if (this.selectedItemId && this.selectedItemId === this.item.id) {
+      console.log("select")
       this.selectItem();
     }
   }
-
-  isOpenDiscover = () => this.item.id === this.selectedItemId;
 
   isDone() {
     const data = {
@@ -80,7 +80,8 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   selectItem() {
     if (this.target === 'parcours') {
-      this.selectListItem.emit(this.item);
+      this.isOpenDiscover = !this.isOpenDiscover;
+      // this.selectListItem.emit(this.item);
     } else {
       this.router.navigate([`/place/${this.item.id}`]);
     }
