@@ -1,4 +1,3 @@
-import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -14,8 +13,7 @@ export class GeolocService {
   };
 
   constructor(
-    private geolocation: Geolocation,
-    private platform: Platform
+    private geolocation: Geolocation
   ) {
     //  let watch = this.geolocation.watchPosition();
     //  watch.subscribe((data) => {
@@ -26,7 +24,7 @@ export class GeolocService {
   }
 
   getCurrentCoords() {
-    return new Promise(((resolve, reject) =>{
+    return new Promise((async (resolve, reject) =>{
       this.geolocation.getCurrentPosition(this.options).then((resp) => {
         resolve ({
           latitude: resp.coords.latitude,

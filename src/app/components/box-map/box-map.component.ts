@@ -20,7 +20,9 @@ export class BoxMapComponent implements OnInit, OnChanges {
   @Input() selectedTarget: string = '';
   @Input() parcoursList: Array<any> = [];
   @Input() placesList: Array<any> = [];
+  @Input() selectedItemId: any;
 
+  @Output() selectMapItem = new EventEmitter<any>();
   @Output() updateCurrentPosition = new EventEmitter<any>();
 
   constructor(
@@ -32,7 +34,13 @@ export class BoxMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    // console.log(this.curPositionUser)
+    if(this.selectedItemId) {
+      console.log(this.selectedItemId)
+    }
+  }
+
+  handleSelectMapItem = (item) => {
+    this.selectMapItem.emit(item);
   }
 
   handleUpdateCurrentPosition = () => {

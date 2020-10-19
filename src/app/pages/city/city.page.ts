@@ -5,6 +5,7 @@ import { ApiService } from './../../services/api.service';
 import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-city',
@@ -18,12 +19,12 @@ export class CityPage implements OnInit {
   parcours: Array<any> = new Array();
   places: Array<any> = new Array();
 
-  curPositionUser: object = {
+  curPositionUser: any = {
     'longitude': '',
     'latitude': ''
   };
   // TODO: click list-item callback
-  listItemHandler: any = null;
+  selectedItemId: any = null;
 
   isListOpen = false;
   selectedTarget: boolean = false;
@@ -47,6 +48,7 @@ export class CityPage implements OnInit {
     private translate: TranslateService,
     private geoloc: GeolocService,
     private activatedRoute: ActivatedRoute,
+    private loader: LoadingController,
     private api: ApiService
   ) {
     this.translate.onLangChange.subscribe(() => {
@@ -61,11 +63,15 @@ export class CityPage implements OnInit {
    * get all data for city page
    */
 
-  initCityData() {
+  async initCityData() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    const closest = ''; // by default not fetch data by distance
+    let closest = '';
     if(id) {
+      const loading = await this.loader.create();
+      loading.present();
       const cityRequest = this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
+      this.curPositionUser = await this.geoloc.getCurrentCoords();
+      closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
       const parcoursRequest = this.fetchParcours(id, closest);
       const placesRequest = this.fetchPlaces(id, closest);
       forkJoin([cityRequest, parcoursRequest, placesRequest])
@@ -78,6 +84,7 @@ export class CityPage implements OnInit {
         this.places = places.data.filter((item: any) => {
           return item.force_lang === null || item.force_lang === this.translate.currentLang;
         });
+        loading.dismiss();
       })
     }
   }
@@ -181,12 +188,18 @@ export class CityPage implements OnInit {
     return 0;
   };
 
+  onSelectItem (item: any) {
+    this.selectedItemId = item.id;
+  }
+
   onUpdateCurrentPosition(event: any) {
-    console.log(event)
+    console.log(event);
   }
 
   actionSortProximite(msgAlertError: string = '') {
-    return new Promise((success, error) => {
+    return new Promise(async (success, error) => {
+      const loading = await this.loader.create();
+      loading.present();
       // Triage en fonction que la géolocalition est disponible ou non.
       this.geoloc.getCurrentCoords().then((resp: any) => {
         const {latitude, longitude} = resp;
@@ -201,6 +214,7 @@ export class CityPage implements OnInit {
             this.parcours = parcours.data.filter((item: any) => {
               return item.force_lang === null || item.force_lang === this.translate.currentLang;
             });
+            loading.dismiss();
           })
         }
 
@@ -210,6 +224,7 @@ export class CityPage implements OnInit {
             this.places = places.data.filter((item: any) => {
               return item.force_lang === null || item.force_lang === this.translate.currentLang;
             });
+            loading.dismiss();
           })
         }
 

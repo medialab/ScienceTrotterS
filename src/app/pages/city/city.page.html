@@ -11,6 +11,8 @@
         [placesList]="places"
         [parcoursList]="parcours"
         [selectedTarget]="(selectedTarget ? 'places' : 'parcours')"
+        [selectedItemId]="selectedItemId"
+        (selectMapItem)="onSelectItem($event)"
         (updateCurrentPosition)="onUpdateCurrentPosition($event)"
       ></box-map>
     </div>
@@ -86,11 +88,12 @@
             [isDownloaded]="false"
             [geoloc]="city.geoloc"
             [curPositionUser]="curPositionUser"
-            [handler]="listItemHandler"
+            [selectedItemId]="selectedItemId"
             [sortOrder]="optionsItems[optionsItemsSelected]"
             [cityName]="city.title[translate.currentLang]"
             [cityId]="city.id"
-            [placesList]="getPlacesByParcoursId(parcour.id)">
+            [placesList]="getPlacesByParcoursId(parcour.id)"
+            (selectListItem)="onSelectItem($event)">
           </list-item>
         </ion-item>
         <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
@@ -106,7 +109,7 @@
             [isDownloaded]="false"
             [geoloc]="city.geoloc"
             [curPositionUser]="curPositionUser"
-            [handler]="listItemHandler"
+            [selectedItemId]="selectedItemId"
             [sortOrder]="optionsItems[optionsItemsSelected]"
             [cityName]="city.title[translate.currentLang]"
             [cityId]="city.id"

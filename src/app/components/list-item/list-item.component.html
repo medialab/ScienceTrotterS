@@ -23,8 +23,8 @@
 
     <div class='contentRight'>
       <div class='contentPreview' [ngClass]="config.getFontSizeClass()">
-        <button type="button"class='info' [attr.id]="focusId"
-                (click)="updateDiscoverStateOrOpen()"
+        <button type="button" class='info' [attr.id]="focusId"
+                (click)="selectItem()"
                 [attr.title]="'COMP_PLI_BTN_SHOW_PREVIEW' | translate">
           <h1>{{ item.title[translate.currentLang] }}</h1>
           <ul class="infoParcours" *ngIf="target === 'parcours'">
@@ -41,7 +41,7 @@
             <li *ngIf="isShowTimeToObj">
               <span class="spanWithDotInside">&#xB7;</span>
               <label>
-                {{ timeToObj }}
+                {{ 'PLI_DISTANCE_PREFIX'| translate }} {{ timeToObj }}
               </label>
             </li>
           </ul>
@@ -59,7 +59,7 @@
             <li *ngIf="isShowTimeToObj">
               <span class="spanWithDotInside">&#xB7;</span>
               <label>
-                {{ timeToObj }}
+                {{ 'PLI_DISTANCE_PREFIX'| translate }} {{ timeToObj }}
               </label>
             </li>
           </ul>
@@ -80,20 +80,19 @@
           </label>
         </button> -->
       </div>
-
     </div>
   </div>
 
 
   <!-- CONTENT DISCOVER -->
-  <!-- <div class="contentDiscover" *ngIf="target === 'parcours' && isOpenDiscover">
-    <div class='content' [ngClass]="config.globalGlobalCss()" *ngIf="target === 'parcours'">
-      <p [innerHTML]="data.bbCodeToHtml(previewDescription)">
-      </p>
+  <div class="contentDiscover" [ngClass]="config.getFontSizeClass()"  *ngIf="target === 'parcours' && isOpenDiscover()">
+    <div class='content'>
+      <!-- <p [innerHTML]="data.bbCodeToHtml(previewDescription)">
+      </p> -->
     </div>
 
-    <div class='playerAudio' [ngClass]="config.globalGlobalCss()">
-      <player-audio
+    <div class='playerAudio'>
+      <!-- <player-audio
         [isNetworkOff]="isNetworkOff"
         [isDownloaded]="isDownloaded"
         [audioURI]="audioURI"
@@ -101,27 +100,18 @@
         [audioScript]="audioScript"
         [target]="target"
         [uuid]="openId"
-        [loadPlayer]="isOpenDiscover"></player-audio>
+        [loadPlayer]="isOpenDiscover"></player-audio> -->
     </div>
-    <div class='footer' [ngClass]="config.globalGlobalCss()">
+    <div class='footer'>
       <button
-        [attr.title]="translate.getKey('PLI_LIST_START_PARCOURS')"
+        [attr.title]="'PLI_LIST_START_PARCOURS' | translate"
         type="button"
-        *ngIf="target === 'parcours' && placesList.length > 0"
-        (click)="openNext()"
+        *ngIf="placesList.length > 0"
+        (click)="navigateToPlace()"
         class='btnStart' [ngStyle]="{'background-color': color}">
-        {{ translate.getKey('PLI_LIST_START_PARCOURS') }}
-      </button>
-      <button
-        [attr.title]="translate.getKey('PLI_LIST_START_POI')"
-        type="button"
-        *ngIf="target === 'places'"
-        (click)="openNext()"
-        class='btnStart' [ngStyle]="{'background-color': color}">
-        {{ translate.getKey('PLI_LIST_START_POI') }}
+        {{ 'PLI_LIST_START_PARCOURS' | translate }}
       </button>
     </div>
-  </div> -->
-
+  </div>
 </div>
 
