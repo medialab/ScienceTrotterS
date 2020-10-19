@@ -4,14 +4,16 @@
 
 <main-content>
   <div class="city-page-content" *ngIf="city">
-    <!-- <div id='map' #map class='map' [ngClass]="{'isClose': isListOpen}">
+    <div id='map' #map class='map' [ngClass]="{'isClose': isListOpen}">
       <box-map
         [citiesCoords]="city.geoloc"
-        [pointOfInterestList]="places"
+        [curPositionUser]="curPositionUser"
+        [placesList]="places"
         [parcoursList]="parcours"
-        [selectedTarget]="(selectedTarget ? 'point-of-interest' : 'parcours')"
+        [selectedTarget]="(selectedTarget ? 'places' : 'parcours')"
+        (updateCurrentPosition)="onUpdateCurrentPosition($event)"
       ></box-map>
-    </div> -->
+    </div>
 
     <div class="content-list" [ngClass]="{'isOpen': isListOpen }">
       <!-- DARK SELECT BOX -->

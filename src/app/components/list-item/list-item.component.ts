@@ -40,6 +40,31 @@ export class ListItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  // TODO: enable geoloc
+  // ngOnChanges() {
+  //   if (typeof this.geoloc !== 'undefined' && this.curPositionUser.longitude !== '' && this.curPositionUser.latitude !== '') {
+  //     this.isShowTimeToObj = true;
+  //     this.calculGeoLocDistance();
+  //   } else {
+  //     this.isShowTimeToObj = false;
+  //   }
+
+  //   if (this.handler !== null) {
+  //     this.handlerOnClickItemMap(this.handler);
+  //     this.handler = null;
+  //   }
+  // }
+
+  /**
+   * @ref components/box-map
+   * @param e
+   */
+  handlerOnClickItemMap = ({ target, id }) => {
+    if (id === this.item.id && this.target === 'parcours') {
+      this.updateDiscoverStateOrOpen();
+    }
+  };
+
   isDone() {
     const data = {
       'uuid': this.item.id,

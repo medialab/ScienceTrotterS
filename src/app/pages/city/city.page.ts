@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 import { forkJoin } from 'rxjs';
+import { minifyString } from './../../utils/helper';
+import { GeolocService } from 'src/app/services/geoloc.service';
 
 @Component({
   selector: 'app-city',
@@ -43,6 +45,7 @@ export class CityPage implements OnInit {
 
   constructor(
     private translate: TranslateService,
+    private geoloc: GeolocService,
     private activatedRoute: ActivatedRoute,
     private api: ApiService
   ) {
@@ -60,7 +63,7 @@ export class CityPage implements OnInit {
 
   initCityData() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    const closest = ''; // TODO: enable geoloc
+    const closest = ''; // by default not fetch data by distance
     if(id) {
       const cityRequest = this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
       const parcoursRequest = this.fetchParcours(id, closest);
@@ -95,7 +98,7 @@ export class CityPage implements OnInit {
   fetchParcours(cityId: string, closest: string = '') {
     const path = closest === ''
       ? `/public/parcours/byCityId/${cityId}?lang=${this.translate.currentLang}`
-      : `/public/parcours/closest/?city=${cityId}&geoloc=${closest}&lang=${this.translate.currentLang}`;
+      : `/public/parcours/closest/${cityId}?geoloc=${closest}&lang=${this.translate.currentLang}`;
     return this.api.get(path);
   }
 
@@ -143,13 +146,7 @@ export class CityPage implements OnInit {
     }
 
     this.focusAnElement('#btnSortItemNext');
-
-    // this.getParcours();
-    // this.getInterests();
-
     // const target = next === 'place' ? 'point-of-interest' : 'parcours';
-
-    // this.events.publish('previewByCity::onChangeSelectedTarget', target);
   }
 
   optionsItemClasse(itemId: number) {
@@ -164,38 +161,64 @@ export class CityPage implements OnInit {
    */
   actionSortAlpha() {
     // Parcours.
-    // this.parcours = this.parcours.sort(this.sort_alpha);
-
+    this.parcours = this.parcours.sort(this.sort_alpha);
     // Points d'intérêts.
-    // this.places = this.places.sort(this.sort_alpha);
+    this.places = this.places.sort(this.sort_alpha);
   }
 
+  /**
+   *
+   * @param a
+   * @param b
+   * @returns {number}
+   */
+  sort_alpha = (a, b) => {
+    const aTitle = minifyString(a.title[this.translate.currentLang]);
+    const bTitle = minifyString(b.title[this.translate.currentLang]);
 
-  actionSortProximite (msgAlertError: string = '') {
-    // return new Promise(async (success, error) => {
-    //   // Triage en fonction que la géolocalition est disponible ou non.
-    //   this.geoloc.getCurrentCoords(msgAlertError).then(async (resp: any) => {
-    //     const {latitude, longitude} = resp;
+    if (aTitle < bTitle) return -1;
+    if (aTitle > bTitle) return 1;
+    return 0;
+  };
 
-    //     this.curPositionUser = {
-    //       'longitude': resp.longitude,
-    //       'latitude': resp.latitude
-    //     };
+  onUpdateCurrentPosition(event: any) {
+    console.log(event)
+  }
 
-    //     if (this.parcours.length > 1) {
-    //       this.fetchParcours(this.city.id, `${latitude};${longitude}`);
-    //     }
+  actionSortProximite(msgAlertError: string = '') {
+    return new Promise((success, error) => {
+      // Triage en fonction que la géolocalition est disponible ou non.
+      this.geoloc.getCurrentCoords().then((resp: any) => {
+        const {latitude, longitude} = resp;
+        this.curPositionUser = {
+          'longitude': resp.longitude,
+          'latitude': resp.latitude
+        };
 
-    //     if (this.places.length > 1) {
-    //       this.fetchPlaces(this.city.id, `${latitude};${longitude}`);
-    //     }
+        if (this.parcours.length > 1) {
+          this.fetchParcours(this.city.id, `${latitude};${longitude}`)
+          .subscribe((parcours: any) => {
+            this.parcours = parcours.data.filter((item: any) => {
+              return item.force_lang === null || item.force_lang === this.translate.currentLang;
+            });
+          })
+        }
 
-    //     success(resp);
-    //   }, (err: any) => {
-    //     this.changeOptionListAction('alpha');
-    //     error();
-    //   });
-    // });
+        if (this.places.length > 1) {
+          this.fetchPlaces(this.city.id, `${latitude};${longitude}`)
+          .subscribe((places: any) => {
+            this.places = places.data.filter((item: any) => {
+              return item.force_lang === null || item.force_lang === this.translate.currentLang;
+            });
+          })
+        }
+
+        success(resp);
+      }, (err: any) => {
+        this.changeOptionListAction('alpha');
+        error();
+      });
+    });
   }
 
   changeOptionListAction(nextAction: string) {
@@ -205,11 +228,7 @@ export class CityPage implements OnInit {
       if (findAction.action === 'alpha') {
         this.actionSortAlpha();
       } else {
-        this.actionSortProximite()
-        // .then((data: any) => {
-        //   this.events.publish('previewByCity::updateCurrentGeoLoc', data);
-        // })
-        // .catch(() => {});
+        this.actionSortProximite();
       }
     }
   }
@@ -223,34 +242,33 @@ export class CityPage implements OnInit {
     return isSelected;
   }
 
+  // scrollToDiv (selector, to, duration) {
+  //   const element: any = document.querySelector(selector);
 
-  scrollToDiv (selector, to, duration) {
-    const element: any = document.querySelector(selector);
+  //   const easeInOutQuad =  (t, b, c, d) => {
+  //     t /= d/2;
+  //     if (t < 1) return c/2*t*t + b;
+  //     t--;
+  //     return -c/2 * (t*(t-2) - 1) + b;
+  //   };
 
-    const easeInOutQuad =  (t, b, c, d) => {
-      t /= d/2;
-      if (t < 1) return c/2*t*t + b;
-      t--;
-      return -c/2 * (t*(t-2) - 1) + b;
-    };
+  //   let start = element.scrollTop,
+  //     change = to - start,
+  //     currentTime = 0,
+  //     increment = 20;
 
-    let start = element.scrollTop,
-      change = to - start,
-      currentTime = 0,
-      increment = 20;
+  //   const animateScroll = () => {
+  //     currentTime += increment;
+  //     const val = easeInOutQuad(currentTime, start, change, duration);
 
-    const animateScroll = () => {
-      currentTime += increment;
-      const val = easeInOutQuad(currentTime, start, change, duration);
+  //     element.scrollTop = val;
+  //     if (currentTime < duration) {
+  //       setTimeout(animateScroll, increment);
+  //     }
+  //   };
 
-      element.scrollTop = val;
-      if (currentTime < duration) {
-        setTimeout(animateScroll, increment);
-      }
-    };
-
-    animateScroll();
-  }
+  //   animateScroll();
+  // }
 
   /**
    *
