@@ -1,0 +1,10 @@
+<div class="map-container"  [ngClass]="{'isClose': isClose}">
+  <button
+    (click)="updateCurrentPosition()"
+    type="button"
+    id="btn-geoloc"
+    [attr.title]="'COMP_BOX_MAP_BTN_GEOLOC' | translate"
+    class="btn-geoloc btn-geoloc--isLeft">
+    <ion-icon name="locate"></ion-icon>
+  </button>
+</div>

@@ -192,10 +192,6 @@ export class CityPage implements OnInit {
     this.selectedItemId = item.id;
   }
 
-  onUpdateCurrentPosition(event: any) {
-    console.log(event);
-  }
-
   actionSortProximite(msgAlertError: string = '') {
     return new Promise(async (success, error) => {
       const loading = await this.loader.create();
@@ -203,11 +199,7 @@ export class CityPage implements OnInit {
       // Triage en fonction que la géolocalition est disponible ou non.
       this.geoloc.getCurrentCoords().then((resp: any) => {
         const {latitude, longitude} = resp;
-        this.curPositionUser = {
-          'longitude': resp.longitude,
-          'latitude': resp.latitude
-        };
-
+        this.curPositionUser = resp;
         if (this.parcours.length > 1) {
           this.fetchParcours(this.city.id, `${latitude};${longitude}`)
           .subscribe((parcours: any) => {

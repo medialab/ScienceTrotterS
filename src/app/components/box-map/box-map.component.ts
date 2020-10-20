@@ -17,13 +17,15 @@ export class BoxMapComponent implements OnInit, OnChanges {
     'latitude': null
   };
 
+  @Input() isClose: boolean=false;
+
   @Input() selectedTarget: string = '';
   @Input() parcoursList: Array<any> = [];
   @Input() placesList: Array<any> = [];
   @Input() selectedItemId: any;
 
   @Output() selectMapItem = new EventEmitter<any>();
-  @Output() updateCurrentPosition = new EventEmitter<any>();
+  // @Output() updateCurrentPosition = new EventEmitter<any>();
 
   constructor(
     private geoloc: GeolocService,
@@ -43,9 +45,9 @@ export class BoxMapComponent implements OnInit, OnChanges {
     this.selectMapItem.emit(item);
   }
 
-  handleUpdateCurrentPosition = () => {
+  updateCurrentPosition(event: any) {
     this.geoloc.getCurrentCoords().then((resp: any) => {
-      this.updateCurrentPosition.emit(resp)
+      console.log(resp);
     }, (err: any) => {
     });
   }

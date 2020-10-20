@@ -4,17 +4,17 @@
 
 <main-content>
   <div class="city-page-content" *ngIf="city">
-    <div id='map' #map class='map' [ngClass]="{'isClose': isListOpen}">
+    <div class='map' [ngClass]="{'isClose': isListOpen}">
       <box-map
         [citiesCoords]="city.geoloc"
+        [isClose]="isListOpen"
         [curPositionUser]="curPositionUser"
         [placesList]="places"
         [parcoursList]="parcours"
         [selectedTarget]="(selectedTarget ? 'places' : 'parcours')"
         [selectedItemId]="selectedItemId"
-        (selectMapItem)="onSelectItem($event)"
-        (updateCurrentPosition)="onUpdateCurrentPosition($event)"
-      ></box-map>
+        (selectMapItem)="onSelectItem($event)">
+      </box-map>
     </div>
 
     <div class="content-list" [ngClass]="{'isOpen': isListOpen }">

@@ -32,6 +32,8 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   @Output() selectListItem = new EventEmitter<any>();
 
+  isItemDownloadable: boolean = true;
+
   isShowTimeToObj: boolean = false;
   timeToObj = '';
 
@@ -100,5 +102,9 @@ export class ListItemComponent implements OnInit, OnChanges {
     const closestLandmark = this.placesList.length && this.placesList[0].geoloc || null;
     const res = getDistance(closestLandmark, this.curPositionUser);
     this.timeToObj = `${res.distance}`;
+  }
+
+  downloadItem() {
+    console.log('download')
   }
 }

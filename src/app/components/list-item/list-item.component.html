@@ -65,20 +65,20 @@
           </ul>
         </button>
 
-        <!-- <button *ngIf="isItemDownloadable"
+        <button *ngIf="isItemDownloadable"
                 type="button" class='btnDownload'
-                [ngClass]="canBeDownloadCls()"
-                [attr.title]="getDownloadBtnTitle()"
+                [ngClass]="isDownloaded && 'isDownloaded'"
+                [attr.title]="target === 'places' ? 'COMP_PLI_BTN_DOWNLOAD_LANDMARK' :'COMP_PLI_BTN_DOWNLOAD_PARCOURS' | translate "
                 (click)="downloadItem()">
           <span class='icon icon-download stateFalse'>
-            <ion-icon name="arrow-round-down"></ion-icon>
+            <ion-icon name="arrow-down"></ion-icon>
           </span>
           <span class='icon icon-download stateTrue'>
             <ion-icon name="checkmark"></ion-icon>
           </span>
           <label [innerHTML]="'PLI_ACTION_DOWNLOAD_DATA' | translate">
           </label>
-        </button> -->
+        </button>
       </div>
     </div>
   </div>

@@ -1,0 +1,55 @@
+:host {
+  .map-container {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    position: relative;
+    &.isClose {
+      .btn-geoloc {
+        top: 0;
+      }
+    }
+    .btn-geoloc {
+      position: absolute;
+      z-index: 999;
+      bottom: 0;
+      margin: 10px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.4s ease-out;
+
+      // .icon__geoloc {
+      //   display: block;
+      //   width: 30px;
+      //   height: 30px;
+      //   background-image: url('../assets/imgs/map/geolocalisation.svg');
+      //   background-size: cover;
+      //   background-position: center;
+      //   background-repeat: no-repeat;
+      //   transition: 0.4s ease-out;
+      // }
+
+      ion-icon {
+        font-size: 32px;
+      }
+
+      // &--isLoading {
+      //   .icon__geoloc {
+      //     animation: spinning-circle 2s infinite linear;
+      //   }
+      // }
+
+      &--isLeft {
+        left: 0;
+      }
+
+      &--isRight {
+        right: 0;
+      }
+    }
+  }
+}
