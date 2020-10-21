@@ -1,11 +1,11 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, IonItem, IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-city',
@@ -13,6 +13,8 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./city.page.scss'],
 })
 export class CityPage implements OnInit {
+  @ViewChildren(IonItem) listItems: IonItem[];
+
   city: any;
 
   // Variables contenant les données trié.
@@ -24,7 +26,7 @@ export class CityPage implements OnInit {
     'latitude': ''
   };
   // TODO: click list-item callback
-  selectedItemId: any = null;
+  selectedItemId: string = null;
 
   isListOpen = false;
   selectedTarget: boolean = false;
@@ -43,7 +45,6 @@ export class CityPage implements OnInit {
       action: 'proximite'
     },
   ];
-
   constructor(
     private translate: TranslateService,
     private geoloc: GeolocService,
@@ -188,9 +189,14 @@ export class CityPage implements OnInit {
     return 0;
   };
 
-  onSelectItem (item: any) {
-    this.selectedItemId = item.id;
-    this.openContentList();
+  onSelectItem (selectedItem: any) {
+    this.selectedItemId = selectedItem.id;
+    const focusElement = this.listItems.find((item: any) => item.el.id === selectedItem.id);
+    focusElement["el"].scrollIntoView();
+    // only open parcours contentList on click item
+    if (this.isParcoursSelected) {
+      this.openContentList();
+    }
   }
 
   actionSortProximite(msgAlertError: string = '') {

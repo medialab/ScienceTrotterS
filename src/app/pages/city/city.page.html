@@ -80,7 +80,7 @@
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->
       <ion-list *ngIf="isParcoursSelected">
-        <ion-item class="ion-no-padding" *ngFor="let parcour of parcours" lines="full">
+        <ion-item class="ion-no-padding" *ngFor="let parcour of parcours" lines="full" [id]="parcour.id">
           <list-item
             target="parcours"
             [item]="parcour"
@@ -101,7 +101,7 @@
         </p>
       </ion-list>
       <ion-list *ngIf="isPlacesSelected">
-        <ion-item class="ion-no-padding" *ngFor="let place of places" lines="full">
+        <ion-item class="ion-no-padding" *ngFor="let place of places" lines="full" [id]="place.id">
           <list-item
             target="places"
             [item]="place"
