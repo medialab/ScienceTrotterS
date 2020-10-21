@@ -51,5 +51,50 @@
         right: 0;
       }
     }
+    .leaflet-container {
+      background-color: black;
+      .leaflet-control-container {
+        color: red;
+      }
+    }
+    .map-component {
+      height: 100%;
+      width: 100%;
+
+      .leaflet-control-container {
+        display: none;
+      }
+
+      path {
+        stroke-opacity: 0.8;
+        stroke-width: 5px;
+      }
+
+      .cluster {
+        position: absolute;
+        font-weight: bold;
+        text-align: center;
+        color: #fff;
+        padding: 5px;
+        border-radius: 10px 10px 10px 10px;
+        font-size: 15px;
+        top: -15px;
+        left:-15px;
+        z-index: 1007;
+        min-width: 50px;
+        display: flex;
+        flex-direction: column;
+
+        p {
+          margin: 0;
+        }
+
+        div {
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+
+    }
   }
 }

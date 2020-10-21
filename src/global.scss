@@ -50,3 +50,35 @@
   align-items: center;
   justify-content: center;
 }
+/* include leaflet css */
+
+@import "~leaflet/dist/leaflet.css";
+.leaflet-container {
+  .leaflet-control-container {
+    display: none;
+  }
+  .cluster {
+    position: absolute;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 15px;
+    top: -15px;
+    left:-15px;
+    z-index: 1007;
+    min-width: 50px;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      margin: 0;
+    }
+
+    div {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+}

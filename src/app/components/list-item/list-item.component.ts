@@ -55,10 +55,10 @@ export class ListItemComponent implements OnInit, OnChanges {
       this.isShowTimeToObj = false;
     }
 
-    if (this.selectedItemId && this.selectedItemId === this.item.id) {
-      console.log("select")
-      this.selectItem();
-    }
+    // if (this.selectedItemId && this.selectedItemId === this.item.id) {
+    //   console.log("select")
+    //   this.selectItem();
+    // }
   }
 
   isDone() {

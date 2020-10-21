@@ -6,7 +6,7 @@
   <div class="city-page-content" *ngIf="city">
     <div class='map' [ngClass]="{'isClose': isListOpen}">
       <box-map
-        [citiesCoords]="city.geoloc"
+        [cityCoords]="city.geoloc"
         [isClose]="isListOpen"
         [curPositionUser]="curPositionUser"
         [placesList]="places"
