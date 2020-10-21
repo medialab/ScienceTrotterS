@@ -190,6 +190,7 @@ export class CityPage implements OnInit {
 
   onSelectItem (item: any) {
     this.selectedItemId = item.id;
+    this.openContentList();
   }
 
   actionSortProximite(msgAlertError: string = '') {

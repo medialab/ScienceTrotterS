@@ -63,9 +63,12 @@ export class BoxMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     if(changes["selectedTarget"] && this.map) {
       this.initMapData();
+    }
+    if(changes["curPositionUser"] && this.map) {
+      this.initMapData();
+      this.addCurrentPosition(this.curPositionUser)
     }
   }
 
@@ -124,7 +127,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
 
   /**
    * Mock des données pour la gestion du handler.
-   * @param target - "point-of-interest" ou "parcours"
+   * @param target - "place" ou "parcours"
    * @param id - uuid du target.
    * @returns {{target: string, id: string}}
    */
@@ -221,8 +224,6 @@ export class BoxMapComponent implements OnInit, OnChanges {
         const time = data.length.time;
         const poiArray = [];
 
-        console.log('data', data);
-
         for (const poi of data.interests) {
           if (typeof poi.api_data !== 'undefined') {
             const colorTraceIsDone = '#929090';
@@ -289,7 +290,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
 
     /**
    * Création de tous les points d'intérêts si le mode
-   * "point-of-interest" est sélectionné.
+   * "place" est sélectionné.
    * @param listGroup
    */
   addPointsOfInterests (listGroup: any) {
@@ -300,7 +301,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
         const {latitude, longitude} = item.geoloc;
 
         const marker = this.createAndAddMarker(
-          'point-of-interest',
+          'place',
           item.id,
           item.title[this.translate.currentLang],
           latitude,
@@ -376,9 +377,8 @@ export class BoxMapComponent implements OnInit, OnChanges {
    * @param latitude
    * @param longitude
    */
-  addCurrentPosition = async (longitude: any, latitude: any) => {
-    await this.initMapData(true, longitude, latitude);
-
+  addCurrentPosition = (currentCoord: any) => {
+    const {longitude, latitude} = currentCoord;
     if (this.map !== null) {
       // --->
       const icon = leaflet.icon({
@@ -391,16 +391,19 @@ export class BoxMapComponent implements OnInit, OnChanges {
         this.posMarker.remove();
       }
 
-      // --> REF. du marker.
-      this.posMarker = leaflet
+      this.translate.get('C_BOX_MAP_USER_MARKER')
+      .subscribe((text: string) => {
+        // --> REF. du marker.
+        this.posMarker = leaflet
         .marker([latitude, longitude], {icon: icon})
-        .bindPopup(this.translate.get('C_BOX_MAP_USER_MARKER'));
-      this.posMarker.addTo(this.map);
-      this.posMarker.openPopup();
+        .bindPopup(text);
+        this.posMarker.addTo(this.map);
+        this.posMarker.openPopup();
 
-      setTimeout(() => {
-        this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
-      }, 110);
+        setTimeout(() => {
+          this.map.flyTo({lat: latitude, lng: longitude}, this.config.defaultZoom);
+        }, 110);
+     });
     }
   }
 
@@ -412,8 +415,8 @@ export class BoxMapComponent implements OnInit, OnChanges {
   }
 
   updateCurrentPosition(event: any) {
-    this.geoloc.getCurrentCoords().then((resp: any) => {
-      console.log(resp);
+    this.geoloc.getCurrentCoords().then(({longitude, latitude}: any) => {
+      this.addCurrentPosition({ longitude, latitude });
     }, (err: any) => {
     });
   }
