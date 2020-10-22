@@ -10,8 +10,8 @@ import { ConfigService } from './../../services/config.service';
 export class SettingsPage implements OnInit {
   isEnglish = false;
   constructor(
-    private translate: TranslateService,
-    private config: ConfigService
+    public translate: TranslateService,
+    public config: ConfigService
     ) {
       this.isEnglish = this.translate.currentLang === 'en';
     }

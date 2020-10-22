@@ -12,7 +12,7 @@ export class MainHeaderComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private config: ConfigService
+    public config: ConfigService
   ) {}
   ngOnInit() {}
 

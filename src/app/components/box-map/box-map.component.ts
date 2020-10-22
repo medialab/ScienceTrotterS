@@ -51,8 +51,8 @@ export class BoxMapComponent implements OnInit, OnChanges {
 
   constructor(
     private geoloc: GeolocService,
-    private api: ApiService,
-    private translate: TranslateService
+    public api: ApiService,
+    public translate: TranslateService
   ) {
     leaflet.markercluster = leafletMarkercluster;
   }

@@ -10,9 +10,9 @@ import { ApiService } from './../../services/api.service';
 export class PlacePage implements OnInit {
   place: any;
   constructor(
-    private translate: TranslateService,
+    public translate: TranslateService,
     private activatedRoute: ActivatedRoute,
-    private api: ApiService
+    public api: ApiService
   ) { }
 
   ngOnInit() {

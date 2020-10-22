@@ -46,11 +46,11 @@ export class CityPage implements OnInit {
     },
   ];
   constructor(
-    private translate: TranslateService,
+    public translate: TranslateService,
     private geoloc: GeolocService,
     private activatedRoute: ActivatedRoute,
     private loader: LoadingController,
-    private api: ApiService
+    public api: ApiService
   ) {
     this.translate.onLangChange.subscribe(() => {
       this.initCityData();

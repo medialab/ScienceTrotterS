@@ -1,6 +1,6 @@
 <div class="map-container"  [ngClass]="{'isClose': isClose}">
   <button
-    (click)="updateCurrentPosition()"
+    (click)="updateCurrentPosition($event)"
     type="button"
     id="btn-geoloc"
     [attr.title]="'COMP_BOX_MAP_BTN_GEOLOC' | translate"

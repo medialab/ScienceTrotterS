@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   endpoint: {
-    data: "http://localhost:8080/api",
-    assets: "http://localhost:8080/api/ressources/upload/"
+    data: "API_DATA_URL",
+    assets: "API_ASSETS_URL"
   }
 };
 

@@ -39,9 +39,9 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   isOpenDiscover: boolean = false;
   constructor(
-    private translate: TranslateService,
+    public translate: TranslateService,
     private router: Router,
-    private config: ConfigService
+    public config: ConfigService
   ) {}
 
   ngOnInit() {

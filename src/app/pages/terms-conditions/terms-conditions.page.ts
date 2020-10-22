@@ -11,8 +11,8 @@ export class TermsConditionsPage implements OnInit {
   content: string = '';
 
   constructor(
-    private api: ApiService,
-    private translate: TranslateService,
+    public api: ApiService,
+    public translate: TranslateService,
   ) {
     this.loadCreditsFromApi()
   }

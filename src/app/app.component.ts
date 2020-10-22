@@ -52,9 +52,9 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private cache: CacheService,
-    private config: ConfigService
+    public config: ConfigService
   ) {
     // Config translateModule
     translate.addLangs(['en', 'fr'])

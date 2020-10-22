@@ -13,8 +13,8 @@ export class HomePage {
   listCities: Array<City> = new Array();
 
   constructor(
-    private translate: TranslateService,
-    private api: ApiService,
+    public translate: TranslateService,
+    public api: ApiService,
     private router: Router
   ) {
     this.initCities();
