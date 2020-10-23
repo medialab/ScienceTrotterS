@@ -2,7 +2,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../../services/config.service';
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { getDistance } from 'src/app/utils/helper';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'list-item',
@@ -87,8 +87,14 @@ export class ListItemComponent implements OnInit, OnChanges {
     }
   }
 
-  navigateToPlace() {
-    this.router.navigate([`/place/${this.placesList[0].id}`])
+  startParcour() {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        parcour: this.item,
+        placesList: this.placesList
+      }
+    };
+    this.router.navigate([`/place/${this.placesList[0].id}`], navigationExtras);
   }
 
   /**

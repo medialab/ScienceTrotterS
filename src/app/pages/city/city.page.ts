@@ -71,8 +71,12 @@ export class CityPage implements OnInit {
       const loading = await this.loader.create();
       loading.present();
       const cityRequest = this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
-      this.curPositionUser = await this.geoloc.getCurrentCoords();
-      closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
+      try {
+        this.curPositionUser = await this.geoloc.getCurrentCoords();
+        closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
+      } catch (err){
+        console.log(err)
+      }
       const parcoursRequest = this.fetchParcours(id, closest);
       const placesRequest = this.fetchPlaces(id, closest);
       forkJoin([cityRequest, parcoursRequest, placesRequest])
@@ -230,6 +234,7 @@ export class CityPage implements OnInit {
         success(resp);
       }, (err: any) => {
         this.changeOptionListAction('alpha');
+        loading.dismiss();
         error();
       });
     });

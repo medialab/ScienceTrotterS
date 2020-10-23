@@ -82,3 +82,17 @@
     }
   }
 }
+
+ion-slides {
+  .swiper-pagination-bullet {
+    $size: 18px;
+    background-color: #fff;
+    border: solid 1px black;
+    opacity: 1;
+    width: $size;
+    height: $size;
+    &-active {
+      background-color: black;
+    }
+  }
+}

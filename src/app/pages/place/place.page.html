@@ -1,7 +1,198 @@
 <main-header [withMenu]="true" [withBackButton] = "true">
-  place
+  {{  place && (parcour ? parcour.title[translate.currentLang] : place.title[translate.currentLang]) }}
 </main-header>
 
-<main-content>
+<main-content *ngIf="place">
+  <div alt="" class="poi__header" [style.background-image]="'url(' + api.getAssetsUri(place.header_image) + ')'">
+    <!-- <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(getCoverPicture())' /> -->
+  </div>
 
+  <div class="poi__info">
+    <i aria-hidden="true" class="poi__marker"></i>
+
+    <div class="btnContainer" *ngIf="placesList && placesList.length > 0">
+      <button class='btnContainer__btn btnContainer__btn--left' [attr.title]="'PLI_BTN_PREV_ALT' | translate"
+              (click)="onNavigatePlace('prev')">
+        <ion-icon aria-hidden="true" name="chevron-back"></ion-icon>
+      </button>
+    </div>
+
+    <div class="infoContent">
+      <h1 class="infoTitle">
+        {{ place.title[translate.currentLang] }}
+      </h1>
+      <h2 class="infoSubtitle">
+        {{ place.address[translate.currentLang] }}
+      </h2>
+    </div>
+
+    <div class="btnContainer"  *ngIf="placesList && placesList.length > 0">
+      <button class='btnContainer__btn btnContainer__btn--right' [attr.title]="'PLI_BTN_NEXT_ALT' | translate"
+              (click)="onNavigatePlace('next')">
+        <ion-icon aria-hidden="true" name="chevron-forward"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- HELP LIST -->
+  <ul class="help__list">
+
+    <!-- ITEM -->
+    <li class="help__list__item">
+      <button id="btn_information" class="item__button"
+              [attr.title]="'PLI_BTN_INFORMATION' | translate"
+              aria-expanded="false" (click)="onClickSetHelpItemActive(true)">
+        <!-- <span focusable="false" aria-hidden="true" class="icon icon-info"></span> -->
+        <ion-icon aria-hidden="true" name="help-circle-outline"></ion-icon>
+        <label>
+          {{ sliceStr(place.schedule[translate.currentLang], 30) }}
+          <br /> {{ sliceStr(place.price[translate.currentLang], 30) }}
+        </label>
+      </button>
+    </li>
+
+    <!-- ITEM -->
+    <li class="help__list__item">
+      <button id="btn_navigation" class="item__button"
+              [attr.title]="'PLI_BTN_NAVIGATION' | translate"
+              aria-expanded="false" (click)="openMapToLocation()">
+        <!-- <span focusable="false" aria-hidden="true" class="icon icon-navigation"></span> -->
+        <ion-icon aria-hidden="true" name="navigate-circle-outline"></ion-icon>
+        <label>{{ 'PLI_VAL_ITINERARY' | translate}}</label>
+      </button>
+    </li>
+  </ul>
+  <!-- ./ HELP LIST -->
+
+  <div class="helpContent" [ngClass]="helpItemActive ? 'isActive' : 'isHidden'">
+    <div class="helpContentClose">
+      <button class="btnCloseHelpContent" (click)="onClickSetHelpItemActive(false)">
+        <label class="headerTitle">
+          {{ 'RIGHT_MENU_CLOSE' | translate }}
+        </label>
+        <ion-icon focusable="false" aria-hidden="true" name="close-circle-outline"></ion-icon>
+      </button>
+    </div>
+
+    <div class="helpItem helpContentInformation">
+      <ul class="hciList">
+        <!-- INFO DATE -->
+        <li class="hciItem">
+          <div class="icon">
+            <ion-icon focusable="false" aria-hidden="true" name="time-outline"></ion-icon>
+          </div>
+          <label>
+            {{ place.schedule[translate.currentLang] }}
+          </label>
+        </li>
+        <!-- INFO PRICE -->
+        <li class="hciItem">
+          <div class="icon">
+            <ion-icon focusable="false" aria-hidden="true" name="warning-outline"></ion-icon>
+          </div>
+          <label>
+            {{ place.price[translate.currentLang] }}
+          </label>
+        </li>
+        <!-- BTN SUBMIT PROBLEM -->
+        <li class="hciItem">
+          <button class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
+            {{ 'PLI_BTN_SEND_PB' | translate }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- MAIN CONTENT -->
+  <div class="poi__main__content" [ngClass]="helpItemActive ? 'isHidden' : 'isActive'">
+
+    <section class="poi__section poi__section--isWhite section__player__audio">
+      <!-- <player-audio target="landmarks"
+                    [audioURI]="audioUrl"
+                    [playerUUID]="('player__audio') + getData('id')"
+                    [uuid]="getData('id')"
+                    [audioScript]="getData('audio_script', true)"
+                    [showAudioScriptListener]="showAudioScriptListener.bind(this)"
+                    [loadPlayer]="true"></player-audio> -->
+    </section>
+
+
+
+    <section class="poi__section poi__section--isWhite section__bibliography">
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="{'isDoneBtn': isDone()}"
+              [attr.title]="(isDone() ? 'PLI_BTN_END_POI_ATTR_TITLE_DONE' : 'PLI_BTN_END_POI_ATTR_TITLE') | translate"
+              (click)="btnTogglePointOfInterest()">
+        {{(isDone() ? 'PLI_BTN_END_POI_DONE' : 'PLI_BTN_END_POI') | translate }}
+      </button>
+    </section>
+
+    <!-- SECTION AUDIO SCRIPT -->
+    <section class="poi__section poi__section--isGrey" id="titleAudioScript" [ngClass]="{'hideSectionScriptAudio': !showScriptAudioSection}">
+      <div class="poi__section__content">
+        <!-- <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('audio_script', true))"></p> -->
+        <p class="pJustified">{{ place.audio_script[translate.currentLang] }}</p>
+      </div>
+    </section>
+    <!-- ./ SECTION AUDIO SCRIPT -->
+
+    <!-- SECTION GALLERY -->
+    <section class="poi__section poi__section--isWhite section__gallery_image">
+      <h3 id="titleGalery" class="poi__section__title">{{ 'PLI_TAB_GALLERY_IMAGE' | translate }}</h3>
+
+      <div class="poi__section__content poi__section__content__gallery" *ngIf="isDownloaded || !isNetworkOff">
+        <!-- <ion-slides class="image-slider poi-slider" loop="false" [pager]="true">
+          <ion-slide *ngFor="let img of gallery">
+            <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(img)' class="thumb-img" imageViewer />
+          </ion-slide>
+        </ion-slides> -->
+        <ion-slides pager="true" [options]="slideOpts">
+          <ion-slide *ngFor="let img of gallery">
+            <img [attr.src]="img" class="thumb-img" imageViewer />
+          </ion-slide>
+        </ion-slides>
+      </div>
+
+      <div class="showGalleryNoNetwork" *ngIf="!isDownloaded && this.isNetworkOff">
+        <p>
+          {{'GLOBAL_NEED_NETWORK_FOR_DATA' | translate}}
+        </p>
+      </div>
+    </section>
+    <!-- ./ SECTION GALLERY -->
+
+    <!-- SECTION BIBLIOGRAPHY -->
+    <section class="poi__section poi__section--isGrey section__bibliography" *ngIf="place.bibliography[translate.currentLang]">
+      <h3 id="titleBibliography" class="poi__section__title">{{ 'PLI_TAB_BIBLIOGRAPHY' | translate }}</h3>
+
+      <div class="poi__section__content">
+        <div class="content__desc">
+          <ul class="bibliography__list">
+            <li class="bibliography__list__item" *ngFor="let itemDesc of place.bibliography[translate.currentLang]">
+              <!-- <p [innerHtml]="data.bbCodeToHtml(itemDesc)">{{itemDesc}}</p> -->
+                <p>{{ itemDesc }}</p>
+            </li>
+          </ul>
+        </div>
+
+        <button class="btn__share" (click)="btnShareRef()">
+          <ion-icon aria-hidden="true" focusable="false" name="share-social" ></ion-icon>
+          <span class="btn__share__span">
+            {{ 'PLI_BTN_SHARE_REF' | translate }}
+          </span>
+        </button>
+
+      </div>
+    </section>
+    <!-- ./ SECTION BIBLIOGRAPHY -->
+
+    <section class="poi__section poi__section--isWhite section__bibliography">
+      <!-- <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="isPOIIsDone()"
+              [attr.title]="isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_ATTR_TITLE_DONE') : translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
+              (click)="btnTogglePointOfInterest()">
+        {{isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_DONE') : translate.getKey('PLI_BTN_END_POI') }}
+      </button> -->
+    </section>
+  </div>
 </main-content>

@@ -102,7 +102,7 @@
         [attr.title]="'PLI_LIST_START_PARCOURS' | translate"
         type="button"
         *ngIf="placesList.length > 0"
-        (click)="navigateToPlace()"
+        (click)="startParcour()"
         class='btnStart' [ngStyle]="{'background-color': item.color}">
         {{ 'PLI_LIST_START_PARCOURS' | translate }}
       </button>
