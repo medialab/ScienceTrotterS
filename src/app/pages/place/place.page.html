@@ -64,7 +64,7 @@
   </ul>
   <!-- ./ HELP LIST -->
 
-  <div class="helpContent" [ngClass]="helpItemActive ? 'isActive' : 'isHidden'">
+  <div class="helpContent" [ngClass]="helpItemActive ? 'isActive': 'isHidden'">
     <div class="helpContentClose">
       <button class="btnCloseHelpContent" (click)="onClickSetHelpItemActive(false)">
         <label class="headerTitle">
@@ -128,17 +128,16 @@
     </section>
 
     <!-- SECTION AUDIO SCRIPT -->
-    <section class="poi__section poi__section--isGrey" id="titleAudioScript" [ngClass]="{'hideSectionScriptAudio': !showScriptAudioSection}">
+    <section id="section-audio" class="poi__section poi__section--isGrey" [ngClass]="{'hideSectionScriptAudio': !showScriptAudioSection}">
       <div class="poi__section__content">
-        <!-- <p class="pJustified" [innerHtml]="data.bbCodeToHtml(getData('audio_script', true))"></p> -->
-        <p class="pJustified">{{ place.audio_script[translate.currentLang] }}</p>
+        <p class="pJustified" [innerHtml]="place.audio_script[translate.currentLang]"></p>
       </div>
     </section>
     <!-- ./ SECTION AUDIO SCRIPT -->
 
     <!-- SECTION GALLERY -->
-    <section class="poi__section poi__section--isWhite section__gallery_image">
-      <h3 id="titleGalery" class="poi__section__title">{{ 'PLI_TAB_GALLERY_IMAGE' | translate }}</h3>
+    <section id="section-gallery" class="poi__section poi__section--isWhite section__gallery_image">
+      <h3 class="poi__section__title">{{ 'PLI_TAB_GALLERY_IMAGE' | translate }}</h3>
 
       <div class="poi__section__content poi__section__content__gallery" *ngIf="isDownloaded || !isNetworkOff">
         <!-- <ion-slides class="image-slider poi-slider" loop="false" [pager]="true">
@@ -162,8 +161,8 @@
     <!-- ./ SECTION GALLERY -->
 
     <!-- SECTION BIBLIOGRAPHY -->
-    <section class="poi__section poi__section--isGrey section__bibliography" *ngIf="place.bibliography[translate.currentLang]">
-      <h3 id="titleBibliography" class="poi__section__title">{{ 'PLI_TAB_BIBLIOGRAPHY' | translate }}</h3>
+    <section id="section-biblio" class="poi__section poi__section--isGrey section__bibliography" *ngIf="showBiblio()">
+      <h3 class="poi__section__title">{{ 'PLI_TAB_BIBLIOGRAPHY' | translate }}</h3>
 
       <div class="poi__section__content">
         <div class="content__desc">
@@ -196,3 +195,31 @@
     </section>
   </div>
 </main-content>
+
+<!-- Footer without a border -->
+<ion-footer *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">
+  <ion-toolbar>
+    <ul class="footer__list">
+      <li class="footer__list__item">
+        <button class="item__button" (click)="scrollToSection('section-audio')">
+          <i aria-hidden="true" class="item__button__icon item__button__icon--script-audio"></i>
+          <label class="item__button__label">{{ 'PLI_TAB_AUDIO_SCRIPT' | translate }}</label>
+        </button>
+      </li>
+
+      <li class="footer__list__item">
+        <button class="item__button" (click)="scrollToSection('section-gallery')">
+          <i aria-hidden="true" class="item__button__icon item__button__icon--galery"></i>
+          <label class="item__button__label">{{ 'PLI_TAB_GALLERY_IMAGE' | translate }}</label>
+        </button>
+      </li>
+
+      <li class="footer__list__item" *ngIf="showBiblio()">
+        <button class="item__button" (click)="scrollToSection('section-biblio')">
+          <i aria-hidden="true" class="item__button__icon item__button__icon--book"></i>
+          <label class="item__button__label">{{ 'PLI_TAB_BIBLIOGRAPHY' | translate }}</label>
+        </button>
+      </li>
+    </ul>
+  </ion-toolbar>
+</ion-footer>

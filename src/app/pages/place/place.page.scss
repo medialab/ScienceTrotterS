@@ -615,4 +615,67 @@
       width: initial;
     }
   }
+
+  ion-footer {
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    left: 0;
+    width: 100vw;
+    z-index: 999999;
+    background-color: #FAFAFA;
+    border-top: solid 1px #95989A;
+
+    .footer__list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      height: 100%;
+      font-size: inherit;
+
+      &__item {
+        width: 33.3333%;
+        margin: auto;
+
+        .item__button {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: transparent;
+          font-size: inherit;
+
+          &__icon {
+            display: block;
+            width: 100%;
+            font-size: 0.7rem;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: .3rem;
+            height: 26px;
+
+            &--script-audio {
+              background-image: url('../../../assets/imgs/poi/poi_icon_script_audio.svg');
+            }
+            &--galery {
+              background-image: url('../../../assets/imgs/poi/poi_icon_galery.svg');
+            }
+            &--book {
+              background-image: url('../../../assets/imgs/poi/poi_icon_book.svg');
+            }
+          }
+          &__label {
+            font-size: 0.8em;
+            color: #95989A;
+          }
+        }
+      }
+    }
+  }
+
 }

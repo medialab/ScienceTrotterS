@@ -1,5 +1,6 @@
+import { ConfigService } from './../../services/config.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationExtras } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 @Component({
@@ -25,6 +26,7 @@ export class PlacePage implements OnInit {
   gallery: any;
   constructor(
     public translate: TranslateService,
+    public config: ConfigService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public api: ApiService
@@ -79,6 +81,32 @@ export class PlacePage implements OnInit {
   isDone() {
     return false;
   };
+
+  scrollToSection(id: string) {
+    const focustElement = document.getElementById(id);
+    if(id === 'section-audio') {
+      this.showScriptAudioSection = true;
+      setTimeout(() => {
+        focustElement.scrollIntoView({ behavior: 'smooth'});
+      }, 150);
+    } else {
+      focustElement.scrollIntoView({ behavior: 'smooth'});
+    }
+    // this.targetSection["el"].scrollIntoView();
+  }
+
+  showBiblio() {
+    const biblio = this.place.bibliography[this.translate.currentLang];
+    let isShow = false;
+
+    for (const itemDesc of biblio) {
+      if (itemDesc !== '') {
+        isShow = true;
+        break;
+      }
+    }
+    return isShow;
+  }
 
 
   /**

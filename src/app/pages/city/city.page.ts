@@ -1,11 +1,11 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
-import { LoadingController, IonItem, IonContent } from '@ionic/angular';
+import { LoadingController} from '@ionic/angular';
 
 @Component({
   selector: 'app-city',
@@ -13,7 +13,6 @@ import { LoadingController, IonItem, IonContent } from '@ionic/angular';
   styleUrls: ['./city.page.scss'],
 })
 export class CityPage implements OnInit {
-  @ViewChildren(IonItem) listItems: IonItem[];
 
   city: any;
 
@@ -195,8 +194,8 @@ export class CityPage implements OnInit {
 
   onSelectItem (selectedItem: any) {
     this.selectedItemId = selectedItem.id;
-    const focusElement = this.listItems.find((item: any) => item.el.id === selectedItem.id);
-    focusElement["el"].scrollIntoView();
+    const focusElement = document.getElementById(selectedItem.id);
+    focusElement.scrollIntoView({ behavior: 'smooth'});
     // only open parcours contentList on click item
     if (this.isParcoursSelected) {
       this.openContentList();
@@ -293,27 +292,6 @@ export class CityPage implements OnInit {
    *
    */
   openContentList() {
-    const duration = 570;
-    // const selector = 'city-page-content';
-
-    if (this.isListOpen) {
-      this.isListOpen = false;
-      // this.scrollToDiv(selector, 0, duration);
-    } else {
-      this.isListOpen = true;
-      //noinspection TypeScriptUnresolvedFunction
-      // const contentHeight: any = document.querySelector('#previewByCityContent .scroll-content');
-
-      // if (contentHeight !== null) {
-      //   this.scrollToDiv(selector, contentHeight.offsetHeight, duration);
-
-      //   if (data !== null) {
-      //     setTimeout(() => {
-      //       const itemIdSelector = '#' + data.target + '-' + data.id;
-      //       this.focusAnElement(itemIdSelector);
-      //     }, 300);
-      //   }
-      // }
-    }
+    this.isListOpen = !this.isListOpen;
   }
 }
