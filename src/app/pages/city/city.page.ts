@@ -28,9 +28,7 @@ export class CityPage implements OnInit {
   selectedItemId: string = null;
 
   isListOpen = false;
-  selectedTarget: boolean = false;
-  isParcoursSelected = true;
-  isPlacesSelected = false;
+  selectedTarget: string = "parcours";
 
   // Tri par défaut sélectionné qui est par proximité.
   optionsItemsSelected: number = 1;
@@ -82,12 +80,16 @@ export class CityPage implements OnInit {
       .subscribe((resp: any) => {
         const [city, parcours, places] = resp;
         this.city = city.data;
-        this.parcours = parcours.data.filter((item: any) => {
-          return item.force_lang === null || item.force_lang === this.translate.currentLang;
-        });
-        this.places = places.data.filter((item: any) => {
-          return item.force_lang === null || item.force_lang === this.translate.currentLang;
-        });
+        if (parcours.data) {
+          this.parcours = parcours.data.filter((item: any) => {
+            return item.force_lang === null || item.force_lang === this.translate.currentLang;
+          });
+        }
+        if (places.data) {
+          this.places = places.data.filter((item: any) => {
+            return item.force_lang === null || item.force_lang === this.translate.currentLang;
+          });
+        }
         loading.dismiss();
       })
     }
@@ -148,15 +150,9 @@ export class CityPage implements OnInit {
    * @param next
    * @param isFromClick
    */
-  onChangeSelectedTarget(next: any, isFromClick = false) {
-
-    this.isPlacesSelected = next === 'places';
-    this.isParcoursSelected = next === 'parcours';
-    if (isFromClick) {
-      this.selectedTarget = next === 'places';
-    }
-
-    this.focusAnElement('#btnSortItemNext');
+  onChangeSelectedTarget(next: any) {
+    this.selectedTarget = next;
+    // this.focusAnElement('#btnSortItemNext');
     // const target = next === 'place' ? 'point-of-interest' : 'parcours';
   }
 
@@ -197,7 +193,7 @@ export class CityPage implements OnInit {
     const focusElement = document.getElementById(selectedItem.id);
     focusElement.scrollIntoView({ behavior: 'smooth'});
     // only open parcours contentList on click item
-    if (this.isParcoursSelected) {
+    if (this.selectedTarget==='parcours') {
       this.openContentList();
     }
   }

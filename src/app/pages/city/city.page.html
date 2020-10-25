@@ -11,7 +11,7 @@
         [curPositionUser]="curPositionUser"
         [placesList]="places"
         [parcoursList]="parcours"
-        [selectedTarget]="(selectedTarget ? 'places' : 'parcours')"
+        [selectedTarget]="selectedTarget"
         [selectedItemId]="selectedItemId"
         (selectMapItem)="onSelectItem($event)">
       </box-map>
@@ -34,9 +34,9 @@
           <li class="item">
             <button class="item__btn item__btn--left"
                     [attr.title]="'PAGE_PBC_BTN_SHOW_PARCOURS' | translate"
-                    [attr.aria-pressed]="isParcoursSelected"
-                    [ngClass]="{'isSelected': isParcoursSelected}"
-                    (click)="onChangeSelectedTarget('parcours', true)">
+                    [attr.aria-pressed]="selectedTarget === 'parcours'"
+                    [ngClass]="{'isSelected': selectedTarget === 'parcours'}"
+                    (click)="onChangeSelectedTarget('parcours')">
               <label>
                 {{ 'PBC_ALT_PARCOURS' | translate}}
               </label>
@@ -46,9 +46,9 @@
           <li class="item">
             <button class="item__btn item__btn--right"
                     [attr.title]="'PAGE_PBC_BTN_SHOW_LANDMARK' | translate"
-                    [attr.aria-pressed]="isPlacesSelected"
-                    [ngClass]="{'isSelected': isPlacesSelected}"
-                    (click)="onChangeSelectedTarget('places', true)">
+                    [attr.aria-pressed]="selectedTarget === 'places'"
+                    [ngClass]="{'isSelected': selectedTarget === 'places'}"
+                    (click)="onChangeSelectedTarget('places')">
               <label>
                 {{ 'PBC_ALT_POI' | translate }}
               </label>
@@ -79,7 +79,7 @@
         </ul>
       </div>
       <!-- ./ OPTIONS ITEMS SORT -->
-      <ion-list *ngIf="isParcoursSelected">
+      <ion-list *ngIf="selectedTarget === 'parcours'">
         <ion-item class="ion-no-padding" *ngFor="let parcour of parcours" lines="full" [id]="parcour.id">
           <list-item
             target="parcours"
@@ -100,7 +100,7 @@
           {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city.title[translate.currentLang]} }}
         </p>
       </ion-list>
-      <ion-list *ngIf="isPlacesSelected">
+      <ion-list *ngIf="selectedTarget === 'places'">
         <ion-item class="ion-no-padding" *ngFor="let place of places" lines="full" [id]="place.id">
           <list-item
             target="places"

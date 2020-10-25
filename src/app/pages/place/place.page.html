@@ -120,10 +120,10 @@
 
     <section class="poi__section poi__section--isWhite section__bibliography">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
-              [ngClass]="{'isDoneBtn': isDone()}"
-              [attr.title]="(isDone() ? 'PLI_BTN_END_POI_ATTR_TITLE_DONE' : 'PLI_BTN_END_POI_ATTR_TITLE') | translate"
-              (click)="btnTogglePointOfInterest()">
-        {{(isDone() ? 'PLI_BTN_END_POI_DONE' : 'PLI_BTN_END_POI') | translate }}
+              [ngClass]="{'isViewed': isPlaceViewed}"
+              [attr.title]="(isPlaceViewed ? 'PLI_BTN_END_POI_ATTR_TITLE_DONE' : 'PLI_BTN_END_POI_ATTR_TITLE') | translate"
+              (click)="toggleViewPlace()">
+        {{(isPlaceViewed ? 'PLI_BTN_END_POI_DONE' : 'PLI_BTN_END_POI') | translate }}
       </button>
     </section>
 
@@ -186,12 +186,12 @@
     <!-- ./ SECTION BIBLIOGRAPHY -->
 
     <section class="poi__section poi__section--isWhite section__bibliography">
-      <!-- <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
-              [ngClass]="isPOIIsDone()"
-              [attr.title]="isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_ATTR_TITLE_DONE') : translate.getKey('PLI_BTN_END_POI_ATTR_TITLE')"
-              (click)="btnTogglePointOfInterest()">
-        {{isPOIIsDone().isDoneBTN ? translate.getKey('PLI_BTN_END_POI_DONE') : translate.getKey('PLI_BTN_END_POI') }}
-      </button> -->
+      <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
+              [ngClass]="{'isViewed': isPlaceViewed}"
+              [attr.title]="(isPlaceViewed ? 'PLI_BTN_END_POI_ATTR_TITLE_DONE' : 'PLI_BTN_END_POI_ATTR_TITLE') | translate"
+              (click)="toggleViewPlace()">
+        {{(isPlaceViewed ? 'PLI_BTN_END_POI_DONE' : 'PLI_BTN_END_POI') | translate }}
+      </button>
     </section>
   </div>
 </main-content>

@@ -18,6 +18,7 @@ export class PlacePage implements OnInit {
   showScriptAudioSection: boolean = false;
   isDownloaded: boolean = false;
   isNetworkOff: boolean = false;
+  isPlaceViewed: boolean = false;
 
   slideOpts = {
     speed: 400
@@ -92,7 +93,6 @@ export class PlacePage implements OnInit {
     } else {
       focustElement.scrollIntoView({ behavior: 'smooth'});
     }
-    // this.targetSection["el"].scrollIntoView();
   }
 
   showBiblio() {
@@ -106,6 +106,10 @@ export class PlacePage implements OnInit {
       }
     }
     return isShow;
+  }
+
+  toggleViewPlace() {
+    this.isPlaceViewed = !this.isPlaceViewed;
   }
 
 
