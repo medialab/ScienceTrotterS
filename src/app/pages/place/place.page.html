@@ -1,4 +1,4 @@
-<main-header [withMenu]="true" [withBackButton] = "true">
+<main-header *ngIf="place" [withMenu]="true" [withBackButton] = "true">
   {{  place && (parcour ? parcour.title[translate.currentLang] : place.title[translate.currentLang]) }}
 </main-header>
 

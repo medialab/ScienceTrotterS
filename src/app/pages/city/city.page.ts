@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';

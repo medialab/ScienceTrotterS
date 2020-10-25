@@ -1,7 +1,7 @@
 import { ConfigService } from './../../services/config.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit} from '@angular/core';
-import { Router, ActivatedRoute, ParamMap, NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 @Component({
   selector: 'app-place',
@@ -63,6 +63,7 @@ export class PlacePage implements OnInit {
       nextIndex = 0
     }
     let navigationExtras: NavigationExtras = {
+      skipLocationChange: true,
       state: {
         parcour: this.parcour,
         placesList: this.placesList
