@@ -1,3 +1,4 @@
+import { OfflineStorageService } from './../../services/offline-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -47,6 +48,7 @@ export class CityPage implements OnInit {
     private geoloc: GeolocService,
     private activatedRoute: ActivatedRoute,
     private loader: LoadingController,
+    public offlineStorage: OfflineStorageService,
     public api: ApiService
   ) {
     this.translate.onLangChange.subscribe(() => {
@@ -255,34 +257,6 @@ export class CityPage implements OnInit {
     }
     return isSelected;
   }
-
-  // scrollToDiv (selector, to, duration) {
-  //   const element: any = document.querySelector(selector);
-
-  //   const easeInOutQuad =  (t, b, c, d) => {
-  //     t /= d/2;
-  //     if (t < 1) return c/2*t*t + b;
-  //     t--;
-  //     return -c/2 * (t*(t-2) - 1) + b;
-  //   };
-
-  //   let start = element.scrollTop,
-  //     change = to - start,
-  //     currentTime = 0,
-  //     increment = 20;
-
-  //   const animateScroll = () => {
-  //     currentTime += increment;
-  //     const val = easeInOutQuad(currentTime, start, change, duration);
-
-  //     element.scrollTop = val;
-  //     if (currentTime < duration) {
-  //       setTimeout(animateScroll, increment);
-  //     }
-  //   };
-
-  //   animateScroll();
-  // }
 
   /**
    *

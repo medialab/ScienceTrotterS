@@ -28,6 +28,7 @@ export class ListItemComponent implements OnInit, OnChanges {
   @Input() placesList: Array < any > = [];
   @Input() cityName: string = '';
   @Input() cityId: string = '';
+  @Input() isVisited: boolean = false;
   @Input() isDownloaded: boolean = false;
 
   @Output() selectListItem = new EventEmitter<any>();
@@ -58,25 +59,6 @@ export class ListItemComponent implements OnInit, OnChanges {
     if (changes["selectedItemId"]) {
       this.isOpenDiscover = this.selectedItemId === this.item.id;
     }
-  }
-
-  isDone() {
-    const data = {
-      'uuid': this.item.id,
-      'created_at': this.item.update_at
-    };
-
-    const isDone = false
-    // this.target === 'parcours' ?
-      // this.localData.isParcoursIsDone(data, this.config.getLanguage()) :
-      // this.localData.isPOIIsDone(data, this.config.getLanguage());
-
-    const hideIt = this.target === 'parcours' && parseInt(String(this.placesList.length)) === 0;
-
-    return {
-      'isDone': isDone,
-      'hideIt': hideIt
-    };
   }
 
   selectItem() {

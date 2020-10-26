@@ -1,3 +1,4 @@
+import { OfflineStorageService } from './../../services/offline-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { GeolocService } from 'src/app/services/geoloc.service';
@@ -20,7 +21,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
     'longitude': null,
     'latitude': null
   };
-
+  @Input() cityId: string = null;
   @Input() isClose: boolean=false;
 
   @Input() selectedTarget: string = '';
@@ -52,6 +53,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
   constructor(
     private geoloc: GeolocService,
     public api: ApiService,
+    public offlineStorage: OfflineStorageService,
     public translate: TranslateService
   ) {
     leaflet.markercluster = leafletMarkercluster;
@@ -127,7 +129,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
 
   /**
    * Mock des données pour la gestion du handler.
-   * @param target - "place" ou "parcours"
+   * @param target - "place" ou "parcour"
    * @param id - uuid du target.
    * @returns {{target: string, id: string}}
    */
@@ -144,17 +146,19 @@ export class BoxMapComponent implements OnInit, OnChanges {
    */
   async initializeParcours (parcoursList: Array<any>, listGroup: Array<any>, longitude: any, latitude: any) {
     // Loop les parcours.
-    for (const parcours of parcoursList) {
-      // Check s'il y a des points d'intérêts pour ce parcours
-      if (typeof listGroup[parcours.id] !== 'undefined') {
-        const pointOfInterests = listGroup[parcours.id];
-
-        // 1. GET /parcours/trace
-        const parcoursTraces: any = await this.createParcoursTraces(parcours.id, longitude, latitude);
+    for (const parcour of parcoursList) {
+      // Check s'il y a des points d'intérêts pour ce parcour
+      if (typeof listGroup[parcour.id] !== 'undefined') {
+        const pointOfInterests = listGroup[parcour.id];
+        const isParcourVisited = this.offlineStorage.isVisited(this.cityId, 'parcours', parcour.id);
+        // const colorTraceIsDone = '#929090';
+        const parcourColor = isParcourVisited ? '#929090': parcour.color
+        // 1. GET /parcour/trace
+        const parcoursTraces: any = await this.createParcoursTraces(parcour.id, longitude, latitude, parcourColor);
 
         // 2. CREATE CLUSTER
-        const cluster = this.createCluster(parcours.color, pointOfInterests.data.length, this.createParcoursTime(parcoursTraces.time));
-        cluster.getData = this.eventOnClickItemMapGetData('parcours', parcours.id);
+        const cluster = this.createCluster(parcourColor, pointOfInterests.data.length, this.createParcoursTime(parcoursTraces.time));
+        cluster.getData = this.eventOnClickItemMapGetData('parcours', parcour.id);
         cluster.on('clusterclick', this.handleSelectMapItem);
 
         // 3. ADD All landmarks
@@ -163,12 +167,12 @@ export class BoxMapComponent implements OnInit, OnChanges {
           const {latitude, longitude} = poi.geoloc;
           const marker = this.createAndAddMarker(
             'parcours',
-            parcours.id,
+            parcour.id,
             poi.title[this.translate.currentLang],
             latitude,
             longitude,
             false,
-            parcours.color,
+            parcourColor,
             poi.id);
 
           // Ajout du marker au groupe.
@@ -211,14 +215,14 @@ export class BoxMapComponent implements OnInit, OnChanges {
     return cluster;
   }
 
-  createParcoursTraces (parcoursId: string, longitude: any, latitude: any) {
+  createParcoursTraces (parcourId: string, longitude: any, latitude: any, parcourColor: string) {
     console.log('#createParcoursTraces');
 
     return new Promise((resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
-      // this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()`) // remove tmsp for cache
-      this.api.get(`/public/parcours/trace/${parcoursId}?geoloc=${geoloc}&lang=${this.translate.currentLang}`)
+      // this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()`) // remove tmsp for cache
+      this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.translate.currentLang}`)
       .subscribe((resp: any) => {
         const {data} = resp;
         const time = data.length.time;
@@ -226,13 +230,10 @@ export class BoxMapComponent implements OnInit, OnChanges {
 
         for (const poi of data.interests) {
           if (typeof poi.api_data !== 'undefined') {
-            const colorTraceIsDone = '#929090';
-            // const isTraceIsDone = this.localData.isLandmarkIsDone(poi.id, this.configProvider.getLanguage());
-            const isTraceIsDone = false;
 
             // Création de la route.
             const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-              'color': (isTraceIsDone ? colorTraceIsDone : data.color),
+              'color': parcourColor,
               'weight': 5,
               'opacity': 0.65
             });
@@ -305,8 +306,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
           item.id,
           item.title[this.translate.currentLang],
           latitude,
-          longitude,
-          item.id);
+          longitude);
 
         if (this.map !== null) {
           marker.addTo(this.map);
@@ -325,10 +325,9 @@ export class BoxMapComponent implements OnInit, OnChanges {
    */
   createAndAddMarker(target: string, id: string, title: any, lat: any, lng: any, addToMap: boolean = true, color: string = '#1E155E', landmarkId: string = null) {
     const colorMarkerIsDone = '929090';
-    // const colorMarker = (this.localData.isLandmarkIsDone(landmarkId === null ? id : landmarkId, this.configProvider.getLanguage())
-    //   ? colorMarkerIsDone
-    //   : color.substr(1));
-    const colorMarker = color.substr(1);
+    const placeId = target === 'place' ? id : landmarkId;
+    const isPlaceVisited = this.offlineStorage.isVisited(this.cityId, 'places', placeId);
+    const colorMarker = isPlaceVisited ? colorMarkerIsDone : color.substr(1);
 
     const markerURI = this.api.getRequestUri('/public/marker/get/' + colorMarker);
 

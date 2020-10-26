@@ -1,3 +1,4 @@
+import { OfflineStorageService } from './../../services/offline-storage.service';
 import { ConfigService } from './../../services/config.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit} from '@angular/core';
@@ -18,7 +19,7 @@ export class PlacePage implements OnInit {
   showScriptAudioSection: boolean = false;
   isDownloaded: boolean = false;
   isNetworkOff: boolean = false;
-  isPlaceViewed: boolean = false;
+  isPlaceVisited: boolean = false;
 
   slideOpts = {
     speed: 400
@@ -28,6 +29,7 @@ export class PlacePage implements OnInit {
   constructor(
     public translate: TranslateService,
     public config: ConfigService,
+    public offlineStorage: OfflineStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public api: ApiService
@@ -43,17 +45,18 @@ export class PlacePage implements OnInit {
         }
       });
       this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`)
-        .subscribe((resp: any) => {
-          if (resp.success) {
-            this.place = resp.data;
-            this.gallery = Object.values(resp.data['gallery_image'])
-                          .map((item: any) => this.api.getAssetsUri(item));
-          }
+      .subscribe((resp: any) => {
+        if (resp.success) {
+          this.place = resp.data;
+          this.gallery = Object.values(resp.data['gallery_image'])
+          .map((item: any) => this.api.getAssetsUri(item));
+        }
+        this.isPlaceVisited = this.offlineStorage.isVisited(resp.data['cities_id'], 'places', id);
         }, (err: any) => {});
     }
   }
 
-  onNavigatePlace(dir: string) {
+  onNextPlace(dir: string) {
     const currentIndex = this.placesList.findIndex(item => item.id === this.place.id);
     let nextIndex = dir === 'next' ? currentIndex + 1 : currentIndex -1
     if (nextIndex === -1) {
@@ -62,6 +65,10 @@ export class PlacePage implements OnInit {
     if (nextIndex === this.placesList.length) {
       nextIndex = 0
     }
+    this.navigatePlace(this.placesList[nextIndex].id);
+  }
+
+  navigatePlace(placeId: string) {
     let navigationExtras: NavigationExtras = {
       skipLocationChange: true,
       state: {
@@ -69,7 +76,7 @@ export class PlacePage implements OnInit {
         placesList: this.placesList
       }
     };
-    this.router.navigate([`/place/${this.placesList[nextIndex].id}`], navigationExtras)
+    this.router.navigate([`/place/${placeId}`], navigationExtras)
   }
 
   onClickSetHelpItemActive(active: boolean=false) {
@@ -79,10 +86,6 @@ export class PlacePage implements OnInit {
   openMapToLocation() {
 
   }
-
-  isDone() {
-    return false;
-  };
 
   scrollToSection(id: string) {
     const focustElement = document.getElementById(id);
@@ -110,7 +113,22 @@ export class PlacePage implements OnInit {
   }
 
   toggleViewPlace() {
-    this.isPlaceViewed = !this.isPlaceViewed;
+    this.isPlaceVisited = !this.isPlaceVisited;
+    if (this.place['cities_id'] && this.place.id) {
+      this.offlineStorage.updateVisited(this.place['cities_id'], 'places', this.place.id, this.isPlaceVisited);
+      if(this.placesList) {
+        const nonVisitedList = this.placesList.filter((place) => !this.offlineStorage.isVisited(this.place['cities_id'], 'places', place.id));
+        if(nonVisitedList.length === 0) {
+          this.offlineStorage.updateVisited(this.place['cities_id'], 'parcours', this.parcour.id, true);
+          this.router.navigate([`/city/${this.place['cities_id']}`]);
+        } else {
+          this.offlineStorage.updateVisited(this.place['cities_id'], 'parcours', this.parcour.id, false);
+          if(this.isPlaceVisited) {
+            this.navigatePlace(nonVisitedList[0].id);
+          }
+        }
+      }
+    }
   }
 
 
