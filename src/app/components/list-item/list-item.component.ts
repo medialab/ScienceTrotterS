@@ -1,3 +1,4 @@
+import { ApiService } from './../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../../services/config.service';
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
@@ -41,6 +42,7 @@ export class ListItemComponent implements OnInit, OnChanges {
   isOpenDiscover: boolean = false;
   constructor(
     public translate: TranslateService,
+    public api: ApiService,
     private router: Router,
     public config: ConfigService
   ) {}
@@ -63,6 +65,7 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   selectItem() {
     if (this.target === 'parcours') {
+      console.log(this.item);
       this.isOpenDiscover = !this.isOpenDiscover;
     } else {
       this.router.navigate([`/place/${this.item.id}`]);

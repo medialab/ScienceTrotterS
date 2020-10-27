@@ -16,7 +16,7 @@ export class PlacePage implements OnInit {
 
   helpItemActive: boolean=false;
 
-  showScriptAudioSection: boolean = false;
+  showAudioScript: boolean = false;
   isDownloaded: boolean = false;
   isNetworkOff: boolean = false;
   isPlaceVisited: boolean = false;
@@ -87,10 +87,14 @@ export class PlacePage implements OnInit {
 
   }
 
+  onToggleAudioScript() {
+    this.showAudioScript = !this.showAudioScript;
+  }
+
   scrollToSection(id: string) {
     const focustElement = document.getElementById(id);
     if(id === 'section-audio') {
-      this.showScriptAudioSection = true;
+      this.showAudioScript = true;
       setTimeout(() => {
         focustElement.scrollIntoView({ behavior: 'smooth'});
       }, 150);

@@ -1,3 +1,4 @@
+import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -14,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MainHeaderComponent,
     MainContentComponent,
     BoxMapComponent,
+    AudioPlayerComponent,
     ListItemComponent
   ],
   imports: [
@@ -24,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
   exports:[
     MainHeaderComponent,
     MainContentComponent,
+    AudioPlayerComponent,
     BoxMapComponent,
     ListItemComponent
   ]

@@ -87,16 +87,14 @@
       <p>{{ item.description[translate.currentLang] }}</p>
     </div>
 
-    <div class='playerAudio'>
-      <!-- <player-audio
-        [isNetworkOff]="isNetworkOff"
-        [isDownloaded]="isDownloaded"
-        [audioURI]="audioURI"
-        [playerUUID]="('player__audio') + openId"
-        [audioScript]="audioScript"
-        [target]="target"
-        [uuid]="openId"
-        [loadPlayer]="isOpenDiscover"></player-audio> -->
+    <div class='audio-player-container'>
+      <audio-player target="parours"
+        [audioUrl]="api.getAssetsUri(item.audio[translate.currentLang])"
+        [playerUUID]="('player__audio') + item.id"
+        [uuid]="item.id"
+        [showAudioScript]="false"
+        [loadPlayer]="true">
+      </audio-player>
     </div>
     <div class='footer'>
       <button

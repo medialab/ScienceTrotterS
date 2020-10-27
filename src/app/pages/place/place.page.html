@@ -107,18 +107,19 @@
   <div class="poi__main__content" [ngClass]="helpItemActive ? 'isHidden' : 'isActive'">
 
     <section class="poi__section poi__section--isWhite section__player__audio">
-      <!-- <player-audio target="landmarks"
-                    [audioURI]="audioUrl"
-                    [playerUUID]="('player__audio') + getData('id')"
-                    [uuid]="getData('id')"
-                    [audioScript]="getData('audio_script', true)"
-                    [showAudioScriptListener]="showAudioScriptListener.bind(this)"
-                    [loadPlayer]="true"></player-audio> -->
+      <audio-player target="places"
+        [audioUrl]="api.getAssetsUri(place.audio[translate.currentLang])"
+        [playerUUID]="('player__audio') + place.id"
+        [uuid]="place.id"
+        [showAudioScript]="showAudioScript"
+        (toggleAudioScript)="onToggleAudioScript()"
+        [loadPlayer]="true">
+      </audio-player>
     </section>
 
 
 
-    <section class="poi__section poi__section--isWhite section__bibliography">
+    <section class="poi__section poi__section--isWhite">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
               [ngClass]="{'isVisited': isPlaceVisited}"
               [attr.title]="(isPlaceVisited ? 'PLI_BTN_END_POI_ATTR_TITLE_DONE' : 'PLI_BTN_END_POI_ATTR_TITLE') | translate"
@@ -128,7 +129,7 @@
     </section>
 
     <!-- SECTION AUDIO SCRIPT -->
-    <section id="section-audio" class="poi__section poi__section--isGrey" [ngClass]="{'hideSectionScriptAudio': !showScriptAudioSection}">
+    <section id="section-audio" class="poi__section poi__section--isGrey" [ngClass]="{'hideAudioScript': !showAudioScript}">
       <div class="poi__section__content">
         <p class="pJustified" [innerHtml]="place.audio_script[translate.currentLang]"></p>
       </div>
@@ -185,7 +186,7 @@
     </section>
     <!-- ./ SECTION BIBLIOGRAPHY -->
 
-    <section class="poi__section poi__section--isWhite section__bibliography">
+    <section class="poi__section poi__section--isWhite">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
               [ngClass]="{'isVisited': isPlaceVisited}"
               [attr.title]="(isPlaceVisited ? 'PLI_BTN_END_POI_ATTR_TITLE_DONE' : 'PLI_BTN_END_POI_ATTR_TITLE') | translate"
