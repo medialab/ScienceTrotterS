@@ -3,12 +3,12 @@
   <!-- PLAYER MAIN ACTIONS -->
   <ul class="actionsList">
     <!-- ACTION FAST LEFT -->
-    <li class="actionItem actionItemFastLeft hide--item">
-      <!-- <button class="actionBtn"
+    <li class="actionItem actionItemFastLeft">
+      <button class="actionBtn"
               (click)="actionFastLeft()"
               [attr.title]="'PLAYER_ACTION_FAST_LEFT' | translate">
         <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
-      </button> -->
+      </button>
     </li>
 
     <!-- ACTION AUDIO STATE -->
@@ -22,12 +22,12 @@
     </li>
 
     <!-- ACTION FAST RIGHT -->
-    <li class="actionItem actionItemFastRight hide--item">
-      <!-- <button class="actionBtn"
+    <li class="actionItem actionItemFastRight">
+      <button class="actionBtn"
               (click)="actionFastRight()"
               [attr.title]="'PLAYER_ACTION_FAST_RIGHT' | translate">
         <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
-      </button> -->
+      </button>
     </li>
   </ul>
 
@@ -47,12 +47,12 @@
   <div class="playerDuration" *ngIf="track !== null">
     <div class="durationCurrent">
       <label class="durationValue">
-        {{ currentTime }}
+        {{ formatSecondsAsTime(currentTime) }}
       </label>
     </div>
     <div class="durationLeft">
       <label class="durationValue">
-        {{ duration }}
+        {{ formatSecondsAsTime(duration) }}
       </label>
     </div>
   </div>

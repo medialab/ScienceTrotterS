@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AudioService {
-  audio = new Audio();
   playlist: any = {};
   constructor() {}
 
@@ -17,12 +16,4 @@ export class AudioService {
   getTrack (id: string) {
     return this.playlist[id]
   }
-
-  // play() {
-  //   this.audio.play();
-  // }
-
-  // pause() {
-  //   this.audio.pause();
-  // }
 }

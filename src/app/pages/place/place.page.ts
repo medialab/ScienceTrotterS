@@ -1,7 +1,8 @@
+import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { ConfigService } from './../../services/config.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 @Component({
@@ -26,6 +27,8 @@ export class PlacePage implements OnInit {
   };
 
   gallery: any;
+  @ViewChild(AudioPlayerComponent) audioPlayer: AudioPlayerComponent;
+
   constructor(
     public translate: TranslateService,
     public config: ConfigService,
@@ -53,6 +56,12 @@ export class PlacePage implements OnInit {
         }
         this.isPlaceVisited = this.offlineStorage.isVisited(resp.data['cities_id'], 'places', id);
         }, (err: any) => {});
+    }
+  }
+
+  ionViewWillLeave() {
+    if(this.audioPlayer) {
+      this.audioPlayer.forcePause();
     }
   }
 

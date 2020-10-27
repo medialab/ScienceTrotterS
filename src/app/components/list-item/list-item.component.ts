@@ -1,7 +1,8 @@
+import { AudioPlayerComponent } from './../audio-player/audio-player.component';
 import { ApiService } from './../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../../services/config.service';
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges, ViewChild } from '@angular/core';
 import { getDistance } from 'src/app/utils/helper';
 import { NavigationExtras, Router } from '@angular/router';
 
@@ -34,6 +35,8 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   @Output() selectListItem = new EventEmitter<any>();
 
+  @ViewChild(AudioPlayerComponent) audioPlayer:AudioPlayerComponent;
+
   isItemDownloadable: boolean = true;
 
   isShowTimeToObj: boolean = false;
@@ -63,9 +66,14 @@ export class ListItemComponent implements OnInit, OnChanges {
     }
   }
 
+  componentWillLeave() {
+    if (this.audioPlayer) {
+      this.audioPlayer.forcePause();
+    }
+  }
+
   selectItem() {
     if (this.target === 'parcours') {
-      console.log(this.item);
       this.isOpenDiscover = !this.isOpenDiscover;
     } else {
       this.router.navigate([`/place/${this.item.id}`]);

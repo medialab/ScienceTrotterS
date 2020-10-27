@@ -1,6 +1,6 @@
 import { AudioService } from './../../services/audio.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, AfterViewInit, Input,Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'audio-player',
@@ -35,9 +35,9 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
     this.track = document.querySelector(`#${this.playerUUID}`);
     this.track.addEventListener('canplay', () => {
       this.duration = this.track.duration;
-      this.audioService.addTrack(this.track, this.uuid);
+      // this.audioService.addTrack(this.track, this.uuid);
     });
-    this.track.addEventListener('timeupdate', (event) => {
+    this.track.addEventListener('timeupdate', () => {
       this.currentTime = this.track.currentTime;
     })
     this.track.addEventListener('play', () => this.isPlaying = true);
@@ -54,12 +54,29 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
     this.isPlaying = !this.isPlaying;
   }
 
-  downVolume() {
-    console.log(this.track.volume)
+  forcePause() {
+    this.track.pause()
   }
 
-  upVolume() {
-    console.log(this.track.volume)
+  upVolume () {
+    if (this.track.volume <= 0.9) {
+      this.track.volume += 0.1;
+    }
+  }
+
+  downVolume () {
+    if (this.track.volume >= 0.1) {
+      this.track.volume -= 0.1;
+    }
+  }
+
+
+  actionFastLeft () {
+    this.track.currentTime -= 30.00;
+  }
+
+  actionFastRight () {
+    this.track.currentTime += 30.00;
   }
 
   changeRangeStart() {
@@ -81,6 +98,21 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
 
   onClickAudioScript () {
     this.toggleAudioScript.emit();
+  }
+
+  formatSecondsAsTime(secs) {
+    let hr: any = Math.floor(secs / 3600);
+    let min: any = Math.floor((secs - (hr * 3600))/60);
+    let sec: any = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+    if (min < 10){
+      min = "0" + min;
+    }
+    if (sec < 10){
+      sec  = "0" + sec;
+    }
+
+    return min + ':' + sec;
   }
 
   isNotAvailable() {

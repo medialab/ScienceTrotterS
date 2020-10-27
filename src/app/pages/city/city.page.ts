@@ -1,6 +1,7 @@
+import { ListItemComponent } from './../../components/list-item/list-item.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../services/api.service';
 import { forkJoin } from 'rxjs';
@@ -14,7 +15,6 @@ import { LoadingController} from '@ionic/angular';
   styleUrls: ['./city.page.scss'],
 })
 export class CityPage implements OnInit {
-
   city: any;
 
   // Variables contenant les données trié.
@@ -43,6 +43,9 @@ export class CityPage implements OnInit {
       action: 'proximite'
     },
   ];
+
+  @ViewChildren(ListItemComponent) listItems:[ListItemComponent];
+
   constructor(
     public translate: TranslateService,
     private geoloc: GeolocService,
@@ -57,6 +60,10 @@ export class CityPage implements OnInit {
   }
   ngOnInit() {
     this.initCityData();
+  }
+
+  ionViewWillLeave() {
+    this.listItems.forEach((item) => item.componentWillLeave())
   }
 
   /**
