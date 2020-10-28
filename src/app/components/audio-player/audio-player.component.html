@@ -32,7 +32,7 @@
   </ul>
 
   <!-- PLAYER DURATION BAR -->
-  <div class="durationBarContent" *ngIf="track !== null">
+  <div class="durationBarContent">
     <ion-range
       (mouseup)="changeRangeEnd()"
       (touchstart)="changeRangeStart()"
@@ -44,7 +44,7 @@
   </div>
 
   <!-- PLAYER TIMER -->
-  <div class="playerDuration" *ngIf="track !== null">
+  <div class="playerDuration">
     <div class="durationCurrent">
       <label class="durationValue">
         {{ formatSecondsAsTime(currentTime) }}

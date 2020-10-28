@@ -1,4 +1,3 @@
-import { AudioPlayerComponent } from './../audio-player/audio-player.component';
 import { ApiService } from './../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../../services/config.service';
@@ -13,16 +12,10 @@ import { NavigationExtras, Router } from '@angular/router';
 })
 export class ListItemComponent implements OnInit, OnChanges {
   @Input() target: string = '';
-  // @Input() openId: string = '';
   @Input() focusId: string = 'focusId';
   @Input() item: any;
-  // @Input() previewTitle: string = '';
-  // @Input() previewDescription: string = '';
-  // @Input() color: string = '';
   @Input() parcourTime: string = '';
   @Input() createdAt: string = '';
-  // @Input() interestAddress: string = '';
-  // @Input() audioURI: string = '';
   @Input() geoloc: any = undefined;
   @Input() curPositionUser: any = undefined;
   @Input() selectedItemId: any = undefined;
@@ -34,8 +27,6 @@ export class ListItemComponent implements OnInit, OnChanges {
   @Input() isDownloaded: boolean = false;
 
   @Output() selectListItem = new EventEmitter<any>();
-
-  @ViewChild(AudioPlayerComponent) audioPlayer:AudioPlayerComponent;
 
   isItemDownloadable: boolean = true;
 
@@ -66,12 +57,6 @@ export class ListItemComponent implements OnInit, OnChanges {
     }
   }
 
-  componentWillLeave() {
-    if (this.audioPlayer) {
-      this.audioPlayer.forcePause();
-    }
-  }
-
   selectItem() {
     if (this.target === 'parcours') {
       this.isOpenDiscover = !this.isOpenDiscover;
@@ -97,8 +82,10 @@ export class ListItemComponent implements OnInit, OnChanges {
    */
   calculGeoLocDistance() {
     const closestLandmark = this.placesList.length && this.placesList[0].geoloc || null;
-    const res = getDistance(closestLandmark, this.curPositionUser);
-    this.timeToObj = `${res.distance}`;
+    if (closestLandmark) {
+      const res = getDistance(closestLandmark, this.curPositionUser);
+      this.timeToObj = `${res.distance}`;
+    }
   }
 
   downloadItem() {

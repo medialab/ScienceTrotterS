@@ -38,7 +38,7 @@ export class PlacePage implements OnInit {
     public api: ApiService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id) {
       this.activatedRoute.queryParams.subscribe(() => {
@@ -47,15 +47,10 @@ export class PlacePage implements OnInit {
           this.placesList = this.router.getCurrentNavigation().extras.state.placesList;
         }
       });
-      this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`)
-      .subscribe((resp: any) => {
-        if (resp.success) {
-          this.place = resp.data;
-          this.gallery = Object.values(resp.data['gallery_image'])
+      this.place = await this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`)
+      this.gallery = Object.values(this.place['gallery_image'])
           .map((item: any) => this.api.getAssetsUri(item));
-        }
-        this.isPlaceVisited = this.offlineStorage.isVisited(resp.data['cities_id'], 'places', id);
-        }, (err: any) => {});
+      this.isPlaceVisited = this.offlineStorage.isVisited(this.place['cities_id'], 'places', id);
     }
   }
 

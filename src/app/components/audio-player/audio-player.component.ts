@@ -18,11 +18,11 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
   @Input() isDownloaded: boolean = false;
 
   @Output() toggleAudioScript = new EventEmitter<any>();
+
   track: any = null;
   isPlaying: boolean = false;
   duration: number = 0;
   currentTime: number = 0;
-  audioPlayer: any = null;
   constructor(
     public translate: TranslateService,
     private audioService: AudioService

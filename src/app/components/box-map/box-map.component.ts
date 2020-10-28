@@ -72,6 +72,9 @@ export class BoxMapComponent implements OnInit, OnChanges {
       this.initMapData();
       this.addCurrentPosition(this.curPositionUser)
     }
+    if(changes["placesList"] && this.map) {
+      this.initMapData();
+    }
   }
 
   /**
@@ -223,8 +226,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
 
       // this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()`) // remove tmsp for cache
       this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.translate.currentLang}`)
-      .subscribe((resp: any) => {
-        const {data} = resp;
+      .then((data: any) => {
         const time = data.length.time;
         const poiArray = [];
 
@@ -413,11 +415,13 @@ export class BoxMapComponent implements OnInit, OnChanges {
     this.selectMapItem.emit(item);
   }
 
-  updateCurrentPosition(event: any) {
-    this.geoloc.getCurrentCoords().then(({longitude, latitude}: any) => {
-      this.addCurrentPosition({ longitude, latitude });
-    }, (err: any) => {
-    });
+  async updateCurrentPosition(event: any) {
+    try {
+      const currentPos = await this.geoloc.getCurrentCoords();
+      this.addCurrentPosition(currentPos);
+    } catch (err){
+      console.log(err);
+    }
   }
 
    /**

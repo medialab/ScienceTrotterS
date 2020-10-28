@@ -28,13 +28,8 @@ export class HomePage {
     this.translate.use(language);
   }
 
-  initCities() {
-    this.api.get('/public/cities/list?lang=' + this.translate.currentLang)
-    .subscribe((resp: any) => {
-      if (resp.success) {
-        this.listCities = resp.data;
-      }
-    }, (err: any) => {});
+  async initCities() {
+    this.listCities = await this.api.get('/public/cities/list?lang=' + this.translate.currentLang);
   }
 
   viewCity(event: any, city: any) {

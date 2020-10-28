@@ -7,6 +7,15 @@ import { CacheService } from 'ionic-cache';
   providedIn: 'root'
 })
 export class ApiService {
+  /**
+   * Cache configuration.
+   * @type {{ttl: number; delayType: string}}
+   */
+  requestConfig = {
+    'ttl': 5,
+    'delayType': 'all'
+  };
+
   apiUrl = environment.endpoint.data
   assetsUrl = environment.endpoint.assets
 
@@ -22,11 +31,19 @@ export class ApiService {
    * @param withCache - True ou false pour le traitement via cache.
    * @returns {Observable<Object>}
    */
-  get(target: string, withCache = true) {
-    const requestUri = this.getRequestUri(target);
-    const request = this.http.get(requestUri);
-    return request;
-    // return withCache ? this.getRequestAsCache(httpURI, request, target) : request;
+  fetch(url: string, withCache = true) {
+    const request = this.http.get(url)
+    return withCache ?
+      this.cache.loadFromDelayedObservable(url, request, url, this.requestConfig.ttl, this.requestConfig.delayType).toPromise()
+      : request.toPromise();
+  }
+
+  async get(target: string) {
+    const requestUrl = this.getRequestUri(target);
+    const resp: any = await this.fetch(requestUrl);
+    if (resp.success) {
+      return resp.data;
+    }
   }
 
   /**

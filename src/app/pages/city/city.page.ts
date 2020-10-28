@@ -1,10 +1,9 @@
-import { ListItemComponent } from './../../components/list-item/list-item.component';
+import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../services/api.service';
-import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
 import { LoadingController} from '@ionic/angular';
@@ -44,7 +43,7 @@ export class CityPage implements OnInit {
     },
   ];
 
-  @ViewChildren(ListItemComponent) listItems:[ListItemComponent];
+  @ViewChildren(AudioPlayerComponent) audioPlayers:[AudioPlayerComponent];
 
   constructor(
     public translate: TranslateService,
@@ -63,7 +62,9 @@ export class CityPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.listItems.forEach((item) => item.componentWillLeave())
+    if(this.audioPlayers) {
+      this.audioPlayers.forEach((item) => item.forcePause())
+    }
   }
 
   /**
@@ -74,33 +75,22 @@ export class CityPage implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     let closest = '';
     if(id) {
-      const loading = await this.loader.create();
+      const loading = await this.loader.create({
+        duration: 5000,
+        backdropDismiss: true
+      });
       loading.present();
-      const cityRequest = this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
+      this.city = await this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
       try {
         this.curPositionUser = await this.geoloc.getCurrentCoords();
         closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
       } catch (err){
-        console.log(err)
-      }
-      const parcoursRequest = this.fetchParcours(id, closest);
-      const placesRequest = this.fetchPlaces(id, closest);
-      forkJoin([cityRequest, parcoursRequest, placesRequest])
-      .subscribe((resp: any) => {
-        const [city, parcours, places] = resp;
-        this.city = city.data;
-        if (parcours.data) {
-          this.parcours = parcours.data.filter((item: any) => {
-            return item.force_lang === null || item.force_lang === this.translate.currentLang;
-          });
-        }
-        if (places.data) {
-          this.places = places.data.filter((item: any) => {
-            return item.force_lang === null || item.force_lang === this.translate.currentLang;
-          });
-        }
         loading.dismiss();
-      })
+        console.log(err);
+      }
+      this.parcours = await this.fetchParcours(id, closest);
+      this.places = await this.fetchPlaces(id, closest);
+      loading.dismiss();
     }
   }
 
@@ -209,38 +199,33 @@ export class CityPage implements OnInit {
 
   actionSortProximite(msgAlertError: string = '') {
     return new Promise(async (success, error) => {
-      const loading = await this.loader.create();
+      const loading = await this.loader.create({
+        duration: 5000,
+        backdropDismiss: true
+      });
       loading.present();
       // Triage en fonction que la géolocalition est disponible ou non.
-      this.geoloc.getCurrentCoords().then((resp: any) => {
-        const {latitude, longitude} = resp;
-        this.curPositionUser = resp;
-        if (this.parcours.length > 1) {
-          this.fetchParcours(this.city.id, `${latitude};${longitude}`)
-          .subscribe((parcours: any) => {
-            this.parcours = parcours.data.filter((item: any) => {
-              return item.force_lang === null || item.force_lang === this.translate.currentLang;
-            });
-            loading.dismiss();
-          })
-        }
 
-        if (this.places.length > 1) {
-          this.fetchPlaces(this.city.id, `${latitude};${longitude}`)
-          .subscribe((places: any) => {
-            this.places = places.data.filter((item: any) => {
-              return item.force_lang === null || item.force_lang === this.translate.currentLang;
-            });
-            loading.dismiss();
-          })
-        }
-
-        success(resp);
-      }, (err: any) => {
-        this.changeOptionListAction('alpha');
+      try {
+        this.curPositionUser = await this.geoloc.getCurrentCoords();
+      } catch (err){
         loading.dismiss();
-        error();
-      });
+        this.changeOptionListAction('alpha');
+      }
+      if (this.parcours.length > 1) {
+        const parcours = await this.fetchParcours(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
+        this.parcours = parcours.filter((item: any) => {
+          return item.force_lang === null || item.force_lang === this.translate.currentLang;
+        });
+      }
+
+      if (this.places.length > 1) {
+        const places = await this.fetchPlaces(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
+        this.places = places.filter((item: any) => {
+          return item.force_lang === null || item.force_lang === this.translate.currentLang;
+        });
+      }
+      loading.dismiss();
     });
   }
 

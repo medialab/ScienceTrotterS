@@ -20,15 +20,8 @@ export class TermsConditionsPage implements OnInit {
   ngOnInit() {
   }
 
-  loadCreditsFromApi() {
-    this.api.get('/public/credits/latest').subscribe((resp: any) => {
-      if(resp.success) {
-        this.content = resp.data.content[this.translate.currentLang];
-        console.log('content', this.content);
-      }
-    }, (onError) => {
-      console.log('onError');
-    });
+  async loadCreditsFromApi() {
+    const response: any = await this.api.get('/public/credits/latest')
+    this.content = response.content[this.translate.currentLang]
   }
-
 }
