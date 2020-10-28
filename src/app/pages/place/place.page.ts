@@ -1,3 +1,5 @@
+import { LoadingController } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { ConfigService } from './../../services/config.service';
@@ -18,23 +20,29 @@ export class PlacePage implements OnInit {
   helpItemActive: boolean=false;
 
   showAudioScript: boolean = false;
-  isDownloaded: boolean = false;
-  isNetworkOff: boolean = false;
   isPlaceVisited: boolean = false;
 
   slideOpts = {
     speed: 400
   };
 
+  coverUrl: string = null;
+  offlineCoverUrl: string = null;
+  placeAudioUrl: string = null;
+  offlineAudioUrl: string= null;
   gallery: any;
+  offlineGallery: any;
+
   @ViewChild(AudioPlayerComponent) audioPlayer: AudioPlayerComponent;
 
   constructor(
     public translate: TranslateService,
     public config: ConfigService,
     public offlineStorage: OfflineStorageService,
+    public sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private loader: LoadingController,
     public api: ApiService
   ) {}
 
@@ -51,6 +59,26 @@ export class PlacePage implements OnInit {
       this.gallery = Object.values(this.place['gallery_image'])
           .map((item: any) => this.api.getAssetsUri(item));
       this.isPlaceVisited = this.offlineStorage.isVisited(this.place['cities_id'], 'places', id);
+
+      const coverUrl = this.api.getAssetsUri(this.place.header_image);
+      const audioUrl = this.api.getAssetsUri(this.place.audio[this.translate.currentLang]);
+
+      this.coverUrl = coverUrl;
+      this.placeAudioUrl = audioUrl;
+
+      if(this.isDownloaded()) {
+        const loading = await this.loader.create();
+        loading.present();
+        const offlineUrls = [coverUrl, audioUrl, ...this.gallery].map(async (url) => {
+          const blob = await this.offlineStorage.getRequest(url);
+          const offlineUrl = ((window as any).URL ? (window as any).URL : (window as any).webkitURL).createObjectURL(blob);
+          return offlineUrl;
+        });
+        this.coverUrl = await offlineUrls[0];
+        this.placeAudioUrl = await offlineUrls[1];
+        this.gallery = await Promise.all(offlineUrls.slice(2));
+        loading.dismiss();
+      }
     }
   }
 
@@ -139,6 +167,9 @@ export class PlacePage implements OnInit {
     }
   }
 
+  isDownloaded() {
+    return this.offlineStorage.isDownloaded(this.place['cities_id'], 'places', this.place.id)
+  }
 
   /**
   * Envoi d'un message pour signaler un problème

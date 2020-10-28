@@ -54,7 +54,7 @@ export class ApiService {
    */
 
   getFile(url: string) {
-    return this.http.get(url,{ responseType: 'blob' })
+    return this.http.get(url,{ responseType: 'blob' }).toPromise();
   }
 
 

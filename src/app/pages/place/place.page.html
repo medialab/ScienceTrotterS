@@ -3,7 +3,7 @@
 </main-header>
 
 <main-content *ngIf="place">
-  <div alt="" class="poi__header" [style.background-image]="'url(' + api.getAssetsUri(place.header_image) + ')'">
+  <div alt="" class="poi__header" [style.background-image]="'url(' + coverUrl + ')'">
     <!-- <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(getCoverPicture())' /> -->
   </div>
 
@@ -108,7 +108,7 @@
 
     <section class="poi__section poi__section--isWhite section__player__audio">
       <audio-player target="places"
-        [audioUrl]="api.getAssetsUri(place.audio[translate.currentLang])"
+        [audioUrl]="placeAudioUrl"
         [playerUUID]="('player__audio') + place.id"
         [uuid]="place.id"
         [showAudioScript]="showAudioScript"
@@ -147,8 +147,8 @@
           </ion-slide>
         </ion-slides> -->
         <ion-slides pager="true" [options]="slideOpts">
-          <ion-slide *ngFor="let img of gallery">
-            <img [attr.src]="img" class="thumb-img" imageViewer />
+          <ion-slide *ngFor="let img of  gallery">
+            <img [attr.src]="sanitizer.bypassSecurityTrustUrl(img)" class="thumb-img" imageViewer />
           </ion-slide>
         </ion-slides>
       </div>

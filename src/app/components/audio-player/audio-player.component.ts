@@ -1,13 +1,14 @@
 import { AudioService } from './../../services/audio.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'audio-player',
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.scss'],
 })
-export class AudioPlayerComponent implements OnInit, AfterViewInit {
+export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() audioUrl: string = '';
   @Input() playerUUID: string = '';
   @Input() loadPlayer: boolean = false;
@@ -15,7 +16,6 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
   @Input() target: string = '';
   @Input() uuid: string = '';
   @Input() isNetworkOff: boolean = false;
-  @Input() isDownloaded: boolean = false;
 
   @Output() toggleAudioScript = new EventEmitter<any>();
 
@@ -23,12 +23,20 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
   isPlaying: boolean = false;
   duration: number = 0;
   currentTime: number = 0;
+  sanitizedUrl: any= null;
   constructor(
     public translate: TranslateService,
+    private sanitizer: DomSanitizer,
     private audioService: AudioService
   ) {}
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes["audioUrl"] && this.audioUrl) {
+      this.sanitizedUrl = this.sanitizer.bypassSecurityTrustUrl(this.audioUrl);
+    }
   }
 
   ngAfterViewInit() {
@@ -69,7 +77,6 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit {
       this.track.volume -= 0.1;
     }
   }
-
 
   actionFastLeft () {
     this.track.currentTime -= 30.00;

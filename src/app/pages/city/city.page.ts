@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../services/api.service';
+import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
 import { LoadingController} from '@ionic/angular';

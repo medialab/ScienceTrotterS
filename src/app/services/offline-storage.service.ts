@@ -8,7 +8,8 @@ import { Storage } from '@ionic/storage';
 })
 export class OfflineStorageService {
 
-  downloaded: BehaviorSubject<{}> = new BehaviorSubject({});
+  // downloaded: BehaviorSubject<{}> = new BehaviorSubject({});
+  downloaded: object = {};
   visited: object = {};
 
   constructor(
@@ -39,24 +40,25 @@ export class OfflineStorageService {
   initDownloaded() {
     this.storage.get('downloaded').then((res) => {
       if(res) {
-        this.downloaded.next(res);
+        this.downloaded = res;
       }
     })
   }
 
   getDownloaded() {
-    return this.downloaded.asObservable()
+    return this.downloaded;
+    // return this.downloaded.asObservable()
   }
 
   isDownloaded(city: string, target: string, id: string) {
-    return get(this.downloaded.getValue(), [city, target, id], false)
+    return get(this.downloaded, [city, target, id], false)
   }
 
   updateDownloaded(city: string, target: string, id: string, isDownladed: boolean) {
-    const downloaded = this.downloaded.getValue()
-    set(downloaded, [city, target, id], isDownladed)
-    this.storage.set('downloaded', downloaded)
-    this.downloaded.next(downloaded)
+    // const downloaded = this.downloaded.getValue()
+    set(this.downloaded, [city, target, id], isDownladed)
+    this.storage.set('downloaded', this.downloaded)
+    // this.downloaded.next(downloaded)
   }
 
   getRequest(url: string) {
@@ -77,7 +79,8 @@ export class OfflineStorageService {
         this.storage.remove(key);
       })
       .then(() => {
-        this.downloaded.next({});
+        // this.downloaded.next({});
+        this.downloaded = {};
         resolve();
       })
       .catch((err) => reject(err));

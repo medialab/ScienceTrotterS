@@ -1,4 +1,4 @@
-<div class='parcoursListItem' id="search-content" [ngClass]="{'isVisited' : isVisited}">
+<div class='parcoursListItem' id="search-content" [ngClass]="{'isVisited' : isVisited()}">
 
   <div class="mainContent">
     <div class='leftIconColor'>
@@ -63,7 +63,7 @@
 
         <button *ngIf="isItemDownloadable"
                 type="button" class='btnDownload'
-                [ngClass]="isDownloaded && 'isDownloaded'"
+                [ngClass]="{'isDownloaded': isDownloaded()}"
                 [attr.title]="target === 'places' ? 'COMP_PLI_BTN_DOWNLOAD_LANDMARK' :'COMP_PLI_BTN_DOWNLOAD_PARCOURS' | translate "
                 (click)="downloadItem()">
           <span class='icon icon-download stateFalse'>
@@ -89,7 +89,7 @@
 
     <div class='audio-player-container'>
       <audio-player target="parours"
-        [audioUrl]="api.getAssetsUri(item.audio[translate.currentLang])"
+        [audioUrl]="isDownloaded() ? offlineAudioUrl: parcourAudioUrl"
         [playerUUID]="('player__audio') + item.id"
         [uuid]="item.id"
         [showAudioScript]="false"

@@ -101,7 +101,7 @@
     </li>
   </ul>
 
-  <audio controls class="hidden__audio__player" [id]="playerUUID" [src]="audioUrl">
+  <audio controls class="hidden__audio__player" [id]="playerUUID" [src]="sanitizedUrl">
   </audio>
 
   <div class='playerAudioNeedNetwork' *ngIf="isNotAvailable()">
