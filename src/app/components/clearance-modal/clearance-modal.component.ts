@@ -13,10 +13,7 @@ export class ClearanceModalComponent implements OnInit {
   downloadedList: any;
   downloaded: any;
   cities: any;
-  isEdit: boolean = false;
-  isSelectAll: boolean = false;
   deleteList: any = [];
-  isShowDelete: boolean = false;
   toast: any = null;
 
   constructor(
@@ -48,17 +45,6 @@ export class ClearanceModalComponent implements OnInit {
     }, []);
   }
 
-  toggleEdit() {
-    this.isEdit = !this.isEdit;
-    if(!this.isEdit) {
-      this.isShowDelete = false;
-      this.isSelectAll = false;
-      // if(this.toast) {
-      //   this.toast.dismiss();
-      // }
-    }
-  }
-
   getDownloadList(city) {
     const list = Object.values(city['parcours'] || [])
                 .concat(Object.values(city['places']) || [])
@@ -87,35 +73,14 @@ export class ClearanceModalComponent implements OnInit {
                       .concat(this.downloaded[city.id].placesList.filter((item) => item.isChecked))
       return init.concat(deleted);
     }, []);
-    if(this.deleteList.length === 0) {
-      this.isShowDelete = false;
-      // if(this.toast) {
-      //   this.toast.dismiss();
-      // }
-    } else {
-      this.isShowDelete = true;
-      // this.toast = await this.toastCtrl.create({
-      //   message: `Delete ${deleteList.length} items`,
-      //   buttons: [
-      //     {
-      //       side: 'end',
-      //       icon: 'trash-outline',
-      //       text: 'Delete',
-      //       handler: () => {
-      //         this.clearList(deleteList);
-      //         this.toggleEdit();
-      //       }
-      //     }, {
-      //       text: 'Cancel',
-      //       role: 'cancel',
-      //       handler: () => {
-      //         this.toggleEdit();
-      //       }
-      //     }
-      //   ]
-      // });
-      // this.toast.present();
-    }
+  }
+
+  cancelDelete() {
+    this.deleteList = [];
+    this.cities.forEach((city: any) => {
+      this.downloaded[city.id].placesList.forEach((item: any) => item.isChecked = false);
+      this.downloaded[city.id].parcoursList.forEach((item: any) => item.isChecked = false);
+    });
   }
 
   async clearList() {
@@ -191,12 +156,10 @@ export class ClearanceModalComponent implements OnInit {
     this.presentDeleteToast()
   }
 
-  toggleSelectAll() {
-    const isSelectAll = this.deleteList.length === this.downloadedList.length;
-    this.isSelectAll = !isSelectAll;
+  toggleSelectAll(event) {
     this.cities.forEach((city: any) => {
-      this.downloaded[city.id].placesList.forEach((item: any) => item.isChecked = this.isSelectAll);
-      this.downloaded[city.id].parcoursList.forEach((item: any) => item.isChecked = this.isSelectAll);
+      this.downloaded[city.id].placesList.forEach((item: any) => item.isChecked = event.detail.checked);
+      this.downloaded[city.id].parcoursList.forEach((item: any) => item.isChecked = event.detail.checked);
     });
     this.presentDeleteToast();
   }
