@@ -16,7 +16,7 @@ export class ClearanceModalComponent implements OnInit {
   isEdit: boolean = false;
   isSelectAll: boolean = false;
   deleteList: any = [];
-  isShowToast: boolean = false;
+  isShowDelete: boolean = false;
   toast: any = null;
 
   constructor(
@@ -38,7 +38,9 @@ export class ClearanceModalComponent implements OnInit {
     this.cities.forEach((city) => {
       this.downloaded[city.id] = {
         ...this.downloaded[city.id],
-        list: this.getDownloadList(city)
+        list: this.getDownloadList(city),
+        parcoursList: city.parcours ? this.getList(city.parcours) : [],
+        placesList: city.places ? this.getList(city.places) : [],
       }
     });
     this.downloadedList = this.cities.reduce((init, city) => {
@@ -49,11 +51,11 @@ export class ClearanceModalComponent implements OnInit {
   toggleEdit() {
     this.isEdit = !this.isEdit;
     if(!this.isEdit) {
-      this.isShowToast = false;
+      this.isShowDelete = false;
       this.isSelectAll = false;
-      if(this.toast) {
-        this.toast.dismiss();
-      }
+      // if(this.toast) {
+      //   this.toast.dismiss();
+      // }
     }
   }
 
@@ -69,48 +71,60 @@ export class ClearanceModalComponent implements OnInit {
     return list;
   }
 
-  async presentDeleteToast() {
-    const deleteList = this.cities.reduce((init, city) => {
-      const deleted = this.downloaded[city.id].list.filter((item) => item.isChecked)
+  getList(data) {
+    const list = Object.values(data).map((item: any) => {
+      return {
+        ...item,
+        isChecked: false
+      };
+    });
+    return list;
+  }
+
+  presentDeleteToast() {
+    this.deleteList = this.cities.reduce((init, city) => {
+      const deleted = this.downloaded[city.id].parcoursList.filter((item) => item.isChecked)
+                      .concat(this.downloaded[city.id].placesList.filter((item) => item.isChecked))
       return init.concat(deleted);
     }, []);
-
-    if(deleteList.length === 0 && this.isShowToast) {
-      this.isShowToast = false;
-      this.toast.dismiss();
-    } else if (!this.isShowToast) {
-      this.isShowToast = true;
-      this.toast = await this.toastCtrl.create({
-        message: `Delete ${deleteList.length + 1} items`,
-        buttons: [
-          {
-            side: 'end',
-            icon: 'trash-outline',
-            text: 'Delete',
-            handler: () => {
-              this.clearList(deleteList);
-              this.toggleEdit();
-            }
-          }, {
-            text: 'Cancel',
-            role: 'cancel',
-            handler: () => {
-              this.toggleEdit();
-            }
-          }
-        ]
-      });
-      this.toast.present();
+    if(this.deleteList.length === 0) {
+      this.isShowDelete = false;
+      // if(this.toast) {
+      //   this.toast.dismiss();
+      // }
+    } else {
+      this.isShowDelete = true;
+      // this.toast = await this.toastCtrl.create({
+      //   message: `Delete ${deleteList.length} items`,
+      //   buttons: [
+      //     {
+      //       side: 'end',
+      //       icon: 'trash-outline',
+      //       text: 'Delete',
+      //       handler: () => {
+      //         this.clearList(deleteList);
+      //         this.toggleEdit();
+      //       }
+      //     }, {
+      //       text: 'Cancel',
+      //       role: 'cancel',
+      //       handler: () => {
+      //         this.toggleEdit();
+      //       }
+      //     }
+      //   ]
+      // });
+      // this.toast.present();
     }
   }
 
-  async clearList(list) {
+  async clearList() {
     let loading = await this.loader.create({
       // content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
       backdropDismiss: true
     });
     loading.present();
-    const deletes = list.map(async (item) => {
+    const deletes = this.deleteList.map(async (item) => {
       if(item.type === 'places') return await this.deletePlace(item);
       if(item.type === 'parcours') return await this.deleteParcour(item);
     });
@@ -154,14 +168,35 @@ export class ClearanceModalComponent implements OnInit {
 
   }
 
-  toggleCheck(event, id, cityId, type) {
+  toggleCheck(event, type, cityId, item) {
+    if(type === 'parcours') {
+      this.downloaded[cityId].placesList.forEach((place) => {
+        if(place.parcours_id === item.id) place.isChecked = event.detail.checked;
+      })
+    }
+    if(type === 'places') {
+      const placesListChecked = this.downloaded[cityId].placesList.filter((place) => place.parcours_id === item.parcours_id && place.isChecked);
+      const parcourIndex = this.downloaded[cityId].parcoursList && this.downloaded[cityId].parcoursList.findIndex((parcour) => parcour.id === item.parcours_id);
+      if (parcourIndex === -1) return;
+      if(event.detail.checked) {
+        if (placesListChecked.length === this.downloaded[cityId].parcours[item.parcours_id].placesList.length) {
+          this.downloaded[cityId].parcoursList[parcourIndex].isChecked = true;
+        }
+      } else {
+        if(placesListChecked.length === 0) {
+          this.downloaded[cityId].parcoursList[parcourIndex].isChecked = false;
+        }
+      }
+    }
     this.presentDeleteToast()
   }
 
   toggleSelectAll() {
-    this.isSelectAll = !this.isSelectAll;
+    const isSelectAll = this.deleteList.length === this.downloadedList.length;
+    this.isSelectAll = !isSelectAll;
     this.cities.forEach((city: any) => {
-      this.downloaded[city.id].list.forEach((item: any) => item.isChecked = this.isSelectAll);
+      this.downloaded[city.id].placesList.forEach((item: any) => item.isChecked = this.isSelectAll);
+      this.downloaded[city.id].parcoursList.forEach((item: any) => item.isChecked = this.isSelectAll);
     });
     this.presentDeleteToast();
   }

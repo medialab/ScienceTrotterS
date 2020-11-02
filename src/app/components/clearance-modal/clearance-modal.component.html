@@ -11,7 +11,8 @@
     <ion-list-header>
       <ion-item>
         <ion-button slot="end" (click)="toggleEdit()">{{ isEdit ? 'cancel' : 'edit' }}</ion-button>
-        <ion-button *ngIf="isEdit" slot="start" (click)="toggleSelectAll()">select all</ion-button>
+        <ion-button color="danger" fill="clear" *ngIf="isShowDelete" (click)="clearList()">delete</ion-button>
+        <ion-button *ngIf="isEdit" slot="start" (click)="toggleSelectAll()">{{isSelectAll ? 'deselect' : 'select all'}}</ion-button>
       </ion-item>
     </ion-list-header>
     <ion-item-group *ngFor="let city of cities">
@@ -19,18 +20,44 @@
         <ion-label>{{ city.name }}</ion-label>
       </ion-item-divider>
 
-      <ion-item *ngFor="let item of downloaded[city.id].list">
-        <div class="round-icon">
-          <span slot="start"
-            aria-hidden="true"
-            class="icon"
-            [ngClass]="{'icon-parcours': item.type==='parcours', 'icon-places': item.type==='places'}"
-            [attr.alt]="'PBC_ALT_PARCOURS' | translate">
-          </span>
-        </div>
-        <ion-label>{{ item.title[translate.currentLang] }}</ion-label>
-        <ion-checkbox *ngIf="isEdit" slot="end" [(ngModel)]="item.isChecked" (ionChange)="toggleCheck($event, item.id, city.id, item.type)"></ion-checkbox>
-      </ion-item>
+      <ion-item-group *ngFor="let parcour of downloaded[city.id].parcoursList">
+        <span class="list-item">
+          <ion-item *ngIf="parcour">
+            <div class="round-icon">
+              <span aria-hidden="true"
+                class="icon icon-parcours"
+                [attr.alt]="'PBC_ALT_PARCOURS' | translate">
+              </span>
+            </div>
+            <ion-label>{{ parcour.title && parcour.title[translate.currentLang] }}</ion-label>
+            <ion-checkbox color="danger" *ngIf="isEdit" slot="end" [(ngModel)]="parcour.isChecked" (ionChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
+          </ion-item>
+        </span>
+        <span class="list-item" *ngFor="let place of downloaded[city.id].placesList">
+          <ion-item  *ngIf="place && place.parcours_id === parcour.id">
+            <div class="round-icon">
+              <span aria-hidden="true"
+                class="icon icon-places"
+                [attr.alt]="'PBC_ALT_PS' | translate">
+              </span>
+            </div>
+            <ion-label>{{ place.title && place.title[translate.currentLang] }}</ion-label>
+            <ion-checkbox color="danger" *ngIf="isEdit" slot="end" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
+          </ion-item>
+        </span>
+      </ion-item-group>
+      <span *ngFor="let place of downloaded[city.id].placesList">
+        <ion-item *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
+          <div class="round-icon">
+            <span aria-hidden="true"
+              class="icon icon-places"
+              [attr.alt]="'PBC_ALT_PS' | translate">
+            </span>
+          </div>
+          <ion-label>{{ place.title && place.title[translate.currentLang] }}</ion-label>
+          <ion-checkbox color="danger" *ngIf="isEdit" slot="end" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck()"></ion-checkbox>
+        </ion-item>
+      </span>
     </ion-item-group>
   </ion-list>
 </ion-content>
