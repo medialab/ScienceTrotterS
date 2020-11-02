@@ -29,8 +29,13 @@
 	"P_SETTING_THEME":"Mode d'affichage",
 	"P_SETTING_THEME_DAY":"Jour",
 	"P_SETTING_THEME_NIGHT":"Nuit",
-	"P_SETTING_DELETE":"supprimer le cache",
+	"P_SETTING_DELETE":"Supprimer les downloads",
 	"P_SETTING_DELETE_LOADER":"Suppression en cours…",
+
+	"P_SETTING_DELETE_MODAL_CLOSE":"Fermer",
+	"P_SETTING_DELETE_MODAL_CANCEL":"Annuler",
+	"P_SETTING_DELETE_MODAL_SELECTALL":"Tout sélectionner",
+	"P_SETTING_DELETE_MODAL_DELETE":"Supprimer",
 
 	"PLI_FILTER_PROXIMITE":"Autour de moi",
 	"PLI_FILTER_ALPHA":"Tout afficher",

@@ -29,8 +29,13 @@
 	"P_SETTING_THEME":"Screen mode",
 	"P_SETTING_THEME_DAY":"Day",
 	"P_SETTING_THEME_NIGHT":"Night",
-	"P_SETTING_DELETE":"empty the cache",
-  "P_SETTING_DELETE_LOADER": "Delete in progress...",
+	"P_SETTING_DELETE":"Clear Downloads",
+	"P_SETTING_DELETE_LOADER": "Delete in progress...",
+
+	"P_SETTING_DELETE_MODAL_CLOSE":"Fermer",
+	"P_SETTING_DELETE_MODAL_CANCEL":"Cancel",
+	"P_SETTING_DELETE_MODAL_SELECTALL":"Select All",
+	"P_SETTING_DELETE_MODAL_DELETE":"Delete",
 
 	"PLI_FILTER_PROXIMITE":"Nearby",
 	"PLI_FILTER_ALPHA":"Display all",
