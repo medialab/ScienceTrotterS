@@ -122,7 +122,11 @@ export class ListItemComponent implements OnInit, OnChanges {
       const audioDownload = await this.offlineStorage.setRequest(audioUrl, audioFile);
       const placesDownload = this.placesList.map(async (place) => await this.downloadPlace(place));
       await Promise.all([audioDownload, placesDownload]);
-      this.offlineStorage.updateDownloaded(this.cityId, 'parcours', this.item.id, true);
+      this.offlineStorage.updateDownloaded(
+        { id: this.cityId, name: this.cityName },
+        'parcours',
+        { ...this.item, type: 'parcours', placesList: this.placesList },
+        true);
     }
     if (this.target === 'places') {
       await this.downloadPlace(this.item);
@@ -149,7 +153,11 @@ export class ListItemComponent implements OnInit, OnChanges {
     });
 
     await Promise.all(downloads);
-    this.offlineStorage.updateDownloaded(this.cityId, 'places', place.id, true);
+    this.offlineStorage.updateDownloaded(
+      { id: this.cityId, name: this.cityName },
+      'places',
+      {...place, type: 'places'},
+      true);
     return downloads;
   }
 

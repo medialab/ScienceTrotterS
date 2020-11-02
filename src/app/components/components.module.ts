@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { ClearanceModalComponent } from './clearance-modal/clearance-modal.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { CommonModule } from '@angular/common';
@@ -16,11 +18,13 @@ import { TranslateModule } from '@ngx-translate/core';
     MainContentComponent,
     BoxMapComponent,
     AudioPlayerComponent,
-    ListItemComponent
+    ListItemComponent,
+    ClearanceModalComponent
   ],
   imports: [
     IonicModule,
     TranslateModule,
+    FormsModule,
     CommonModule
   ],
   exports:[
@@ -28,7 +32,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MainContentComponent,
     AudioPlayerComponent,
     BoxMapComponent,
-    ListItemComponent
+    ListItemComponent,
+    ClearanceModalComponent
   ]
 })
 

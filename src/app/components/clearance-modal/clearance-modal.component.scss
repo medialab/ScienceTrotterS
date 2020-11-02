@@ -1,0 +1,27 @@
+:host {
+  .round-icon {
+    background-color: #929090;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    .icon {
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #929090;
+      width: 25px;
+      height: 25px;
+    }
+    .icon-parcours {
+      background-image: url('../../../assets/imgs/parcours-list/icon_parcours.svg');
+    }
+    .icon-places {
+      background-image: url('../../../assets/imgs/parcours-list/icon_poi_white.svg');
+    }
+  }
+}

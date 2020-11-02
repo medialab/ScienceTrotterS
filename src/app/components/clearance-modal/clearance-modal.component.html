@@ -1,0 +1,36 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Modal Content</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click) ="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-list *ngIf="downloadedList.length > 0">
+    <ion-list-header>
+      <ion-item>
+        <ion-button slot="end" (click)="toggleEdit()">{{ isEdit ? 'cancel' : 'edit' }}</ion-button>
+        <ion-button *ngIf="isEdit" slot="start" (click)="toggleSelectAll()">select all</ion-button>
+      </ion-item>
+    </ion-list-header>
+    <ion-item-group *ngFor="let city of cities">
+      <ion-item-divider>
+        <ion-label>{{ city.name }}</ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let item of downloaded[city.id].list">
+        <div class="round-icon">
+          <span slot="start"
+            aria-hidden="true"
+            class="icon"
+            [ngClass]="{'icon-parcours': item.type==='parcours', 'icon-places': item.type==='places'}"
+            [attr.alt]="'PBC_ALT_PARCOURS' | translate">
+          </span>
+        </div>
+        <ion-label>{{ item.title[translate.currentLang] }}</ion-label>
+        <ion-checkbox *ngIf="isEdit" slot="end" [(ngModel)]="item.isChecked" (ionChange)="toggleCheck($event, item.id, city.id, item.type)"></ion-checkbox>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

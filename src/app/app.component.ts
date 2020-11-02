@@ -1,3 +1,4 @@
+import { OfflineStorageService } from './services/offline-storage.service';
 import { ConfigService } from './services/config.service';
 import { Component } from '@angular/core';
 
@@ -53,6 +54,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public translate: TranslateService,
+    private offlineStorage: OfflineStorageService,
     private cache: CacheService,
     public config: ConfigService
   ) {
