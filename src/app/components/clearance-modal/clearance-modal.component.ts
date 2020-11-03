@@ -1,3 +1,4 @@
+import { ConfigService } from './../../services/config.service';
 import { ApiService } from './../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OfflineStorageService } from './../../services/offline-storage.service';
@@ -21,6 +22,7 @@ export class ClearanceModalComponent implements OnInit {
     private toastCtrl: ToastController,
     private loader: LoadingController,
     private api: ApiService,
+    public config: ConfigService,
     public translate: TranslateService,
     private modalCtrl: ModalController
   ) { }

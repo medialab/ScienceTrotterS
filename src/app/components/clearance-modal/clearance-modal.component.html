@@ -1,17 +1,24 @@
-<ion-header translucent>
+<ion-header translucent [ngClass]="config.getFontSizeClass()">
   <ion-toolbar>
     <ion-title>{{'P_SETTING_DELETE' | translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click) ="dismissModal()">{{'P_SETTING_DELETE_MODAL_CLOSE' | translate}}</ion-button>
+      <ion-button (click) ="dismissModal()">
+        <span class="header-btn">
+          <ion-icon name="close-outline"></ion-icon>
+          <label>
+            {{ 'P_SETTING_DELETE_MODAL_CLOSE' | translate }}
+          </label>
+        </span>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content fullscreen>
+<ion-content fullscreen [ngClass]="config.getFontSizeClass()">
   <ion-list *ngIf="downloadedList.length > 0">
     <ion-item lines="full">
       <ion-checkbox color="danger" slot="start" [checked]="deleteList.length === downloadedList.length" (ionChange)="toggleSelectAll($event)">
       </ion-checkbox>
-      <ion-label slot="start">
+      <ion-label>
         {{'P_SETTING_DELETE_MODAL_SELECTALL' | translate}}
       </ion-label>
 

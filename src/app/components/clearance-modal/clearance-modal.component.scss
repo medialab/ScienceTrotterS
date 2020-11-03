@@ -1,4 +1,23 @@
 :host {
+  ion-title, ion-item {
+    font-size: 1.1em;
+  }
+  ion-checkbox {
+    position:relative;
+  }
+  .header-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    ion-icon {
+      font-size: 1.5rem;
+    }
+    label {
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+  }
   .round-icon {
     background-color: #929090;
     border-radius: 50%;
