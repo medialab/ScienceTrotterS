@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from './../../services/api.service';
-import { forkJoin } from 'rxjs';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
 import { LoadingController} from '@ionic/angular';
@@ -81,7 +80,14 @@ export class CityPage implements OnInit {
         backdropDismiss: true
       });
       loading.present();
-      this.city = await this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
+      try {
+        this.city = await this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
+      } catch(err) {
+        this.city = null;
+        this.parcours =[];
+        this.places = [];
+        return;
+      }
       try {
         this.curPositionUser = await this.geoloc.getCurrentCoords();
         closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
@@ -89,8 +95,10 @@ export class CityPage implements OnInit {
         loading.dismiss();
         console.log(err);
       }
-      this.parcours = await this.fetchParcours(id, closest);
-      this.places = await this.fetchPlaces(id, closest);
+      const parcours = await this.fetchParcours(id, closest);
+      const places = await this.fetchPlaces(id, closest);
+      this.parcours = parcours ? parcours : [];
+      this.places = places ? places: [];
       loading.dismiss();
     }
   }

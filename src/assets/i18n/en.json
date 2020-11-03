@@ -32,10 +32,14 @@
 	"P_SETTING_DELETE":"Clear Downloads",
 	"P_SETTING_DELETE_LOADER": "Delete in progress...",
 
-	"P_SETTING_DELETE_MODAL_CLOSE":"Fermer",
+	"P_SETTING_DELETE_MODAL_CLOSE":"Close",
 	"P_SETTING_DELETE_MODAL_CANCEL":"Cancel",
 	"P_SETTING_DELETE_MODAL_SELECTALL":"Select All",
 	"P_SETTING_DELETE_MODAL_DELETE":"Delete",
+	"P_SETTING_DELETE_MODAL_NODATA":"No downloaded data in {{ lang }}",
+
+	"P_PLACE_NO_DATA":"no place data in {{ lang }}",
+	"P_CITY_NO_DATA":"no city data in {{ lang }}",
 
 	"PLI_FILTER_PROXIMITE":"Nearby",
 	"PLI_FILTER_ALPHA":"Display all",
@@ -66,8 +70,8 @@
 
 	"PBC_ALT_POI":"Landmark",
 	"PBC_ALT_PARCOURS":"Tour",
-	"PBC_NO_DATA_AVAILABLE_INTERESTS":"To date, no landmark is offered in {{ city }}",
-	"PBC_NO_DATA_AVAILABLE_PARCOURS":"To date, no tour is offered in {{ city }}",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"To date, no landmark in {{ lang }} is offered in {{ city }}",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"To date, no tour in {{ lang }} is offered in {{ city }}",
 
 	"PLAYER_ACTION_STATE":"Listen the audio script",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",

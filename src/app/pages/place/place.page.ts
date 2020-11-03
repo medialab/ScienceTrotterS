@@ -44,9 +44,17 @@ export class PlacePage implements OnInit {
     private router: Router,
     private loader: LoadingController,
     public api: ApiService
-  ) {}
+  ) {
+    this.translate.onLangChange.subscribe(() => {
+      this.initPlace()
+    })
+  }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.initPlace();
+  }
+
+  async initPlace() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id) {
       this.activatedRoute.queryParams.subscribe(() => {
@@ -55,7 +63,12 @@ export class PlacePage implements OnInit {
           this.placesList = this.router.getCurrentNavigation().extras.state.placesList;
         }
       });
-      this.place = await this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`)
+      try {
+        this.place = await this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`);
+      } catch(err) {
+        this.place = null;
+        return;
+      }
       this.gallery = Object.values(this.place['gallery_image'])
           .map((item: any) => this.api.getAssetsUri(item));
       this.isPlaceVisited = this.offlineStorage.isVisited(this.place['cities_id'], 'places', id);

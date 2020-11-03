@@ -96,8 +96,8 @@
             (selectListItem)="onSelectItem($event)">
           </list-item>
         </ion-item>
-        <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
-          {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city.title[translate.currentLang]} }}
+        <p *ngIf="!parcours || (parcours && parcours.length === 0)" class="ion-text-center">
+          {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city.title[translate.currentLang], lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
         </p>
       </ion-list>
       <ion-list *ngIf="selectedTarget === 'places'">
@@ -115,8 +115,8 @@
             [placesList]="getPlacesById(place.id)">
           </list-item>
         </ion-item>
-        <p *ngIf="parcours.length === 0" class="msgNotDataAvailable">
-          {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city.title[translate.currentLang]} }}
+        <p *ngIf="!places || (places && places.length === 0)" class="ion-text-center">
+          {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city.title[translate.currentLang], lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
         </p>
       </ion-list>
     </div>

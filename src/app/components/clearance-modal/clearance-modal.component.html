@@ -14,7 +14,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen [ngClass]="config.getFontSizeClass()">
-  <ion-list *ngIf="downloadedList.length > 0">
+  <p class="message" *ngIf="downloadedList && downloadedList.length === 0">
+    {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+  </p>
+  <ion-list *ngIf="downloadedList && downloadedList.length > 0">
     <ion-item lines="full">
       <ion-checkbox color="danger" slot="start" [checked]="deleteList.length === downloadedList.length" (ionChange)="toggleSelectAll($event)">
       </ion-checkbox>

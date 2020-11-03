@@ -1,4 +1,4 @@
-<main-header *ngIf="place" [withMenu]="true" [withBackButton] = "true">
+<main-header [withMenu]="true" [withBackButton] = "true">
   {{  place && (parcour ? parcour.title[translate.currentLang] : place.title[translate.currentLang]) }}
 </main-header>
 
@@ -197,6 +197,11 @@
   </div>
 </main-content>
 
+<main-content *ngIf="!place">
+  <p class='ion-text-center' >
+    {{ 'P_PLACE_NO_DATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+  </p>
+</main-content>
 <!-- Footer without a border -->
 <ion-footer *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">
   <ion-toolbar>

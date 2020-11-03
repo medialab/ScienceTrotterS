@@ -31,9 +31,14 @@ export class ClearanceModalComponent implements OnInit {
     this.initDownloaded()
   }
 
-  initDownloaded() {
+  async initDownloaded() {
+    const citiesAvailable = await this.api.get('/public/cities/list?lang=' + this.translate.currentLang);
+
     this.downloaded = {...this.offlineStorage.getDownloaded()};
-    this.cities = Object.values(this.downloaded);
+
+    this.cities = Object.values(this.downloaded).filter((city: any) => {
+      return citiesAvailable.findIndex((c) => c.id === city.id) > -1
+    });
     this.cities.forEach((city) => {
       this.downloaded[city.id] = {
         ...this.downloaded[city.id],
