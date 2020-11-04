@@ -59,7 +59,7 @@
             </span>
           </ion-item>
         </ion-menu-toggle>
-        <ion-item lines="none">
+        <ion-item *ngIf="!isAppInstalled && !isInStandaloneMode()" lines="none" (click)="clickShowInstall()">
           <span class="menu-item">
             <ion-icon name="download-sharp"></ion-icon>
             <ion-label class="ion-text-wrap">

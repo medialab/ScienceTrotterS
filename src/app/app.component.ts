@@ -19,6 +19,9 @@ const { Network } = Plugins;
 })
 export class AppComponent {
   networkListener: PluginListenerHandle;
+  deferredPrompt: any = null;
+  isInstallPromptShown: boolean = false;
+  isAppInstalled: boolean = false;
 
   constructor(
     private platform: Platform,
@@ -66,7 +69,76 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    this.isAppInstalled = localStorage.getItem('config::isAppInstalled') === 'true';
+    if (this.platform.is('ios') && !this.isInStandaloneMode() && !this.isAppInstalled) {
+      this.showInstallBanner();
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('beforeinstallprompt Event fired');
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      this.deferredPrompt = e;
+      this.isAppInstalled = false;
+      // Update UI notify the user they can install the PWA
+      if(!this.isInstallPromptShown) {
+        this.showInstallBanner();
+      }
+    });
   }
+
+  isInStandaloneMode = () => {
+    return ('standalone' in window.navigator) && window.navigator['standalone'] ||
+    (window.matchMedia('(display-mode: standalone)').matches);
+  }
+
+  // if android + chrome
+  showInstallPrompt() {
+    if(this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      this.isInstallPromptShown = true;
+      this.deferredPrompt.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          this.isAppInstalled = true;
+          localStorage.setItem('config::isAppInstalled', 'true');
+        }
+        // We no longer need the prompt. Clear it up.
+        this.deferredPrompt = null;
+      });
+    }
+  }
+
+  clickShowInstall() {
+    if(this.platform.is('ios')) {
+      this.showInstallBanner();
+    } else {
+      this.showInstallPrompt();
+    }
+  }
+
+  async showInstallBanner() {
+    const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_ANDROID'])
+    .subscribe(async (resp) => {
+      const messageIOS = isSafari ? resp["TOAST_MSG_INSTALL_SAFARI"] : resp["TOAST_MSG_INSTALL_NON_SAFARI"]
+      const toast = await this.toastCtrl.create({
+        message: this.platform.is('ios') ? messageIOS : resp["TOAST_MSG_INSTALL_ANDROID"],
+        // message: '<span><img src="../assets/icons/icon-40x40.png" /></span>',
+        buttons: [
+          {
+            text: this.platform.is('ios') ? resp['TOAST_BTN_INSTALL_IOS'] : resp['TOAST_BTN_INSTALL_ANDROID'],
+            role: 'cancel',
+            handler: () => {
+              if (this.platform.is('android')) this.showInstallPrompt();
+            }
+          }
+        ]
+      })
+      toast.present();
+    })
+  }
+
   async openMap() {
     let position = null;
     try {
