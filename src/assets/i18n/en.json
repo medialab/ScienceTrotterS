@@ -85,14 +85,13 @@
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"To offer you the closest tour, Science Trotters wants to activate geolocation. All data will be erased when you close the application",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"To offer you the closest tour, Science Trotters wants to activate geolocation. All data will be erased when you close the application",
 
-	"MAIL_REPORT_PROBLEM_SUBJECT": "Landmark problem :landmarkName :cityName",
-	"MAIL_REPORT_PROBLEM_BODY": "Hello,[jumpLine]I have encountered the following problem at landmark :landmarkName of :cityName :",
+	"MAIL_REPORT_PROBLEM_SUBJECT": "(Science Trotters) Landmark problem: {{ landmarkName }} - {{ cityName }}",
+	"MAIL_REPORT_PROBLEM_BODY": "Hello, I have encountered the following problem at landmark {{landmarkName}} of {{cityName}}.",
 
-	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliography - :landmarkName",
-	"MAIL_SHARE_BIBLIO_BODY": "we don't use that one [jumpLine]",
+	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliography - {{ landmarkName }}",
 
 	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Registered landmark",
-	"MAIL_SEND_POSITION_BODY": "I have identified a landmark at the following coordinates :[jumpLine]:latitude,:longitude[jumpLine]It concerns :[jumpLine]",
+	"MAIL_SEND_POSITION_BODY": "I have identified a landmark at the following coordinates {{latitude}},{{longitude}} It concerns",
 
 	"COMP_BOX_MAP_BTN_GEOLOC": "Show my position on the map",
 	"PAGE_PBC_BTN_HIDE_MAP": "Hide map",

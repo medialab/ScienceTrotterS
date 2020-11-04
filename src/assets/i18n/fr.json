@@ -85,14 +85,13 @@
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 
-	"MAIL_REPORT_PROBLEM_SUBJECT": "Problème :landmarkName {{ city }}Name",
-	"MAIL_REPORT_PROBLEM_BODY": "Bonjour,[jumpLine]J'ai rencontré le problème suivant au point d'intérêt :landmarkName de {{ city }}Name :",
+	"MAIL_REPORT_PROBLEM_SUBJECT": "(Science Trotters) Problème: {{landmarkName}} - {{ cityName }}",
+	"MAIL_REPORT_PROBLEM_BODY": "Bonjour, J'ai rencontré le problème suivant au point d'intérêt {{landmarkName}} de {{ cityName}}.",
 
-	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - :landmarkName",
-	"MAIL_SHARE_BIBLIO_BODY": "non utilisé [jumpLine]",
+	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - {{ landmarkName }}",
 
 	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
-	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes :[jumpLine]:latitude,:longitude[jumpLine]Il concerne :[jumpLine]",
+	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes {{latitude}}, {{longitude}} Il concerne",
 
 	"COMP_BOX_MAP_BTN_GEOLOC": "Afficher ma position sur la carte",
 	"PAGE_PBC_BTN_HIDE_MAP": "Cacher la carte",

@@ -1,3 +1,4 @@
+import { GeolocService } from 'src/app/services/geoloc.service';
 import { OfflineStorageService } from './services/offline-storage.service';
 import { ConfigService } from './services/config.service';
 import { Component } from '@angular/core';
@@ -56,6 +57,7 @@ export class AppComponent {
     public translate: TranslateService,
     private offlineStorage: OfflineStorageService,
     private cache: CacheService,
+    private geoloc: GeolocService,
     public config: ConfigService
   ) {
     // Config translateModule
@@ -80,5 +82,21 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+  async openMap() {
+    let position = null;
+    try {
+      position = await this.geoloc.getCurrentCoords();
+    } catch (err){
+      console.log(err)
+    }
+    if(position) {
+      if(this.platform.is('android')) {
+        window.open(`geo:${position.latitude},${position.longitude}?q=${position.latitude},${position.longitude}`);
+      }
+      if(this.platform.is('ios')) {
+        window.open(`http://maps.apple.com/?q:${position.latitude},${position.longitude}`)
+      }
+    }
   }
 }

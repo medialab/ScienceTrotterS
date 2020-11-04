@@ -1,4 +1,4 @@
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
@@ -42,6 +42,7 @@ export class PlacePage implements OnInit {
     public sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private platform: Platform,
     private loader: LoadingController,
     public api: ApiService
   ) {
@@ -129,7 +130,14 @@ export class PlacePage implements OnInit {
   }
 
   openMapToLocation() {
-
+    if(this.place.geoloc) {
+      if(this.platform.is('android')) {
+        window.open(`geo:${this.place.geoloc.latitude},${this.place.geoloc.longitude}?q=${this.place.geoloc.latitude},${this.place.geoloc.longitude}`);
+      }
+      if(this.platform.is('ios')) {
+        window.open(`http://maps.apple.com/?q:${this.place.geoloc.latitude},${this.place.geoloc.longitude}`)
+      }
+    }
   }
 
   onToggleAudioScript() {
@@ -188,39 +196,44 @@ export class PlacePage implements OnInit {
   * Envoi d'un message pour signaler un problème
   * par mail.
   */
-  btnReportProblem() {
-    // const to = this.config.data.contact_mail;
-    // const subject = this.translate.getKeyAndReplaceWords('MAIL_REPORT_PROBLEM_SUBJECT', {
-    //   'landmarkName': this.getData('title', true),
-    //   'cityName': this.cityName
-    // });
-    // const body = this.translate.getKeyAndReplaceWords('MAIL_REPORT_PROBLEM_BODY', {
-    //   'landmarkName': this.getData('title', true),
-    //   'cityName': this.cityName
-    // });
+  async btnReportProblem() {
+    const city = await this.api.get(`/public/cities/byId/${this.place['cities_id']}?lang= ${this.translate.currentLang}`);
+    const to = 'forccast.controverses@sciencespo.fr';
 
-    // this.data.sendEmail(to, subject, body);
+    this.translate.get(['MAIL_REPORT_PROBLEM_SUBJECT','MAIL_REPORT_PROBLEM_BODY'], {
+      'landmarkName': this.place.title[this.translate.currentLang],
+      'cityName': city.title[this.translate.currentLang],
+    }).subscribe((resp) => {
+      const subject = resp['MAIL_REPORT_PROBLEM_SUBJECT'];
+      const body = resp['MAIL_REPORT_PROBLEM_BODY'];
+      window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system', 'location=no');
+    })
   }
 
 
   /**
    * Partage du point d'inrétêt courant par mail.
    */
-  btnShareRef() {
-    // const subject = this.translate.getKeyAndReplaceWords('MAIL_SHARE_BIBLIO_SUBJECT', {
-    //   'landmarkName': this.getData('title', true),
-    //   'cityName': this.cityName
-    // });
-
-    // //const preBody = this.translate.getKey('MAIL_SHARE_BIBLIO_BODY');
-    // let body = `[b]${subject}[/b][jumpLine]`;
-
-    // for (let itemDesc of this.getData('bibliography', true)) {
-    //   console.log(itemDesc)
-    //   body += itemDesc.replace(' & ',' et ') + '[jumpLine]';
-    // }
-
-    // this.data.sendEmail('', subject, this.data.bbCodeToMail(body));
+  async btnShareRef() {
+    this.translate.get('MAIL_SHARE_BIBLIO_SUBJECT', {
+      'landmarkName': this.place.title[this.translate.currentLang],
+    }).subscribe(async (subject) => {
+      let body = '';
+      for (let itemDesc of this.place.bibliography[this.translate.currentLang]) {
+        body += itemDesc.replace(' & ',' et ') + '\n';
+      }
+      const shareData = {
+        title: subject,
+        text: body,
+        url: 'https://sts.medialab.sciences-po.fr',
+      }
+      try {
+        await navigator.share(shareData);
+        console.log('shared successfully')
+      } catch(err) {
+        console.log('Err' + err)
+      }
+    })
   }
 
   /**

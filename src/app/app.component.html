@@ -32,15 +32,16 @@
             </span>
           </ion-item>
         </ion-menu-toggle>
-        <ion-item lines="none">
+        <!-- <ion-item lines="none" (click)="openCamera()">
+          <input type="file" accept="image/*" capture="camera" />
           <span class="menu-item">
             <ion-icon name="camera"></ion-icon>
             <ion-label class="ion-text-wrap">
               {{ 'RIGHT_MENU_PHOTO' | translate }}
             </ion-label>
           </span>
-        </ion-item>
-        <ion-item lines="none">
+        </ion-item> -->
+        <ion-item lines="none" (click)="openMap()">
           <span class="menu-item">
             <ion-icon name="location-sharp"></ion-icon>
             <ion-label class="ion-text-wrap">
