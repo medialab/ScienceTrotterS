@@ -3,11 +3,14 @@ import { OfflineStorageService } from './services/offline-storage.service';
 import { ConfigService } from './services/config.service';
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Plugins, NetworkStatus, PluginListenerHandle } from '@capacitor/core';
+
+import { Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
 import { CacheService } from 'ionic-cache';
+const { Network } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -15,46 +18,14 @@ import { CacheService } from 'ionic-cache';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  public selectedIndex = 0;
-  public appPages = [
-    {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
-    {
-      title: 'Outbox',
-      url: '/folder/Outbox',
-      icon: 'paper-plane'
-    },
-    {
-      title: 'Favorites',
-      url: '/folder/Favorites',
-      icon: 'heart'
-    },
-    {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
-    },
-    {
-      title: 'Trash',
-      url: '/folder/Trash',
-      icon: 'trash'
-    },
-    {
-      title: 'Spam',
-      url: '/folder/Spam',
-      icon: 'warning'
-    }
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  networkListener: PluginListenerHandle;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public translate: TranslateService,
+    private toastCtrl: ToastController,
     private offlineStorage: OfflineStorageService,
     private cache: CacheService,
     private geoloc: GeolocService,
@@ -70,6 +41,19 @@ export class AppComponent {
       translate.setDefaultLang('fr');
       translate.use('fr');
     }
+
+    this.networkListener = Network.addListener('networkStatusChange', (status) => {
+      const connection = status.connected ? 'online' : 'offline'
+      this.translate.get('TOAST_MSG_NETWORK', { connection }).subscribe(async (message) => {
+        const toast = await this.toastCtrl.create({
+          message,
+          duration: 3000,
+          position: 'bottom'
+        });
+
+        toast.present();
+      })
+    });
 
     // config cache
     cache.setDefaultTTL(60 * 60 * 24); //set default cache TTL for 1 day

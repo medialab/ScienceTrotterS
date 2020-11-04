@@ -13,7 +13,7 @@
 	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
 	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap 'Share' icon below and select 'Add to Home Screen'",
 	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
-	"TOAST_MSG_NETWORK": "You are :connection",
+	"TOAST_MSG_NETWORK": "You are {{ connection }}",
 
 	"COMP_MH_GO_BACK":"Retour",
 

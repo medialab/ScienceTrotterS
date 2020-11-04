@@ -1,3 +1,4 @@
+import { NetworkService } from './../../services/network.service';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { LoadingController } from '@ionic/angular';
 import { ApiService } from './../../services/api.service';
@@ -42,6 +43,7 @@ export class ListItemComponent implements OnInit, OnChanges {
     public translate: TranslateService,
     public api: ApiService,
     private router: Router,
+    private network: NetworkService,
     public sanitizer: DomSanitizer,
     private offlineStorage: OfflineStorageService,
     private loader: LoadingController,
@@ -66,23 +68,33 @@ export class ListItemComponent implements OnInit, OnChanges {
     }
   }
 
-  selectItem() {
-    if (this.target === 'parcours') {
-      this.isOpenDiscover = !this.isOpenDiscover;
-      this.loadAudioUrl();
+  async selectItem() {
+    const connected = await this.network.getStatus();
+    if (connected || this.isDownloaded()) {
+      if (this.target === 'parcours') {
+        this.isOpenDiscover = !this.isOpenDiscover;
+        this.loadAudioUrl();
+      } else {
+        this.router.navigate([`/place/${this.item.id}`]);
+      }
     } else {
-      this.router.navigate([`/place/${this.item.id}`]);
+      this.network.alertMessage();
     }
   }
 
-  startParcour() {
-    let navigationExtras: NavigationExtras = {
-      state: {
-        parcour: this.item,
-        placesList: this.placesList
-      }
-    };
-    this.router.navigate([`/place/${this.placesList[0].id}`], navigationExtras);
+  async startParcour() {
+    const connected = await this.network.getStatus();
+    if (connected || this.isDownloaded()) {
+      let navigationExtras: NavigationExtras = {
+        state: {
+          parcour: this.item,
+          placesList: this.placesList
+        }
+      };
+      this.router.navigate([`/place/${this.placesList[0].id}`], navigationExtras);
+    } else {
+      this.network.alertMessage();
+    }
   }
 
   loadAudioUrl() {
@@ -109,6 +121,11 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   async downloadItem() {
     if (this.isDownloaded()) return;
+    const connected = await this.network.getStatus();
+    if (!connected) {
+      this.network.alertMessage();
+      return;
+    }
     // show loader
     let loading = await this.loader.create({
       // content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')

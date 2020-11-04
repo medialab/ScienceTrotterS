@@ -14,7 +14,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen [ngClass]="config.getFontSizeClass()">
-  <p class="message" *ngIf="downloadedList && downloadedList.length === 0">
+  <p class="ion-padding ion-text-center" *ngIf="downloadedList && downloadedList.length === 0">
     {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
   </p>
   <ion-list *ngIf="downloadedList && downloadedList.length > 0">
