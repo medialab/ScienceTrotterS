@@ -8,8 +8,8 @@
 	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
 	"RIGHT_MENU_INSTALL": "Install App",
 
-	"TOAST_BTN_INSTALL_ANDROID": "Ok",
-	"TOAST_BTN_INSTALL_IOS": "Ok",
+	"TOAST_BTN_INSTALL_ANDROID": "OK",
+	"TOAST_BTN_INSTALL_IOS": "OK",
 	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
 	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap {{icon}} below and select 'Add to Home Screen'",
 	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",

@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular';
 import { AudioService } from './../../services/audio.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
@@ -19,6 +20,8 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Output() toggleAudioScript = new EventEmitter<any>();
 
+  isMobile: boolean = false;
+
   track: any = null;
   isPlaying: boolean = false;
   duration: number = 0;
@@ -27,10 +30,12 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(
     public translate: TranslateService,
     private sanitizer: DomSanitizer,
+    private platform: Platform,
     private audioService: AudioService
   ) {}
 
   ngOnInit() {
+    this.isMobile = this.platform.is('mobile');
   }
 
   ngOnChanges(changes: SimpleChanges) {

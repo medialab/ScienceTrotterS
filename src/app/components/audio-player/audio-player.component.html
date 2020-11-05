@@ -61,7 +61,7 @@
   <ul class="round__btn__list">
 
     <!-- VOLUMN DOWN BTN -->
-    <li class="item hideOnIOSDevices">
+    <li class="item" *ngIf="!isMobile">
       <button
         (click)="downVolume()"
         class="item__btn hideOnIOSDevices"
@@ -74,7 +74,7 @@
     </li>
 
     <!-- VOLUMN UP BTN -->
-    <li class="item hideOnIOSDevices">
+    <li class="item" *ngIf="!isMobile">
       <button
         (click)="upVolume()"
         class="item__btn"

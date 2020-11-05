@@ -127,7 +127,8 @@ export class AppComponent {
       const message = this.platform.is('ios') ? messageIOS : resp['TOAST_MSG_INSTALL_ANDROID'];
       const toast = await this.toastCtrl.create({
         // message: this.platform.is('ios') ? messageIOS : resp["TOAST_MSG_INSTALL_ANDROID"],
-        message: `<img part="image" src="../assets/icons/icon-30x30.png" /><span>${message}</span>`,
+        message: `<span>${message}</span>`,
+        cssClass: 'install-toast',
         buttons: [
           {
             text: this.platform.is('ios') ? resp['TOAST_BTN_INSTALL_IOS'] : resp['TOAST_BTN_INSTALL_ANDROID'],
