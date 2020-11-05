@@ -82,7 +82,7 @@
     }
   }
 }
-
+// override css of ionic ui component
 ion-slides {
   .swiper-pagination-bullet {
     $size: 18px;
@@ -95,4 +95,14 @@ ion-slides {
       background-color: black;
     }
   }
+}
+
+ion-toast::part(message) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+ion-toast::part(button) {
+  padding-left: 0;
 }

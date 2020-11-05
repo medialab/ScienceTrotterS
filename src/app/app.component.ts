@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 
 import { Plugins, NetworkStatus, PluginListenerHandle } from '@capacitor/core';
 
-import { Platform, ToastController } from '@ionic/angular';
+import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
@@ -32,6 +32,7 @@ export class AppComponent {
     private offlineStorage: OfflineStorageService,
     private cache: CacheService,
     private geoloc: GeolocService,
+    public menu: MenuController,
     public config: ConfigService
   ) {
     // Config translateModule
@@ -115,16 +116,18 @@ export class AppComponent {
     } else {
       this.showInstallPrompt();
     }
+    this.menu.close();
   }
 
   async showInstallBanner() {
     const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
-    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_ANDROID'])
+    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_ANDROID'], {icon: '<ion-icon name="share-outline"></ion-icon>'})
     .subscribe(async (resp) => {
-      const messageIOS = isSafari ? resp["TOAST_MSG_INSTALL_SAFARI"] : resp["TOAST_MSG_INSTALL_NON_SAFARI"]
+      const messageIOS = isSafari ? resp["TOAST_MSG_INSTALL_SAFARI"] : resp["TOAST_MSG_INSTALL_NON_SAFARI"];
+      const message = this.platform.is('ios') ? messageIOS : resp['TOAST_MSG_INSTALL_ANDROID'];
       const toast = await this.toastCtrl.create({
-        message: this.platform.is('ios') ? messageIOS : resp["TOAST_MSG_INSTALL_ANDROID"],
-        // message: '<span><img src="../assets/icons/icon-40x40.png" /></span>',
+        // message: this.platform.is('ios') ? messageIOS : resp["TOAST_MSG_INSTALL_ANDROID"],
+        message: `<img part="image" src="../assets/icons/icon-30x30.png" /><span>${message}</span>`,
         buttons: [
           {
             text: this.platform.is('ios') ? resp['TOAST_BTN_INSTALL_IOS'] : resp['TOAST_BTN_INSTALL_ANDROID'],
