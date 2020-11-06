@@ -1,3 +1,4 @@
+import { NetworkService } from './../../services/network.service';
 import { LoadingController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';

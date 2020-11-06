@@ -221,32 +221,30 @@ export class BoxMapComponent implements OnInit, OnChanges {
   createParcoursTraces (parcourId: string, longitude: any, latitude: any, parcourColor: string) {
     console.log('#createParcoursTraces');
 
-    return new Promise((resolve) => {
+    return new Promise(async(resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
       // this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()`) // remove tmsp for cache
-      this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.translate.currentLang}`)
-      .then((data: any) => {
-        const time = data.length.time;
-        const poiArray = [];
+      const data = await this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.translate.currentLang}`)
+      const time = data.length.time;
+      const poiArray = [];
 
-        for (const poi of data.interests) {
-          if (typeof poi.api_data !== 'undefined') {
+      for (const poi of data.interests) {
+        if (typeof poi.api_data !== 'undefined') {
 
-            // Création de la route.
-            const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-              'color': parcourColor,
-              'weight': 5,
-              'opacity': 0.65
-            });
-            poiArray.push(_polyline);
-          }
+          // Création de la route.
+          const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
+            'color': parcourColor,
+            'weight': 5,
+            'opacity': 0.65
+          });
+          poiArray.push(_polyline);
         }
+      }
 
-        resolve({
-          'poiArray': poiArray,
-          'time': time
-        });
+      resolve({
+        'poiArray': poiArray,
+        'time': time
       });
     });
   }

@@ -70,7 +70,7 @@
               {{'PLI_FILTER_ALPHA' | translate}}
             </button>
           </li>
-          <li [ngClass]="{'isSelected': isOptionsActionSelected('proximite')}">
+          <li *ngIf="isConnected" [ngClass]="{'isSelected': isOptionsActionSelected('proximite')}">
             <button type='button' (click)="changeOptionListAction('proximite')"
                     [attr.title]=" 'PLI_FILTER_PROXIMITE_TITLE' | translate "
                     [attr.aria-pressed]="isOptionsActionSelected('proximite')">

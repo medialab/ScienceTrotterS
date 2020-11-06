@@ -1,3 +1,4 @@
+import { NetworkService } from './../../services/network.service';
 import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,8 +31,10 @@ export class CityPage implements OnInit {
   isListOpen = false;
   selectedTarget: string = "parcours";
 
+  isConnected: any = true;
+
   // Tri par défaut sélectionné qui est par proximité.
-  optionsItemsSelected: number = 1;
+  optionsItemsSelected: number = 0;
   optionsItems = [
     {
       id: 0,
@@ -48,6 +51,7 @@ export class CityPage implements OnInit {
   constructor(
     public translate: TranslateService,
     private geoloc: GeolocService,
+    private network: NetworkService,
     private activatedRoute: ActivatedRoute,
     private loader: LoadingController,
     public offlineStorage: OfflineStorageService,
@@ -57,7 +61,9 @@ export class CityPage implements OnInit {
       this.initCityData();
     })
   }
-  ngOnInit() {
+
+  async ngOnInit() {
+    this.isConnected = await this.network.getStatus();
     this.initCityData();
   }
 
@@ -88,15 +94,18 @@ export class CityPage implements OnInit {
         this.places = [];
         return;
       }
-      try {
-        this.curPositionUser = await this.geoloc.getCurrentCoords();
-        closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
-      } catch (err){
-        loading.dismiss();
-        console.log(err);
-      }
+      // try {
+      //   this.curPositionUser = await this.geoloc.getCurrentCoords();
+      //   closest = `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`;
+      // } catch (err){
+      //   loading.dismiss();
+      //   console.log(err);
+      // }
       const parcours = await this.fetchParcours(id, closest);
       const places = await this.fetchPlaces(id, closest);
+
+      places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.translate.currentLang}`));
+
       this.parcours = parcours ? parcours : [];
       this.places = places ? places: [];
       loading.dismiss();
@@ -206,7 +215,8 @@ export class CityPage implements OnInit {
     }
   }
 
-  actionSortProximite(msgAlertError: string = '') {
+  async actionSortProximite(msgAlertError: string = '') {
+    if (!this.isConnected) return;
     return new Promise(async (success, error) => {
       const loading = await this.loader.create({
         duration: 5000,

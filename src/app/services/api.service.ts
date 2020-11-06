@@ -40,9 +40,14 @@ export class ApiService {
 
   async get(target: string) {
     const requestUrl = this.getRequestUri(target);
-    const resp: any = await this.fetch(requestUrl);
-    if (resp.success) {
-      return resp.data;
+    try {
+      const resp: any = await this.fetch(requestUrl);
+      if (resp.success) {
+        return resp.data;
+      }
+    } catch(err) {
+      console.log(err);
+      return null;
     }
   }
 
