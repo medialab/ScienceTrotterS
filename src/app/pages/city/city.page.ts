@@ -103,8 +103,9 @@ export class CityPage implements OnInit {
       // }
       const parcours = await this.fetchParcours(id, closest);
       const places = await this.fetchPlaces(id, closest);
-
-      places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.translate.currentLang}`));
+      if(places) {
+        places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.translate.currentLang}`));
+      }
 
       this.parcours = parcours ? parcours : [];
       this.places = places ? places: [];

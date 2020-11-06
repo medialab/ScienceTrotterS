@@ -153,7 +153,7 @@
         </ion-slides>
       </div>
 
-      <div class="showGalleryNoNetwork" *ngIf="!isDownloaded && this.isNetworkOff">
+      <div class="showGalleryNoNetwork" *ngIf="!isDownloaded && isNetworkOff">
         <p>
           {{'GLOBAL_NEED_NETWORK_FOR_DATA' | translate}}
         </p>

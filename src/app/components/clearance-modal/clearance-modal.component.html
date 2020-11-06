@@ -61,7 +61,7 @@
       </ion-item-group>
       <span *ngFor="let place of downloaded[city.id].placesList">
         <ion-item lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
-          <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck()"></ion-checkbox>
+          <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
           <ion-label>{{ place.title && place.title[translate.currentLang] }}</ion-label>
           <div class="round-icon">
             <span aria-hidden="true"

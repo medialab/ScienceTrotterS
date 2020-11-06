@@ -22,6 +22,7 @@ export class PlacePage implements OnInit {
 
   showAudioScript: boolean = false;
   isPlaceVisited: boolean = false;
+  isNetworkOff: boolean = false;
 
   slideOpts = {
     speed: 400
