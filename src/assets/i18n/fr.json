@@ -6,14 +6,14 @@
 	"RIGHT_MENU_PHOTO":"Photo",
 	"RIGHT_MENU_GPS":"Ma position",
 	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
-	"RIGHT_MENU_INSTALL": "Install App",
+	"RIGHT_MENU_INSTALL": "Installer l'app",
 
 	"TOAST_BTN_INSTALL_ANDROID": "OK",
 	"TOAST_BTN_INSTALL_IOS": "OK",
-	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
-	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap {{icon}} below and select 'Add to Home Screen'",
-	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
-	"TOAST_MSG_NETWORK": "You are {{ connection }}",
+	"TOAST_MSG_INSTALL_ANDROID": "Installez l'appli sur votre téléphone",
+	"TOAST_MSG_INSTALL_SAFARI": "Pour installer l'appli, appuyez sur {{icon}} ci-dessous et sélectionnez \"Sur l'écran d'accueil\"",
+	"TOAST_MSG_INSTALL_NON_SAFARI": "Pour installer l'appli, veuillez ouvrir ce site en utilisant Safari",
+	"TOAST_MSG_NETWORK": "Vous êtes {{ connection }}",
 
 	"COMP_MH_GO_BACK":"Retour",
 
@@ -36,17 +36,17 @@
 	"P_SETTING_DELETE_MODAL_CANCEL":"Annuler",
 	"P_SETTING_DELETE_MODAL_SELECTALL":"Tout sélectionner",
 	"P_SETTING_DELETE_MODAL_DELETE":"Supprimer",
-	"P_SETTING_DELETE_MODAL_NODATA":"No downloaded data in {{ lang }}",
+	"P_SETTING_DELETE_MODAL_NODATA":"Données non téléchargées en {{ lang }}",
 
-	"P_PLACE_NO_DATA":"no place data in {{ lang }}",
-	"P_CITY_NO_DATA":"no city data in {{ lang }}",
+	"P_PLACE_NO_DATA":"Pas de données pour ce lieu en {{ lang }}",
+	"P_CITY_NO_DATA":"Pas de données pour cette ville en {{ lang }}",
 
 	"PLI_FILTER_PROXIMITE":"Autour de moi",
 	"PLI_FILTER_ALPHA":"Tout afficher",
 	"PLI_ACTION_DOWNLOAD_DATA":"hors-ligne",
 	"PLI_ACTION_DOWNLOAD_DATA_REMOVE":"Supprimer les données de téléchargement.",
-	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"téléchargement en cours…",
-	"PLI_LIST_START_PARCOURS":"démarrer le parcours",
+	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"Téléchargement en cours…",
+	"PLI_LIST_START_PARCOURS":"Démarrer le parcours",
 	"PLI_LIST_START_POI":"Démarrer le point d'intérêt",
 	"PLI_VAL_ITINERARY":"S'y rendre",
 	"PLI_BTN_END_POI":"Vu",
@@ -59,19 +59,19 @@
 	"PLI_TAB_BIBLIOGRAPHY":"bibliographie",
 	"PLI_BTN_SHARE_REF":"Partager",
 
-	"PLI_MEDIA_DATA_LOADER": "Loading media files",
+	"PLI_MEDIA_DATA_LOADER": "Chargement des médias en cours",
 
 	"PLI_ALERT_NO_INTERESTS_TITLE":"Erreur",
-	"PLI_ALERT_NO_INTERESTS_MESSAGE":"Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précèdente.",
+	"PLI_ALERT_NO_INTERESTS_MESSAGE":"Aucun point d'intérêt n'est disponible dans la langue sélectionné, vous allez être redirigé vers la page précédente.",
 	"PLI_DISTANCE_PREFIX": "à",
 
-	"PLI_BTN_PREV_ALT":"Point d'intérêt précèdent",
+	"PLI_BTN_PREV_ALT":"Point d'intérêt précédent",
 	"PLI_BTN_NEXT_ALT":"Point d'intérêt suivant",
 
-	"PBC_ALT_POI":"Points d'intérêts",
+	"PBC_ALT_POI":"Points d'intérêt",
 	"PBC_ALT_PARCOURS":"Parcours",
-	"PBC_NO_DATA_AVAILABLE_INTERESTS":"A ce jour aucun point d'intérêt en {{ lang }} n'est encore proposé à {{ city }}",
-	"PBC_NO_DATA_AVAILABLE_PARCOURS":"A ce jour aucun parcours en {{ lang }} n'est proposé à {{ city }}",
+	"PBC_NO_DATA_AVAILABLE_INTERESTS":"À ce jour aucun point d'intérêt en {{ lang }} n'est encore proposé à {{ city }}",
+	"PBC_NO_DATA_AVAILABLE_PARCOURS":"À ce jour aucun parcours en {{ lang }} n'est encore proposé à {{ city }}",
 
 	"PLAYER_ACTION_STATE":"Écouter la description audio",
 	"PLAYER_ACTION_VOLUME_DOWN":"volume -",
@@ -85,13 +85,13 @@
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_GPS_DISABLED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 	"PV_GEOLOC_ASKGEO_ERROR_BODY_NOT_AUTHORIZED":"Pour vous proposer les parcours les plus proches, Science Trotters souhaite activer la géolocalisation. Toutes les données seront effacées à la fermeture de l'application",
 
-	"MAIL_REPORT_PROBLEM_SUBJECT": "(Science Trotters) Problème: {{landmarkName}} - {{ cityName }}",
+	"MAIL_REPORT_PROBLEM_SUBJECT": "(Science Trotters) Problème : {{landmarkName}} - {{ cityName }}",
 	"MAIL_REPORT_PROBLEM_BODY": "Bonjour, J'ai rencontré le problème suivant au point d'intérêt {{landmarkName}} de {{ cityName}}.",
 
 	"MAIL_SHARE_BIBLIO_SUBJECT": "(Science Trotters) Bibliographie - {{ landmarkName }}",
 
 	"MAIL_SEND_POSITION_SUBJECT": "(Science Trotters) Coordonnées d'un point d'intérêt",
-	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes {{latitude}}, {{longitude}} Il concerne",
+	"MAIL_SEND_POSITION_BODY": "J'ai repéré un point d'intérêt aux coordonnées suivantes {{latitude}}, {{longitude}}. Il concerne",
 
 	"COMP_BOX_MAP_BTN_GEOLOC": "Afficher ma position sur la carte",
 	"PAGE_PBC_BTN_HIDE_MAP": "Cacher la carte",
@@ -110,16 +110,16 @@
 
 	"PLI_ICON_LANDMARK": "point d'intérêt",
 
-  "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
-  "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste pour ceux autour de moi.",
+    "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
+    "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste par proximité autour de moi.",
 
 	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet n'est pas connecté",
 	"GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
 
-	"ALERT_STORAGE_WARNING_TITLE": "Data could not be downloaded",
-	"ALERT_STORAGE_WARNING_MSG": "Please remove your downloaded data first.",
+	"ALERT_STORAGE_WARNING_TITLE": "Les données n'ont pas pu être téléchargées",
+	"ALERT_STORAGE_WARNING_MSG": "Veuillez supprimer les données déjà téléchargées auparavant.",
 
-  "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
-  "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
-  "ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
+    "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+    "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+    "ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
 }
