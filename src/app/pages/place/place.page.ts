@@ -22,7 +22,6 @@ export class PlacePage implements OnInit {
 
   showAudioScript: boolean = false;
   isPlaceVisited: boolean = false;
-  isNetworkOff: boolean = false;
 
   slideOpts = {
     speed: 400
@@ -46,6 +45,7 @@ export class PlacePage implements OnInit {
     private router: Router,
     private platform: Platform,
     private loader: LoadingController,
+    public network: NetworkService,
     public api: ApiService
   ) {
     this.translate.onLangChange.subscribe(() => {
@@ -57,44 +57,50 @@ export class PlacePage implements OnInit {
     this.initPlace();
   }
 
-  async initPlace() {
+  initPlace() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id) {
-      this.activatedRoute.queryParams.subscribe(() => {
+      this.activatedRoute.queryParams
+      .subscribe(async () => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.parcour = this.router.getCurrentNavigation().extras.state.parcour;
           this.placesList = this.router.getCurrentNavigation().extras.state.placesList;
+          const place = this.placesList.find((place) => place.id === id)
+          this.initPlaceData(place);
+        } else {
+          // direct access
+          const place = await this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`);
+          this.initPlaceData(place);
         }
-      });
-      try {
-        this.place = await this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`);
-      } catch(err) {
-        this.place = null;
-        return;
-      }
-      this.gallery = Object.values(this.place['gallery_image'])
+      })
+    }
+  }
+
+  async initPlaceData(place: any) {
+    if(!place) return;
+    this.place = place;
+    this.gallery = Object.values(place['gallery_image'])
           .map((item: any) => this.api.getAssetsUri(item));
-      this.isPlaceVisited = this.offlineStorage.isVisited(this.place['cities_id'], 'places', id);
+    this.isPlaceVisited = this.offlineStorage.isVisited(place['cities_id'], 'places', place.id);
 
-      const coverUrl = this.api.getAssetsUri(this.place.header_image);
-      const audioUrl = this.api.getAssetsUri(this.place.audio[this.translate.currentLang]);
+    const coverUrl = this.api.getAssetsUri(place.header_image);
+    const audioUrl = this.api.getAssetsUri(place.audio[this.translate.currentLang]);
 
-      this.coverUrl = coverUrl;
-      this.placeAudioUrl = audioUrl;
+    this.coverUrl = coverUrl;
+    this.placeAudioUrl = audioUrl;
 
-      if(this.isDownloaded()) {
-        const loading = await this.loader.create();
-        loading.present();
-        const offlineUrls = [coverUrl, audioUrl, ...this.gallery].map(async (url) => {
-          const blob = await this.offlineStorage.getRequest(url);
-          const offlineUrl = ((window as any).URL ? (window as any).URL : (window as any).webkitURL).createObjectURL(blob);
-          return offlineUrl;
-        });
-        this.coverUrl = await offlineUrls[0];
-        this.placeAudioUrl = await offlineUrls[1];
-        this.gallery = await Promise.all(offlineUrls.slice(2));
-        loading.dismiss();
-      }
+    if(this.isDownloaded()) {
+      const loading = await this.loader.create();
+      loading.present();
+      const offlineUrls = [coverUrl, audioUrl, ...this.gallery].map(async (url) => {
+        const blob = await this.offlineStorage.getRequest(url);
+        const offlineUrl = ((window as any).URL ? (window as any).URL : (window as any).webkitURL).createObjectURL(blob);
+        return offlineUrl;
+      });
+      this.coverUrl = await offlineUrls[0];
+      this.placeAudioUrl = await offlineUrls[1];
+      this.gallery = await Promise.all(offlineUrls.slice(2));
+      loading.dismiss();
     }
   }
 
@@ -117,14 +123,18 @@ export class PlacePage implements OnInit {
   }
 
   navigatePlace(placeId: string) {
-    let navigationExtras: NavigationExtras = {
-      skipLocationChange: true,
-      state: {
-        parcour: this.parcour,
-        placesList: this.placesList
-      }
-    };
-    this.router.navigate([`/place/${placeId}`], navigationExtras)
+    if(this.network.isConnected() || this.offlineStorage.isDownloaded(this.place['cities_id'], 'places', placeId)) {
+      let navigationExtras: NavigationExtras = {
+        skipLocationChange: true,
+        state: {
+          parcour: this.parcour,
+          placesList: this.placesList
+        }
+      };
+      this.router.navigate([`/place/${placeId}`], navigationExtras)
+    } else {
+      this.network.alertMessage();
+    }
   }
 
   onClickSetHelpItemActive(active: boolean=false) {
@@ -199,7 +209,7 @@ export class PlacePage implements OnInit {
   * par mail.
   */
   async btnReportProblem() {
-    const city = await this.api.get(`/public/cities/byId/${this.place['cities_id']}?lang= ${this.translate.currentLang}`);
+    const city = await this.api.get(`/public/cities/byId/${this.place['cities_id']}?lang=${this.translate.currentLang}`);
     const to = 'forccast.controverses@sciencespo.fr';
 
     this.translate.get(['MAIL_REPORT_PROBLEM_SUBJECT','MAIL_REPORT_PROBLEM_BODY'], {

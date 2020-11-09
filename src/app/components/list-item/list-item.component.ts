@@ -43,7 +43,7 @@ export class ListItemComponent implements OnInit, OnChanges {
     public translate: TranslateService,
     public api: ApiService,
     private router: Router,
-    private network: NetworkService,
+    public network: NetworkService,
     public sanitizer: DomSanitizer,
     private offlineStorage: OfflineStorageService,
     private loader: LoadingController,
@@ -68,22 +68,27 @@ export class ListItemComponent implements OnInit, OnChanges {
     }
   }
 
-  async selectItem() {
-    const connected = await this.network.getStatus();
+  selectItem() {
+    const connected = this.network.isConnected();
     if (connected || this.isDownloaded()) {
       if (this.target === 'parcours') {
         this.isOpenDiscover = !this.isOpenDiscover;
         this.loadAudioUrl();
       } else {
-        this.router.navigate([`/place/${this.item.id}`]);
+        let navigationExtras: NavigationExtras = {
+          state: {
+            placesList: [this.item]
+          }
+        };
+        this.router.navigate([`/place/${this.item.id}`], navigationExtras);
       }
     } else {
       this.network.alertMessage();
     }
   }
 
-  async startParcour() {
-    const connected = await this.network.getStatus();
+  startParcour() {
+    const connected = this.network.isConnected();
     if (connected || this.isDownloaded()) {
       let navigationExtras: NavigationExtras = {
         state: {
@@ -121,7 +126,7 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   async downloadItem() {
     if (this.isDownloaded()) return;
-    const connected = await this.network.getStatus();
+    const connected = this.network.isConnected();
     if (!connected) {
       this.network.alertMessage();
       return;

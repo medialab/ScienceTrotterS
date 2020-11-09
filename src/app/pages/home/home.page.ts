@@ -33,12 +33,12 @@ export class HomePage {
   }
 
   async initCities() {
-    this.listCities = await this.api.get('/public/cities/list?lang=' + this.translate.currentLang);
+    this.listCities = await this.api.get('/public/cities/list?lang='+this.translate.currentLang);
   }
 
   async viewCity(event: any, city: any) {
-    const connected = await this.network.getStatus();
-    const cityPath = `/public/cities/byId/${city.id}?lang= ${this.translate.currentLang}`;
+    const connected = this.network.isConnected();
+    const cityPath = `/public/cities/byId/${city.id}?lang=${this.translate.currentLang}`;
     const cityUrl = this.api.getRequestUri(cityPath);
     const cityData = await this.offlineStorage.getRequest(cityUrl);
 

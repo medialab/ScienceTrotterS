@@ -62,8 +62,7 @@ export class CityPage implements OnInit {
     })
   }
 
-  async ngOnInit() {
-    this.isConnected = await this.network.getStatus();
+  ngOnInit() {
     this.initCityData();
   }
 
@@ -87,7 +86,7 @@ export class CityPage implements OnInit {
       });
       loading.present();
       try {
-        this.city = await this.api.get(`/public/cities/byId/${id}?lang= ${this.translate.currentLang}`);
+        this.city = await this.api.get(`/public/cities/byId/${id}?lang=${this.translate.currentLang}`);
       } catch(err) {
         this.city = null;
         this.parcours =[];
@@ -103,9 +102,9 @@ export class CityPage implements OnInit {
       // }
       const parcours = await this.fetchParcours(id, closest);
       const places = await this.fetchPlaces(id, closest);
-      if(places) {
-        places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.translate.currentLang}`));
-      }
+      // if(places) {
+      //   places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.translate.currentLang}`));
+      // }
 
       this.parcours = parcours ? parcours : [];
       this.places = places ? places: [];
@@ -217,7 +216,7 @@ export class CityPage implements OnInit {
   }
 
   async actionSortProximite(msgAlertError: string = '') {
-    if (!this.isConnected) return;
+    if (!this.network.isConnected()) return;
     return new Promise(async (success, error) => {
       const loading = await this.loader.create({
         duration: 5000,

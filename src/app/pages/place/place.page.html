@@ -10,7 +10,7 @@
   <div class="poi__info">
     <i aria-hidden="true" class="poi__marker"></i>
 
-    <div class="btnContainer" *ngIf="placesList && placesList.length > 0">
+    <div class="btnContainer" *ngIf="placesList && placesList.length > 1">
       <button class='btnContainer__btn btnContainer__btn--left' [attr.title]="'PLI_BTN_PREV_ALT' | translate"
               (click)="onNextPlace('prev')">
         <ion-icon aria-hidden="true" name="chevron-back"></ion-icon>
@@ -26,7 +26,7 @@
       </h2>
     </div>
 
-    <div class="btnContainer"  *ngIf="placesList && placesList.length > 0">
+    <div class="btnContainer"  *ngIf="placesList && placesList.length > 1">
       <button class='btnContainer__btn btnContainer__btn--right' [attr.title]="'PLI_BTN_NEXT_ALT' | translate"
               (click)="onNextPlace('next')">
         <ion-icon aria-hidden="true" name="chevron-forward"></ion-icon>
@@ -111,6 +111,7 @@
         [audioUrl]="placeAudioUrl"
         [playerUUID]="('player__audio') + place.id"
         [uuid]="place.id"
+        [isNotAvailable]="!isDownloaded() && !network.isConnected()"
         [showAudioScript]="showAudioScript"
         (toggleAudioScript)="onToggleAudioScript()"
         [loadPlayer]="true">
@@ -140,7 +141,7 @@
     <section id="section-gallery" class="poi__section poi__section--isWhite section__gallery_image">
       <h3 class="poi__section__title">{{ 'PLI_TAB_GALLERY_IMAGE' | translate }}</h3>
 
-      <div class="poi__section__content poi__section__content__gallery" *ngIf="isDownloaded || !isNetworkOff">
+      <div class="poi__section__content poi__section__content__gallery">
         <!-- <ion-slides class="image-slider poi-slider" loop="false" [pager]="true">
           <ion-slide *ngFor="let img of gallery">
             <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(img)' class="thumb-img" imageViewer />
@@ -151,12 +152,6 @@
             <img [attr.src]="sanitizer.bypassSecurityTrustUrl(img)" class="thumb-img" imageViewer />
           </ion-slide>
         </ion-slides>
-      </div>
-
-      <div class="showGalleryNoNetwork" *ngIf="!isDownloaded && isNetworkOff">
-        <p>
-          {{'GLOBAL_NEED_NETWORK_FOR_DATA' | translate}}
-        </p>
       </div>
     </section>
     <!-- ./ SECTION GALLERY -->

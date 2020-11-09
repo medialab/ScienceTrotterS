@@ -1,3 +1,4 @@
+import { NetworkService } from './../../services/network.service';
 import { Platform } from '@ionic/angular';
 import { AudioService } from './../../services/audio.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +17,7 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() showAudioScript: boolean=false;
   @Input() target: string = '';
   @Input() uuid: string = '';
-  @Input() isNetworkOff: boolean = false;
+  @Input() isNotAvailable: boolean = false;
 
   @Output() toggleAudioScript = new EventEmitter<any>();
 
@@ -125,9 +126,5 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     return min + ':' + sec;
-  }
-
-  isNotAvailable() {
-    return false;
   }
 }

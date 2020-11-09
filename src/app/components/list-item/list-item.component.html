@@ -92,6 +92,7 @@
         [audioUrl]="isDownloaded() ? offlineAudioUrl: parcourAudioUrl"
         [playerUUID]="('player__audio') + item.id"
         [uuid]="item.id"
+        [isNotAvailable]="!isDownloaded() && !network.isConnected()"
         [showAudioScript]="false"
         [loadPlayer]="true">
       </audio-player>

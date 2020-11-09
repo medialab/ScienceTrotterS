@@ -1,3 +1,4 @@
+import { NetworkService } from './services/network.service';
 import { GeolocService } from 'src/app/services/geoloc.service';
 import { OfflineStorageService } from './services/offline-storage.service';
 import { ConfigService } from './services/config.service';
@@ -28,6 +29,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public translate: TranslateService,
+    private network: NetworkService,
     private toastCtrl: ToastController,
     private offlineStorage: OfflineStorageService,
     private cache: CacheService,
@@ -45,19 +47,6 @@ export class AppComponent {
       translate.setDefaultLang('fr');
       translate.use('fr');
     }
-
-    this.networkListener = Network.addListener('networkStatusChange', (status) => {
-      const connection = status.connected ? 'online' : 'offline'
-      this.translate.get('TOAST_MSG_NETWORK', { connection }).subscribe(async (message) => {
-        const toast = await this.toastCtrl.create({
-          message,
-          duration: 3000,
-          position: 'bottom'
-        });
-
-        toast.present();
-      })
-    });
 
     // config cache
     cache.setDefaultTTL(60 * 60 * 24); //set default cache TTL for 1 day

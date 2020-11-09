@@ -104,7 +104,7 @@
   <audio controls class="hidden__audio__player" [id]="playerUUID" [src]="sanitizedUrl">
   </audio>
 
-  <div class='playerAudioNeedNetwork' *ngIf="isNotAvailable()">
+  <div class='playerAudioNeedNetwork' *ngIf="isNotAvailable">
     <p>
       {{ 'GLOBAL_NEED_NETWORK_FOR_DATA' | translate }}
     </p>

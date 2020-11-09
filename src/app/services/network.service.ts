@@ -1,17 +1,32 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import { Plugins, NetworkStatus, PluginListenerHandle } from '@capacitor/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 const { Network } = Plugins;
 @Injectable({
   providedIn: 'root'
 })
 export class NetworkService {
+  connected: boolean = true;
   constructor(
     private alertCtrl: AlertController,
     private translate: TranslateService,
+    private toastCtrl: ToastController
   ) {
+    Network.addListener('networkStatusChange', (status) => {
+      this.connected = status.connected;
+      const connection = status.connected ? 'online' : 'offline'
+      this.translate.get('TOAST_MSG_NETWORK', { connection }).subscribe(async (message) => {
+        const toast = await this.toastCtrl.create({
+          message,
+          duration: 1000,
+          position: 'bottom'
+        });
+
+        toast.present();
+      })
+    });
   }
 
   getStatus() {
@@ -19,6 +34,10 @@ export class NetworkService {
       const status = await Network.getStatus();
       resolve(status.connected)
     })
+  }
+
+  isConnected() {
+    return this.connected;
   }
 
   alertMessage() {
