@@ -4,14 +4,10 @@ import { OfflineStorageService } from './services/offline-storage.service';
 import { ConfigService } from './services/config.service';
 import { Component } from '@angular/core';
 
-import { Plugins, NetworkStatus, PluginListenerHandle } from '@capacitor/core';
-
 import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
-import { CacheService } from 'ionic-cache';
-const { Network } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -19,7 +15,6 @@ const { Network } = Plugins;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  networkListener: PluginListenerHandle;
   deferredPrompt: any = null;
   isInstallPromptShown: boolean = false;
   isAppInstalled: boolean = false;
@@ -32,7 +27,6 @@ export class AppComponent {
     private network: NetworkService,
     private toastCtrl: ToastController,
     private offlineStorage: OfflineStorageService,
-    private cache: CacheService,
     private geoloc: GeolocService,
     public menu: MenuController,
     public config: ConfigService
@@ -47,9 +41,6 @@ export class AppComponent {
       translate.setDefaultLang('fr');
       translate.use('fr');
     }
-
-    // config cache
-    cache.setDefaultTTL(60 * 60 * 24); //set default cache TTL for 1 day
 
     this.initializeApp();
   }

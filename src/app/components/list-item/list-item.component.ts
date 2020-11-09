@@ -70,11 +70,11 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   selectItem() {
     const connected = this.network.isConnected();
-    if (connected || this.isDownloaded()) {
-      if (this.target === 'parcours') {
-        this.isOpenDiscover = !this.isOpenDiscover;
-        this.loadAudioUrl();
-      } else {
+    if (this.target === 'parcours') {
+      this.isOpenDiscover = !this.isOpenDiscover;
+      this.loadAudioUrl();
+    } else {
+      if (connected || this.isDownloaded()) {
         let navigationExtras: NavigationExtras = {
           state: {
             placesList: [this.item]
@@ -82,8 +82,9 @@ export class ListItemComponent implements OnInit, OnChanges {
         };
         this.router.navigate([`/place/${this.item.id}`], navigationExtras);
       }
-    } else {
-      this.network.alertMessage();
+      else {
+        this.network.alertMessage();
+      }
     }
   }
 

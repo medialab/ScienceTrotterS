@@ -5,14 +5,12 @@
     {
       "name": "api",
       "urls": [
-        "/assets/i18n/**",
-        "/api/**"
+        "api/"
       ],
       "cacheConfig": {
         "strategy": "performance",
         "maxSize": 1000,
-        "maxAge": "365d",
-        "timeout": "5s"
+        "maxAge": "365d"
       }
     }
   ],

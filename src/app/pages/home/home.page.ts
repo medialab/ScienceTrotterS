@@ -1,4 +1,3 @@
-import { OfflineStorageService } from './../../services/offline-storage.service';
 import { NetworkService } from './../../services/network.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component } from '@angular/core';
@@ -18,7 +17,6 @@ export class HomePage {
     public translate: TranslateService,
     public api: ApiService,
     private network: NetworkService,
-    private offlineStorage: OfflineStorageService,
     private router: Router
   ) {
     this.initCities();
@@ -39,9 +37,9 @@ export class HomePage {
   async viewCity(event: any, city: any) {
     const connected = this.network.isConnected();
     const cityPath = `/public/cities/byId/${city.id}?lang=${this.translate.currentLang}`;
-    const cityUrl = this.api.getRequestUri(cityPath);
-    const cityData = await this.offlineStorage.getRequest(cityUrl);
+    const cityData = await this.api.get(cityPath);
 
+    console.log(cityData);
     if (connected || cityData) {
       this.router.navigate([`/city/${city.id}`])
     } else {

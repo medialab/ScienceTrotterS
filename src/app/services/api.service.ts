@@ -1,7 +1,6 @@
 import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CacheService } from 'ionic-cache';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,7 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-    private cache: CacheService
+    // private cache: CacheService
   ) {}
 
   /**
@@ -31,11 +30,9 @@ export class ApiService {
    * @param withCache - True ou false pour le traitement via cache.
    * @returns {Observable<Object>}
    */
-  fetch(url: string, withCache = true) {
+  fetch(url: string) {
     const request = this.http.get(url)
-    return withCache ?
-      this.cache.loadFromDelayedObservable(url, request, url, this.requestConfig.ttl, this.requestConfig.delayType).toPromise()
-      : request.toPromise();
+    return request.toPromise();
   }
 
   async get(target: string) {
