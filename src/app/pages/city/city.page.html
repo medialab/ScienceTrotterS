@@ -96,9 +96,11 @@
             (selectListItem)="onSelectItem($event)">
           </list-item>
         </ion-item>
-        <p *ngIf="!parcours || (parcours && parcours.length === 0)" class="ion-text-center ion-padding">
-          {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city.title[translate.currentLang], lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
-        </p>
+        <ion-text color="medium">
+          <p *ngIf="!parcours || (parcours && parcours.length === 0)" class="ion-text-center ion-padding">
+            {{ 'PBC_NO_DATA_AVAILABLE_PARCOURS' | translate: {city: city.title[translate.currentLang], lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+          </p>
+        </ion-text>
       </ion-list>
       <ion-list *ngIf="selectedTarget === 'places'">
         <ion-item class="ion-no-padding" *ngFor="let place of places" lines="full" [id]="place.id">
@@ -115,9 +117,11 @@
             [placesList]="getPlacesById(place.id)">
           </list-item>
         </ion-item>
-        <p *ngIf="!places || (places && places.length === 0)" class="ion-text-center ion-padding">
-          {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city.title[translate.currentLang], lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
-        </p>
+        <ion-text color="medium">
+          <p *ngIf="!places || (places && places.length === 0)" class="ion-text-center ion-padding">
+            {{ 'PBC_NO_DATA_AVAILABLE_INTERESTS' | translate: {city: city.title[translate.currentLang], lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+          </p>
+        </ion-text>
       </ion-list>
     </div>
   </div>

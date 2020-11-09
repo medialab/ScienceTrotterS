@@ -14,9 +14,14 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen [ngClass]="config.getFontSizeClass()">
-  <p class="ion-padding ion-text-center" *ngIf="downloadedList && downloadedList.length === 0">
-    {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
-  </p>
+  <div class="clearance-wrapper" *ngIf="downloadedList && downloadedList.length === 0">
+    <ion-text color="medium">
+      <p class="ion-padding">
+        {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+      </p>
+    </ion-text>
+    <button class="sts-button" (click)="clearCache()">{{'P_SETTING_DELETE_CACHE' | translate}}</button>
+  </div>
   <ion-list *ngIf="downloadedList && downloadedList.length > 0">
     <ion-item lines="full">
       <ion-checkbox color="danger" slot="start" [checked]="deleteList.length === downloadedList.length" (ionChange)="toggleSelectAll($event)">

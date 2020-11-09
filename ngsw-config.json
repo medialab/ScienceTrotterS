@@ -41,7 +41,7 @@
     },
     {
       "name": "icons",
-      "installMode": "lazy",
+      "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
         "files": [

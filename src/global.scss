@@ -97,18 +97,18 @@ ion-slides {
   }
 }
 
-// .install-toast::part(message) {
+// .app-toast::part(message) {
 //   display: flex;
 //   align-items: center;
 //   justify-content: space-between;
 // }
 
-.install-toast::part(button) {
+.app-toast::part(button) {
   padding-left: 0;
   color: #3880ff;
 }
 
-.install-toast {
+.app-toast {
   &.md {
     --background: #ffffff;
     --color: #000000;

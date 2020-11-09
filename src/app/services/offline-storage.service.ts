@@ -1,3 +1,5 @@
+import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import { set, get } from 'lodash'
@@ -14,6 +16,8 @@ export class OfflineStorageService {
 
   constructor(
     private storage: Storage,
+    private translate: TranslateService,
+    private alertCtrl: AlertController
   ) {
     this.initDownloaded();
     this.initVisited();
@@ -94,20 +98,22 @@ export class OfflineStorageService {
     })
   }
 
-  // public alertStorageWarning() {
-  //   if ('storage' in navigator && 'estimate' in navigator["storage"]) {
-  //     navigator["storage"].estimate().then(({usage, quota}) => {
-  //       const spaceInMb = Math.round(quota / (1024 * 1024)) - Math.round(usage / (1024 * 1024));
+  async alertStorageWarning() {
+    if ('storage' in navigator && 'estimate' in navigator["storage"]) {
+      navigator["storage"].estimate().then(async ({usage, quota}) => {
+        const spaceInMb = Math.round(quota / (1024 * 1024)) - Math.round(usage / (1024 * 1024));
 
-  //       const details = `Only ${spaceInMb} MB left. `;
-  //       const title = this.translate.getKey('ALERT_STORAGE_WARNING_TITLE');
-  //       const message = details + this.translate.getKey('ALERT_STORAGE_WARNING_MSG');
+        const details = `Only ${spaceInMb} MB left. `;
+        const header: any = await this.translate.get('ALERT_STORAGE_WARNING_TITLE');
+        const message = details + this.translate.get('ALERT_STORAGE_WARNING_MSG');
 
-  //       this.alert.create(
-  //         title,
-  //         message
-  //       );
-  //     });
-  //   }
-  // }
+        const alert = await this.alertCtrl.create({
+          header,
+          message,
+          buttons: ['OK']
+        });
+        await alert.present();
+      });
+    }
+  }
 }

@@ -1,5 +1,11 @@
 :host {
-
+  .place-nodata-wrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
   $picture-size: 200px;
   .poi {
     padding-bottom: 1000px;

@@ -144,15 +144,23 @@ export class ListItemComponent implements OnInit, OnChanges {
       const audioFile = await this.api.getFile(audioUrl);
       const audioDownload = await this.offlineStorage.setRequest(audioUrl, audioFile);
       const placesDownload = this.placesList.map(async (place) => await this.downloadPlace(place));
-      await Promise.all([audioDownload, placesDownload]);
-      this.offlineStorage.updateDownloaded(
-        { id: this.cityId, name: this.cityName },
-        'parcours',
-        { ...this.item, type: 'parcours', placesList: this.placesList },
-        true);
+      try {
+        await Promise.all([audioDownload, placesDownload]);
+        this.offlineStorage.updateDownloaded(
+          { id: this.cityId, name: this.cityName },
+          'parcours',
+          { ...this.item, type: 'parcours', placesList: this.placesList },
+          true);
+      } catch(err) {
+        this.offlineStorage.alertStorageWarning();
+      }
     }
     if (this.target === 'places') {
-      await this.downloadPlace(this.item);
+      try {
+        await this.downloadPlace(this.item);
+      } catch(err) {
+        this.offlineStorage.alertStorageWarning();
+      }
     }
     loading.dismiss();
   }

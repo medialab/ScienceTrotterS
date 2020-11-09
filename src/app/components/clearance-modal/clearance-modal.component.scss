@@ -5,6 +5,13 @@
   ion-checkbox {
     position:relative;
   }
+  .clearance-wrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
   .header-btn {
     display: flex;
     flex-direction: column;

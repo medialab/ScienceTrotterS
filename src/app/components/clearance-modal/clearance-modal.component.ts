@@ -105,6 +105,16 @@ export class ClearanceModalComponent implements OnInit {
     this.initDownloaded();
   }
 
+  async clearCache() {
+    let loading = await this.loader.create({
+      // content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
+      backdropDismiss: true
+    });
+    loading.present();
+    await this.offlineStorage.clearAll();
+    loading.dismiss();
+  }
+
 
   async deletePlace(place) {
     const coverUrl = this.api.getAssetsUri(place['header_image']);

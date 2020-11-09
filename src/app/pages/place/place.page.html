@@ -193,9 +193,13 @@
 </main-content>
 
 <main-content *ngIf="!place">
-  <p class='ion-text-center ion-padding' >
-    {{ 'P_PLACE_NO_DATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
-  </p>
+  <div class="place-nodata-wrapper">
+    <ion-text color="medium">
+      <p class='ion-text-center ion-padding' >
+        {{ 'P_PLACE_NO_DATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+      </p>
+    </ion-text>
+  </div>
 </main-content>
 <!-- Footer without a border -->
 <ion-footer *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">

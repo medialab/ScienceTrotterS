@@ -8,6 +8,9 @@
 	"RIGHT_MENU_CREDITS":"Conditions générales d'utilisation",
 	"RIGHT_MENU_INSTALL": "Installer l'app",
 
+	"ALERT_UPDATE_APP_TITLE": "Mettre à jour votre application?",
+	"ALERT_UPDATE_APP_MSG": "Une version plus récente est maintenant disponible. Cliquez sur OK pour mettre à jour.",
+
 	"TOAST_BTN_INSTALL_ANDROID": "OK",
 	"TOAST_BTN_INSTALL_IOS": "OK",
 	"TOAST_MSG_INSTALL_ANDROID": "Installez l'appli sur votre téléphone",
@@ -30,6 +33,7 @@
 	"P_SETTING_THEME_DAY":"Jour",
 	"P_SETTING_THEME_NIGHT":"Nuit",
 	"P_SETTING_DELETE":"Supprimer les downloads",
+	"P_SETTING_DELETE_CACHE":"Supprimer le cache",
 	"P_SETTING_DELETE_LOADER":"Suppression en cours…",
 
 	"P_SETTING_DELETE_MODAL_CLOSE":"Fermer",
@@ -110,8 +114,8 @@
 
 	"PLI_ICON_LANDMARK": "point d'intérêt",
 
-    "PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
-    "PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste par proximité autour de moi.",
+	"PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
+	"PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste par proximité autour de moi.",
 
 	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet n'est pas connecté",
 	"GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
@@ -119,7 +123,7 @@
 	"ALERT_STORAGE_WARNING_TITLE": "Les données n'ont pas pu être téléchargées",
 	"ALERT_STORAGE_WARNING_MSG": "Veuillez supprimer les données déjà téléchargées auparavant.",
 
-    "ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
-    "ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
-    "ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
+	"ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+	"ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
+	"ALERT_BTN_GEOLOC": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application"
 }

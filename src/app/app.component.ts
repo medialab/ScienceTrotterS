@@ -1,10 +1,11 @@
+import { ServiceWorkerModule, SwUpdate} from '@angular/service-worker';
 import { NetworkService } from './services/network.service';
 import { GeolocService } from 'src/app/services/geoloc.service';
 import { OfflineStorageService } from './services/offline-storage.service';
 import { ConfigService } from './services/config.service';
 import { Component } from '@angular/core';
 
-import { MenuController, Platform, ToastController } from '@ionic/angular';
+import { MenuController, Platform, ToastController, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
@@ -23,9 +24,11 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private swUpdate: SwUpdate,
     public translate: TranslateService,
     private network: NetworkService,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private offlineStorage: OfflineStorageService,
     private geoloc: GeolocService,
     public menu: MenuController,
@@ -41,6 +44,27 @@ export class AppComponent {
       translate.setDefaultLang('fr');
       translate.use('fr');
     }
+
+    this.swUpdate.available.subscribe(async (event) => {
+      console.log('A newer version is now available. Refresh the page now to update the cache');
+      const header: any = await this.translate.get("ALERT_UPDATE_APP_TITLE");
+      const message: any = await this.translate.get("ALERT_UPDATE_APP_MSG");
+      const alert = await this.alertCtrl.create({
+        header,
+        message,
+        buttons: [
+          {
+            text: 'ok',
+            role: 'cancel',
+            handler: () => {
+              this.swUpdate.activateUpdate().then(() => document.location.reload());
+            }
+          }
+        ]
+      })
+      await alert.present();
+    });
+    this.swUpdate.checkForUpdate();
 
     this.initializeApp();
   }
@@ -106,9 +130,8 @@ export class AppComponent {
       const messageIOS = isSafari ? resp["TOAST_MSG_INSTALL_SAFARI"] : resp["TOAST_MSG_INSTALL_NON_SAFARI"];
       const message = this.platform.is('ios') ? messageIOS : resp['TOAST_MSG_INSTALL_ANDROID'];
       const toast = await this.toastCtrl.create({
-        // message: this.platform.is('ios') ? messageIOS : resp["TOAST_MSG_INSTALL_ANDROID"],
         message: `<span>${message}</span>`,
-        cssClass: 'install-toast',
+        cssClass: 'app-toast',
         buttons: [
           {
             text: this.platform.is('ios') ? resp['TOAST_BTN_INSTALL_IOS'] : resp['TOAST_BTN_INSTALL_ANDROID'],

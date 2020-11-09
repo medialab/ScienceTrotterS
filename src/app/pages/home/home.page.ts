@@ -39,7 +39,6 @@ export class HomePage {
     const cityPath = `/public/cities/byId/${city.id}?lang=${this.translate.currentLang}`;
     const cityData = await this.api.get(cityPath);
 
-    console.log(cityData);
     if (connected || cityData) {
       this.router.navigate([`/city/${city.id}`])
     } else {

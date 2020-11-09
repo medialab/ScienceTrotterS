@@ -8,6 +8,9 @@
 	"RIGHT_MENU_CREDITS":"General Terms and Conditions of Use",
 	"RIGHT_MENU_INSTALL": "Install App",
 
+	"ALERT_UPDATE_APP_TITLE": "Update your app?",
+	"ALERT_UPDATE_APP_MSG": "A newer version is now available. click ok to update.",
+
 	"TOAST_BTN_INSTALL_ANDROID": "OK",
 	"TOAST_BTN_INSTALL_IOS": "OK",
 	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
@@ -30,6 +33,7 @@
 	"P_SETTING_THEME_DAY":"Day",
 	"P_SETTING_THEME_NIGHT":"Night",
 	"P_SETTING_DELETE":"Clear Downloads",
+	"P_SETTING_DELETE_CACHE":"Clear Cache",
 	"P_SETTING_DELETE_LOADER": "Delete in progress...",
 
 	"P_SETTING_DELETE_MODAL_CLOSE":"Close",
