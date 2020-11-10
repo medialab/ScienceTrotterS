@@ -102,12 +102,19 @@ ion-slides {
 //   align-items: center;
 //   justify-content: space-between;
 // }
-
 .app-toast::part(button) {
-  padding-left: 0;
-  color: #3880ff;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('/assets/icon/favicon.png');
+  width: 30px;
+  height: 30px;
 }
-
+.app-toast.ios::part(button){
+  position: relative;
+  right: 10px;
+}
 .app-toast {
   &.md {
     --background: #ffffff;

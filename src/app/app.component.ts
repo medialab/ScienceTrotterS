@@ -137,7 +137,7 @@ export class AppComponent {
         cssClass: 'app-toast',
         buttons: [
           {
-            text: this.platform.is('ios') ? resp['TOAST_BTN_INSTALL_IOS'] : resp['TOAST_BTN_INSTALL_ANDROID'],
+            text: '', // replace text with app icon, check global.scss
             role: 'cancel',
             handler: () => {
               if (this.platform.is('android')) this.showInstallPrompt();

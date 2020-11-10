@@ -42,7 +42,6 @@
       <button id="btn_information" class="item__button"
               [attr.title]="'PLI_BTN_INFORMATION' | translate"
               aria-expanded="false" (click)="onClickSetHelpItemActive(true)">
-        <!-- <span focusable="false" aria-hidden="true" class="icon icon-info"></span> -->
         <ion-icon aria-hidden="true" name="help-circle-outline"></ion-icon>
         <label>
           {{ sliceStr(place.schedule[translate.currentLang], 30) }}
@@ -56,7 +55,6 @@
       <button id="btn_navigation" class="item__button"
               [attr.title]="'PLI_BTN_NAVIGATION' | translate"
               aria-expanded="false" (click)="openMapToLocation()">
-        <!-- <span focusable="false" aria-hidden="true" class="icon icon-navigation"></span> -->
         <ion-icon aria-hidden="true" name="navigate-circle-outline"></ion-icon>
         <label>{{ 'PLI_VAL_ITINERARY' | translate}}</label>
       </button>
