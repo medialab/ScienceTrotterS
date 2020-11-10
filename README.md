@@ -51,6 +51,38 @@ ionic serve --port 8091
 ionic build --prod
 ```
 
+6) Config service worker with offline support, modify `ngsw-config.json` file
+
+    a) add static files of `ionic-icon`
+    ```
+    {
+      "assetGroups": [
+        {
+          "name": "icons",
+          "installMode": "lazy", // an on-demand caching mode
+          "updateMode": "prefetch", // cache the changed resources immediately
+          "resources": {
+            "files": [
+              "/svg/*.svg"
+            ]
+          }
+        }
+      ]
+    }
+    ```
+    b) to cache api(only GET and HEAD) calls on runtime, add `dataGroups` after `assetGroups`
+    ```
+    {
+      "name": "api",
+      "urls": ["/api"], // url patterns
+      "cacheConfig": {
+          "strategy": "performance",
+          "maxSize": 20, // number of entries want to cache
+          "maxAge": "365d" // how long responses are allowed to remain in the cache
+      }
+    }
+    ```
+
 Découvrir le guide de publication ionic
 ```
 https://ionicframework.com

@@ -45,6 +45,7 @@ export class AppComponent {
       translate.use('fr');
     }
 
+    // Service worker update listener
     this.swUpdate.available.subscribe(async (event) => {
       console.log('A newer version is now available. Refresh the page now to update the cache');
       const header: any = await this.translate.get("ALERT_UPDATE_APP_TITLE");
@@ -74,6 +75,8 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    // PWA installation notification
     this.isAppInstalled = localStorage.getItem('config::isAppInstalled') === 'true';
     if (this.platform.is('ios') && !this.isInStandaloneMode() && !this.isAppInstalled) {
       this.showInstallBanner();

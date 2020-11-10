@@ -252,12 +252,6 @@
           min-height: 30px;
           display: block;
         }
-        .icon-info {
-          background-image: url('../../../assets/imgs/poi/poi_info_icon.svg');
-        }
-        .icon-navigation {
-          background-image: url('../../../assets/imgs/poi/poi_icon_navigation.svg');
-        }
         label {
           font-size: 0.9em;
           color: black;
@@ -358,13 +352,6 @@
 
             ion-icon {
               font-size: 2.4rem;
-            }
-
-            span.icon-date {
-              background-image: url('../../../assets/imgs/poi/poi_icon_clock.svg');
-            }
-            span.icon-clock {
-              background-image: url('../../../assets/imgs/poi/poi_icon_hand.svg');
             }
           }
           label {

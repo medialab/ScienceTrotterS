@@ -1,8 +1,9 @@
 {
   "name": "science-trotters",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "The Net Group, Mengying Du",
+  "homepage": "https://sts.medialab.sciences-po.fr",
+  "license": "GPLv2",
   "scripts": {
     "ng": "ng",
     "start": "ionic serve",

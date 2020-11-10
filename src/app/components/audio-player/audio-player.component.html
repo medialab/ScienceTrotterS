@@ -4,29 +4,30 @@
   <ul class="actionsList">
     <!-- ACTION FAST LEFT -->
     <li class="actionItem actionItemFastLeft">
-      <button class="actionBtn"
+      <button class="actionBtn tiny"
               (click)="actionFastLeft()"
               [attr.title]="'PLAYER_ACTION_FAST_LEFT' | translate">
-        <span aria-hidden="true" class="icon tiny icon-action-fast-left"></span>
+        <ion-icon name="play-back"></ion-icon>
       </button>
     </li>
 
     <!-- ACTION AUDIO STATE -->
     <li class="actionItem actionItemPause">
-      <button id="actionBtnState" class="actionBtn"
+      <button id="actionBtnState" class="actionBtn big"
               [attr.title]="'PLAYER_ACTION_STATE' | translate"
               [attr.aria-pressed]="isPlaying"
               (click)="togglePlay()">
-        <span aria-hidden="true" class="icon big"></span>
+        <ion-icon *ngIf="!isPlaying" name="play"></ion-icon>
+        <ion-icon *ngIf="isPlaying" name="pause"></ion-icon>
       </button>
     </li>
 
     <!-- ACTION FAST RIGHT -->
     <li class="actionItem actionItemFastRight">
-      <button class="actionBtn"
+      <button class="actionBtn tiny"
               (click)="actionFastRight()"
               [attr.title]="'PLAYER_ACTION_FAST_RIGHT' | translate">
-        <span aria-hidden="true" class="icon tiny icon-action-fast-right"></span>
+        <ion-icon name="play-forward"></ion-icon>
       </button>
     </li>
   </ul>

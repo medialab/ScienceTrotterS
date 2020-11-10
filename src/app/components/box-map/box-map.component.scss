@@ -23,26 +23,9 @@
       align-items: center;
       transition: all 0.4s ease-out;
 
-      // .icon__geoloc {
-      //   display: block;
-      //   width: 30px;
-      //   height: 30px;
-      //   background-image: url('../assets/imgs/map/geolocalisation.svg');
-      //   background-size: cover;
-      //   background-position: center;
-      //   background-repeat: no-repeat;
-      //   transition: 0.4s ease-out;
-      // }
-
       ion-icon {
         font-size: 32px;
       }
-
-      // &--isLoading {
-      //   .icon__geoloc {
-      //     animation: spinning-circle 2s infinite linear;
-      //   }
-      // }
 
       &--isLeft {
         left: 0;
