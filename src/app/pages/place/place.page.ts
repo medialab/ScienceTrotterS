@@ -24,7 +24,8 @@ export class PlacePage implements OnInit {
   isPlaceVisited: boolean = false;
 
   slideOpts = {
-    speed: 400
+    speed: 400,
+    zoom: false
   };
 
   coverUrl: string = null;

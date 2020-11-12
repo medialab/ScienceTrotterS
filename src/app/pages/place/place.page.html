@@ -146,7 +146,7 @@
           </ion-slide>
         </ion-slides> -->
         <ion-slides pager="true" [options]="slideOpts">
-          <ion-slide *ngFor="let img of  gallery">
+          <ion-slide *ngFor="let img of gallery">
             <img [attr.src]="sanitizer.bypassSecurityTrustUrl(img)" class="thumb-img" imageViewer />
           </ion-slide>
         </ion-slides>

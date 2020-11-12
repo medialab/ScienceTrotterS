@@ -13,7 +13,8 @@
 
 	"TOAST_BTN_INSTALL_ANDROID": "OK",
 	"TOAST_BTN_INSTALL_IOS": "OK",
-	"TOAST_MSG_INSTALL_ANDROID": "Install the app on your phone",
+	"TOAST_MSG_INSTALL_CHROME": "Install the app on your phone",
+	"TOAST_MSG_INSTALL_NON_CHROME": "To install the app, please use Chrome to open this website",
 	"TOAST_MSG_INSTALL_SAFARI": "To install the app, please tap {{ icon }} below and select 'Add to Home Screen'",
 	"TOAST_MSG_INSTALL_NON_SAFARI": "To install the app, please use Safari to open this website",
 	"TOAST_MSG_NETWORK": "You are {{ connection }}",

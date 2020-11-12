@@ -65,20 +65,25 @@ export class AppComponent {
       })
       await alert.present();
     });
-    this.swUpdate.checkForUpdate();
 
     this.initializeApp();
   }
 
-  initializeApp() {
+  async initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
 
+    try {
+      await this.swUpdate.checkForUpdate();
+    } catch(err) {
+      console.log(err)
+    }
+
     // PWA installation notification
     this.isAppInstalled = localStorage.getItem('config::isAppInstalled') === 'true';
-    if (this.platform.is('ios') && !this.isInStandaloneMode() && !this.isAppInstalled) {
+    if (!this.isInStandaloneMode() && !this.isAppInstalled && !this.platform.is('desktop')) {
       this.showInstallBanner();
     }
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -89,7 +94,7 @@ export class AppComponent {
       this.deferredPrompt = e;
       this.isAppInstalled = false;
       // Update UI notify the user they can install the PWA
-      if(!this.isInstallPromptShown) {
+      if(!this.isInstallPromptShown && !this.platform.is('desktop')) {
         this.showInstallBanner();
       }
     });
@@ -98,6 +103,10 @@ export class AppComponent {
   isInStandaloneMode = () => {
     return ('standalone' in window.navigator) && window.navigator['standalone'] ||
     (window.matchMedia('(display-mode: standalone)').matches);
+  }
+
+  isDesktop = () => {
+    return this.platform.is('desktop');
   }
 
   // if android + chrome
@@ -118,20 +127,28 @@ export class AppComponent {
   }
 
   clickShowInstall() {
-    if(this.platform.is('ios')) {
-      this.showInstallBanner();
-    } else {
+    // if(this.platform.is('ios')) {
+    //   this.showInstallBanner();
+    // } else {
+    //   this.showInstallPrompt();
+    // }
+    if(this.deferredPrompt) {
       this.showInstallPrompt();
+    } else {
+      this.showInstallBanner();
     }
     this.menu.close();
   }
 
   async showInstallBanner() {
     const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
-    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_ANDROID'], {icon: '<ion-icon name="share-outline"></ion-icon>'})
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_CHROME', 'TOAST_MSG_INSTALL_NON_CHROME'], {icon: '<ion-icon name="share-outline"></ion-icon>'})
     .subscribe(async (resp) => {
       const messageIOS = isSafari ? resp["TOAST_MSG_INSTALL_SAFARI"] : resp["TOAST_MSG_INSTALL_NON_SAFARI"];
-      const message = this.platform.is('ios') ? messageIOS : resp['TOAST_MSG_INSTALL_ANDROID'];
+      const messageAndroid = isChrome? resp['TOAST_MSG_INSTALL_CHROME'] :  resp['TOAST_MSG_INSTALL_NON_CHROME'];
+      const message = this.platform.is('ios') ? messageIOS : messageAndroid;
       const toast = await this.toastCtrl.create({
         message: `<span>${message}</span>`,
         cssClass: 'app-toast',
