@@ -1,6 +1,6 @@
 <ion-header translucent [ngClass]="config.getFontSizeClass()">
   <ion-toolbar>
-    <ion-title>{{'P_SETTING_DELETE' | translate}}</ion-title>
+    <ion-title>{{'P_SETTING_DELETE_DOWNLOADS' | translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click) ="dismissModal()">
         <span class="header-btn">
@@ -20,7 +20,6 @@
         {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
       </p>
     </ion-text>
-    <button class="sts-button" (click)="clearCache()">{{'P_SETTING_DELETE_CACHE' | translate}}</button>
   </div>
   <ion-list *ngIf="downloadedList && downloadedList.length > 0">
     <ion-item lines="full">

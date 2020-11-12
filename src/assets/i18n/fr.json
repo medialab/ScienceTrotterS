@@ -33,7 +33,9 @@
 	"P_SETTING_THEME":"Mode d'affichage",
 	"P_SETTING_THEME_DAY":"Jour",
 	"P_SETTING_THEME_NIGHT":"Nuit",
-	"P_SETTING_DELETE":"Supprimer les downloads",
+
+	"P_SETTING_APP_DATA":"App Data",
+	"P_SETTING_DELETE_DOWNLOADS":"Supprimer les downloads",
 	"P_SETTING_DELETE_CACHE":"Supprimer le cache",
 	"P_SETTING_DELETE_LOADER":"Suppression en cours…",
 

@@ -105,16 +105,6 @@ export class ClearanceModalComponent implements OnInit {
     this.initDownloaded();
   }
 
-  async clearCache() {
-    let loading = await this.loader.create({
-      // content : this.translate.getKey('PLI_ACTION_DOWNLOAD_DATA_LOADER')
-      backdropDismiss: true
-    });
-    loading.present();
-    await this.offlineStorage.clearAll();
-    loading.dismiss();
-  }
-
 
   async deletePlace(place) {
     const coverUrl = this.api.getAssetsUri(place['header_image']);
@@ -160,7 +150,7 @@ export class ClearanceModalComponent implements OnInit {
       const placesListChecked = this.downloaded[cityId].placesList.filter((place) => place.parcours_id === item.parcours_id && place.isChecked);
       const parcourIndex = this.downloaded[cityId].parcoursList && this.downloaded[cityId].parcoursList.findIndex((parcour) => parcour.id === item.parcours_id);
       if (parcourIndex === -1) return;
-      if(event.detail.checked) {
+      if(event.detail.checked && this.downloaded[cityId].parcours[item.parcours_id]) {
         if (placesListChecked.length === this.downloaded[cityId].parcours[item.parcours_id].placesList.length) {
           this.downloaded[cityId].parcoursList[parcourIndex].isChecked = true;
         }

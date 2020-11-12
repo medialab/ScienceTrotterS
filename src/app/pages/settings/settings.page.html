@@ -56,14 +56,26 @@
       </ion-label>
     </ion-item>
   </ion-list> -->
-<!--
+
   <ion-list class="ion-padding-bottom">
-    <ion-item class="ion-text-center" lines="none">
-      <ion-label>
+    <ion-list-header lines="full">
+      {{ 'P_SETTING_APP_DATA' | translate }}
+    </ion-list-header>
+    <ion-item lines="full" (click)="showClearanceModal()">
+      <ion-label color="danger">
+        {{ 'P_SETTING_DELETE_DOWNLOADS' | translate }}
       </ion-label>
+      <ion-icon slot="end" color="danger" name="trash"></ion-icon>
     </ion-item>
-  </ion-list> -->
-  <button class="sts-button" (click)="showClearanceModal()" >{{ 'P_SETTING_DELETE' | translate }}</button>
+    <ion-item lines="full" (click)="clearCache()">
+      <ion-label color="danger">
+        {{ 'P_SETTING_DELETE_CACHE' | translate }}
+      </ion-label>
+      <ion-icon slot="end" color="danger" name="reload"></ion-icon>
+    </ion-item>
+  </ion-list>
+  <!-- <button class="sts-button" (click)="showClearanceModal()" >{{ 'P_SETTING_DELETE' | translate }}</button>
+  <button class="sts-button" (click)="clearCache()">{{'P_SETTING_DELETE_CACHE' | translate}}</button> -->
 
   <!-- BRAND -->
 

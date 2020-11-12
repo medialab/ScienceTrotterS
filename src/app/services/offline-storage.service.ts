@@ -41,6 +41,11 @@ export class OfflineStorageService {
     this.storage.set('visited', this.visited);
   }
 
+  clearVisited() {
+    this.visited = {};
+    this.storage.set('visited', {});
+  }
+
   initDownloaded() {
     this.storage.get('downloaded').then((res) => {
       if(res) {
