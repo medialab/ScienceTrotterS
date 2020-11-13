@@ -59,19 +59,19 @@ export class OfflineStorageService {
     // return this.downloaded.asObservable()
   }
 
-  isDownloaded(cityId: string, target: string, id: string) {
-    return get(this.downloaded, [cityId, target, id], false)
+  isDownloaded(lang:string, cityId: string, target: string, id: string) {
+    return get(this.downloaded, [lang, cityId, target, id], false);
   }
 
-  updateDownloaded(city: any, target: string, item: any, isDownloaded: boolean) {
+  updateDownloaded(lang: string, city: any, target: string, item: any, isDownloaded: boolean) {
     // const downloaded = this.downloaded.getValue()
-    if(!this.downloaded[city.id] && isDownloaded) {
-      this.downloaded[city.id] = city;
-    }
     if(isDownloaded) {
-      set(this.downloaded, [city.id, target, item.id], item);
+      if(!this.downloaded[lang] || !this.downloaded[lang][city.id]) {
+        set(this.downloaded,[lang, city.id], city);
+      }
+      set(this.downloaded, [lang, city.id, target, item.id], item);
     } else {
-      delete this.downloaded[city.id][target][item.id];
+      delete this.downloaded[lang][city.id][target][item.id];
     }
     this.storage.set('downloaded', this.downloaded)
     // this.downloaded.next(downloaded)

@@ -27,7 +27,7 @@
 	"PAGE_NAME_PARCOURS_LIST":"Thematic route",
 
 	"P_SETTING_LANGUAGE":"Language",
-	"P_SETTING_FR":"Français",
+	"P_SETTING_FR":"French",
 	"P_SETTING_EN":"English",
 	"P_SETTING_FONT_SIZE":"Font size",
 	"P_SETTING_THEME":"Screen mode",
@@ -43,7 +43,7 @@
 	"P_SETTING_DELETE_MODAL_CANCEL":"Cancel",
 	"P_SETTING_DELETE_MODAL_SELECTALL":"Select All",
 	"P_SETTING_DELETE_MODAL_DELETE":"Delete",
-	"P_SETTING_DELETE_MODAL_NODATA":"No downloaded data in {{ lang }}",
+	"P_SETTING_DELETE_MODAL_NODATA":"No downloaded data in ",
 
 	"P_PLACE_NO_DATA":"no place data in {{ lang }}",
 	"P_CITY_NO_DATA":"no city data in {{ lang }}",

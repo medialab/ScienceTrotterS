@@ -1,3 +1,4 @@
+import { LanguageService } from './../../services/language.service';
 import { NetworkService } from './../../services/network.service';
 import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
 import { OfflineStorageService } from './../../services/offline-storage.service';
@@ -31,6 +32,8 @@ export class CityPage implements OnInit {
   isListOpen = false;
   selectedTarget: string = "parcours";
 
+  filterLang: string = "fr";
+
   isConnected: any = true;
 
   // Tri par défaut sélectionné qui est par proximité.
@@ -50,6 +53,7 @@ export class CityPage implements OnInit {
 
   constructor(
     public translate: TranslateService,
+    public language: LanguageService,
     private geoloc: GeolocService,
     private network: NetworkService,
     private activatedRoute: ActivatedRoute,
@@ -57,13 +61,13 @@ export class CityPage implements OnInit {
     public offlineStorage: OfflineStorageService,
     public api: ApiService
   ) {
-    this.translate.onLangChange.subscribe(() => {
+    this.language.filter.subscribe((lang) => {
+      this.filterLang = lang;
       this.initCityData();
     })
   }
 
   ngOnInit() {
-    this.initCityData();
   }
 
   ionViewWillLeave() {
@@ -86,7 +90,7 @@ export class CityPage implements OnInit {
       });
       loading.present();
       try {
-        this.city = await this.api.get(`/public/cities/byId/${id}?lang=${this.translate.currentLang}`);
+        this.city = await this.api.get(`/public/cities/byId/${id}?lang=${this.filterLang}`);
       } catch(err) {
         this.city = null;
         this.parcours =[];
@@ -103,7 +107,7 @@ export class CityPage implements OnInit {
       const parcours = await this.fetchParcours(id, closest);
       const places = await this.fetchPlaces(id, closest);
       // if(places) {
-      //   places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.translate.currentLang}`));
+      //   places.forEach((place) => this.api.get(`/public/interests/byId/${place.id}?lang=${this.filterLang}`));
       // }
 
       this.parcours = parcours ? parcours : [];
@@ -117,8 +121,8 @@ export class CityPage implements OnInit {
    */
   fetchPlaces(cityId: string, closest: string = '') {
     const path = closest === ''
-      ? `/public/interests/byCityId/${cityId}?lang=${this.translate.currentLang}`
-      : `/public/interests/closest/?city=${cityId}&geoloc=${closest}&lang=${this.translate.currentLang}`;
+      ? `/public/interests/byCityId/${cityId}?lang=${this.filterLang}`
+      : `/public/interests/closest/?city=${cityId}&geoloc=${closest}&lang=${this.filterLang}`;
     return this.api.get(path);
   }
 
@@ -127,8 +131,8 @@ export class CityPage implements OnInit {
    */
   fetchParcours(cityId: string, closest: string = '') {
     const path = closest === ''
-      ? `/public/parcours/byCityId/${cityId}?lang=${this.translate.currentLang}`
-      : `/public/parcours/closest/${cityId}?geoloc=${closest}&lang=${this.translate.currentLang}`;
+      ? `/public/parcours/byCityId/${cityId}?lang=${this.filterLang}`
+      : `/public/parcours/closest/${cityId}?geoloc=${closest}&lang=${this.filterLang}`;
     return this.api.get(path);
   }
 
@@ -197,8 +201,8 @@ export class CityPage implements OnInit {
    * @returns {number}
    */
   sort_alpha = (a, b) => {
-    const aTitle = minifyString(a.title[this.translate.currentLang]);
-    const bTitle = minifyString(b.title[this.translate.currentLang]);
+    const aTitle = minifyString(a.title[this.filterLang]);
+    const bTitle = minifyString(b.title[this.filterLang]);
 
     if (aTitle < bTitle) return -1;
     if (aTitle > bTitle) return 1;
@@ -234,14 +238,14 @@ export class CityPage implements OnInit {
       if (this.parcours.length > 1) {
         const parcours = await this.fetchParcours(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
         this.parcours = parcours.filter((item: any) => {
-          return item.force_lang === null || item.force_lang === this.translate.currentLang;
+          return item.force_lang === null || item.force_lang === this.filterLang;
         });
       }
 
       if (this.places.length > 1) {
         const places = await this.fetchPlaces(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
         this.places = places.filter((item: any) => {
-          return item.force_lang === null || item.force_lang === this.translate.currentLang;
+          return item.force_lang === null || item.force_lang === this.filterLang;
         });
       }
       loading.dismiss();

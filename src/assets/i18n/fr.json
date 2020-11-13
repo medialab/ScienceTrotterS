@@ -28,7 +28,7 @@
 
 	"P_SETTING_LANGUAGE":"Langue",
 	"P_SETTING_FR":"Français",
-	"P_SETTING_EN":"English",
+	"P_SETTING_EN":"Anglais",
 	"P_SETTING_FONT_SIZE":"Taille du texte",
 	"P_SETTING_THEME":"Mode d'affichage",
 	"P_SETTING_THEME_DAY":"Jour",
@@ -43,7 +43,7 @@
 	"P_SETTING_DELETE_MODAL_CANCEL":"Annuler",
 	"P_SETTING_DELETE_MODAL_SELECTALL":"Tout sélectionner",
 	"P_SETTING_DELETE_MODAL_DELETE":"Supprimer",
-	"P_SETTING_DELETE_MODAL_NODATA":"Données non téléchargées en {{ lang }}",
+	"P_SETTING_DELETE_MODAL_NODATA":"Données non téléchargées en ",
 
 	"P_PLACE_NO_DATA":"Pas de données pour ce lieu en {{ lang }}",
 	"P_CITY_NO_DATA":"Pas de données pour cette ville en {{ lang }}",

@@ -1,3 +1,4 @@
+import { LanguageService } from './../../services/language.service';
 import { NetworkService } from './../../services/network.service';
 import { LoadingController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,6 +18,8 @@ export class PlacePage implements OnInit {
   place: any = null;
   parcour: any;
   placesList: any[];
+
+  filterLang: string = 'fr';
 
   helpItemActive: boolean=false;
 
@@ -39,6 +42,7 @@ export class PlacePage implements OnInit {
 
   constructor(
     public translate: TranslateService,
+    public language: LanguageService,
     public config: ConfigService,
     public offlineStorage: OfflineStorageService,
     public sanitizer: DomSanitizer,
@@ -49,13 +53,16 @@ export class PlacePage implements OnInit {
     public network: NetworkService,
     public api: ApiService
   ) {
-    this.translate.onLangChange.subscribe(() => {
-      this.initPlace()
+    // this.translate.onLangChange.subscribe(() => {
+    //   this.initPlace()
+    // })
+    this.language.filter.subscribe((lang) => {
+      this.filterLang = lang;
+      this.initPlace();
     })
   }
 
   ngOnInit() {
-    this.initPlace();
   }
 
   initPlace() {
@@ -70,7 +77,7 @@ export class PlacePage implements OnInit {
           this.initPlaceData(place);
         } else {
           // direct access
-          const place = await this.api.get(`/public/interests/byId/${id}?lang=${this.translate.currentLang}`);
+          const place = await this.api.get(`/public/interests/byId/${id}?lang=${this.filterLang}`);
           this.initPlaceData(place);
         }
       })
@@ -85,7 +92,7 @@ export class PlacePage implements OnInit {
     this.isPlaceVisited = this.offlineStorage.isVisited(place['cities_id'], 'places', place.id);
 
     const coverUrl = this.api.getAssetsUri(place.header_image);
-    const audioUrl = this.api.getAssetsUri(place.audio[this.translate.currentLang]);
+    const audioUrl = this.api.getAssetsUri(place.audio[this.filterLang]);
 
     this.coverUrl = coverUrl;
     this.placeAudioUrl = audioUrl;
@@ -124,7 +131,7 @@ export class PlacePage implements OnInit {
   }
 
   navigatePlace(placeId: string) {
-    if(this.network.isConnected() || this.offlineStorage.isDownloaded(this.place['cities_id'], 'places', placeId)) {
+    if(this.network.isConnected() || this.offlineStorage.isDownloaded(this.filterLang, this.place['cities_id'], 'places', placeId)) {
       let navigationExtras: NavigationExtras = {
         skipLocationChange: true,
         state: {
@@ -170,7 +177,7 @@ export class PlacePage implements OnInit {
   }
 
   showBiblio() {
-    const biblio = this.place.bibliography[this.translate.currentLang];
+    const biblio = this.place.bibliography[this.filterLang];
     let isShow = false;
 
     for (const itemDesc of biblio) {
@@ -202,7 +209,7 @@ export class PlacePage implements OnInit {
   }
 
   isDownloaded() {
-    return this.offlineStorage.isDownloaded(this.place['cities_id'], 'places', this.place.id)
+    return this.offlineStorage.isDownloaded(this.filterLang, this.place['cities_id'], 'places', this.place.id)
   }
 
   /**
@@ -210,12 +217,12 @@ export class PlacePage implements OnInit {
   * par mail.
   */
   async btnReportProblem() {
-    const city = await this.api.get(`/public/cities/byId/${this.place['cities_id']}?lang=${this.translate.currentLang}`);
+    const city = await this.api.get(`/public/cities/byId/${this.place['cities_id']}?lang=${this.filterLang}`);
     const to = 'forccast.controverses@sciencespo.fr';
 
     this.translate.get(['MAIL_REPORT_PROBLEM_SUBJECT','MAIL_REPORT_PROBLEM_BODY'], {
-      'landmarkName': this.place.title[this.translate.currentLang],
-      'cityName': city.title[this.translate.currentLang],
+      'landmarkName': this.place.title[this.filterLang],
+      'cityName': city.title[this.filterLang],
     }).subscribe((resp) => {
       const subject = resp['MAIL_REPORT_PROBLEM_SUBJECT'];
       const body = resp['MAIL_REPORT_PROBLEM_BODY'];
@@ -229,10 +236,10 @@ export class PlacePage implements OnInit {
    */
   async btnShareRef() {
     this.translate.get('MAIL_SHARE_BIBLIO_SUBJECT', {
-      'landmarkName': this.place.title[this.translate.currentLang],
+      'landmarkName': this.place.title[this.filterLang],
     }).subscribe(async (subject) => {
       let body = '';
-      for (let itemDesc of this.place.bibliography[this.translate.currentLang]) {
+      for (let itemDesc of this.place.bibliography[this.filterLang]) {
         body += itemDesc.replace(' & ',' et ') + '\n';
       }
       const shareData = {

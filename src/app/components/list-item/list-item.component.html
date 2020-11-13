@@ -22,7 +22,7 @@
         <button type="button" class='info' [attr.id]="focusId"
                 (click)="selectItem()"
                 [attr.title]="'COMP_PLI_BTN_SHOW_PREVIEW' | translate">
-          <h1>{{ item.title[translate.currentLang] }}</h1>
+          <h1>{{ item.title[filterLang] }}</h1>
           <ul class="infoParcours" *ngIf="target === 'parcours'">
             <li>
               <label class="labelToLeft">{{ placesList.length }}</label>
@@ -31,7 +31,7 @@
             <li>
               <span class="spanWithDotInside">&#xB7;</span>
               <label>
-                {{ item.time[translate.currentLang] }}
+                {{ item.time[filterLang] }}
               </label>
             </li>
             <li *ngIf="isShowTimeToObj">
@@ -44,13 +44,13 @@
 
           <ul class="infoParcours" *ngIf="target === 'places'">
             <li>
-              <label class="labelToLeft">{{ item.address[translate.currentLang] }}</label>
+              <label class="labelToLeft">{{ item.address[filterLang] }}</label>
             </li>
           </ul>
 
           <ul class="infoParcours infoParcoursLandmarks" *ngIf="target === 'places'">
             <li>
-              <label class="labelToLeft">{{ item.schedule[translate.currentLang] }}</label>
+              <label class="labelToLeft">{{ item.schedule[filterLang] }}</label>
             </li>
             <li *ngIf="isShowTimeToObj">
               <span class="spanWithDotInside">&#xB7;</span>
@@ -84,7 +84,7 @@
   <!-- CONTENT DISCOVER -->
   <div class="contentDiscover" [ngClass]="config.getFontSizeClass()"  *ngIf="target === 'parcours' && isOpenDiscover">
     <div class='content'>
-      <p>{{ item.description[translate.currentLang] }}</p>
+      <p>{{ item.description[filterLang] }}</p>
     </div>
 
     <div class='audio-player-container'>

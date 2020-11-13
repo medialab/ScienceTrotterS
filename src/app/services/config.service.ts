@@ -28,12 +28,12 @@ export class ConfigService {
    * Si ces valeurs sont définis. Sinon on défini ceux par défaut.
    */
   initialize() {
-    // let _language = await localStorage.getItem('config::langue');
     const fontSize = localStorage.getItem('config::fontSize');
     // let _theme = await localStorage.getItem('config::theme');
-    // this.updateLanguage(_language === null ? this.parameters.language : _language);
-    this.updateConfig('config::fontSize', fontSize ? this.parameters.fontSize : fontSize);
-    this.parameters.fontSize = fontSize;
+    this.updateConfig('config::fontSize', fontSize ?  fontSize : this.parameters.fontSize);
+    if(fontSize) {
+      this.parameters.fontSize = fontSize;
+    }
     // this.updateTheme(_theme === null ? this.parameters.theme : _theme);
   }
 

@@ -21,6 +21,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
     'longitude': null,
     'latitude': null
   };
+  @Input() filterLang: string;
   @Input() cityId: string = null;
   @Input() isClose: boolean=false;
 
@@ -171,7 +172,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
           const marker = this.createAndAddMarker(
             'parcours',
             parcour.id,
-            poi.title[this.translate.currentLang],
+            poi.title[this.filterLang],
             latitude,
             longitude,
             false,
@@ -224,8 +225,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
     return new Promise(async(resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
-      // this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.configProvider.getLanguage()}&tmsp=${Date.now()`) // remove tmsp for cache
-      const data = await this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.translate.currentLang}`)
+      const data = await this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.filterLang}`)
       const time = data.length.time;
       const poiArray = [];
 
@@ -304,7 +304,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
         const marker = this.createAndAddMarker(
           'place',
           item.id,
-          item.title[this.translate.currentLang],
+          item.title[this.filterLang],
           latitude,
           longitude);
 

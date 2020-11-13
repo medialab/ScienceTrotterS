@@ -1,3 +1,4 @@
+import { LanguageService } from './../../services/language.service';
 import { ConfigService } from './../../services/config.service';
 import { ApiService } from './../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +18,8 @@ export class ClearanceModalComponent implements OnInit {
   deleteList: any = [];
   toast: any = null;
 
+  langSelected: string = 'fr';
+
   constructor(
     private offlineStorage: OfflineStorageService,
     private toastCtrl: ToastController,
@@ -24,32 +27,41 @@ export class ClearanceModalComponent implements OnInit {
     private api: ApiService,
     public config: ConfigService,
     public translate: TranslateService,
+    public language: LanguageService,
     private modalCtrl: ModalController
-  ) { }
+  ) {
+    this.language.filter.subscribe((lang) => {
+      this.langSelected = lang;
+      this.initDownloaded(lang);
+    });
+   }
 
   ngOnInit() {
-    this.initDownloaded()
   }
 
-  async initDownloaded() {
-    const citiesAvailable = await this.api.get('/public/cities/list?lang=' + this.translate.currentLang);
+  async initDownloaded(lang) {
+    // const citiesAvailable = await this.api.get('/public/cities/list?lang=' + this.langSelected);
+    const downloaded = this.offlineStorage.getDownloaded();
+    if (downloaded[lang]) {
+      this.downloaded = {...downloaded[lang]};
+      this.cities = Object.values(this.downloaded);
 
-    this.downloaded = {...this.offlineStorage.getDownloaded()};
-
-    this.cities = Object.values(this.downloaded).filter((city: any) => {
-      return citiesAvailable.findIndex((c) => c.id === city.id) > -1
-    });
-    this.cities.forEach((city) => {
-      this.downloaded[city.id] = {
-        ...this.downloaded[city.id],
-        list: this.getDownloadList(city),
-        parcoursList: city.parcours ? this.getList(city.parcours) : [],
-        placesList: city.places ? this.getList(city.places) : [],
-      }
-    });
-    this.downloadedList = this.cities.reduce((init, city) => {
-      return init.concat(this.downloaded[city.id].list);
-    }, []);
+      this.cities.forEach((city) => {
+        this.downloaded[city.id] = {
+          ...this.downloaded[city.id],
+          list: this.getDownloadList(city),
+          parcoursList: city.parcours ? this.getList(city.parcours) : [],
+          placesList: city.places ? this.getList(city.places) : [],
+        }
+      });
+      this.downloadedList = this.cities.reduce((init, city) => {
+        return init.concat(this.downloaded[city.id].list);
+      }, []);
+    } else {
+      this.downloaded = {};
+      this.cities = [];
+      this.downloadedList = [];
+    }
   }
 
   getDownloadList(city) {
@@ -72,6 +84,11 @@ export class ClearanceModalComponent implements OnInit {
       };
     });
     return list;
+  }
+
+  onLangSelectedChange(event) {
+    this.langSelected = event.detail.value;
+    this.initDownloaded(event.detail.value);
   }
 
   presentDeleteToast() {
@@ -102,13 +119,13 @@ export class ClearanceModalComponent implements OnInit {
     });
     await Promise.all(deletes);
     loading.dismiss();
-    this.initDownloaded();
+    this.initDownloaded(this.langSelected);
   }
 
 
   async deletePlace(place) {
     const coverUrl = this.api.getAssetsUri(place['header_image']);
-    const audioUrl = this.api.getAssetsUri(place['audio'][this.translate.currentLang]);
+    const audioUrl = this.api.getAssetsUri(place['audio'][this.langSelected]);
     const gallery = Object.keys(place['gallery_image'])
           .map((key, i) =>  {
             return this.api.getAssetsUri(place['gallery_image'][key]);
@@ -119,6 +136,7 @@ export class ClearanceModalComponent implements OnInit {
     });
 
     const update = await this.offlineStorage.updateDownloaded(
+      this.langSelected,
       { id: place['cities_id']},
       'places',
       { id: place.id },
@@ -128,10 +146,11 @@ export class ClearanceModalComponent implements OnInit {
   }
 
   async deleteParcour(parcour) {
-    const audioUrl = this.api.getAssetsUri(parcour['audio'][this.translate.currentLang]);
+    const audioUrl = this.api.getAssetsUri(parcour['audio'][this.langSelected]);
     const audioDelete = await this.offlineStorage.clearRequest(audioUrl);
     const placesDelete = parcour.placesList.map(async (place) => await this.deletePlace(place));
     const update = await this.offlineStorage.updateDownloaded(
+      this.langSelected,
       { id: parcour['cities_id']},
       'parcours',
       { id: parcour.id },

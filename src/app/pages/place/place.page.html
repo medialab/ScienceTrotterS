@@ -1,5 +1,5 @@
 <main-header [withMenu]="true" [withBackButton] = "true">
-  {{  place && (parcour ? parcour.title[translate.currentLang] : place.title[translate.currentLang]) }}
+  {{  place && (parcour ? parcour.title[filterLang] : place.title[filterLang]) }}
 </main-header>
 
 <main-content *ngIf="place">
@@ -19,10 +19,10 @@
 
     <div class="infoContent">
       <h1 class="infoTitle">
-        {{ place.title[translate.currentLang] }}
+        {{ place.title[filterLang] }}
       </h1>
       <h2 class="infoSubtitle">
-        {{ place.address[translate.currentLang] }}
+        {{ place.address[filterLang] }}
       </h2>
     </div>
 
@@ -44,8 +44,8 @@
               aria-expanded="false" (click)="onClickSetHelpItemActive(true)">
         <ion-icon aria-hidden="true" name="help-circle-outline"></ion-icon>
         <label>
-          {{ sliceStr(place.schedule[translate.currentLang], 30) }}
-          <br /> {{ sliceStr(place.price[translate.currentLang], 30) }}
+          {{ sliceStr(place.schedule[filterLang], 30) }}
+          <br /> {{ sliceStr(place.price[filterLang], 30) }}
         </label>
       </button>
     </li>
@@ -80,7 +80,7 @@
             <ion-icon focusable="false" aria-hidden="true" name="time-outline"></ion-icon>
           </div>
           <label>
-            {{ place.schedule[translate.currentLang] }}
+            {{ place.schedule[filterLang] }}
           </label>
         </li>
         <!-- INFO PRICE -->
@@ -89,7 +89,7 @@
             <ion-icon focusable="false" aria-hidden="true" name="warning-outline"></ion-icon>
           </div>
           <label>
-            {{ place.price[translate.currentLang] }}
+            {{ place.price[filterLang] }}
           </label>
         </li>
         <!-- BTN SUBMIT PROBLEM -->
@@ -130,7 +130,7 @@
     <!-- SECTION AUDIO SCRIPT -->
     <section id="section-audio" class="poi__section poi__section--isGrey" [ngClass]="{'hideAudioScript': !showAudioScript}">
       <div class="poi__section__content">
-        <p class="pJustified" [innerHtml]="place.audio_script[translate.currentLang]"></p>
+        <p class="pJustified" [innerHtml]="place.audio_script[filterLang]"></p>
       </div>
     </section>
     <!-- ./ SECTION AUDIO SCRIPT -->
@@ -161,7 +161,7 @@
       <div class="poi__section__content">
         <div class="content__desc">
           <ul class="bibliography__list">
-            <li class="bibliography__list__item" *ngFor="let itemDesc of place.bibliography[translate.currentLang]">
+            <li class="bibliography__list__item" *ngFor="let itemDesc of place.bibliography[filterLang]">
               <!-- <p [innerHtml]="data.bbCodeToHtml(itemDesc)">{{itemDesc}}</p> -->
                 <p>{{ itemDesc }}</p>
             </li>
@@ -194,13 +194,13 @@
   <div class="place-nodata-wrapper">
     <ion-text color="medium">
       <p class='ion-text-center ion-padding' >
-        {{ 'P_PLACE_NO_DATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+        {{ 'P_PLACE_NO_DATA' | translate: {lang: filterLang === 'en' ? 'english' : 'français'} }}
       </p>
     </ion-text>
   </div>
 </main-content>
 <!-- Footer without a border -->
-<ion-footer *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">
+<ion-footer mode="md" *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">
   <ion-toolbar>
     <ul class="footer__list">
       <li class="footer__list__item">

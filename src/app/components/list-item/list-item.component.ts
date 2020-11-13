@@ -16,6 +16,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ListItemComponent implements OnInit, OnChanges {
   @Input() target: string = '';
+  @Input() filterLang: string;
+
   @Input() focusId: string = 'focusId';
   @Input() item: any;
   @Input() parcourTime: string = '';
@@ -52,7 +54,7 @@ export class ListItemComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.parcourAudioUrl = this.api.getAssetsUri(this.item['audio'][this.translate.currentLang]);
+    this.parcourAudioUrl = this.api.getAssetsUri(this.item['audio'][this.filterLang]);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -140,13 +142,14 @@ export class ListItemComponent implements OnInit, OnChanges {
     loading.present();
 
     if (this.target === 'parcours') {
-      const audioUrl = this.api.getAssetsUri(this.item['audio'][this.translate.currentLang]);
+      const audioUrl = this.api.getAssetsUri(this.item['audio'][this.filterLang]);
       const audioFile = await this.api.getFile(audioUrl);
       const audioDownload = await this.offlineStorage.setRequest(audioUrl, audioFile);
       const placesDownload = this.placesList.map(async (place) => await this.downloadPlace(place));
       try {
         await Promise.all([audioDownload, placesDownload]);
         this.offlineStorage.updateDownloaded(
+          this.filterLang,
           { id: this.cityId, name: this.cityName },
           'parcours',
           { ...this.item, type: 'parcours', placesList: this.placesList },
@@ -170,7 +173,7 @@ export class ListItemComponent implements OnInit, OnChanges {
     const coverUrl = this.api.getAssetsUri(place['header_image']);
 
     // Téléchargement de l'audio
-    const audioUrl = this.api.getAssetsUri(place['audio'][this.translate.currentLang]);
+    const audioUrl = this.api.getAssetsUri(place['audio'][this.filterLang]);
 
     // Téléchargement des images de la galerie pour ce POI
     const gallery = Object.keys(place['gallery_image'])
@@ -185,6 +188,7 @@ export class ListItemComponent implements OnInit, OnChanges {
 
     await Promise.all(downloads);
     this.offlineStorage.updateDownloaded(
+      this.filterLang,
       { id: this.cityId, name: this.cityName },
       'places',
       {...place, type: 'places'},
@@ -197,6 +201,6 @@ export class ListItemComponent implements OnInit, OnChanges {
   }
 
   isDownloaded() {
-    return this.offlineStorage.isDownloaded(this.cityId, this.target, this.item.id)
+    return this.offlineStorage.isDownloaded(this.filterLang, this.cityId, this.target, this.item.id);
   }
 }

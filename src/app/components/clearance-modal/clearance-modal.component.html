@@ -1,5 +1,5 @@
 <ion-header translucent [ngClass]="config.getFontSizeClass()">
-  <ion-toolbar>
+  <ion-toolbar mode="md">
     <ion-title>{{'P_SETTING_DELETE_DOWNLOADS' | translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click) ="dismissModal()">
@@ -14,10 +14,18 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen [ngClass]="config.getFontSizeClass()">
-  <div class="clearance-wrapper" *ngIf="downloadedList && downloadedList.length === 0">
+  <ion-segment mode="md" color="dark" (ionChange)="onLangSelectedChange($event)" [value]="langSelected">
+    <ion-segment-button value="fr">
+      <ion-label>{{'P_SETTING_FR' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="en">
+      <ion-label>{{'P_SETTING_EN' | translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div class="clearance-wrapper" *ngIf="!downloadedList || downloadedList.length === 0">
     <ion-text color="medium">
       <p class="ion-padding">
-        {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate: {lang: translate.currentLang === 'en' ? 'english' : 'français'} }}
+        {{ 'P_SETTING_DELETE_MODAL_NODATA' | translate }} {{langSelected === 'en' ? ('P_SETTING_EN' | translate) : ('P_SETTING_FR' | translate)}}
       </p>
     </ion-text>
   </div>
@@ -41,7 +49,7 @@
         <span class="list-item">
           <ion-item lines="full" *ngIf="parcour">
             <ion-checkbox color="danger"  slot="start" [(ngModel)]="parcour.isChecked" (ionChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
-            <ion-label>{{ parcour.title && parcour.title[translate.currentLang] }}</ion-label>
+            <ion-label>{{ parcour.title && parcour.title[langSelected] }}</ion-label>
             <div class="round-icon">
               <span aria-hidden="true"
                 class="icon icon-parcours"
@@ -53,7 +61,7 @@
         <span class="list-item" *ngFor="let place of downloaded[city.id].placesList">
           <ion-item  lines="full" *ngIf="place && place.parcours_id === parcour.id">
             <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
-            <ion-label>{{ place.title && place.title[translate.currentLang] }}</ion-label>
+            <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
             <div class="round-icon">
               <span aria-hidden="true"
                 class="icon icon-places"
@@ -66,7 +74,7 @@
       <span *ngFor="let place of downloaded[city.id].placesList">
         <ion-item lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
           <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
-          <ion-label>{{ place.title && place.title[translate.currentLang] }}</ion-label>
+          <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
           <div class="round-icon">
             <span aria-hidden="true"
               class="icon icon-places"

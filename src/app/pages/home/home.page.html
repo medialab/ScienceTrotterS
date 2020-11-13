@@ -17,10 +17,10 @@
           <button
             aria-controls="otps__lg--fr"
             class="lg__item__btn"
-            (click)="updateLanguage('fr')"
-            [attr.aria-pressed]="translate.currentLang === 'fr'"
-            [attr.aria-checked]="translate.currentLang === 'fr'">
-            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="translate.currentLang === 'fr'"></ion-icon>
+            (click)="updateLanguageFilter('fr')"
+            [attr.aria-pressed]="filterLang === 'fr'"
+            [attr.aria-checked]="filterLang === 'fr'">
+            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="filterLang === 'fr'"></ion-icon>
             <span>{{ 'P_SETTING_FR' | translate }}</span>
           </button>
         </li>
@@ -28,10 +28,10 @@
           <button
             aria-controls="otps__lg--en"
             class="lg__item__btn"
-            (click)="updateLanguage('en')"
-            [attr.aria-pressed]="translate.currentLang === 'en'"
-            [attr.aria-checked]="translate.currentLang === 'en'">
-            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="translate.currentLang === 'en'"></ion-icon>
+            (click)="updateLanguageFilter('en')"
+            [attr.aria-pressed]="filterLang === 'en'"
+            [attr.aria-checked]="filterLang === 'en'">
+            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="filterLang === 'en'"></ion-icon>
             <span>{{ 'P_SETTING_EN' | translate }}</span>
           </button>
         </li>
@@ -48,7 +48,7 @@
       <a class="list__cities__item__a"
         (click)="viewCity($event, city)">
         <label class="list__cities__item__a__label">
-        {{ city.title[translate.currentLang] }}
+        {{ city.title[filterLang] }}
         </label>
       </a>
     </li>

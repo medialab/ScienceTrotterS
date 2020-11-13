@@ -2,6 +2,11 @@
   ion-title, ion-item {
     font-size: 1.1em;
   }
+  ion-segement {
+    ion-segment-button {
+      --color-checked: black;
+    }
+  }
   ion-checkbox {
     position:relative;
   }
