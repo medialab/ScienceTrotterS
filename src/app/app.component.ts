@@ -48,22 +48,24 @@ export class AppComponent {
     // Service worker update listener
     this.swUpdate.available.subscribe(async (event) => {
       console.log('A newer version is now available. Refresh the page now to update the cache');
-      const header: any = await this.translate.get("ALERT_UPDATE_APP_TITLE");
-      const message: any = await this.translate.get("ALERT_UPDATE_APP_MSG");
-      const alert = await this.alertCtrl.create({
-        header,
-        message,
-        buttons: [
-          {
-            text: 'ok',
-            role: 'cancel',
-            handler: () => {
-              this.swUpdate.activateUpdate().then(() => document.location.reload());
+      this.translate.get(['ALERT_UPDATE_APP_TITLE', 'ALERT_UPDATE_APP_MSG'])
+      .subscribe(async (resp) => {
+        console.log(resp)
+        const alert = await this.alertCtrl.create({
+          header: resp['ALERT_UPDATE_APP_TITLE'],
+          message: resp['ALERT_UPDATE_APP_MSG'],
+          buttons: [
+            {
+              text: 'ok',
+              role: 'cancel',
+              handler: () => {
+                this.swUpdate.activateUpdate().then(() => document.location.reload());
+              }
             }
-          }
-        ]
+          ]
+        })
+        await alert.present();
       })
-      await alert.present();
     });
 
     this.initializeApp();
@@ -83,7 +85,13 @@ export class AppComponent {
 
     // PWA installation notification
     this.isAppInstalled = localStorage.getItem('config::isAppInstalled') === 'true';
-    if (!this.isInStandaloneMode() && !this.isAppInstalled && !this.platform.is('desktop')) {
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+    if (!this.isInStandaloneMode() &&
+        !this.isAppInstalled &&
+        !this.platform.is('desktop') &&
+        (!isChrome || (isChrome && this.platform.is('ios')))
+      ) {
       this.showInstallBanner();
     }
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -127,11 +135,6 @@ export class AppComponent {
   }
 
   clickShowInstall() {
-    // if(this.platform.is('ios')) {
-    //   this.showInstallBanner();
-    // } else {
-    //   this.showInstallPrompt();
-    // }
     if(this.deferredPrompt) {
       this.showInstallPrompt();
     } else {
