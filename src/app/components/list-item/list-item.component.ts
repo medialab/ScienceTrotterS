@@ -148,7 +148,7 @@ export class ListItemComponent implements OnInit, OnChanges {
       const placesDownload = this.placesList.map(async (place) => await this.downloadPlace(place));
       try {
         await Promise.all([audioDownload, placesDownload]);
-        this.offlineStorage.updateDownloaded(
+        await this.offlineStorage.updateDownloaded(
           this.filterLang,
           { id: this.cityId, name: this.cityName },
           'parcours',
@@ -187,7 +187,7 @@ export class ListItemComponent implements OnInit, OnChanges {
     });
 
     await Promise.all(downloads);
-    this.offlineStorage.updateDownloaded(
+    await this.offlineStorage.updateDownloaded(
       this.filterLang,
       { id: this.cityId, name: this.cityName },
       'places',

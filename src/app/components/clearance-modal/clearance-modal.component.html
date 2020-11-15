@@ -31,13 +31,13 @@
   </div>
   <ion-list *ngIf="downloadedList && downloadedList.length > 0">
     <ion-item lines="full">
-      <ion-checkbox color="danger" slot="start" [checked]="deleteList.length === downloadedList.length" (ionChange)="toggleSelectAll($event)">
+      <ion-checkbox color="danger" slot="start" [(ngModel)]="isSelectAll" (ngModelChange)="toggleSelectAll($event)">
       </ion-checkbox>
       <ion-label>
         {{'P_SETTING_DELETE_MODAL_SELECTALL' | translate}}
       </ion-label>
 
-      <ion-button slot="end" color="danger" fill="clear" *ngIf="deleteList.length>0" (click)="clearList()">{{'P_SETTING_DELETE_MODAL_DELETE' | translate}}</ion-button>
+      <ion-button slot="end" color="danger" fill="clear" *ngIf="deleteList.length > 0" (click)="clearList()">{{'P_SETTING_DELETE_MODAL_DELETE' | translate}}</ion-button>
       <!-- <ion-button slot="end" *ngIf="deleteList.length > 0" (click)="cancelClear()">{{'P_SETTING_DELETE_MODAL_CANCEL' | translate}}</ion-button> -->
     </ion-item>
     <ion-item-group *ngFor="let city of cities">
@@ -48,7 +48,7 @@
       <ion-item-group *ngFor="let parcour of downloaded[city.id].parcoursList">
         <span class="list-item">
           <ion-item lines="full" *ngIf="parcour">
-            <ion-checkbox color="danger"  slot="start" [(ngModel)]="parcour.isChecked" (ionChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
+            <ion-checkbox color="danger"  slot="start" [(ngModel)]="parcour.isChecked" (ngModelChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
             <ion-label>{{ parcour.title && parcour.title[langSelected] }}</ion-label>
             <div class="round-icon">
               <span aria-hidden="true"
@@ -60,7 +60,7 @@
         </span>
         <span class="list-item" *ngFor="let place of downloaded[city.id].placesList">
           <ion-item  lines="full" *ngIf="place && place.parcours_id === parcour.id">
-            <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
+            <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
             <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
             <div class="round-icon">
               <span aria-hidden="true"
@@ -73,7 +73,7 @@
       </ion-item-group>
       <span *ngFor="let place of downloaded[city.id].placesList">
         <ion-item lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
-          <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ionChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
+          <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
           <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
           <div class="round-icon">
             <span aria-hidden="true"

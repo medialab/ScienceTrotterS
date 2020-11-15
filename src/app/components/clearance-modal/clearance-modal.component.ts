@@ -17,6 +17,7 @@ export class ClearanceModalComponent implements OnInit {
   cities: any;
   deleteList: any = [];
   toast: any = null;
+  isSelectAll: boolean = false;
 
   langSelected: string = 'fr';
 
@@ -91,12 +92,13 @@ export class ClearanceModalComponent implements OnInit {
     this.initDownloaded(event.detail.value);
   }
 
-  presentDeleteToast() {
+  updateDeleteList() {
     this.deleteList = this.cities.reduce((init, city) => {
       const deleted = this.downloaded[city.id].parcoursList.filter((item) => item.isChecked)
                       .concat(this.downloaded[city.id].placesList.filter((item) => item.isChecked))
       return init.concat(deleted);
     }, []);
+    this.isSelectAll = this.deleteList.length === this.downloadedList.length
   }
 
   cancelDelete() {
@@ -159,35 +161,37 @@ export class ClearanceModalComponent implements OnInit {
 
   }
 
-  toggleCheck(event, type, cityId, item) {
+  toggleCheck(checked, type, cityId, item) {
     if(type === 'parcours') {
       this.downloaded[cityId].placesList.forEach((place) => {
-        if(place.parcours_id === item.id) place.isChecked = event.detail.checked;
+        if(place.parcours_id === item.id) place.isChecked = checked;
       })
     }
     if(type === 'places') {
       const placesListChecked = this.downloaded[cityId].placesList.filter((place) => place.parcours_id === item.parcours_id && place.isChecked);
       const parcourIndex = this.downloaded[cityId].parcoursList && this.downloaded[cityId].parcoursList.findIndex((parcour) => parcour.id === item.parcours_id);
-      if (parcourIndex === -1) return;
-      if(event.detail.checked && this.downloaded[cityId].parcours[item.parcours_id]) {
-        if (placesListChecked.length === this.downloaded[cityId].parcours[item.parcours_id].placesList.length) {
-          this.downloaded[cityId].parcoursList[parcourIndex].isChecked = true;
-        }
-      } else {
-        if(placesListChecked.length === 0) {
-          this.downloaded[cityId].parcoursList[parcourIndex].isChecked = false;
+      if (parcourIndex !== -1) {
+        if(checked && this.downloaded[cityId].parcours[item.parcours_id]) {
+          if (placesListChecked.length === this.downloaded[cityId].parcours[item.parcours_id].placesList.length) {
+            this.downloaded[cityId].parcoursList[parcourIndex].isChecked = true;
+          }
+        } else {
+          if(placesListChecked.length === 0) {
+            this.downloaded[cityId].parcoursList[parcourIndex].isChecked = false;
+          }
         }
       }
     }
-    this.presentDeleteToast()
+    this.updateDeleteList();
   }
 
-  toggleSelectAll(event) {
+  toggleSelectAll(checked) {
     this.cities.forEach((city: any) => {
-      this.downloaded[city.id].placesList.forEach((item: any) => item.isChecked = event.detail.checked);
-      this.downloaded[city.id].parcoursList.forEach((item: any) => item.isChecked = event.detail.checked);
+      this.downloaded[city.id].placesList.forEach((item: any) => item.isChecked = checked);
+      this.downloaded[city.id].parcoursList.forEach((item: any) => item.isChecked = checked);
     });
-    this.presentDeleteToast();
+    this.isSelectAll = checked;
+    this.deleteList = checked ? [...this.downloadedList] : [];
   }
   dismissModal() {
     // using the injected ModalController this page

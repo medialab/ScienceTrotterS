@@ -73,7 +73,7 @@ export class OfflineStorageService {
     } else {
       delete this.downloaded[lang][city.id][target][item.id];
     }
-    this.storage.set('downloaded', this.downloaded)
+    return this.storage.set('downloaded', this.downloaded)
     // this.downloaded.next(downloaded)
   }
 
