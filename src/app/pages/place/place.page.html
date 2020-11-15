@@ -110,7 +110,7 @@
         [playerUUID]="('player__audio') + place.id"
         [uuid]="place.id"
         [isNotAvailable]="!isDownloaded() && !network.isConnected()"
-        [showAudioScript]="showAudioScript"
+        [showAudioScript]="true"
         (toggleAudioScript)="onToggleAudioScript()"
         [loadPlayer]="true">
       </audio-player>

@@ -14,7 +14,7 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() audioUrl: string = '';
   @Input() playerUUID: string = '';
   @Input() loadPlayer: boolean = false;
-  @Input() showAudioScript: boolean=false;
+  @Input() showAudioScript: boolean = false;
   @Input() target: string = '';
   @Input() uuid: string = '';
   @Input() isNotAvailable: boolean = false;

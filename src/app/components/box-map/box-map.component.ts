@@ -225,27 +225,29 @@ export class BoxMapComponent implements OnInit, OnChanges {
     return new Promise(async(resolve) => {
       const geoloc = `${longitude};${latitude}`;
 
-      const data = await this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.filterLang}`)
-      const time = data.length.time;
-      const poiArray = [];
+      const data = await this.api.get(`/public/parcours/trace/${parcourId}?geoloc=${geoloc}&lang=${this.filterLang}`);
+      if(data) {
+        const time = data.length.time;
+        const poiArray = [];
 
-      for (const poi of data.interests) {
-        if (typeof poi.api_data !== 'undefined') {
+        for (const poi of data.interests) {
+          if (typeof poi.api_data !== 'undefined') {
 
-          // Création de la route.
-          const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
-            'color': parcourColor,
-            'weight': 5,
-            'opacity': 0.65
-          });
-          poiArray.push(_polyline);
+            // Création de la route.
+            const _polyline = leaflet.geoJSON(poi.api_data.routes[0].geometry, {
+              'color': parcourColor,
+              'weight': 5,
+              'opacity': 0.65
+            });
+            poiArray.push(_polyline);
+          }
         }
-      }
 
-      resolve({
-        'poiArray': poiArray,
-        'time': time
-      });
+        resolve({
+          'poiArray': poiArray,
+          'time': time
+        });
+      }
     });
   }
 
