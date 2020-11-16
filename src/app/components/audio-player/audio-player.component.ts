@@ -92,21 +92,8 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnChanges {
     this.track.currentTime += 30.00;
   }
 
-  changeRangeStart() {
-    if(this.isPlaying) {
-      this.track.pause();
-    }
-    this.isPlaying = false;
-  }
-
-  changeRangeEnd() {
-    this.track.play();
-  }
-
-  onChangeCurrentTime(event: any) {
-    if (event.detail.value && !this.isPlaying) {
-      this.track.currentTime = event.detail.value;
-    }
+  onChangeCurrentTime(value: any) {
+    this.track.currentTime = value;
   }
 
   onClickAudioScript () {

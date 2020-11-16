@@ -35,10 +35,8 @@
   <!-- PLAYER DURATION BAR -->
   <div class="durationBarContent">
     <ion-range
-      (mouseup)="changeRangeEnd()"
-      (touchstart)="changeRangeStart()"
-      (ionChange)="onChangeCurrentTime($event)"
-      [value]="currentTime"
+      (ngModelChange)="onChangeCurrentTime($event)"
+      [(ngModel)]="currentTime"
       [min]="0"
       [max]="duration"
     ></ion-range>
