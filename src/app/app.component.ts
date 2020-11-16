@@ -50,7 +50,6 @@ export class AppComponent {
       console.log('A newer version is now available. Refresh the page now to update the cache');
       this.translate.get(['ALERT_UPDATE_APP_TITLE', 'ALERT_UPDATE_APP_MSG'])
       .subscribe(async (resp) => {
-        console.log(resp)
         const alert = await this.alertCtrl.create({
           header: resp['ALERT_UPDATE_APP_TITLE'],
           message: resp['ALERT_UPDATE_APP_MSG'],

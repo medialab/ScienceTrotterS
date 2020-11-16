@@ -48,7 +48,7 @@
 
         <ion-item-group *ngFor="let parcour of downloaded[city.id].parcoursList">
           <span>
-            <ion-item lines="full" *ngIf="parcour">
+            <ion-item class="item-parcour item-group" lines="full" *ngIf="parcour">
               <ion-checkbox color="danger"  slot="start" [(ngModel)]="parcour.isChecked" (ngModelChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
               <ion-label>{{ parcour.title && parcour.title[langSelected] }}</ion-label>
               <div class="round-icon">
@@ -60,9 +60,9 @@
             </ion-item>
           </span>
           <span *ngFor="let place of downloaded[city.id].placesList">
-            <ion-item lines="full" *ngIf="place && place.parcours_id === parcour.id">
+            <ion-item class="item-place item-group" lines="full" *ngIf="place && place.parcours_id === parcour.id">
               <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
-              <ion-label class="ion-padding-start">{{ place.title && place.title[langSelected] }}</ion-label>
+              <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
               <div class="round-icon">
                 <span aria-hidden="true"
                   class="icon icon-places"
@@ -73,7 +73,7 @@
           </span>
         </ion-item-group>
         <span *ngFor="let place of downloaded[city.id].placesList">
-          <ion-item lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
+          <ion-item class="item-place" lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
             <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
             <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
             <div class="round-icon">
