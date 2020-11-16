@@ -9,8 +9,8 @@
     }
   }
 
-  ion-checkbox {
-    position:relative;
+  ion-checkbox.checkbox-selectall {
+    position: relative;
   }
 
   .clearance-wrapper {
@@ -37,7 +37,12 @@
 
   .item-place {
     font-size: 0.9em;
-    &.item-group {
+    &.ios {
+      ion-label {
+        padding-left: 16px;
+      }
+    }
+    &.md.item-group {
       padding-left: 16px;
     }
   }
