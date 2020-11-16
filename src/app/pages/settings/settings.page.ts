@@ -41,6 +41,11 @@ export class SettingsPage implements OnInit {
   updateTheme() {
   }
 
+  getDownloadList (city) {
+    return Object.values(city['parcours'] || [])
+                .concat(Object.values(city['places']) || [])
+
+  }
 
   async clearCache() {
     let loading = await this.loader.create({
@@ -48,7 +53,31 @@ export class SettingsPage implements OnInit {
       backdropDismiss: true
     });
     loading.present();
-    await this.offlineStorage.clearVisited();
+
+    // case 1: no entry stored in downloads
+    const offlineDownloaded = this.offlineStorage.getDownloaded();
+    let isSomeDownloads = false;
+    ['fr', 'en'].forEach((lang) => {
+      if (offlineDownloaded[lang]) {
+        const cities = Object.values(offlineDownloaded[lang]);
+        cities.forEach((city: any) => {
+          const list = Object.values(city['parcours'] || []).concat(Object.values(city['places']) || [])
+          if (list.length > 0) {
+            isSomeDownloads = true;
+            return;
+          }
+        });
+      }
+    });
+    // case 2: no blob requests are stored
+    const blobs:any = await this.offlineStorage.getAllBlobs();
+    console.log(blobs)
+
+    if (!isSomeDownloads || blobs.length === 0) {
+      await this.offlineStorage.clearAll();
+    } else {
+      await this.offlineStorage.clearVisited();
+    }
     loading.dismiss();
   }
 

@@ -95,11 +95,19 @@ export class OfflineStorageService {
         this.storage.remove(key);
       })
       .then(() => {
-        // this.downloaded.next({});
         this.downloaded = {};
+        this.visited = {}
         resolve();
       })
       .catch((err) => reject(err));
+    })
+  }
+
+  getAllBlobs () {
+    let blobs = [];
+    return new Promise((resolve, reject) => {
+      this.storage.forEach((value, key) => { if(key.slice(0, 4) === 'http') blobs.push(key)})
+      .then(() => resolve(blobs))
     })
   }
 
