@@ -124,7 +124,7 @@
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Internet connection required",
 
 	"ALERT_STORAGE_WARNING_TITLE": "Data could not be downloaded",
-	"ALERT_STORAGE_WARNING_MSG": "Please remove your downloaded data first.",
+	"ALERT_STORAGE_WARNING_MSG": "There is only {{ spaceLeft }} MB left on your device, please clear your downloaded data first.",
 
   "ALERT_MSG_MY_LOCATION": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",
   "ALERT_MSG_MAP_GO": "Your geolocation must be activated in order to use this function. All data will be erased when you close the application.",

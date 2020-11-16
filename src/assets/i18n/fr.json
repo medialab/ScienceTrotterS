@@ -125,7 +125,7 @@
 	"GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
 
 	"ALERT_STORAGE_WARNING_TITLE": "Les données n'ont pas pu être téléchargées",
-	"ALERT_STORAGE_WARNING_MSG": "Veuillez supprimer les données déjà téléchargées auparavant.",
+	"ALERT_STORAGE_WARNING_MSG": "Il ne reste plus que {{spaceLeft}} MB sur votre mobile, veuillez supprimer les données déjà téléchargées auparavant.",
 
 	"ALERT_MSG_MY_LOCATION": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",
 	"ALERT_MSG_MAP_GO": "Votre géolocalisation doit être activée pour pouvoir utiliser cette fonction. Toutes les données seront effacées à la fermeture de l'application.",

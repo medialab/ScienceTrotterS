@@ -115,17 +115,16 @@ export class OfflineStorageService {
     if ('storage' in navigator && 'estimate' in navigator["storage"]) {
       navigator["storage"].estimate().then(async ({usage, quota}) => {
         const spaceInMb = Math.round(quota / (1024 * 1024)) - Math.round(usage / (1024 * 1024));
+        this.translate.get(['ALERT_STORAGE_WARNING_TITLE', 'ALERT_STORAGE_WARNING_MSG'], {spaceLeft: spaceInMb})
+        .subscribe(async (resp) => {
+          const alert = await this.alertCtrl.create({
+            header: resp['ALERT_STORAGE_WARNING_TITLE'],
+            message: resp['ALERT_STORAGE_WARNING_MSG'],
+            buttons: ['OK']
+          });
+          await alert.present();
+        })
 
-        const details = `Only ${spaceInMb} MB left. `;
-        const header: any = await this.translate.get('ALERT_STORAGE_WARNING_TITLE');
-        const message = details + this.translate.get('ALERT_STORAGE_WARNING_MSG');
-
-        const alert = await this.alertCtrl.create({
-          header,
-          message,
-          buttons: ['OK']
-        });
-        await alert.present();
       });
     }
   }
