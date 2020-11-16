@@ -73,7 +73,7 @@
             <ion-icon name="checkmark"></ion-icon>
           </span>
           <label>
-            {{'PLI_ACTION_DOWNLOAD_DATA' | translate}}
+            {{ isDownloaded() ? ('PLI_ACTION_OFFLINE_DATA' | translate) : ('PLI_ACTION_DOWNLOAD_DATA' | translate)}}
           </label>
         </button>
       </div>

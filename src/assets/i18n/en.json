@@ -43,15 +43,15 @@
 	"P_SETTING_DELETE_MODAL_CANCEL":"Cancel",
 	"P_SETTING_DELETE_MODAL_SELECTALL":"Select All",
 	"P_SETTING_DELETE_MODAL_DELETE":"Delete",
-	"P_SETTING_DELETE_MODAL_NODATA":"No downloaded data in ",
+	"P_SETTING_DELETE_MODAL_NODATA":"No data downloaded in ",
 
 	"P_PLACE_NO_DATA":"no place data in {{ lang }}",
 	"P_CITY_NO_DATA":"no city data in {{ lang }}",
 
 	"PLI_FILTER_PROXIMITE":"Nearby",
 	"PLI_FILTER_ALPHA":"Display all",
-	"PLI_ACTION_DOWNLOAD_DATA":"off line",
-	"PLI_ACTION_DOWNLOAD_DATA_REMOVE":"delete all downloaded data",
+	"PLI_ACTION_DOWNLOAD_DATA":"download",
+	"PLI_ACTION_OFFLINE_DATA":"off line",
  	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"download in progress",
 	"PLI_LIST_START_PARCOURS":"start tour",
 	"PLI_LIST_START_POI":"start point of interest",

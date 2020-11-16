@@ -41,25 +41,39 @@
       <!-- <ion-button slot="end" *ngIf="deleteList.length > 0" (click)="cancelClear()">{{'P_SETTING_DELETE_MODAL_CANCEL' | translate}}</ion-button> -->
     </ion-item>
     <ion-item-group *ngFor="let city of cities">
-      <ion-item-divider>
-        <ion-label>{{ city.name }}</ion-label>
-      </ion-item-divider>
+      <div *ngIf="downloaded[city.id].list && downloaded[city.id].list.length > 0">
+        <ion-item-divider>
+          <ion-label>{{ city.name }}</ion-label>
+        </ion-item-divider>
 
-      <ion-item-group *ngFor="let parcour of downloaded[city.id].parcoursList">
-        <span class="list-item">
-          <ion-item lines="full" *ngIf="parcour">
-            <ion-checkbox color="danger"  slot="start" [(ngModel)]="parcour.isChecked" (ngModelChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
-            <ion-label>{{ parcour.title && parcour.title[langSelected] }}</ion-label>
-            <div class="round-icon">
-              <span aria-hidden="true"
-                class="icon icon-parcours"
-                [attr.alt]="'PBC_ALT_PARCOURS' | translate">
-              </span>
-            </div>
-          </ion-item>
-        </span>
-        <span class="list-item" *ngFor="let place of downloaded[city.id].placesList">
-          <ion-item  lines="full" *ngIf="place && place.parcours_id === parcour.id">
+        <ion-item-group *ngFor="let parcour of downloaded[city.id].parcoursList">
+          <span>
+            <ion-item lines="full" *ngIf="parcour">
+              <ion-checkbox color="danger"  slot="start" [(ngModel)]="parcour.isChecked" (ngModelChange)="toggleCheck($event, 'parcours', city.id, parcour)"></ion-checkbox>
+              <ion-label>{{ parcour.title && parcour.title[langSelected] }}</ion-label>
+              <div class="round-icon">
+                <span aria-hidden="true"
+                  class="icon icon-parcours"
+                  [attr.alt]="'PBC_ALT_PARCOURS' | translate">
+                </span>
+              </div>
+            </ion-item>
+          </span>
+          <span *ngFor="let place of downloaded[city.id].placesList">
+            <ion-item lines="full" *ngIf="place && place.parcours_id === parcour.id">
+              <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
+              <ion-label class="ion-padding-start">{{ place.title && place.title[langSelected] }}</ion-label>
+              <div class="round-icon">
+                <span aria-hidden="true"
+                  class="icon icon-places"
+                  [attr.alt]="'PBC_ALT_PS' | translate">
+                </span>
+              </div>
+            </ion-item>
+          </span>
+        </ion-item-group>
+        <span *ngFor="let place of downloaded[city.id].placesList">
+          <ion-item lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
             <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
             <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
             <div class="round-icon">
@@ -70,19 +84,7 @@
             </div>
           </ion-item>
         </span>
-      </ion-item-group>
-      <span *ngFor="let place of downloaded[city.id].placesList">
-        <ion-item lines="full" *ngIf="place && (!downloaded[city.id].parcours || !downloaded[city.id].parcours[place.parcours_id])">
-          <ion-checkbox color="danger"  slot="start" [(ngModel)]="place.isChecked" (ngModelChange)="toggleCheck($event, 'places', city.id, place)"></ion-checkbox>
-          <ion-label>{{ place.title && place.title[langSelected] }}</ion-label>
-          <div class="round-icon">
-            <span aria-hidden="true"
-              class="icon icon-places"
-              [attr.alt]="'PBC_ALT_PS' | translate">
-            </span>
-          </div>
-        </ion-item>
-      </span>
+      </div>
     </ion-item-group>
   </ion-list>
 </ion-content>

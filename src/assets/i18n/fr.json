@@ -50,7 +50,8 @@
 
 	"PLI_FILTER_PROXIMITE":"Autour de moi",
 	"PLI_FILTER_ALPHA":"Tout afficher",
-	"PLI_ACTION_DOWNLOAD_DATA":"hors-ligne",
+	"PLI_ACTION_DOWNLOAD_DATA":"télécharger",
+	"PLI_ACTION_OFFLINE_DATA":"hors-ligne",
 	"PLI_ACTION_DOWNLOAD_DATA_REMOVE":"Supprimer les données de téléchargement.",
 	"PLI_ACTION_DOWNLOAD_DATA_LOADER":"Téléchargement en cours…",
 	"PLI_LIST_START_PARCOURS":"Démarrer le parcours",

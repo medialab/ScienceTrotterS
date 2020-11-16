@@ -2,13 +2,21 @@
   ion-title, ion-item {
     font-size: 1.1em;
   }
+
   ion-segement {
     ion-segment-button {
       --color-checked: black;
     }
   }
+
   ion-checkbox {
     position:relative;
+  }
+
+  ion-item {
+    ion-label.ion-padding-start {
+      padding-left: 20px;
+    }
   }
   .clearance-wrapper {
     height: 100%;
@@ -17,6 +25,7 @@
     align-items: center;
     justify-content: center;
   }
+
   .header-btn {
     display: flex;
     flex-direction: column;
@@ -30,6 +39,7 @@
       text-transform: uppercase;
     }
   }
+
   .round-icon {
     background-color: #929090;
     border-radius: 50%;
