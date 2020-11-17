@@ -71,7 +71,6 @@ export class SettingsPage implements OnInit {
     });
     // case 2: no blob requests are stored
     const blobs:any = await this.offlineStorage.getAllBlobs();
-    console.log(blobs)
 
     if (!isSomeDownloads || blobs.length === 0) {
       await this.offlineStorage.clearAll();
