@@ -1,3 +1,4 @@
+import { bbCodeToHtml } from './../../utils/helper';
 import { LanguageService } from './../../services/language.service';
 import { NetworkService } from './../../services/network.service';
 import { LoadingController, Platform } from '@ionic/angular';
@@ -245,7 +246,7 @@ export class PlacePage implements OnInit {
       const shareData = {
         title: subject,
         text: body,
-        url: 'https://sts.medialab.sciences-po.fr',
+        url: window.location.href
       }
       try {
         await navigator.share(shareData);
@@ -268,5 +269,9 @@ export class PlacePage implements OnInit {
     } else {
       return str.slice(0, length);
     }
+  }
+
+  bbToHtml(text: string) {
+    return bbCodeToHtml(text);
   }
 }

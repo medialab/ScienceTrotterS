@@ -130,7 +130,7 @@
     <!-- SECTION AUDIO SCRIPT -->
     <section id="section-audio" class="poi__section poi__section--isGrey" [ngClass]="{'hideAudioScript': !showAudioScript}">
       <div class="poi__section__content">
-        <p class="pJustified" [innerHtml]="place.audio_script[filterLang]"></p>
+        <p class="pJustified" [innerHtml]="bbToHtml(place.audio_script[filterLang])"></p>
       </div>
     </section>
     <!-- ./ SECTION AUDIO SCRIPT -->
@@ -162,17 +162,16 @@
         <div class="content__desc">
           <ul class="bibliography__list">
             <li class="bibliography__list__item" *ngFor="let itemDesc of place.bibliography[filterLang]">
-              <!-- <p [innerHtml]="data.bbCodeToHtml(itemDesc)">{{itemDesc}}</p> -->
-                <p>{{ itemDesc }}</p>
+              <p [innerHtml]="bbToHtml(itemDesc)"></p>
             </li>
           </ul>
         </div>
 
         <button class="btn__share" (click)="btnShareRef()">
-          <ion-icon aria-hidden="true" focusable="false" name="share-social" ></ion-icon>
           <span class="btn__share__span">
             {{ 'PLI_BTN_SHARE_REF' | translate }}
           </span>
+          <ion-icon aria-hidden="true" focusable="false" name="share-social"></ion-icon>
         </button>
 
       </div>

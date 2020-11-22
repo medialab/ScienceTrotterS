@@ -63,3 +63,45 @@ const convertMeterToTime = (meter) => {
     return meterToKM.toFixed(0) + 'h';
   }
 };
+
+
+const deblaie = (reg,t) => {
+  let texte = new String(t);
+  return texte.replace(reg,'$1\n');
+};
+
+const remblaie = (t) => {
+  let texte = new String(t);
+  return texte.replace(/\n/g,'');
+};
+
+const remplaceTag = (reg,rep,t) => {
+  let texte = new String(t);
+  return texte.replace(reg,rep);
+};
+
+export const bbCodeToHtml = (t: string) => {
+  // Process.
+  // [B]*[/B]
+  t = deblaie(/(\[\/b\])/g,t);
+  t = remplaceTag(/\[b\](.+)\[\/b\]/g,'<b>$1</b>',t);
+  t = remblaie(t);
+  // [I]*[/]
+  t = deblaie(/(\[\/i\])/g,t);
+  t = remplaceTag(/\[i\](.+)\[\/i\]/g,'<i>$1</i>',t);
+  t = remblaie(t);
+  // [U]*[/U]
+  t = deblaie(/(\[\/u\])/g,t);
+  t = remplaceTag(/\[u\](.+)\[\/u\]/g,'<u>$1</u>',t);
+  t = remblaie(t);
+  // Handle quotes
+  t = remplaceTag(/«(.+)»/g,'<q>$1</q>',t);
+  t = remblaie(t);
+
+  const replaceKeyBR = /\[br\]/g;
+  const replaceValueBR = '<br />';
+  t = t.replace(replaceKeyBR, replaceValueBR);
+
+  // Return result.
+  return t;
+};
