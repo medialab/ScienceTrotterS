@@ -20,6 +20,8 @@ export class AppComponent {
   isInstallPromptShown: boolean = false;
   isAppInstalled: boolean = false;
 
+  toastEl: any = null;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -165,6 +167,12 @@ export class AppComponent {
         ]
       })
       toast.present();
+      this.toastEl = document.querySelector(".app-toast");
+      if(this.toastEl) {
+        this.toastEl.addEventListener(('click'), () => {
+          toast.dismiss();
+        });
+      }
     })
   }
 
