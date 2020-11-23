@@ -14,6 +14,7 @@
 	"TOAST_BTN_INSTALL_ANDROID": "OK",
 	"TOAST_BTN_INSTALL_IOS": "OK",
 	"TOAST_MSG_INSTALL_CHROME": "Installez l'appli sur votre téléphone",
+	"TOAST_MSG_INSTALL_CHROME_MANUAL": "Pour installer l'appli, veuillez sélectionnez 'Ajouter à l'écran d'accueil' sur le menu en haut à droite",
 	"TOAST_MSG_INSTALL_NON_CHROME": "Pour installer l'appli, veuillez ouvrir ce site en utilisant Chrome",
 	"TOAST_MSG_INSTALL_SAFARI": "Pour installer l'appli, appuyez sur {{icon}} ci-dessous et sélectionnez \"Sur l'écran d'accueil\"",
 	"TOAST_MSG_INSTALL_NON_SAFARI": "Pour installer l'appli, veuillez ouvrir ce site en utilisant Safari",

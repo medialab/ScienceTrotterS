@@ -148,10 +148,10 @@ export class AppComponent {
     const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
     const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
-    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_CHROME', 'TOAST_MSG_INSTALL_NON_CHROME'], {icon: '<ion-icon name="share-outline"></ion-icon>'})
+    this.translate.get(['TOAST_MSG_INSTALL_SAFARI', 'TOAST_MSG_INSTALL_NON_SAFARI', 'TOAST_BTN_INSTALL_IOS', 'TOAST_BTN_INSTALL_ANDROID', 'TOAST_MSG_INSTALL_CHROME', 'TOAST_MSG_INSTALL_CHROME_MANUAL', 'TOAST_MSG_INSTALL_NON_CHROME'], {icon: '<ion-icon name="share-outline"></ion-icon>'})
     .subscribe(async (resp) => {
       const messageIOS = isSafari ? resp["TOAST_MSG_INSTALL_SAFARI"] : resp["TOAST_MSG_INSTALL_NON_SAFARI"];
-      const messageAndroid = isChrome? resp['TOAST_MSG_INSTALL_CHROME'] :  resp['TOAST_MSG_INSTALL_NON_CHROME'];
+      const messageAndroid = isChrome? (this.deferredPrompt ? resp['TOAST_MSG_INSTALL_CHROME'] : resp['TOAST_MSG_INSTALL_CHROME_MANUAL']) :  resp['TOAST_MSG_INSTALL_NON_CHROME'];
       const message = this.platform.is('ios') ? messageIOS : messageAndroid;
       const toast = await this.toastCtrl.create({
         message: `<span>${message}</span>`,
@@ -161,7 +161,7 @@ export class AppComponent {
             text: '', // replace text with app icon, check global.scss
             role: 'cancel',
             handler: () => {
-              if (this.platform.is('android')) this.showInstallPrompt();
+              this.showInstallPrompt();
             }
           }
         ]
@@ -170,6 +170,7 @@ export class AppComponent {
       this.toastEl = document.querySelector(".app-toast");
       if(this.toastEl) {
         this.toastEl.addEventListener(('click'), () => {
+          this.showInstallPrompt();
           toast.dismiss();
         });
       }
