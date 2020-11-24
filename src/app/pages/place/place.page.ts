@@ -194,7 +194,8 @@ export class PlacePage implements OnInit {
     this.isPlaceVisited = !this.isPlaceVisited;
     if (this.place['cities_id'] && this.place.id) {
       this.offlineStorage.updateVisited(this.place['cities_id'], 'places', this.place.id, this.isPlaceVisited);
-      if(this.placesList) {
+      // navigate to next unvisited place in the parcour
+      if(this.placesList && this.parcour) {
         const nonVisitedList = this.placesList.filter((place) => !this.offlineStorage.isVisited(this.place['cities_id'], 'places', place.id));
         if(nonVisitedList.length === 0) {
           this.offlineStorage.updateVisited(this.place['cities_id'], 'parcours', this.parcour.id, true);
