@@ -190,16 +190,23 @@ export class AppComponent {
     try {
       const position:any = await Plugins.Geolocation.getCurrentPosition();
       if (position && position.coords) {
+        console.log(position)
         if(this.platform.is('android')) {
           window.open(`geo:${position.coords.latitude},${position.coords.longitude}?q=${position.coords.latitude},${position.coords.longitude}`);
         }
         if(this.platform.is('ios')) {
           window.open(`https://maps.apple.com/?ll=${position.coords.latitude},${position.coords.longitude}`)
         }
+      } else {
+        console.log("no position")
+        if (this.platform.is('ios')) {
+          window.open(`https://maps.apple.com/?ll=`)
+        }
       }
     } catch (err) {
       console.log(err);
       this.geoloc.alertMessage();
     }
+    console.log('position no catch')
   }
 }
