@@ -97,7 +97,7 @@
           <button *ngIf="platform.is('android')" class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
             {{ 'PLI_BTN_SEND_PB' | translate }}
           </button>
-          <a class="poi__end__btn poi__end__btn--TransparentAndBlack" *ngIf="platform.is('ios')" [href]="emailReport">
+          <a class="poi__end__btn poi__end__btn--TransparentAndBlack" *ngIf="platform.is('ios')" [href]="getEmailReport()">
             {{ 'PLI_BTN_SEND_PB' | translate }}
           </a>
         </li>

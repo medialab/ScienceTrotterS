@@ -126,8 +126,12 @@ export class PlacePage implements OnInit {
     }).subscribe((resp) => {
       const subject = encodeURI(resp['MAIL_REPORT_PROBLEM_SUBJECT']);
       const body = encodeURI(resp['MAIL_REPORT_PROBLEM_BODY']);
-      this.emailReport = `mailto:${to}?subject=${subject}&body=${body}`
+      this.emailReport = `mailto:${to}?subject=${subject}&body=${body}`;
     })
+  }
+
+  getEmailReport() {
+    return this.emailReport;
   }
 
   ionViewWillLeave() {

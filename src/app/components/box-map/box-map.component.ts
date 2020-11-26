@@ -425,6 +425,7 @@ export class BoxMapComponent implements OnInit, OnChanges {
     // }
     try {
       const position:any = await Plugins.Geolocation.getCurrentPosition();
+      console.log(position);
       if (position && position.coords) {
         this.addCurrentPosition(position.coords);
       }

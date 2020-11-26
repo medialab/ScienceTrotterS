@@ -232,6 +232,7 @@ export class CityPage implements OnInit {
       // }
       try {
         const position = await Plugins.Geolocation.getCurrentPosition();
+        console.log(position);
         if (position && position.coords) {
           this.curPositionUser = position.coords;
 

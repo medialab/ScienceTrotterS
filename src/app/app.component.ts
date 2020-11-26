@@ -179,34 +179,19 @@ export class AppComponent {
   }
 
   async openMap() {
-    // if(this.platform.is('android')) {
-    //   try {
-    //     position = await this.geoloc.getCurrentCoords();
-    //   } catch (err){
-    //     console.log(err)
-    //   }
-    //   if (position) window.open(`geo:${position.latitude},${position.longitude}?q=${position.latitude},${position.longitude}`);
-    // }
-    try {
-      const position:any = await Plugins.Geolocation.getCurrentPosition();
-      if (position && position.coords) {
-        console.log(position)
-        if(this.platform.is('android')) {
-          window.open(`geo:${position.coords.latitude},${position.coords.longitude}?q=${position.coords.latitude},${position.coords.longitude}`);
+    if (this.platform.is('ios')) {
+      window.open(`http://maps.apple.com/?ll=`)
+    } else {
+      try {
+        const position:any = await Plugins.Geolocation.getCurrentPosition();
+        if (position && position.coords) {
+          if(this.platform.is('android')) {
+            window.open(`geo:${position.coords.latitude},${position.coords.longitude}?q=${position.coords.latitude},${position.coords.longitude}`);
+          }
         }
-        if(this.platform.is('ios')) {
-          window.open(`https://maps.apple.com/?ll=${position.coords.latitude},${position.coords.longitude}`)
-        }
-      } else {
-        console.log("no position")
-        if (this.platform.is('ios')) {
-          window.open(`https://maps.apple.com/?ll=`)
-        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-      this.geoloc.alertMessage();
     }
-    console.log('position no catch')
   }
 }
