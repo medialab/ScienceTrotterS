@@ -156,7 +156,7 @@ export class PlacePage implements OnInit {
         window.open(`geo:${this.place.geoloc.latitude},${this.place.geoloc.longitude}?q=${this.place.geoloc.latitude},${this.place.geoloc.longitude}`);
       }
       if(this.platform.is('ios')) {
-        window.open(`http://maps.apple.com/?q:${this.place.geoloc.latitude},${this.place.geoloc.longitude}`)
+        window.open(`http://maps.apple.com/?ll=${this.place.geoloc.latitude},${this.place.geoloc.longitude}&q=${this.place.title[this.filterLang]}`)
       }
     }
   }

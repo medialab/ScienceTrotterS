@@ -119,7 +119,10 @@
 	"PLI_ICON_LANDMARK": "landmark",
 
   "PLI_FILTER_ALPHA_TITLE": "Filter the list ordered alphabetically.",
-  "PLI_FILTER_PROXIMITE_TITLE": "Filter the list by nearby criteria.",
+	"PLI_FILTER_PROXIMITE_TITLE": "Filter the list by nearby criteria.",
+
+	"GLOBAL_GPS_IS_NOT_AVAILABLE": "Allow \"Science Trotters\" to use your location",
+	"GLOBAL_GPS_IS_REQUIRED": "Please enable location service for this site",
 
 	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet is not connected",
   "GLOBAL_NEED_NETWORK_FOR_DATA": "Internet connection required",

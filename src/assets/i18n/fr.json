@@ -122,6 +122,9 @@
 	"PLI_FILTER_ALPHA_TITLE": "Filtrage de la liste par ordre alphabétique.",
 	"PLI_FILTER_PROXIMITE_TITLE": "Filtrage de la liste par proximité autour de moi.",
 
+	"GLOBAL_GPS_IS_NOT_AVAILABLE": "Autoriser \"Science Trotters\" à utiliser votre position",
+	"GLOBAL_GPS_IS_REQUIRED": "Veuillez activer le service de localisation pour ce site",
+
 	"GLOBAL_NETWORK_IS_NOT_AVAILABLE": "Internet n'est pas connecté",
 	"GLOBAL_NEED_NETWORK_FOR_DATA": "Connexion internet nécessaire",
 

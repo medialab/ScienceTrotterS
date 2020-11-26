@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
 
+import { Plugins } from '@capacitor/core';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -178,19 +179,27 @@ export class AppComponent {
   }
 
   async openMap() {
-    let position = null;
+    // if(this.platform.is('android')) {
+    //   try {
+    //     position = await this.geoloc.getCurrentCoords();
+    //   } catch (err){
+    //     console.log(err)
+    //   }
+    //   if (position) window.open(`geo:${position.latitude},${position.longitude}?q=${position.latitude},${position.longitude}`);
+    // }
     try {
-      position = await this.geoloc.getCurrentCoords();
-    } catch (err){
-      console.log(err)
-    }
-    if(position) {
-      if(this.platform.is('android')) {
-        window.open(`geo:${position.latitude},${position.longitude}?q=${position.latitude},${position.longitude}`);
+      const position:any = await Plugins.Geolocation.getCurrentPosition();
+      if (position && position.coords) {
+        if(this.platform.is('android')) {
+          window.open(`geo:${position.coords.latitude},${position.coords.longitude}?q=${position.coords.latitude},${position.coords.longitude}`);
+        }
+        if(this.platform.is('ios')) {
+          window.open(`https://maps.apple.com/?ll=${position.coords.latitude},${position.coords.longitude}`)
+        }
       }
-      if(this.platform.is('ios')) {
-        window.open(`http://maps.apple.com/?q:${position.latitude},${position.longitude}`)
-      }
+    } catch (err) {
+      console.log(err);
+      this.geoloc.alertMessage();
     }
   }
 }

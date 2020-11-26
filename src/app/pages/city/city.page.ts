@@ -1,3 +1,4 @@
+import { Plugins } from '@capacitor/core';
 import { LanguageService } from './../../services/language.service';
 import { NetworkService } from './../../services/network.service';
 import { AudioPlayerComponent } from './../../components/audio-player/audio-player.component';
@@ -9,7 +10,6 @@ import { ApiService } from './../../services/api.service';
 import { minifyString } from './../../utils/helper';
 import { GeolocService } from 'src/app/services/geoloc.service';
 import { LoadingController} from '@ionic/angular';
-
 @Component({
   selector: 'app-city',
   templateUrl: './city.page.html',
@@ -222,33 +222,44 @@ export class CityPage implements OnInit {
   async actionSortProximite(msgAlertError: string = '') {
     if (!this.network.isConnected()) return;
     return new Promise(async (success, error) => {
-      const loading = await this.loader.create({
-        duration: 5000,
-        backdropDismiss: true
-      });
-      loading.present();
       // Triage en fonction que la géolocalition est disponible ou non.
 
+      // try {
+      //   this.curPositionUser = await this.geoloc.getCurrentCoords();
+      // } catch (err){
+      //   loading.dismiss();
+      //   this.changeOptionListAction('alpha');
+      // }
       try {
-        this.curPositionUser = await this.geoloc.getCurrentCoords();
-      } catch (err){
-        loading.dismiss();
-        this.changeOptionListAction('alpha');
-      }
-      if (this.parcours.length > 1) {
-        const parcours = await this.fetchParcours(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
-        this.parcours = parcours.filter((item: any) => {
-          return item.force_lang === null || item.force_lang === this.filterLang;
-        });
-      }
+        const position = await Plugins.Geolocation.getCurrentPosition();
+        if (position && position.coords) {
+          this.curPositionUser = position.coords;
 
-      if (this.places.length > 1) {
-        const places = await this.fetchPlaces(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
-        this.places = places.filter((item: any) => {
-          return item.force_lang === null || item.force_lang === this.filterLang;
-        });
+          const loading = await this.loader.create({
+            duration: 5000,
+            backdropDismiss: true
+          });
+          loading.present();
+          if (this.parcours.length > 1) {
+            const parcours = await this.fetchParcours(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
+            this.parcours = parcours.filter((item: any) => {
+              return item.force_lang === null || item.force_lang === this.filterLang;
+            });
+          }
+
+          if (this.places.length > 1) {
+            const places = await this.fetchPlaces(this.city.id, `${this.curPositionUser.latitude};${this.curPositionUser.longitude}`);
+            this.places = places.filter((item: any) => {
+              return item.force_lang === null || item.force_lang === this.filterLang;
+            });
+          }
+          loading.dismiss();
+        }
+      } catch (err) {
+        console.log(err);
+        this.changeOptionListAction('alpha');
+        this.geoloc.alertMessage();
       }
-      loading.dismiss();
     });
   }
 

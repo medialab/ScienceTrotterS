@@ -1,3 +1,4 @@
+import { Plugins } from '@capacitor/core';
 import { OfflineStorageService } from './../../services/offline-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
@@ -416,11 +417,20 @@ export class BoxMapComponent implements OnInit, OnChanges {
   }
 
   async updateCurrentPosition(event: any) {
+    // try {
+    //   const currentPos = await this.geoloc.getCurrentCoords();
+    //   this.addCurrentPosition(currentPos);
+    // } catch (err){
+    //   console.log(err);
+    // }
     try {
-      const currentPos = await this.geoloc.getCurrentCoords();
-      this.addCurrentPosition(currentPos);
-    } catch (err){
+      const position:any = await Plugins.Geolocation.getCurrentPosition();
+      if (position && position.coords) {
+        this.addCurrentPosition(position.coords);
+      }
+    } catch (err) {
       console.log(err);
+      this.geoloc.alertMessage()
     }
   }
 
