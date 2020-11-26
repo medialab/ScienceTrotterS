@@ -39,7 +39,7 @@ export class PlacePage implements OnInit {
   gallery: any;
   offlineGallery: any;
 
-  emailReport: string = null;
+  emailReport: string = 'mailto:forccast.controverses@sciencespo.fr';
 
   @ViewChild(AudioPlayerComponent) audioPlayer: AudioPlayerComponent;
 
@@ -82,7 +82,6 @@ export class PlacePage implements OnInit {
           // direct access
           const place = await this.api.get(`/public/interests/byId/${id}?lang=${this.filterLang}`);
           this.initPlaceData(place);
-          this.initEmailReport(place);
         }
       })
     }
@@ -90,6 +89,7 @@ export class PlacePage implements OnInit {
 
   async initPlaceData(place: any) {
     if(!place) return;
+    this.initEmailReport(place);
     this.place = place;
     this.gallery = Object.values(place['gallery_image'])
           .map((item: any) => this.api.getAssetsUri(item));
@@ -128,10 +128,6 @@ export class PlacePage implements OnInit {
       const body = encodeURI(resp['MAIL_REPORT_PROBLEM_BODY']);
       this.emailReport = `mailto:${to}?subject=${subject}&body=${body}`;
     })
-  }
-
-  getEmailReport() {
-    return this.emailReport;
   }
 
   ionViewWillLeave() {
