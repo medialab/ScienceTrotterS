@@ -124,8 +124,8 @@ export class PlacePage implements OnInit {
       'landmarkName': place.title[this.filterLang],
       'cityName': city.title[this.filterLang],
     }).subscribe((resp) => {
-      const subject = resp['MAIL_REPORT_PROBLEM_SUBJECT'];
-      const body = resp['MAIL_REPORT_PROBLEM_BODY'];
+      const subject = encodeURI(resp['MAIL_REPORT_PROBLEM_SUBJECT']);
+      const body = encodeURI(resp['MAIL_REPORT_PROBLEM_BODY']);
       this.emailReport = `mailto:${to}?subject=${subject}&body=${body}`
     })
   }
