@@ -2,7 +2,7 @@
   {{  place && (parcour ? parcour.title[filterLang] : place.title[filterLang]) }}
 </main-header>
 
-<main-content *ngIf="place">
+<main-content *ngIf="place" class="main-content" [ngClass]="platform.is('ios') ? 'ios': 'md'">
   <div alt="" class="poi__header" [style.background-image]="'url(' + coverUrl + ')'">
     <!-- <img [attr.src]='_DomSanitizationService.bypassSecurityTrustUrl(getCoverPicture())' /> -->
   </div>
@@ -119,8 +119,6 @@
       </audio-player>
     </section>
 
-
-
     <section class="poi__section poi__section--isWhite">
       <button class="poi__end__btn poi__end__btn--OrangeAndWhite"
               [ngClass]="{'isVisited': isPlaceVisited}"
@@ -201,8 +199,8 @@
     </ion-text>
   </div>
 </main-content>
-<!-- Footer without a border -->
-<ion-footer mode="md" *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">
+
+<ion-footer *ngIf="place && !helpItemActive" [ngClass]="config.getFontSizeClass()">
   <ion-toolbar>
     <ul class="footer__list">
       <li class="footer__list__item">

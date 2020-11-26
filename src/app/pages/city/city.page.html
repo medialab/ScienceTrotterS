@@ -4,7 +4,7 @@
 
 <main-content>
   <div class="city-page-content" *ngIf="city">
-    <div class='map' [ngClass]="{'isClose': isListOpen}">
+    <div class='map' [ngClass]="{'isClose': isListOpen}" (click)="openMap()">
       <box-map
         [filterLang]="filterLang"
         [cityCoords]="city.geoloc"
@@ -23,11 +23,11 @@
       <!-- DARK SELECT BOX -->
       <div class='select-box'>
 
-        <button class="btnUpAndDown" [attr.title]="'PAGE_PBC_BTN_HIDE_MAP' | translate">
+        <button class="btnUpAndDown" [attr.title]="'PAGE_PBC_BTN_HIDE_MAP' | translate" (click)="toggleContentList()">
           <ion-icon
             aria-hidden="true"
             class='openMenuItems'
-            [name]="isListOpen ? 'chevron-down': 'chevron-up'" (click)="openContentList()">
+            [name]="isListOpen ? 'chevron-down': 'chevron-up'">
           </ion-icon>
         </button>
 

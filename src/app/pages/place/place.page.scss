@@ -7,6 +7,10 @@
     justify-content: center;
   }
   $picture-size: 200px;
+
+  .main-content.ios {
+    padding-bottom: 120px;
+  }
   .poi {
     padding-bottom: 1000px;
     &__header {
@@ -70,12 +74,7 @@
           width: 35px;
           min-width: 35px;
           height: 100%;
-
-          &--left {
-          }
-
-          &--right {
-          }
+          padding: 0;
 
           label {
             cursor: pointer;
@@ -434,7 +433,6 @@
   }
 
   .poi__main__content {
-    padding: 0 0 60px 0;
 
     // FIX IOS.
     &.isHidden {
@@ -584,12 +582,13 @@
   }
 
   ion-footer {
-    position: fixed;
-    bottom: 0;
+    &.ios {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
     height: 60px;
-    left: 0;
     width: 100vw;
-    z-index: 999999;
     background-color: #FAFAFA;
     border-top: solid 1px #95989A;
 

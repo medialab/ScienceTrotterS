@@ -72,6 +72,7 @@ export class ListItemComponent implements OnInit, OnChanges {
 
   selectItem() {
     const connected = this.network.isConnected();
+    this.selectListItem.emit(this.item);
     if (this.target === 'parcours') {
       this.isOpenDiscover = !this.isOpenDiscover;
       this.loadAudioUrl();

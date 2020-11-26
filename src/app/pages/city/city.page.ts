@@ -214,8 +214,8 @@ export class CityPage implements OnInit {
     const focusElement = document.getElementById(selectedItem.id);
     focusElement.scrollIntoView({ behavior: 'smooth'});
     // only open parcours contentList on click item
-    if (this.selectedTarget==='parcours') {
-      this.openContentList();
+    if (this.selectedTarget === 'parcours') {
+      this.isListOpen = true;
     }
   }
 
@@ -288,7 +288,10 @@ export class CityPage implements OnInit {
   /**
    *
    */
-  openContentList() {
+  toggleContentList() {
     this.isListOpen = !this.isListOpen;
+  }
+  openMap() {
+    this.isListOpen = false;
   }
 }
