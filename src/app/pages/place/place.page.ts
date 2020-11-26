@@ -39,6 +39,8 @@ export class PlacePage implements OnInit {
   gallery: any;
   offlineGallery: any;
 
+  emailReport: string = null;
+
   @ViewChild(AudioPlayerComponent) audioPlayer: AudioPlayerComponent;
 
   constructor(
@@ -49,7 +51,7 @@ export class PlacePage implements OnInit {
     public sanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private platform: Platform,
+    public platform: Platform,
     private loader: LoadingController,
     public network: NetworkService,
     public api: ApiService
@@ -80,6 +82,7 @@ export class PlacePage implements OnInit {
           // direct access
           const place = await this.api.get(`/public/interests/byId/${id}?lang=${this.filterLang}`);
           this.initPlaceData(place);
+          this.initEmailReport(place);
         }
       })
     }
@@ -111,6 +114,20 @@ export class PlacePage implements OnInit {
       this.gallery = await Promise.all(offlineUrls.slice(2));
       loading.dismiss();
     }
+  }
+
+  async initEmailReport(place) {
+    const city = await this.api.get(`/public/cities/byId/${place['cities_id']}?lang=${this.filterLang}`);
+    const to = 'forccast.controverses@sciencespo.fr';
+
+    this.translate.get(['MAIL_REPORT_PROBLEM_SUBJECT','MAIL_REPORT_PROBLEM_BODY'], {
+      'landmarkName': place.title[this.filterLang],
+      'cityName': city.title[this.filterLang],
+    }).subscribe((resp) => {
+      const subject = resp['MAIL_REPORT_PROBLEM_SUBJECT'];
+      const body = resp['MAIL_REPORT_PROBLEM_BODY'];
+      this.emailReport = `mailto:${to}?subject=${subject}&body=${body}`
+    })
   }
 
   ionViewWillLeave() {
@@ -219,17 +236,9 @@ export class PlacePage implements OnInit {
   * par mail.
   */
   async btnReportProblem() {
-    const city = await this.api.get(`/public/cities/byId/${this.place['cities_id']}?lang=${this.filterLang}`);
-    const to = 'forccast.controverses@sciencespo.fr';
-
-    this.translate.get(['MAIL_REPORT_PROBLEM_SUBJECT','MAIL_REPORT_PROBLEM_BODY'], {
-      'landmarkName': this.place.title[this.filterLang],
-      'cityName': city.title[this.filterLang],
-    }).subscribe((resp) => {
-      const subject = resp['MAIL_REPORT_PROBLEM_SUBJECT'];
-      const body = resp['MAIL_REPORT_PROBLEM_BODY'];
-      window.open(`mailto:${to}?subject=${subject}&body=${body}`, '_system', 'location=no');
-    })
+    if (this.platform.is('android')) {
+      window.open(this.emailReport, '_system', 'location=no');
+    }
   }
 
 

@@ -94,9 +94,12 @@
         </li>
         <!-- BTN SUBMIT PROBLEM -->
         <li class="hciItem">
-          <button class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
+          <button *ngIf="platform.is('android')" class="poi__end__btn poi__end__btn--TransparentAndBlack" (click)="btnReportProblem()">
             {{ 'PLI_BTN_SEND_PB' | translate }}
           </button>
+          <a class="poi__end__btn poi__end__btn--TransparentAndBlack" *ngIf="platform.is('ios')" [href]="emailReport">
+            {{ 'PLI_BTN_SEND_PB' | translate }}
+          </a>
         </li>
       </ul>
     </div>
