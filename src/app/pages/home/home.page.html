@@ -3,42 +3,42 @@
 </main-header>
 
 <main-content>
-  <h2 class="main__title">
+  <h3 class="main__title">
+    {{'P_HOME_LANG_FILTER' | translate }}
+  </h3>
+
+  <!-- SELECT LANGUAGE TOGGLE -->
+  <ul class="ul__select__lg">
+    <li class="lg__item">
+      <button
+        aria-controls="otps__lg--fr"
+        class="lg__item__btn"
+        (click)="updateLanguageFilter('fr')"
+        [attr.aria-pressed]="filterLang === 'fr'"
+        [attr.aria-checked]="filterLang === 'fr'">
+        <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="filterLang === 'fr'"></ion-icon>
+        <span>{{ 'P_SETTING_FR' | translate }}</span>
+      </button>
+    </li>
+    <li class="lg__item">
+      <button
+        aria-controls="otps__lg--en"
+        class="lg__item__btn"
+        (click)="updateLanguageFilter('en')"
+        [attr.aria-pressed]="filterLang === 'en'"
+        [attr.aria-checked]="filterLang === 'en'">
+        <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="filterLang === 'en'"></ion-icon>
+        <span>{{ 'P_SETTING_EN' | translate }}</span>
+      </button>
+    </li>
+  </ul>
+
+  <h3 class="main__title">
     {{'PAGE_NAME_HOME' | translate }}
-  </h2>
+  </h3>
 
   <!-- LIST ALL CITIES -->
   <ul class="list__cities">
-
-    <!-- SELECT LANGUAGE TOGGLE -->
-    <li class="list__cities__item list__cities__item__select__lg">
-      <ul class="ul__select__lg">
-        <li class="lg__item">
-          <button
-            aria-controls="otps__lg--fr"
-            class="lg__item__btn"
-            (click)="updateLanguageFilter('fr')"
-            [attr.aria-pressed]="filterLang === 'fr'"
-            [attr.aria-checked]="filterLang === 'fr'">
-            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="filterLang === 'fr'"></ion-icon>
-            <span>{{ 'P_SETTING_FR' | translate }}</span>
-          </button>
-        </li>
-        <li class="lg__item">
-          <button
-            aria-controls="otps__lg--en"
-            class="lg__item__btn"
-            (click)="updateLanguageFilter('en')"
-            [attr.aria-pressed]="filterLang === 'en'"
-            [attr.aria-checked]="filterLang === 'en'">
-            <ion-icon aria-hidden="true" name="checkmark-outline" *ngIf="filterLang === 'en'"></ion-icon>
-            <span>{{ 'P_SETTING_EN' | translate }}</span>
-          </button>
-        </li>
-      </ul>
-
-    </li>
-    <!-- .\ SELECT LANGUAGE TOGGLE -->
 
     <li class="list__cities__item"
         *ngFor="let city of listCities"

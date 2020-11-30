@@ -1,3 +1,4 @@
+import { LoadingController } from '@ionic/angular';
 import { LanguageService } from './../../services/language.service';
 import { NetworkService } from './../../services/network.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,6 +17,7 @@ export class HomePage {
   filterLang: string = "fr";
 
   constructor(
+    private loader: LoadingController,
     public translate: TranslateService,
     public language: LanguageService,
     public api: ApiService,
@@ -33,7 +35,12 @@ export class HomePage {
   }
 
   async initCities(lang) {
+    let loading = await this.loader.create({
+      backdropDismiss: true
+    });
+    loading.present();
     this.listCities = await this.api.get('/public/cities/list?lang='+lang);
+    loading.dismiss();
   }
 
   async viewCity(event: any, city: any) {
