@@ -58,7 +58,7 @@
 	"PLI_LIST_START_PARCOURS":"Démarrer le parcours",
 	"PLI_LIST_START_POI":"Démarrer le point d'intérêt",
 	"PLI_VAL_ITINERARY":"S'y rendre",
-	"PLI_BTN_END_POI":"Vu",
+	"PLI_BTN_END_POI":"Marsuer comme vu",
 	"PLI_BTN_END_POI_DONE":"Réactiver",
 	"PLI_BTN_END_POI_LAST":"Finir le parcours",
 
@@ -114,7 +114,7 @@
 
 	"PLI_BTN_INFORMATION": "Afficher les détails de ce point d'intérêt",
 	"PLI_BTN_NAVIGATION": "Itinéraire vers ce point d'intérêt",
-	"PLI_BTN_END_POI_ATTR_TITLE": "Terminer ce point d'intérêt",
+	"PLI_BTN_END_POI_ATTR_TITLE": "Marquer ce point d'intérêt comme vu",
 	"PLI_BTN_END_POI_ATTR_TITLE_DONE": "Réactiver ce point d'intérêt",
 
 	"PLI_ICON_LANDMARK": "point d'intérêt",
